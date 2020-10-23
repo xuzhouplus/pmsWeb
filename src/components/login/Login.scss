@@ -1,0 +1,9 @@
+
+:global {
+  button.close {
+    &:active,
+    &:focus {
+      border: 0;
+    }
+  }
+}
