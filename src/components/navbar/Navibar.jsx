@@ -1,6 +1,6 @@
 import React from 'react';
 import {Navbar, Nav, NavDropdown, Image} from 'react-bootstrap';
-import Login from '../login/Login'
+import LoginModal from '../login/LoginModal'
 import logo from '../../logo.svg'
 
 class Navibar extends React.Component {
@@ -20,7 +20,7 @@ class Navibar extends React.Component {
     render() {
         return (
             <Navbar>
-                <Login show={this.state.show} handleModal={this.handleModal}></Login>
+                <LoginModal show={this.state.show} handleModal={this.handleModal} account={{}} password={{}}></LoginModal>
                 <Navbar.Brand href="#home">
                     <Image src={logo} rounded className="brand-img" alt={'home'}/>
                     <div className="brand-text">React-Bootstrap</div>

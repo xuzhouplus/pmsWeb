@@ -1,9 +1,27 @@
+.login-container {
+  .modal-header {
+    .modal-title {
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
 
-:global {
-  button.close {
-    &:active,
-    &:focus {
-      border: 0;
+  .modal-content {
+    .form-group {
+      .is-invalid {
+        &::-webkit-input-placeholder,
+        &:-moz-placeholder,
+        &:-ms-input-placeholder {
+          color: var(--red);
+        }
+
+        & + .form-text {
+          color: var(--danger) !important;
+        }
+      }
     }
   }
 }
+
