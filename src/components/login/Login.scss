@@ -1,9 +1,16 @@
 .login-container {
   .modal-header {
+    .close {
+      &:active,
+      &:focus {
+        outline: 0;
+      }
+    }
+
     .modal-title {
       img {
-        width: 30px;
-        height: 30px;
+        width: 20px;
+        height: 20px;
       }
     }
   }
@@ -14,12 +21,32 @@
         &::-webkit-input-placeholder,
         &:-moz-placeholder,
         &:-ms-input-placeholder {
-          color: var(--red);
+          color: var(--danger);
         }
 
         & + .form-text {
           color: var(--danger) !important;
         }
+      }
+
+      .invalid-tooltip {
+        right: 0;
+        left: auto;
+      }
+    }
+
+    .form-button {
+      text-align: center;
+    }
+  }
+
+  .modal-footer {
+    .connect {
+      padding: 0;
+
+      img {
+        height: 16px;
+        width: 16px;
       }
     }
   }
