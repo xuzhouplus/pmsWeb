@@ -27,6 +27,20 @@ class LoginModal extends React.Component {
 			}, props.password),
 		};
 	}
+
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.show == this.state.show) {
+			return false;
+		}
+		if (!nextProps.show) {
+			nextState.account.isValid = false;
+			nextState.account.isInvalid = false;
+			nextState.password.isValid = false;
+			nextState.password.isInvalid = false;
+		}
+		return true;
+	}
+
 	handleSubmit = () => {
 		let loginAccount = this.state.account;
 		if (loginAccount.value == "") {
@@ -48,7 +62,10 @@ class LoginModal extends React.Component {
 			});
 			return
 		}
-
+		this.props.afterLogged({
+			id: loginAccount.value,
+			name: loginPassword.value
+		});
 	}
 	onChange = (event) => {
 		console.log(event.target.value);

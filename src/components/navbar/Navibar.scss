@@ -1,0 +1,6 @@
+#account-nav-dropdown {
+  & + .dropdown-menu {
+    right: 0;
+    left: auto;
+  }
+}

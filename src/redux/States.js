@@ -1,0 +1,4 @@
+let authState = {}
+export {
+	authState
+}

@@ -2,6 +2,31 @@ import React from 'react';
 import {Navbar, Nav, NavDropdown, Image} from 'react-bootstrap';
 import LoginModal from '../login/LoginModal'
 import logo from '../../logo.svg'
+import {login, logout} from "../../redux/Actions";
+import {connect} from "react-redux";
+import './Navibar.scss'
+
+function mapStateToProps(state) {
+	return {
+		account: state.auth
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		login: (user) => {
+			dispatch({
+				type: login.type,
+				payload: user
+			})
+		},
+		logout: () => {
+			dispatch({
+				type: logout.type
+			})
+		}
+	}
+}
 
 class Navibar extends React.Component {
 	constructor(props) {
@@ -42,14 +67,33 @@ class Navibar extends React.Component {
 		})
 	}
 
-	afterLoggedIn = (loginUser) => {
+	afterLogged = (loginUser) => {
 		console.log(loginUser);
+		this.props.login(loginUser)
+		this.setState({
+			show: false
+		})
+	}
+	logout = () => {
+		this.props.logout()
 	}
 
 	render() {
+		console.log(this.props);
+		let accountLink = '';
+		if (this.props.account && this.props.account.id) {
+			accountLink = <NavDropdown title={this.props.account.name} id="account-nav-dropdown">
+				<NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
+				<NavDropdown.Item href="#action/3.3">System</NavDropdown.Item>
+				<NavDropdown.Divider/>
+				<NavDropdown.Item href="#" onClick={this.logout}>Logout</NavDropdown.Item>
+			</NavDropdown>
+		} else {
+			accountLink = <Nav.Link href="#login" onClick={this.handleModal}>Login</Nav.Link>
+		}
 		return (
 			<Navbar>
-				<LoginModal show={this.state.show} handleModal={this.handleModal} afterLoggedIn={this.afterLoggedIn} appLogo={logo} account={this.state.account} password={this.state.password}/>
+				<LoginModal show={this.state.show} handleModal={this.handleModal} afterLogged={this.afterLogged} appLogo={logo} account={this.state.account} password={this.state.password}/>
 				<Navbar.Brand href="#home">
 					<Image src={logo} rounded className="brand-img" alt={'home'}/>
 					<div className="brand-text">React-Bootstrap</div>
@@ -58,14 +102,7 @@ class Navibar extends React.Component {
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
 					<Nav>
 						<Nav.Link href="#link">Link</Nav.Link>
-						<NavDropdown title="Dropdown" id="basic-nav-dropdown">
-							<NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-							<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-							<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-							<NavDropdown.Divider/>
-							<NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-						</NavDropdown>
-						<Nav.Link href="#" onClick={this.handleModal}>Login</Nav.Link>
+						{accountLink}
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
@@ -73,4 +110,4 @@ class Navibar extends React.Component {
 	}
 }
 
-export default Navibar;
+export default connect(mapStateToProps, mapDispatchToProps)(Navibar);

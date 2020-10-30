@@ -2,8 +2,19 @@
   height: calc(100vh - 112px);
   width: 100vw;
 
-  img {
-    width: 40rem;
-    height: 40rem;
+  .home-content {
+    height: 100vh !important;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: gray;
+    z-index: -1;
+
+    img {
+      width: 40rem;
+      height: 40rem;
+    }
   }
 }
