@@ -6,7 +6,12 @@ let logout = {
 	type: 'logout'
 }
 
+let init = {
+	type: 'init'
+}
+
 export {
 	login,
-	logout
+	logout,
+	init
 }

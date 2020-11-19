@@ -5,6 +5,8 @@ import logo from '../../logo.svg'
 import {login, logout} from "../../redux/Actions";
 import {connect} from "react-redux";
 import './Navibar.scss'
+import Utils from "../../utils/Utils";
+import axios from "axios";
 
 function mapStateToProps(state) {
 	return {
@@ -69,27 +71,40 @@ class Navibar extends React.Component {
 
 	afterLogged = (loginUser) => {
 		console.log(loginUser);
-		this.props.login(loginUser)
+		axios.defaults.headers.common['Authorization'] = loginUser.token;
 		this.setState({
 			show: false
 		})
+		this.props.login(loginUser)
 	}
 	logout = () => {
-		this.props.logout()
+		const that = this;
+		Utils.logout(function () {
+			that.props.logout()
+		})
+	}
+
+	componentDidMount() {
+		const that = this;
+		Utils.auth(function (response) {
+			console.log(response);
+		}, function (error) {
+			console.log(error);
+		});
 	}
 
 	render() {
-		console.log(this.props);
+		console.log(this.props.account);
 		let accountLink = '';
-		if (this.props.account && this.props.account.id) {
-			accountLink = <NavDropdown title={this.props.account.name} id="account-nav-dropdown">
+		if (this.props.account && this.props.account.uuid) {
+			accountLink = <NavDropdown title={this.props.account.account} id="account-nav-dropdown">
 				<NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
 				<NavDropdown.Item href="#action/3.3">System</NavDropdown.Item>
 				<NavDropdown.Divider/>
 				<NavDropdown.Item href="#" onClick={this.logout}>Logout</NavDropdown.Item>
 			</NavDropdown>
 		} else {
-			accountLink = <Nav.Link href="#login" onClick={this.handleModal}>Login</Nav.Link>
+			accountLink = <Nav.Link onClick={this.handleModal}>Login</Nav.Link>
 		}
 		return (
 			<Navbar>

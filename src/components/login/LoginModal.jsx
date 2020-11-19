@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Button, Modal, Image} from 'react-bootstrap';
-import './Login.scss'
+import './Login.scss';
+import Utils from '../../utils/Utils';
 
 class LoginModal extends React.Component {
 	constructor(props) {
@@ -62,14 +63,16 @@ class LoginModal extends React.Component {
 			});
 			return
 		}
-		this.props.afterLogged({
-			id: loginAccount.value,
-			name: loginPassword.value
-		});
+		const that = this;
+		Utils.login(loginAccount.value, loginPassword.value, function (response) {
+			console.log(response);
+			that.props.afterLogged(response.data);
+		}, function (error) {
+			console.log(error);
+		})
+
 	}
 	onChange = (event) => {
-		console.log(event.target.value);
-		console.log(event.target.type);
 		let inputValue = event.target.value ? event.target.value.trim() : "";
 		switch (event.target.type) {
 			case "text":

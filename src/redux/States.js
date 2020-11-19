@@ -1,4 +1,6 @@
 let authState = {}
+let siteState = {}
 export {
-	authState
+	authState,
+	siteState
 }

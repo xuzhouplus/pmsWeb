@@ -1,5 +1,5 @@
-import {login, logout} from './Actions';
-import {authState} from './States';
+import {login, logout, init} from './Actions';
+import {authState, siteState} from './States';
 
 let auth = (state = authState, action) => {
 	switch (action.type) {
@@ -16,6 +16,26 @@ let auth = (state = authState, action) => {
 			return state;
 	}
 }
+let site = (state = siteState, action) => {
+	switch (action.type) {
+		case init.type:
+			return action.payload;
+		case logout.type:
+			return {
+				title: "",
+				icp: null,
+				version: "",
+				maintain: false,
+				icon: "",
+				logo: "",
+				carousel_type: null,
+				carousel_limit: null
+			}
+		default:
+			return state;
+	}
+}
 export {
-	auth
+	auth,
+	site
 }

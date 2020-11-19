@@ -1,6 +1,17 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
 .app-container {
+  &.full_screen {
+    width: 100%;
+    height: 100vh;
+  }
+
+  &.direct-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .app-header,
   .app-footer {
     background-color: rgba(255, 255, 255, 0.5);
