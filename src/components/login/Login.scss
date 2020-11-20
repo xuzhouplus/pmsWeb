@@ -37,6 +37,16 @@
 
     .form-button {
       text-align: center;
+
+      button {
+        &:before {
+          content: '登录';
+        }
+
+        &.logging:before {
+          content: '登录中';
+        }
+      }
     }
   }
 

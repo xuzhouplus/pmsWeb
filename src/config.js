@@ -11,6 +11,7 @@ const configs = {
 	authUrl: "/admin/auth",
 	loginUrl: "/admin/login",
 	logoutUrl: "/admin/logout",
+	postUrl: "/post",
 	loginDuration: 3 * 24 * 60 * 60
 }
 export default configs;

@@ -34,19 +34,19 @@ class Navibar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			show: true,
+			loginModal: false,
 			account: {
-				label: 'Account',
-				placeholder: 'Please input account',
-				text: 'Please input account',
+				label: '账号',
+				placeholder: '请输入账号',
+				text: '请输入账号',
 				isValid: false,
 				isInvalid: false,
 				onChange: this.accountOnChange
 			},
 			password: {
-				label: 'Password',
-				placeholder: 'Please input password',
-				text: 'Please input password',
+				label: '密码',
+				placeholder: '请输入密码',
+				text: '请输入密码',
 				isValid: false,
 				isInvalid: false,
 				onChange: this.passwordOnChange
@@ -65,7 +65,7 @@ class Navibar extends React.Component {
 	handleModal = () => {
 		console.log(this.state);
 		this.setState({
-			show: !this.state.show
+			loginModal: !this.state.loginModal
 		})
 	}
 
@@ -73,14 +73,17 @@ class Navibar extends React.Component {
 		console.log(loginUser);
 		axios.defaults.headers.common['Authorization'] = loginUser.token;
 		this.setState({
-			show: false
+			loginModal: false
 		})
 		this.props.login(loginUser)
 	}
 	logout = () => {
 		const that = this;
-		Utils.logout(function () {
+		Utils.logout(function (response) {
+			console.log(response);
 			that.props.logout()
+		}, function (error) {
+			console.log(error);
 		})
 	}
 
@@ -88,6 +91,7 @@ class Navibar extends React.Component {
 		const that = this;
 		Utils.auth(function (response) {
 			console.log(response);
+			that.afterLogged(response);
 		}, function (error) {
 			console.log(error);
 		});
@@ -101,22 +105,24 @@ class Navibar extends React.Component {
 				<NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
 				<NavDropdown.Item href="#action/3.3">System</NavDropdown.Item>
 				<NavDropdown.Divider/>
-				<NavDropdown.Item href="#" onClick={this.logout}>Logout</NavDropdown.Item>
+				<NavDropdown.Item href="#" onClick={this.logout}>登出</NavDropdown.Item>
 			</NavDropdown>
 		} else {
-			accountLink = <Nav.Link onClick={this.handleModal}>Login</Nav.Link>
+			accountLink = <Nav.Item><Nav.Link onClick={this.handleModal}>登录</Nav.Link></Nav.Item>
 		}
 		return (
 			<Navbar>
-				<LoginModal show={this.state.show} handleModal={this.handleModal} afterLogged={this.afterLogged} appLogo={logo} account={this.state.account} password={this.state.password}/>
-				<Navbar.Brand href="#home">
+				<LoginModal show={this.state.loginModal} handleModal={this.handleModal} afterLogged={this.afterLogged} appLogo={logo} account={this.state.account} password={this.state.password}/>
+				<Navbar.Brand href="/">
 					<Image src={logo} rounded className="brand-img" alt={'home'}/>
 					<div className="brand-text">React-Bootstrap</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav"/>
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
 					<Nav>
-						<Nav.Link href="#link">Link</Nav.Link>
+						<Nav.Item>
+							<Nav.Link href="#/post">稿件</Nav.Link>
+						</Nav.Item>
 						{accountLink}
 					</Nav>
 				</Navbar.Collapse>
