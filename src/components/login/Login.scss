@@ -9,7 +9,6 @@
 
     .modal-title {
       img {
-        width: 20px;
         height: 20px;
       }
     }
@@ -37,12 +36,24 @@
 
     .form-button {
       text-align: center;
+
+      button {
+        &:before {
+          content: '登录';
+        }
+
+        &.logging:before {
+          content: '登录中';
+        }
+      }
     }
   }
 
   .modal-footer {
     .connect {
       padding: 0;
+      width: 25px;
+      height: 25px;
 
       img {
         height: 16px;

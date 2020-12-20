@@ -1,0 +1,19 @@
+.file-list-container {
+  .file-table {
+    .file-list-box {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+
+      .infinite-scroll-component__outerdiv {
+        width: 100%;
+
+        .infinite-scroll-component {
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+}

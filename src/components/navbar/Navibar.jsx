@@ -1,108 +1,68 @@
 import React from 'react';
-import {Navbar, Nav, NavDropdown, Image} from 'react-bootstrap';
+import {Navbar, Nav, Image} from 'react-bootstrap';
 import LoginModal from '../login/LoginModal'
-import logo from '../../logo.svg'
-import {login, logout} from "../../redux/Actions";
-import {connect} from "react-redux";
 import './Navibar.scss'
-
-function mapStateToProps(state) {
-	return {
-		account: state.auth
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		login: (user) => {
-			dispatch({
-				type: login.type,
-				payload: user
-			})
-		},
-		logout: () => {
-			dispatch({
-				type: logout.type
-			})
-		}
-	}
-}
 
 class Navibar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			show: true,
+			loginModal: false,
 			account: {
-				label: 'Account',
-				placeholder: 'Please input account',
-				text: 'Please input account',
+				label: '账号',
+				placeholder: '请输入账号',
+				text: '请输入账号',
 				isValid: false,
 				isInvalid: false,
-				onChange: this.accountOnChange
+				value: 'admin'
 			},
 			password: {
-				label: 'Password',
-				placeholder: 'Please input password',
-				text: 'Please input password',
+				label: '密码',
+				placeholder: '请输入密码',
+				text: '请输入密码',
 				isValid: false,
 				isInvalid: false,
-				onChange: this.passwordOnChange
+				value: '123456'
 			},
 		}
-	}
-
-	accountOnChange = (event) => {
-		console.log(event);
-	}
-
-	passwordOnChange = (event) => {
-		console.log(event);
 	}
 
 	handleModal = () => {
 		console.log(this.state);
 		this.setState({
-			show: !this.state.show
+			loginModal: !this.state.loginModal
 		})
-	}
-
-	afterLogged = (loginUser) => {
-		console.log(loginUser);
-		this.props.login(loginUser)
-		this.setState({
-			show: false
-		})
-	}
-	logout = () => {
-		this.props.logout()
 	}
 
 	render() {
-		console.log(this.props);
-		let accountLink = '';
-		if (this.props.account && this.props.account.id) {
-			accountLink = <NavDropdown title={this.props.account.name} id="account-nav-dropdown">
-				<NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
-				<NavDropdown.Item href="#action/3.3">System</NavDropdown.Item>
-				<NavDropdown.Divider/>
-				<NavDropdown.Item href="#" onClick={this.logout}>Logout</NavDropdown.Item>
-			</NavDropdown>
-		} else {
-			accountLink = <Nav.Link href="#login" onClick={this.handleModal}>Login</Nav.Link>
+		let logo = process.env.PUBLIC_URL + '/logo192.png';
+		let loginModal = '';
+		if (this.state.loginModal) {
+			loginModal = <LoginModal show={this.state.loginModal} handleModal={this.handleModal} afterLogged={this.props.login}
+									 appLogo={logo} account={this.state.account} password={this.state.password}/>
 		}
 		return (
 			<Navbar>
-				<LoginModal show={this.state.show} handleModal={this.handleModal} afterLogged={this.afterLogged} appLogo={logo} account={this.state.account} password={this.state.password}/>
-				<Navbar.Brand href="#home">
+				{loginModal}
+				<Navbar.Brand href="/">
 					<Image src={logo} rounded className="brand-img" alt={'home'}/>
 					<div className="brand-text">React-Bootstrap</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav"/>
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
 					<Nav>
-						<Nav.Link href="#link">Link</Nav.Link>
-						{accountLink}
+						<Nav.Item>
+							<Nav.Link href="/">主页</Nav.Link>
+						</Nav.Item>
+						<Nav.Item>
+							<Nav.Link href="/post">稿件</Nav.Link>
+						</Nav.Item>
+						<Nav.Item>
+							<Nav.Link href="/about">关于</Nav.Link>
+						</Nav.Item>
+						<Nav.Item>
+							<Nav.Link onClick={this.handleModal}>登录</Nav.Link>
+						</Nav.Item>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
@@ -110,4 +70,4 @@ class Navibar extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navibar);
+export default Navibar;

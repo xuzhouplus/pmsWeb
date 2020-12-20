@@ -7,11 +7,10 @@ import {store} from "./redux/Store";
 import {Provider} from "react-redux";
 
 ReactDOM.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<App/>
-		</Provider>
-	</React.StrictMode>,
+	//React在严格模式下会执行两次render以帮助检查额外的副作用
+	<Provider store={store}>
+		<App/>
+	</Provider>,
 	document.getElementById('root')
 );
 

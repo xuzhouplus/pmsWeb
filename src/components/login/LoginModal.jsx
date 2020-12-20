@@ -1,20 +1,23 @@
 import React from 'react';
 import {Form, Button, Modal, Image} from 'react-bootstrap';
-import './Login.scss'
+import './Login.scss';
+import Utils from '../../utils/Utils';
+import axios from "axios";
 
 class LoginModal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			validated: false,
+			status: 'inputting',
+			cancelTokenSource: null,
 			account: Object.assign({}, {
 				label: 'Account',
 				placeholder: 'Please input account',
 				text: 'Please input account',
 				isValid: false,
 				isInvalid: false,
-				onChange: this.accountOnChange,
-				value: ""
+				value: "admin"
 			}, props.account),
 			password: Object.assign({}, {
 				label: 'Password',
@@ -22,33 +25,23 @@ class LoginModal extends React.Component {
 				text: 'Please input password',
 				isValid: false,
 				isInvalid: false,
-				onChange: this.passwordOnChange,
-				value: ""
+				value: "123456"
 			}, props.password),
 		};
 	}
 
-	shouldComponentUpdate(nextProps, nextState, nextContext) {
-		if (nextProps.show == this.state.show) {
-			return false;
-		}
-		if (!nextProps.show) {
-			nextState.account.isValid = false;
-			nextState.account.isInvalid = false;
-			nextState.password.isValid = false;
-			nextState.password.isInvalid = false;
-		}
-		return true;
-	}
-
 	handleSubmit = () => {
+		this.setState({
+			status: 'logging'
+		})
 		let loginAccount = this.state.account;
 		if (loginAccount.value == "") {
 			loginAccount.text = "请输入登录账号";
 			loginAccount.isInvalid = true;
 			loginAccount.isValid = false;
 			this.setState({
-				account: loginAccount
+				account: loginAccount,
+				status: 'inputting'
 			});
 			return
 		}
@@ -58,18 +51,27 @@ class LoginModal extends React.Component {
 			loginPassword.isInvalid = true;
 			loginPassword.isValid = false;
 			this.setState({
-				password: loginPassword
+				password: loginPassword,
+				status: 'inputting'
 			});
 			return
 		}
-		this.props.afterLogged({
-			id: loginAccount.value,
-			name: loginPassword.value
+		const that = this;
+		const cancelTokenSource = Utils.login(loginAccount.value, loginPassword.value, function (response) {
+			console.log(response);
+			that.props.afterLogged(response.data);
+		}, function (error) {
+			console.log(error);
+			that.setState({
+				status: 'inputting',
+				cancelTokenSource: null
+			})
 		});
+		that.setState({
+			cancelTokenSource: cancelTokenSource
+		})
 	}
-	onChange = (event) => {
-		console.log(event.target.value);
-		console.log(event.target.type);
+	onBlur = (event) => {
 		let inputValue = event.target.value ? event.target.value.trim() : "";
 		switch (event.target.type) {
 			case "text":
@@ -96,9 +98,6 @@ class LoginModal extends React.Component {
 					loginPassword.isInvalid = true;
 					loginPassword.isValid = false;
 					loginPassword.value = inputValue;
-					this.setState({
-						password: loginPassword
-					});
 				} else {
 					loginPassword.text = "请输入登录密码";
 					loginPassword.isInvalid = false;
@@ -118,6 +117,12 @@ class LoginModal extends React.Component {
 	connectToWeibo = () => {
 	}
 
+	componentWillUnmount() {
+		if (this.state.cancelTokenSource) {
+			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
+		}
+	}
+
 	render() {
 		return (
 			<Modal className="login-container" centered show={this.props.show} onHide={this.props.handleModal}>
@@ -130,36 +135,24 @@ class LoginModal extends React.Component {
 					<Form className="login-form" validated={this.state.validated} onSubmit={this.handleSubmit}>
 						<Form.Group className="position-relative">
 							<Form.Label htmlFor="input-account">{this.state.account.label}</Form.Label>
-							<Form.Control id="input-account" aria-describedby="account-text" type='text' placeholder={this.state.account.placeholder} isInvalid={this.state.account.isInvalid} isValid={this.state.account.isValid} onChange={this.onChange} onBlur={this.onChange}/>
+							<Form.Control id="input-account" aria-describedby="account-text" type='text' placeholder={this.state.account.placeholder} value={this.state.account.value} isInvalid={this.state.account.isInvalid} isValid={this.state.account.isValid} onChange={this.onBlur} onBlur={this.onBlur}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.account.text}
 							</Form.Control.Feedback>
 						</Form.Group>
 						<Form.Group className="position-relative">
 							<Form.Label htmlFor="input-password">{this.state.password.label}</Form.Label>
-							<Form.Control id="input-password" aria-describedby="password-text" type='password' placeholder={this.state.password.placeholder} isInvalid={this.state.password.isInvalid} isValid={this.state.password.isValid} onChange={this.onChange} onBlur={this.onChange}/>
+							<Form.Control id="input-password" aria-describedby="password-text" type='password' placeholder={this.state.password.placeholder} value={this.state.password.value} isInvalid={this.state.password.isInvalid} isValid={this.state.password.isValid} onChange={this.onBlur} onBlur={this.onBlur}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.password.text}
 							</Form.Control.Feedback>
 						</Form.Group>
 						<div className="form-button">
-							<Button variant="primary" type="button" onClick={this.handleSubmit}>
-								Login
+							<Button variant="primary" className={this.state.status == 'logging' ? 'logging' : ''} type="button" onClick={this.handleSubmit}>
 							</Button>
 						</div>
 					</Form>
 				</Modal.Body>
-				<Modal.Footer>
-					<Button className="connect" variant="light" size="sm" onClick={this.connectToWechat}>
-						<Image src={process.env.PUBLIC_URL + '/connects/wechat.png'}/>
-					</Button>
-					<Button className="connect" variant="light" size="sm" onClick={this.connectToQQ}>
-						<Image src={process.env.PUBLIC_URL + '/connects/qq.png'}/>
-					</Button>
-					<Button className="connect" variant="light" size="sm" onClick={this.connectToWeibo}>
-						<Image src={process.env.PUBLIC_URL + '/connects/weibo.png'}/>
-					</Button>
-				</Modal.Footer>
 			</Modal>
 		);
 	}

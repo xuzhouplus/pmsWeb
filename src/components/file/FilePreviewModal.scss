@@ -1,0 +1,22 @@
+.file-preview-modal {
+  .modal-body {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    width: 100%;
+
+    .file-preview-box {
+      width: 100%;
+
+      .file-image-box {
+        width: 100%;
+        height: 430px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-color: var(--main-color-transparent);
+        border-bottom: none;
+      }
+    }
+  }
+}
