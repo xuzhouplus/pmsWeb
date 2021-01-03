@@ -31,14 +31,13 @@ class AdminNavibar extends React.Component {
                             <Nav.Link href="/">主页</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="/post">稿件</Nav.Link>
+                            <Nav.Link href="/post/list">稿件</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link href="/file">文件</Nav.Link>
                         </Nav.Item>
                         <NavDropdown title={this.props.account.account} id="account-nav-dropdown">
                             <NavDropdown.Item href="/profile">账号信息</NavDropdown.Item>
-                            <NavDropdown.Item href="/file">媒资管理</NavDropdown.Item>
                             <NavDropdown.Item href="/system">系统配置</NavDropdown.Item>
                             <NavDropdown.Divider/>
                             <NavDropdown.Item href="#" onClick={this.logout}>登出</NavDropdown.Item>

@@ -1,9 +1,9 @@
 import React from "react";
 import {Button, Form, Image, Modal} from "react-bootstrap";
-import "./FileModal.scss";
+import "./FileUploadModal.scss";
 import Utils from "../../utils/Utils";
 
-class FileModal extends React.Component {
+class FileUploadModal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -87,12 +87,7 @@ class FileModal extends React.Component {
 			width: this.state.file.width,
 			height: this.state.file.height
 		}, function (response) {
-			console.log(response);
-			if (response.code == 1) {
-				that.props.afterUpload();
-			} else {
-
-			}
+			that.props.afterUpload(response.data);
 		}, function (error) {
 			console.log(error);
 		})
@@ -150,7 +145,6 @@ class FileModal extends React.Component {
 
 	onChange = (event) => {
 		let inputValue = event.target.value ? event.target.value.trim() : "";
-		console.log(event.target);
 		switch (event.target.id) {
 			case "input-name":
 				let name = this.state.name;
@@ -238,4 +232,4 @@ class FileModal extends React.Component {
 
 }
 
-export default FileModal;
+export default FileUploadModal;

@@ -4,6 +4,14 @@ import Loading from "../../components/loading/Loading";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
+import './Index.scss'
+import FileListModal from "../../components/file/FileListModal";
+import FilePreviewModal from "../../components/file/FilePreviewModal";
+import InfiniteScroll from "react-infinite-scroll-component";
+import FileBox from "../../components/file/FileBox";
+import FileUploadModal from "../../components/file/FileUploadModal";
+import CarouselCreateModal from "../../components/carousel/CarouselCreateModal";
+import CarouselBox from "../../components/carousel/CarouselBox";
 
 function mapStateToProps(state) {
 	return {
@@ -22,12 +30,20 @@ class Index extends React.Component {
 			like: null,
 			enable: null,
 			carousels: [],
-			cancelTokenSource: null
+			cancelTokenSource: null,
+			showModal: false,
+			preview: {}
 		};
 	}
 
 	componentDidMount() {
 		this.getCarouselList();
+	}
+
+	componentWillUnmount() {
+		if (this.state.cancelTokenSource) {
+			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
+		}
 	}
 
 	getCarouselList = () => {
@@ -38,22 +54,13 @@ class Index extends React.Component {
 		this.setState({
 			idLoading: true
 		})
-		const cancelTokenSource = Utils.getCarouselList({
-			page: this.state.page,
-			limit: this.state.limit,
-			count: this.state.count,
-			like: this.state.like,
-			enable: this.state.enable
-		}, function (response) {
+		const cancelTokenSource = Utils.getCarouselList({}, function (response) {
 			if (that.state.cancelTokenSource) {
 				that.setState({
-					carousels: that.state.carousels.concat(response.data.carousels),
-					page: response.data.page + 1,
-					limit: response.data.size,
-					count: response.data.count,
-					total: response.data.total,
+					carousels: response.data,
 					cancelTokenSource: null,
-					isLoading: false
+					isLoading: false,
+					preview: response.data[0]
 				})
 			}
 		}, function (error) {
@@ -64,28 +71,77 @@ class Index extends React.Component {
 		})
 	}
 
-	componentWillUnmount() {
-		if (this.state.cancelTokenSource) {
-			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
-		}
+	handleModal = () => {
+		this.setState({
+			showModal: !this.state.showModal
+		})
+	}
+	afterSubmit = (carousel) => {
+		this.handleModal();
+		let carousels = this.state.carousels;
+		carousels.splice(carousel.order, 0, carousel)
+		this.setState({
+			carousels: carousels,
+			preview: carousel
+		})
+	}
+
+	preview = (index, event) => {
+		event.stopPropagation();
+		this.setState({
+			preview: this.state.carousels[index]
+		})
+	}
+	delete = (deleteCarousel, event) => {
+		event.stopPropagation();
+		console.log(deleteCarousel);
+		console.log(event);
+		Utils.deleteCarousel(deleteCarousel.id, (response) => {
+			this.getCarouselList();
+		}, (error) => {
+			console.log(error);
+		})
 	}
 
 	render() {
+		console.log(this.state.carousels);
 		console.log(this.props.site);
+		let boxList = this.state.carousels.map((item, index) =>
+			<div key={index} className="carousel-button file-box">
+				<img key={index} src={item.thumb} alt={item.title} onClick={this.preview.bind(this, index)}></img>
+			</div>
+		);
+		let uploadModal = '';
+		if (this.state.showModal) {
+			uploadModal = <CarouselCreateModal show={this.state.showModal} handleModal={this.handleModal} afterSubmit={this.afterSubmit}/>
+		}
+		let previewBox = '';
+		if (this.state.preview) {
+			previewBox = <div className="carousel-preview" style={{backgroundImage: "url(" + this.state.preview.url + ")"}}>
+				<div className="carousel-info-box">
+					<div className="carousel-preview-title">{this.state.preview.title}</div>
+					<div className="carousel-preview-description">{this.state.preview.description}</div>
+					<Button variant="primary" className="btn-main-color carousel-delete-button" onClick={this.delete.bind(this, this.state.preview)}>删除</Button>
+				</div>
+			</div>
+		}
 		return (
 			<TreeNavibar active="carousel">
-				<Card className="file-list-container">
-					<Card.Header>
-
-					</Card.Header>
-					<Card.Body className="file-table">
-
+				<Card className="carousel-list-container">
+					{uploadModal}
+					<Card.Body id="file-table" className="file-table">
+						{previewBox}
 					</Card.Body>
+					<Card.Footer className="carousel-preview-list">
+						{boxList}
+						<Card className="carousel-button file-box" onClick={this.handleModal}>
+							+
+						</Card>
+					</Card.Footer>
 				</Card>
 			</TreeNavibar>
 		);
 	}
-
 }
 
 export default connect(mapStateToProps, null)(Index);

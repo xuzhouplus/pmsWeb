@@ -1,0 +1,12 @@
+.post-list-container {
+  height: 100%;
+
+  .post-table {
+    overflow-y: scroll;
+
+    .post-list-box {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}

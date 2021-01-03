@@ -12,7 +12,7 @@
   background-repeat: no-repeat;
   background-size: cover;
 
-  .card-title{
+  .card-title {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -29,7 +29,7 @@
     position: absolute;
     width: 100%;
     top: 120px;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: var(--main-color-transparent);
     transition: top 0.5s;
     -webkit-transition: top 0.5s; /* Safari */
     color: #ccc;
@@ -45,6 +45,8 @@
 
     button {
       outline: none;
+      box-shadow: none;
+      margin-right: 5px;
     }
   }
 }

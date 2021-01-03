@@ -13,13 +13,6 @@
     overflow: hidden;
     visibility: hidden;
   }
-
-  img {
-    width: 100%;
-    max-width: 100%;
-    position: relative;
-    z-index: 0;
-  }
 }
 
 .slider-inner {
@@ -43,8 +36,6 @@
   #slide-title {
     font-size: 100px;
     letter-spacing: -1px;
-    line-height: 50px;
-    margin: 20px 0 30px;
   }
 
   .meta {

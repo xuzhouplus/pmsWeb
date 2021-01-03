@@ -3,7 +3,7 @@ import React from 'react';
 class Dependence extends React.Component {
 	render() {
 		return (
-				<div className="container-fluid fixed-bottom border-top pt-2 pb-2 based-on">
+				<div className="container-fluid border-top pt-2 pb-2 based-on">
 					<div className="row justify-content-center">
 						<div className="col col-auto">
 							<a className="text-dark" href="https://reactjs.org/" target="_blank">

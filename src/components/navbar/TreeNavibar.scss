@@ -1,6 +1,22 @@
 .tree-navibar-container {
+  margin-top: 56px;
+
+  .tree-navibar {
+    margin: 15px 0;
+
+    .card {
+      height: 100%;
+
+      .active {
+        background-color: var(--main-color);
+        border-color: var(--main-color);
+      }
+    }
+  }
+
   .body-container {
-    height: calc(100vh - 112px);
+    height: calc(100vh - 142px);
     overflow: auto;
+    margin: 15px 0;
   }
 }

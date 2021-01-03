@@ -2,7 +2,6 @@ import React from 'react';
 import {Form, Button, Modal, Image} from 'react-bootstrap';
 import './Login.scss';
 import Utils from '../../utils/Utils';
-import axios from "axios";
 
 class LoginModal extends React.Component {
 	constructor(props) {

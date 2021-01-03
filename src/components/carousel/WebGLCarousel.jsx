@@ -3,66 +3,21 @@ import TweenMax from 'gsap';
 import * as THREE from 'three';
 import ImagesLoaded from 'imagesloaded';
 import './WebGLCarousel.scss';
+import Utils from "../../utils/Utils";
+import Loading from "../loading/Loading";
+import configs from "../../configs";
 
 class WebGlCarousel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			interval: null,
-			carousel: [
-				{
-					src: '/images/carousel/jianmenguan.jpg',
-					name: '剑门关',
-					position: '剑门关',
-					location: '剑阁'
-				},
-				{
-					src: '/images/carousel/bipenggou.jpg',
-					name: '毕棚沟',
-					position: '毕棚沟',
-					location: '理县'
-				},
-				{
-					src: '/images/carousel/huashan.jpg',
-					name: '华山',
-					position: '华山',
-					location: '华阴'
-				},
-				{
-					src: '/images/carousel/langzhonggucheng.jpg',
-					name: '阆中古城',
-					position: '阆中古城',
-					location: '阆中'
-				},
-				{
-					src: '/images/carousel/dujiangyan.jpg',
-					name: '都江堰',
-					position: '都江堰',
-					location: '都江堰'
-				},
-				{
-					src: '/images/carousel/uestc.jpg',
-					name: '电子科技大学',
-					position: '电子科技大学',
-					location: '成都'
-				},
-				{
-					src: '/images/carousel/emeishan.jpg',
-					name: '峨眉山',
-					position: '峨眉山',
-					location: '峨眉山'
-				},
-				{
-					src: '/images/Carousel/yiheyuan.jpg',
-					name: '颐和园',
-					position: '颐和园',
-					location: '北京'
-				}
-			]
+			isLoading: true,
+			cancelTokenSource: null
 		};
+		this.interval = null;
 	}
 
-	renderCarousel() {
+	renderCarousel(carousels) {
 		let webGLCarouselComponent = this;
 		let displacementSlider = function (options) {
 			const vertex = 'varying vec2 vUv;void main() {vUv = uv;gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );}';
@@ -82,13 +37,11 @@ class WebGlCarousel extends React.Component {
 			//添加初始文字
 			containerHtml = containerHtml + '<div class="slider-inner">' +
 				'<div id="slider-content">' +
-				// '<div class="meta">Position</div>' +
-				'<h2><div id="slide-title">' +
-				firstImage.position
-				+ '</div></h2>' +
-				// '<div class="meta">Location</div>' +
+				'<div id="slide-title">' +
+				firstImage.title
+				+ '</div>' +
 				'<div id="slide-status">' +
-				firstImage.location
+				firstImage.description
 				+ '</div>' +
 				'</div>' +
 				'</div>';
@@ -117,14 +70,15 @@ class WebGlCarousel extends React.Component {
 			loader.crossOrigin = "anonymous";
 			//加载图片
 			images.forEach(function (img, index) {
-				image = loader.load(img.src);
+				let imgUrl = img.url.replace(configs.backendHost, configs.proxyBackendHost);
+				image = loader.load(imgUrl);
 				image.magFilter = image.minFilter = THREE.LinearFilter;
 				image.anisotropy = renderer.capabilities.getMaxAnisotropy();
 				sliderImages.push(image);
 				//添加导航按钮
 				let buttonElement = document.createElement('button');
 				buttonElement.setAttribute('data-slide', index.toString());
-				buttonElement.setAttribute('data-name', img.name);
+				buttonElement.setAttribute('data-name', img.title);
 				paginationContainer.appendChild(buttonElement);
 			});
 			//设置第一个按钮类为active
@@ -175,8 +129,8 @@ class WebGlCarousel extends React.Component {
 						}
 					});
 
-					let nextSlideTitle = images[slideId]['position'];
-					let nextSlideStatus = images[slideId]['location'];
+					let nextSlideTitle = images[slideId]['title'];
+					let nextSlideStatus = images[slideId]['description'];
 
 					TweenMax.fromTo(slideTitleEl, 0.5, {
 						autoAlpha: 1,
@@ -220,19 +174,13 @@ class WebGlCarousel extends React.Component {
 			};
 			let pageIndex = 0;
 			const loop = function () {
-				let existInterval = webGLCarouselComponent.state.interval;
-				if (existInterval) {
-					clearInterval(existInterval);
-				}
 				let interval = setInterval(function () {
 					const paginateButtons = Array.from(paginationContainer.querySelectorAll('button'));
 					pageIndex++;
 					pageIndex = parseInt(pageIndex % paginateButtons.length);
 					render(pageIndex);
 				}, 5000);
-				webGLCarouselComponent.setState({
-					interval: interval
-				});
+				webGLCarouselComponent.interval = interval;
 			};
 			const addEvents = function addEvents() {
 				let paginateButtons = Array.from(paginationContainer.querySelectorAll('button'));
@@ -265,7 +213,6 @@ class WebGlCarousel extends React.Component {
 				paginateButtons.forEach(function (paginateButton) {
 					console.log(paginateButton.getBoundingClientRect());
 				})
-
 			};
 			animate();
 			loop();
@@ -276,17 +223,34 @@ class WebGlCarousel extends React.Component {
 		ImagesLoaded(carouselImages, function () {
 			new displacementSlider({
 				container: sliderContainer,
-				images: webGLCarouselComponent.state.carousel
+				images: carousels
 			});
 		});
 	}
 
 	componentDidMount() {
-		this.renderCarousel();
+		const cancelTokenSource = Utils.getCarouselIndex((response) => {
+			if (this.state.cancelTokenSource) {
+				this.renderCarousel(response.data)
+				this.setState({
+					isLoading: false
+				})
+			}
+		}, (error) => {
+
+		})
+		this.setState({
+			cancelTokenSource: cancelTokenSource
+		})
 	}
 
 	componentWillUnmount() {
-		clearInterval(this.state.interval);
+		if (this.interval) {
+			clearInterval(this.interval);
+		}
+		if (this.state.cancelTokenSource) {
+			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
+		}
 	}
 
 	render() {
@@ -294,6 +258,7 @@ class WebGlCarousel extends React.Component {
 			<div className="section row carousel" id="slider">
 				<div id="image-list">
 				</div>
+				{this.state.isLoading ? <Loading></Loading> : ''}
 			</div>
 		);
 	}

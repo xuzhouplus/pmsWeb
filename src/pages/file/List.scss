@@ -1,5 +1,9 @@
 .file-list-container {
+  height: 100%;
+
   .file-table {
+    overflow: auto;
+
     .file-list-box {
       display: flex;
       flex-wrap: wrap;

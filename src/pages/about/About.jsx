@@ -1,10 +1,12 @@
 import React from 'react';
 import fullpage from 'fullpage.js';
-import Configs from '../../config';
+import Configs from '../../configs';
 import Message from '../../components/about/Message';
 import Dependence from '../../components/about/Dependence';
 import Introduction from '../../components/about/Introduction';
-import './About.css'
+import './About.scss'
+import {Col, Row} from "react-bootstrap";
+import Beian from "../../components/about/Beian";
 
 class About extends React.Component {
 	constructor(props) {
@@ -32,15 +34,22 @@ class About extends React.Component {
 
 	render() {
 		return (
-			<div className="container-fluid justify-content-center h-100 about" id="fullpage">
-				<div className="section">
-					<Message/>
-					<Dependence/>
-				</div>
-				<div className="section">
-					<Introduction></Introduction>
-				</div>
-			</div>
+			<Row className="about-container">
+				<Col xs={12} lg={12} className="about-content">
+					<div className="container-fluid justify-content-center about" id="fullpage">
+						<div className="section message-dependence">
+							<Message/>
+							<Dependence/>
+						</div>
+						<div className="section">
+							<Introduction></Introduction>
+						</div>
+						<div className="section">
+							<Beian></Beian>
+						</div>
+					</div>
+				</Col>
+			</Row>
 		);
 	}
 }

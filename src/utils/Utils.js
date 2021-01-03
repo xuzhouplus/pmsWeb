@@ -1,35 +1,44 @@
 import {JSEncrypt} from 'jsencrypt';
 import axios from "axios";
-import configs from "../config";
+import configs from "../configs";
 
 const Utils = {
 	login: function (account, password, callback, fallback) {
-		return this.http('post', configs.backendHost + configs.loginUrl, {
+		return this.http('post', configs.proxyBackendHost + configs.loginUrl, {
 			account: account,
 			password: this.jsEncrypt(password)
 		}, callback, fallback)
 	},
 	logout: function (callback, fallback) {
-		this.http('post', configs.backendHost + configs.logoutUrl, null, callback, fallback)
+		this.http('post', configs.proxyBackendHost + configs.logoutUrl, null, callback, fallback)
 	},
 	auth: function (callback, fallback) {
-		this.http('post', configs.backendHost + configs.authUrl, null, callback, fallback)
+		this.http('post', configs.proxyBackendHost + configs.authUrl, null, callback, fallback)
 	},
 	site: function (callback, fallback) {
 		let siteConfigs = localStorage.getItem('site_configs');
 		if (siteConfigs) {
 			callback(JSON.parse(siteConfigs));
 		}
-		this.http('get', configs.backendHost + configs.settingUrl, null, function (response) {
+		this.http('get', configs.proxyBackendHost + configs.settingUrl, null, function (response) {
 			localStorage.setItem('site_configs', JSON.stringify(response));
 			callback(response);
 		}, fallback)
 	},
 	carousel: function (callback, fallback) {
-		return this.http('post', configs.backendHost + configs.carouselUrl, null, callback, fallback)
+		return this.http('post', configs.proxyBackendHost + configs.carouselUrl, null, callback, fallback)
+	},
+	createCarousel: function (data, callback, fallback) {
+		return this.http('post', configs.proxyBackendHost + configs.createCarouselUrl, data, callback, fallback)
+	},
+	deleteCarousel: function (id, callback, fallback) {
+		let data = {
+			id: id
+		}
+		return this.http('post', configs.proxyBackendHost + configs.deleteCarouselUrl, data, callback, fallback)
 	},
 	getFileList: function (data, callback, fallback) {
-		return this.http('get', configs.backendHost + configs.fileListUrl, data, callback, fallback);
+		return this.http('get', configs.proxyBackendHost + configs.fileListUrl, data, callback, fallback);
 	},
 	uploadFile: function (data, callback, fallback) {
 		let formData = new FormData();
@@ -38,7 +47,7 @@ const Utils = {
 		}
 		axios({
 			method: 'post',
-			url: configs.backendHost + configs.uploadFileUrl,
+			url: configs.proxyBackendHost + configs.uploadFileUrl,
 			header: {
 				"Content-Type": "multipart/form-data"
 			},
@@ -71,7 +80,7 @@ const Utils = {
 	deleteFile: function (data, callback, fallback) {
 		axios({
 			method: 'post',
-			url: configs.backendHost + configs.deleteFileUrl,
+			url: configs.proxyBackendHost + configs.deleteFileUrl,
 			data: data
 		}).then(result => {
 			console.log(result);
@@ -98,11 +107,23 @@ const Utils = {
 			fallback && fallback(message);
 		});
 	},
+	getCarouselIndex: function (callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.carouselUrl, null, callback, fallback);
+	},
 	getCarouselList: function (data, callback, fallback) {
-		return this.http('get', configs.backendHost + configs.carouselListUrl, data, callback, fallback);
+		return this.http('get', configs.proxyBackendHost + configs.carouselListUrl, data, callback, fallback);
 	},
 	posts: function (data, callback, fallback) {
-		this.http('get', configs.backendHost + configs.postUrl, data, callback, fallback)
+		return this.http('get', configs.proxyBackendHost + configs.postUrl, data, callback, fallback);
+	},
+	postList: function (data, callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.postListUrl, data, callback, fallback);
+	},
+	savePost: function (data, callback, fallback) {
+		return this.http('post', configs.proxyBackendHost + configs.savePostUrl, data, callback, fallback)
+	},
+	deletePost: function (id, callback, fallback) {
+		return this.http('post', configs.proxyBackendHost + configs.deletePostUrl, {id: id}, callback, fallback)
 	},
 	http: function (type, url, data, callback, fallback) {
 		const CancelToken = axios.CancelToken;

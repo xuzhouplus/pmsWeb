@@ -46,6 +46,7 @@ class Main extends React.Component {
 		const that = this;
 		Utils.logout(function (response) {
 			console.log(response);
+			sessionStorage.removeItem('auth');
 			that.props.logout()
 		}, function (error) {
 			console.log(error);
@@ -54,12 +55,19 @@ class Main extends React.Component {
 
 	componentDidMount() {
 		const that = this;
-		Utils.auth(function (response) {
-			console.log(response);
-			that.login(response.data);
-		}, function (error) {
-			console.log(error);
-		});
+		let authString = sessionStorage.getItem('auth');
+		if (authString) {
+			let auth = JSON.parse(authString);
+			that.login(auth);
+		} else {
+			Utils.auth(function (response) {
+				console.log(response);
+				that.login(response.data);
+				sessionStorage.setItem('auth', JSON.stringify(response.data));
+			}, function (error) {
+				console.log(error);
+			});
+		}
 	}
 
 	render() {
@@ -78,7 +86,7 @@ class Main extends React.Component {
 		const About = lazy(() => import('./about/About'));
 		//404
 		const NotFound = lazy(() => import('./NotFound'));
-		let NavigateBar = null;
+		let NavigateBar;
 		console.log(this.props.account);
 		if (this.props.account && this.props.account.uuid) {
 			NavigateBar = <AdminNavibar account={this.props.account} logout={this.logout}></AdminNavibar>
@@ -87,7 +95,7 @@ class Main extends React.Component {
 		}
 		return (
 			<Container fluid className="app-container">
-				<Row className="app-header">
+				<Row className="app-header fixed-top">
 					<Col xs={12} lg={12}>
 						{NavigateBar}
 					</Col>
@@ -111,7 +119,7 @@ class Main extends React.Component {
 						</Router>
 					</Col>
 				</Row>
-				<Row className="app-footer">
+				<Row className="app-footer fixed-bottom">
 					<Col xs={12} lg={12}>
 						<Footer/>
 					</Col>

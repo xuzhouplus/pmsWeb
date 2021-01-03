@@ -1,0 +1,54 @@
+.carousel-create-modal {
+  .file-input-group {
+    .file-preview-box {
+      height: 255px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--main-color-transparent);
+      font-size: xx-large;
+      cursor: pointer;
+      overflow: hidden;
+
+      &.is-invalid {
+        border-color: #dc3545;
+      }
+
+      img,
+      video {
+        max-height: 255px;
+      }
+
+      .file-input-box {
+        text-align: center;
+
+        .file-add-mark {
+          font-size: xx-large;
+        }
+
+        .file-add-note {
+          font-size: small;
+        }
+      }
+    }
+
+    #file-input {
+      display: none;
+    }
+  }
+
+  .form-button {
+    text-align: center;
+
+    button {
+      &:before {
+        content: "提交";
+      }
+
+      &.uploading:before {
+        content: "提交中";
+      }
+    }
+  }
+}

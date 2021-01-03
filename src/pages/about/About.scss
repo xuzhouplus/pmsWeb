@@ -1,0 +1,21 @@
+.about-container {
+  height: 100vh;
+
+  .about-content {
+    .about {
+      .section {
+        .fp-tableCell {
+          padding-top: 56px;
+          padding-bottom: 56px;
+        }
+      }
+
+      .message-dependence {
+        .note-info {
+          padding-top: 10%;
+          height: calc(100% - 56px);
+        }
+      }
+    }
+  }
+}

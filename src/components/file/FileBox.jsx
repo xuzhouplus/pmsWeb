@@ -4,6 +4,23 @@ import './FileBox.scss';
 
 class FileBox extends React.Component {
 	render() {
+		let previewButton = null;
+		if (this.props.preview) {
+			previewButton = <Button variant="primary" className="btn-main-color" onClick={this.props.preview}>查看</Button>
+		}
+		let sourceButton = null;
+		if (this.props.source) {
+			sourceButton = <Button variant="primary" className="btn-main-color" onClick={this.props.source}>原图</Button>
+		}
+		let deleteButton = null;
+		if (this.props.delete) {
+			deleteButton = <Button variant="primary" className="btn-main-color" onClick={this.props.delete}>删除</Button>
+		}
+		let selectButton = null;
+		if (this.props.select) {
+			selectButton = <Button variant="primary" className="btn-main-color" onClick={this.props.select}>使用</Button>
+		}
+
 		return (
 			<Card className="file-box" onClick={this.props.preview} style={{"backgroundImage": "url(" + this.props.thumb + ")"}}>
 				<Card.Body>
@@ -11,9 +28,10 @@ class FileBox extends React.Component {
 					<Card.Text>
 						{this.props.description}
 					</Card.Text>
-					<Button variant="primary" onClick={this.props.preview}>查看</Button>{' '}
-					<Button variant="primary" onClick={this.props.source}>原图</Button>{' '}
-					<Button variant="primary" onClick={this.props.delete}>删除</Button>
+					{previewButton}
+					{sourceButton}
+					{deleteButton}
+					{selectButton}
 				</Card.Body>
 			</Card>
 		);

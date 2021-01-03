@@ -1,0 +1,52 @@
+.post-profile-modal {
+  .post-profile-form {
+    .cover-input-group {
+      .cover-preview-box {
+        height: 255px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--main-color-transparent);
+        font-size: xx-large;
+        cursor: pointer;
+        overflow: hidden;
+
+        &.is-invalid {
+          border-color: #dc3545;
+        }
+
+        img,
+        video {
+          max-height: 255px;
+        }
+
+        .cover-input-box {
+          text-align: center;
+
+          .cover-add-mark {
+            font-size: xx-large;
+          }
+
+          .cover-add-note {
+            font-size: small;
+          }
+        }
+      }
+    }
+
+    .form-button {
+      text-align: center;
+
+      button {
+        &:before {
+          content: "提交";
+        }
+
+        &.uploading:before {
+          content: "提交中";
+        }
+      }
+    }
+  }
+}

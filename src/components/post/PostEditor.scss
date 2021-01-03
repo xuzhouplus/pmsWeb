@@ -1,0 +1,26 @@
+.post-editor-modal {
+  .modal-dialog {
+    width: 1371px;
+    max-width: none !important;
+    height: 790px;
+
+    .modal-content {
+      height: 100%;
+
+      .modal-header {
+        .modal-title {
+          img {
+            height: 36px;
+          }
+        }
+      }
+
+      .modal-body {
+        #post-editor {
+          height: 100%;
+          max-height: 100%;
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React from "react";
 import {Col, Container, Card, Row, Button, Table, Image} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import './List.scss'
-import FileModal from "../../components/file/FileModal";
+import FileUploadModal from "../../components/file/FileUploadModal";
 import FilePreviewModal from "../../components/file/FilePreviewModal";
 import FileBox from "../../components/file/FileBox";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
@@ -18,7 +18,7 @@ class List extends React.Component {
 			modal: false,
 			isLoading: false,
 			page: 0,
-			limit: 16,
+			limit: 20,
 			count: 0,
 			total: 0,
 			files: []
@@ -34,9 +34,11 @@ class List extends React.Component {
 			modal: !this.state.modal
 		})
 	}
-	afterUpload = () => {
+	afterUpload = (uploadedFile) => {
 		this.setState({
-			modal: false
+			modal: false,
+			page: 0,
+			files: []
 		})
 		this.getFileList();
 	}
@@ -97,17 +99,6 @@ class List extends React.Component {
 		});
 	}
 
-	onScroll = (event) => {
-		if ((event.target.scrollHeight - event.target.clientHeight) > event.target.scrollTop) {
-			//未到底
-			console.log('not bottom');
-		} else {
-			//已到底部
-			console.log('bottom');
-			this.getFileList();
-		}
-	}
-
 	componentWillUnmount() {
 		if (this.state.cancelTokenSource) {
 			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
@@ -116,11 +107,11 @@ class List extends React.Component {
 
 	render() {
 		let boxList = this.state.files.map((item, index) =>
-			<FileBox {...item} key={index} preview={this.preview.bind(this, index)} source={this.source.bind(this, index)} delete={this.delete.bind(this, index)}></FileBox>
+			<FileBox thumb={item.thumb} name={item.name} description={item.description} key={index} preview={this.preview.bind(this, index)} source={this.source.bind(this, index)} delete={this.delete.bind(this, index)}></FileBox>
 		);
 		let uploadModal = '';
 		if (this.state.modal) {
-			uploadModal = <FileModal show={this.state.modal} handleModal={this.handleModal} afterUpload={this.afterUpload}/>
+			uploadModal = <FileUploadModal show={this.state.modal} handleModal={this.handleModal} afterUpload={this.afterUpload}/>
 		}
 		return (
 			<TreeNavibar active="file">
@@ -129,13 +120,13 @@ class List extends React.Component {
 					{uploadModal}
 					<Card.Header className="file-header">
 						<Col xs={12} lg={12}>
-							<Button onClick={this.handleModal}>上传文件</Button>
+							<Button onClick={this.handleModal} className="btn-main-color">上传文件</Button>
 						</Col>
 					</Card.Header>
-					<Card.Body className="file-table">
+					<Card.Body id="file-table" className="file-table">
 						<Col xs={12} lg={12} className="file-list-box">
 							<InfiniteScroll
-								scrollableTarget="body-container"
+								scrollableTarget="file-table"
 								dataLength={this.state.count}
 								next={this.getFileList}
 								hasMore={this.state.page < this.state.count}
