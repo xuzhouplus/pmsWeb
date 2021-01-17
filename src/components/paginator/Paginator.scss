@@ -1,0 +1,8 @@
+.paginator-container {
+  a {
+    &:active,
+    &:focus {
+      outline: none;
+    }
+  }
+}

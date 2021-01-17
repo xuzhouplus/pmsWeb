@@ -1,129 +1,99 @@
 import React from "react";
-import {Button, Card, Image, Modal} from "react-bootstrap";
-import MarkdownIt from 'markdown-it'
-import MdEditor from 'react-markdown-editor-lite'
-// import style manually
-import 'react-markdown-editor-lite/lib/index.css';
-import "./PostEditor.scss"
-import FileListModal from "../file/FileListModal";
-import FileUploadModal from "../file/FileUploadModal";
+import {Col, Image, Modal, Row} from "react-bootstrap";
+import PostMdEditor from "./PostMdEditor";
+import Utils from "../../utils/Utils";
 import PostProfile from "./PostProfile";
+import "./PostEditor.scss";
 
 class PostEditor extends React.Component {
-	selectedFile = {}
-	mdParser = null
-
 	constructor(props) {
 		super(props);
-		this.mdParser = new MarkdownIt({
-			html: true,
-			linkify: true,
-			typographer: true,
-			highlight(str, lang) {
-				/*
-				if (lang && hljs.getLanguage(lang)) {
-				  try {
-					return hljs.highlight(lang, str).value
-				  } catch (__) {}
-				}
-				return '' // use external default escaping
-				*/
-			},
-		});
 		this.state = {
 			mdeValue: 'd',
 			showSelect: false,
 			showUpload: false,
-			showProfile: false
+			cover: '',
+			title: '',
+			subTitle: '',
+			type: 'md'
 		}
 	}
 
-	handleChange = ({html, text}) => {
-		console.log(html);
-		console.log(text);
-		this.setState({mdeValue: text});
-	}
-	savePost = () => {
-		this.handleProfileModal()
-	}
-	selectFilePromise = () => {
-		return new Promise((resolve, reject) => {
-			this.setState({
-				showSelect: true
-			})
-			this.selectedFile = {};
-			let that = this;
-			let interval = setInterval(function () {
-				if (that.selectedFile.path) {
-					console.log(that.selectedFile);
-					clearInterval(interval)
-					resolve({url: that.selectedFile.path, text: that.selectedFile.name});
-				} else {
-					if (!that.state.showSelect) {
-						clearInterval(interval)
-						resolve({url: '', text: ''});
-					}
+	componentDidMount() {
+		if (this.props.id) {
+			Utils.getPostDetail(this.props.id, response => {
+				if (response.code === 1) {
+					this.setState({
+						cover: response.data.cover,
+						title: response.data.title,
+						subTitle: response.data.sub_title,
+						mdeValue: response.data.content,
+						type: response.data.type
+					});
 				}
-			}, 1000)
-		})
+			}, error => {
+				console.log(error);
+			})
+		}
 	}
-	selectFile = (file) => {
-		this.selectedFile = file;
-		this.hideSelect()
-	}
-	hideSelect = () => {
+
+	handleEditorChange = (text) => {
 		this.setState({
-			showSelect: false
+			mdeValue: text
 		})
 	}
 
-	handleProfileModal = () => {
-		this.setState({
-			showProfile: !this.state.showProfile
+	onSubmit = (postData) => {
+		Utils.savePost({
+			id: this.props.id,
+			cover: postData.cover,
+			title: postData.title,
+			sub_title: postData.subTitle,
+			status: postData.status,
+			content: this.state.mdeValue,
+			type: this.state.type
+		}, (response) => {
+			console.log(response);
+			this.props.afterSave();
+		}, (error) => {
+			console.log(error);
 		})
-	}
-
-	afterSave = () => {
-		this.handleProfileModal();
-		this.props.afterSave();
 	}
 
 	render() {
-		let selectFileModal
-		if (this.state.showSelect) {
-			selectFileModal = <FileListModal upload show={this.state.showSelect} hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>;
+		let editorComponent = null;
+		if (this.state.type == 'md') {
+			editorComponent = <PostMdEditor value={this.state.mdeValue} onChange={this.handleEditorChange}></PostMdEditor>
 		}
-		let profileModal
-		if (this.state.showProfile) {
-			profileModal = <PostProfile content={this.state.mdeValue} show={this.state.showProfile} hide={this.handleProfileModal} afterSave={this.afterSave}></PostProfile>
+		let profileComponent
+		if (this.props.id) {
+			if (this.state.cover) {
+				profileComponent = <PostProfile cover={this.state.cover} title={this.state.title} subTitle={this.state.subTitle} status={this.state.status} onSubmit={this.onSubmit}></PostProfile>
+			}
+		} else {
+			profileComponent = <PostProfile onSubmit={this.onSubmit}></PostProfile>
 		}
 		return (
 			<Modal className="post-editor-modal" centered show={this.props.show} onHide={this.props.hide} backdrop="static" keyboard={false}>
-				{selectFileModal}
-				{profileModal}
 				<Modal.Header closeButton>
 					<Modal.Title>
 						<Image src={this.props.appLogo}/>
 					</Modal.Title>
 				</Modal.Header>
-				<Modal.Body id="post-modal-container">
-					<MdEditor id="post-editor"
-							  style={{
-								  height: "703px"
-							  }
-							  }
-							  value={this.state.mdeValue}
-							  renderHTML={(text) => this.mdParser.render(text)}
-							  onChange={this.handleChange}
-							  onCustomImageUpload={this.selectFilePromise}
-					/>
+				<Modal.Body className="post-editor-content">
+					<Row>
+						<Col xs={9} lg={9}>
+							{editorComponent}
+						</Col>
+						<Col xs={3} lg={3}>
+							{profileComponent}
+						</Col>
+					</Row>
 				</Modal.Body>
-				<Modal.Footer>
-					<Button id="save-post-button" className="btn-main-color" onClick={this.savePost}>保存</Button>
-				</Modal.Footer>
 			</Modal>
 		);
 	}
+
 }
 
 export default PostEditor;

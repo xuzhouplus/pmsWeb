@@ -1,0 +1,52 @@
+.post-box {
+  height: 11.25rem;
+  width: 20rem;
+  margin-bottom: 0.6rem;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--main-color-transparent);
+  background-origin: border-box;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .card-title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &:hover > .card-body {
+    top: 0;
+  }
+
+  .card-body {
+    flex: 1 1 auto;
+    height: 100%;
+    padding: 1.25rem;
+    position: absolute;
+    width: 100%;
+    top: 7.5rem;
+    background-color: var(--main-color-transparent);
+    transition: top 0.5s;
+    -webkit-transition: top 0.5s; /* Safari */
+    color: #ccc;
+
+    .card-text {
+      height: 3rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+    }
+
+    button {
+      outline: none;
+      box-shadow: none;
+      margin-right: 0.2rem;
+    }
+  }
+}

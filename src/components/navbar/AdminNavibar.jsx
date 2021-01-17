@@ -34,7 +34,7 @@ class AdminNavibar extends React.Component {
                             <Nav.Link href="/post/list">稿件</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="/file">文件</Nav.Link>
+                            <Nav.Link href="/file/list">文件</Nav.Link>
                         </Nav.Item>
                         <NavDropdown title={this.props.account.account} id="account-nav-dropdown">
                             <NavDropdown.Item href="/profile">账号信息</NavDropdown.Item>

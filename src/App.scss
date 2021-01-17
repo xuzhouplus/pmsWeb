@@ -14,7 +14,8 @@
 }
 
 .app-container {
-  .btn {
+  .btn,
+  .form-control {
     &.focus,
     &:focus {
       outline: none;
@@ -47,13 +48,13 @@
       display: flex;
 
       .brand-img {
-        height: 30px;
+        height: 1.875rem;
       }
     }
   }
 
   .app-body {
-    min-height: 100vh;
+    height: 100vh;
     z-index: 0;
   }
 

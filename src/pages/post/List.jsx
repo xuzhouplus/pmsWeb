@@ -1,34 +1,40 @@
 import React from "react";
-import {Button, Card, Col, Pagination} from "react-bootstrap";
+import {Button, Card, Col, FormControl, InputGroup, Pagination, Row} from "react-bootstrap";
 import Loading from "../../components/loading/Loading";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
-import FileBox from "../../components/file/FileBox";
-import "./List.scss"
-import FileUploadModal from "../../components/file/FileUploadModal";
-import PostEditor from "../../components/post/PostEditor";
 import Utils from "../../utils/Utils";
+import PostBox from "../../components/post/PostBox";
+import PostEditor from "../../components/post/PostEditor";
+import "./List.scss"
+import Paginator from "../../components/paginator/Paginator";
 
 class List extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			editor: false,
+			editPost: null,
 			posts: [],
-			page: 0,
-			limit: 20
+			page: 1,
+			limit: 20,
+			count: 0
 		}
 	}
 
 	componentDidMount() {
-		this.getPostList();
+		this.getPostList(this.props.match.params.page);
 	}
 
-	getPostList = () => {
-		Utils.postList({page: this.state.page, limit: this.state.limit}, response => {
+	getPostList = (page) => {
+		if (page - 1 > 0) {
+			page = 1
+		}
+		Utils.postList({page: page - 1, limit: this.state.limit}, response => {
 			console.log(response);
 			this.setState({
 				posts: response.data.posts,
-				page: response.data.page + 1
+				page: response.data.page + 1,
+				count: response.data.count
 			})
 		}, error => {
 			console.log(error);
@@ -37,7 +43,8 @@ class List extends React.Component {
 
 	handleModal = () => {
 		this.setState({
-			editor: !this.state.editor
+			editor: !this.state.editor,
+			editPost: null
 		})
 	}
 	afterSave = () => {
@@ -49,6 +56,26 @@ class List extends React.Component {
 	}
 	preview = (index, event) => {
 		event.stopPropagation();
+		let post = this.state.posts[index];
+		window.location.href = '/post/' + post.uuid;
+	}
+	edit = (index, event) => {
+		event.stopPropagation();
+		let post = this.state.posts[index];
+		this.setState({
+			editPost: post.id,
+			editor: true
+		})
+	}
+	toggleStatus = (index, event) => {
+		event.stopPropagation();
+		let post = this.state.posts[index];
+		Utils.togglePostStatus(post.id, response => {
+			console.log(response)
+			this.getPostList(this.state.page);
+		}, error => {
+			console.log(error);
+		});
 	}
 	delete = (index, event) => {
 		event.stopPropagation();
@@ -64,52 +91,54 @@ class List extends React.Component {
 		});
 	}
 
+	changePage = (page) => {
+		console.log(page);
+		this.getPostList(page);
+	}
+
 	render() {
 		let logo = process.env.PUBLIC_URL + '/logo192.png';
 		let boxList
 		if (this.state.posts.length > 0) {
 			boxList = this.state.posts.map((item, index) =>
-				<FileBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)} delete={this.delete.bind(this, index)}></FileBox>
+				<PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)} edit={this.edit.bind(this, index)} delete={this.delete.bind(this, index)} putOn={item.status == 2 ? this.toggleStatus.bind(this, index) : null} putOff={item.status == 1 ? this.toggleStatus.bind(this, index) : null}></PostBox>
 			);
 		} else {
 			boxList = <Loading></Loading>
 		}
 		let editorModal = '';
 		if (this.state.editor) {
-			editorModal = <PostEditor appLogo={logo} show={this.state.editor} hide={this.handleModal} afterSave={this.afterSave}/>
+			editorModal =
+				<PostEditor appLogo={logo} id={this.state.editPost} show={this.state.editor} hide={this.handleModal} afterSave={this.afterSave}/>
 		}
 		return (
 			<TreeNavibar active="post">
 				{editorModal}
 				<Card className="post-list-container">
 					<Card.Header className="post-header">
-						<Col xs={12} lg={12}>
-							<Button onClick={this.handleModal} className="btn-main-color">新建稿件</Button>
-						</Col>
+						<Row>
+							<Col xs={4} lg={4} className="post-table-search">
+								<InputGroup>
+									<FormControl placeholder="输入内容搜索"/>
+									<InputGroup.Append>
+										<Button className="btn-main-color">搜索</Button>
+									</InputGroup.Append>
+								</InputGroup>
+							</Col>
+							<Col sx={8} lg={8} className="post-table-buttons">
+								<Button onClick={this.handleModal} className="btn-main-color">新建稿件</Button>
+							</Col>
+						</Row>
 					</Card.Header>
 					<Card.Body id="post-table" className="post-table">
-						<Col xs={12} lg={12} className="post-list-box">
-							{boxList}
-						</Col>
+						<Row className="post-table-list">
+							<Col xs={12} lg={12} className="post-list-box">
+								{boxList}
+							</Col>
+						</Row>
 					</Card.Body>
 					<Card.Footer>
-						<Pagination>
-							<Pagination.First/>
-							<Pagination.Prev/>
-							<Pagination.Item>{1}</Pagination.Item>
-							<Pagination.Ellipsis/>
-
-							<Pagination.Item>{10}</Pagination.Item>
-							<Pagination.Item>{11}</Pagination.Item>
-							<Pagination.Item active>{12}</Pagination.Item>
-							<Pagination.Item>{13}</Pagination.Item>
-							<Pagination.Item disabled>{14}</Pagination.Item>
-
-							<Pagination.Ellipsis/>
-							<Pagination.Item>{20}</Pagination.Item>
-							<Pagination.Next/>
-							<Pagination.Last/>
-						</Pagination>
+						<Paginator page={this.state.page} count={this.state.count} onClick={this.changePage}></Paginator>
 					</Card.Footer>
 				</Card>
 			</TreeNavibar>

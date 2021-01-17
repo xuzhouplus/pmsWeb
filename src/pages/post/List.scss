@@ -1,12 +1,31 @@
 .post-list-container {
   height: 100%;
 
+  .post-header {
+    .post-table-search {
+      justify-content: left;
+    }
+
+    .post-table-buttons {
+      text-align: right;
+    }
+  }
+
   .post-table {
     overflow-y: scroll;
 
-    .post-list-box {
-      display: flex;
-      flex-wrap: wrap;
+    .post-table-list {
+      .post-list-box {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  .card-footer {
+    .pagination {
+      margin-bottom: 0;
+      justify-content: flex-end;
     }
   }
 }

@@ -34,14 +34,13 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		const that = this;
-		Utils.site(function (response) {
+		Utils.site((response) => {
 			console.log(response);
 			if (response.code === 1) {
-				that.props.init(response.data);
+				this.props.init(response.data);
 			}
-		}, function (error) {
-			that.setState({
+		}, (error) => {
+			this.setState({
 				error: error
 			})
 		});

@@ -1,13 +1,12 @@
 import React from "react";
-import {Col, Container, Card, Row, Button, Table, Image} from "react-bootstrap";
+import {Col, Card, Row, Button, InputGroup, FormControl} from "react-bootstrap";
 import Utils from "../../utils/Utils";
-import './List.scss'
 import FileUploadModal from "../../components/file/FileUploadModal";
 import FilePreviewModal from "../../components/file/FilePreviewModal";
 import FileBox from "../../components/file/FileBox";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
-import Loading from "../../components/loading/Loading";
-import InfiniteScroll from "react-infinite-scroll-component";
+import Paginator from "../../components/paginator/Paginator";
+import './List.scss';
 
 class List extends React.Component {
 	constructor(props) {
@@ -26,7 +25,7 @@ class List extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getFileList();
+		this.getFileList(this.props.match.params.page);
 	}
 
 	handleModal = () => {
@@ -36,24 +35,24 @@ class List extends React.Component {
 	}
 	afterUpload = (uploadedFile) => {
 		this.setState({
-			modal: false,
-			page: 0,
-			files: []
+			modal: false
 		})
-		this.getFileList();
+		this.getFileList(0);
 	}
-	getFileList = () => {
-		const that = this;
+	getFileList = (page) => {
 		if (this.state.isLoading) {
 			return;
 		}
 		this.setState({
 			idLoading: true
 		})
-		const cancelTokenSource = Utils.getFileList({page: this.state.page, limit: this.state.limit}, function (response) {
-			if (that.state.cancelTokenSource) {
-				that.setState({
-					files: that.state.files.concat(response.data.files),
+		if (page - 1 < 0) {
+			page = 1
+		}
+		const cancelTokenSource = Utils.getFileList({page: page - 1, limit: this.state.limit}, (response) => {
+			if (this.state.cancelTokenSource) {
+				this.setState({
+					files: response.data.files,
 					page: response.data.page + 1,
 					limit: response.data.size,
 					count: response.data.count,
@@ -62,10 +61,10 @@ class List extends React.Component {
 					isLoading: false
 				})
 			}
-		}, function (error) {
+		}, (error) => {
 			console.log(error);
 		});
-		that.setState({
+		this.setState({
 			cancelTokenSource: cancelTokenSource
 		})
 	}
@@ -99,6 +98,11 @@ class List extends React.Component {
 		});
 	}
 
+	changePage = (page) => {
+		console.log(page);
+		this.getFileList(page);
+	}
+
 	componentWillUnmount() {
 		if (this.state.cancelTokenSource) {
 			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
@@ -119,23 +123,30 @@ class List extends React.Component {
 					{this.state.preview ? <FilePreviewModal hide={this.hidePreview} {...this.state.preview}/> : ''}
 					{uploadModal}
 					<Card.Header className="file-header">
-						<Col xs={12} lg={12}>
-							<Button onClick={this.handleModal} className="btn-main-color">上传文件</Button>
-						</Col>
+						<Row>
+							<Col xs={4} lg={4} className="file-table-search">
+								<InputGroup>
+									<FormControl placeholder="输入内容搜索"/>
+									<InputGroup.Append>
+										<Button className="btn-main-color">搜索</Button>
+									</InputGroup.Append>
+								</InputGroup>
+							</Col>
+							<Col sx={8} lg={8} className="file-table-buttons">
+								<Button onClick={this.handleModal} className="btn-main-color">上传文件</Button>
+							</Col>
+						</Row>
 					</Card.Header>
 					<Card.Body id="file-table" className="file-table">
-						<Col xs={12} lg={12} className="file-list-box">
-							<InfiniteScroll
-								scrollableTarget="file-table"
-								dataLength={this.state.count}
-								next={this.getFileList}
-								hasMore={this.state.page < this.state.count}
-								loader={<Loading></Loading>}
-							>
+						<Row className="file-table-list">
+							<Col xs={12} lg={12} className="file-list-box">
 								{boxList}
-							</InfiniteScroll>
-						</Col>
+							</Col>
+						</Row>
 					</Card.Body>
+					<Card.Footer>
+						<Paginator page={this.state.page} count={this.state.count} onClick={this.changePage}></Paginator>
+					</Card.Footer>
 				</Card>
 			</TreeNavibar>
 		);

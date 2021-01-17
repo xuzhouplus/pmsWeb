@@ -2,7 +2,7 @@
   .post-profile-form {
     .cover-input-group {
       .cover-preview-box {
-        height: 255px;
+        height: 13rem;
         margin: auto;
         display: flex;
         align-items: center;
@@ -18,7 +18,10 @@
 
         img,
         video {
-          max-height: 255px;
+          width: 100%;
+          height: 100%;
+          max-height: 100%;
+          max-width: 100%;
         }
 
         .cover-input-box {
@@ -37,14 +40,27 @@
 
     .form-button {
       text-align: center;
-
       button {
-        &:before {
-          content: "提交";
+        margin-right: 0.2rem;
+
+        &.draft {
+          &:before {
+            content: "保存草稿";
+          }
+
+          &.uploading:before {
+            content: "保存中";
+          }
         }
 
-        &.uploading:before {
-          content: "提交中";
+        &.save {
+          &:before {
+            content: "保存发布";
+          }
+
+          &.uploading:before {
+            content: "保存中";
+          }
         }
       }
     }

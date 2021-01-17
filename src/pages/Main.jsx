@@ -106,11 +106,11 @@ class Main extends React.Component {
 							<Suspense fallback={<Loading/>}>
 								<Switch>
 									<Route path="/" exact component={Home}/>
-									<Route path="/file" exact component={FileList}></Route>
+									<Route path="/file/list/:page?" component={FileList}></Route>
 									<Route path="/file/:uuid" component={FileView}></Route>
 									<Route path="/carousel" exact component={CarouselList}></Route>
 									<Route path="/post" exact component={PostIndex}></Route>
-									<Route path="/post/list" exact component={PostList}></Route>
+									<Route path="/post/list/:page?" component={PostList}></Route>
 									<Route path="/post/:uuid" component={PostView}></Route>
 									<Route path="/about" exact component={About}></Route>
 									<Route path="*" component={NotFound}/>

@@ -1,16 +1,20 @@
 import React from "react";
 import {Card, Button} from "react-bootstrap";
-import './FileBox.scss';
+import './PostBox.scss';
 
-class FileBox extends React.Component {
+class PostBox extends React.Component {
 	render() {
 		let previewButton = null;
 		if (this.props.preview) {
-			previewButton = <Button variant="primary" className="btn-main-color" onClick={this.props.preview}>查看</Button>
+			previewButton = <Button variant="primary" className="btn-main-color" onClick={this.props.preview}>预览</Button>
 		}
-		let sourceButton = null;
-		if (this.props.source) {
-			sourceButton = <Button variant="primary" className="btn-main-color" onClick={this.props.source}>原图</Button>
+		let putOnButton = null;
+		if (this.props.putOn) {
+			putOnButton = <Button variant="primary" className="btn-main-color" onClick={this.props.putOn}>上架</Button>
+		}
+		let putOffButton = null;
+		if (this.props.putOff) {
+			putOffButton = <Button variant="primary" className="btn-main-color" onClick={this.props.putOff}>下架</Button>
 		}
 		let editButton = null;
 		if (this.props.edit) {
@@ -26,14 +30,15 @@ class FileBox extends React.Component {
 		}
 
 		return (
-			<Card className="file-box" onClick={this.props.preview} style={{"backgroundImage": "url(" + this.props.thumb + ")"}}>
+			<Card className="post-box" onClick={this.props.preview} style={{"backgroundImage": "url(" + this.props.thumb + ")"}}>
 				<Card.Body>
 					<Card.Title>{this.props.name}</Card.Title>
 					<Card.Text>
 						{this.props.description}
 					</Card.Text>
 					{previewButton}
-					{sourceButton}
+					{putOnButton}
+					{putOffButton}
 					{editButton}
 					{deleteButton}
 					{selectButton}
@@ -43,4 +48,4 @@ class FileBox extends React.Component {
 	}
 }
 
-export default FileBox;
+export default PostBox;

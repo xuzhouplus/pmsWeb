@@ -1,0 +1,39 @@
+.based-on {
+  .brand-logo {
+    &.react {
+      height: 1.7rem;
+    }
+
+    &.bootstrap {
+      height: 1.3125rem;
+    }
+
+    &.react-bootstrap {
+      height: 1.3125rem;
+    }
+
+    &.jq22 {
+      height: 2rem;
+    }
+
+    &.github {
+      height: 1.3125rem;
+    }
+
+    &.nginx {
+      height: 0.8rem;
+    }
+
+    &.php {
+      height: 1rem;
+    }
+
+    &.mysql {
+      height: 1.3125rem;
+    }
+
+    &.yii {
+      height: 1.3125rem;
+    }
+  }
+}

@@ -25,6 +25,9 @@ const configs = {
 	postUrl: "/post",
 	postListUrl: "/post/list",
 	savePostUrl: "/post/save",
+	getPostInfolUrl: "/post/info",
+	getPostDetailUrl: "/post/detail",
+	togglePostStatusUrl: "/post/toggle-status",
 	deletePostUrl: "/post/delete",
 	loginDuration: 3 * 24 * 60 * 60,
 	imageTypes: [

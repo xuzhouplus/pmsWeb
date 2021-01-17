@@ -119,8 +119,17 @@ const Utils = {
 	postList: function (data, callback, fallback) {
 		return this.http('get', configs.proxyBackendHost + configs.postListUrl, data, callback, fallback);
 	},
+	getPostInfo:function (id, callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.getPostInfolUrl, {id: id}, callback, fallback)
+	},
+	getPostDetail: function (id, callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.getPostDetailUrl, {id: id}, callback, fallback)
+	},
 	savePost: function (data, callback, fallback) {
 		return this.http('post', configs.proxyBackendHost + configs.savePostUrl, data, callback, fallback)
+	},
+	togglePostStatus: function (id, callback, fallback) {
+		return this.http('post', configs.proxyBackendHost + configs.togglePostStatusUrl, {id: id}, callback, fallback)
 	},
 	deletePost: function (id, callback, fallback) {
 		return this.http('post', configs.proxyBackendHost + configs.deletePostUrl, {id: id}, callback, fallback)

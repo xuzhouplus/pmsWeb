@@ -1,23 +1,31 @@
 .file-list-container {
   height: 100%;
 
+  .file-header {
+    .file-table-search {
+      justify-content: left;
+    }
+
+    .file-table-buttons {
+      text-align: right;
+    }
+  }
+
   .file-table {
-    overflow: auto;
+    overflow-y: scroll;
 
-    .file-list-box {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-
-      .infinite-scroll-component__outerdiv {
-        width: 100%;
-
-        .infinite-scroll-component {
-          width: 100%;
-          display: flex;
-          flex-wrap: wrap;
-        }
+    .file-table-list {
+      .file-list-box {
+        display: flex;
+        flex-wrap: wrap;
       }
+    }
+  }
+
+  .card-footer {
+    .pagination {
+      margin-bottom: 0;
+      justify-content: flex-end;
     }
   }
 }

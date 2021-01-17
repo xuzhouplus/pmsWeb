@@ -1,33 +1,84 @@
 import React from "react";
 import Utils from "../../utils/Utils";
-import {Col, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import Loading from "../mask/Loading";
+import PostBox from "../../components/post/PostBox";
+import InfiniteScroll from "react-infinite-scroll-component";
+import "./Index.scss";
 
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			search: null
+			cancelTokenSource: null,
+			isLoading: false,
+			search: null,
+			page: 0,
+			count: 0,
+			posts: []
 		}
 	}
 
 	componentDidMount() {
-		Utils.posts({search: this.state.search}, function (response) {
-			console.log(response);
-		}, function (error) {
-			console.log(error);
+		this.getPostList();
+	}
+
+	preview = (index, event) => {
+		event.stopPropagation();
+		let post = this.state.posts[index];
+		window.location.href = '/post/' + post.uuid;
+	}
+
+	getPostList = () => {
+		if (this.state.isLoading) {
+			return;
+		}
+		this.setState({
+			idLoading: true
 		})
+		const cancelTokenSource = Utils.posts({search: this.state.search, page: this.state.page}, response => {
+			console.log(response)
+			if (this.state.cancelTokenSource) {
+				this.setState({
+					page: response.data.page + 1,
+					posts: this.state.posts.concat(response.data.posts),
+					count: response.data.count
+				})
+			}
+		}, error => {
+			console.log(error);
+		});
+		this.setState({
+			cancelTokenSource: cancelTokenSource
+		})
+
+	}
+
+	componentWillUnmount() {
+		if (this.state.cancelTokenSource) {
+			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
+		}
 	}
 
 	render() {
+		let boxList
+		console.log(this.state.posts);
+		if (this.state.posts.length > 0) {
+			boxList = this.state.posts.map((item, index) =>
+				<PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)}></PostBox>
+			);
+			boxList = <InfiniteScroll scrollableTarget="post-index-container" dataLength={this.state.count} next={this.getPostList} hasMore={this.state.page < this.state.count} loader={<Loading></Loading>}>{boxList}</InfiniteScroll>
+		} else {
+			boxList = <Loading></Loading>
+		}
 		return (
-			<Row className="home-container">
-				<Col xs={12} lg={12}>
-					<div className="posts-content h-100 d-flex justify-content-center align-items-center">
-						<Loading></Loading>
-					</div>
-				</Col>
-			</Row>
+			<Container>
+				<Row id="post-index-container" className="post-index-container">
+					<Col xs={12} lg={12} className="post-list-box">
+						{boxList}
+					</Col>
+				</Row>
+			</Container>
 		);
 	}
 }
