@@ -1,0 +1,26 @@
+.google-settings-container {
+  height: 100%;
+
+  .google-settings-table {
+    overflow-y: auto;
+    max-height: 100%;
+
+    .google_app_id {
+      height: 4.375rem;
+    }
+
+    .invalid-tooltip {
+      left: 0.3rem;
+    }
+
+    .google-settings-note {
+      padding-top: 1.25rem;
+      border-top: 1px solid #ced4da;
+    }
+  }
+
+  .google-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

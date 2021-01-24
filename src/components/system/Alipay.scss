@@ -1,0 +1,31 @@
+.alipay-settings-container {
+  height: 100%;
+
+  .alipay-settings-table {
+    overflow-y: auto;
+    max-height: 100%;
+
+    .alipay_app_id {
+      height: 4.375rem;
+    }
+
+    #alipay_app_primary_key,
+    #alipay_public_key {
+      resize: none;
+    }
+
+    .invalid-tooltip {
+      left: 0.3rem;
+    }
+
+    .alipay-settings-note {
+      padding-top: 1.25rem;
+      border-top: 1px solid #ced4da;
+    }
+  }
+
+  .alipay-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

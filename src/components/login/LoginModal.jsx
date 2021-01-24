@@ -152,6 +152,9 @@ class LoginModal extends React.Component {
 						</div>
 					</Form>
 				</Modal.Body>
+				<Modal.Footer>
+					<Image src={process.env.PUBLIC_URL + '/connects/alipay.png'}></Image>
+				</Modal.Footer>
 			</Modal>
 		);
 	}

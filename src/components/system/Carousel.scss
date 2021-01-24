@@ -1,0 +1,13 @@
+.carousel-settings-container {
+  height: 100%;
+
+  .carousel-settings-table {
+    overflow-y: auto;
+    max-height: 100%;
+  }
+
+  .carousel-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

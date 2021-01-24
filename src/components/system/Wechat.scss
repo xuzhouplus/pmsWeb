@@ -1,0 +1,26 @@
+.wechat-settings-container {
+  height: 100%;
+
+  .wechat-settings-table {
+    overflow-y: auto;
+    max-height: 100%;
+
+    .wechat_app_id {
+      height: 4.375rem;
+    }
+
+    .invalid-tooltip {
+      left: 0.3rem;
+    }
+
+    .wechat-settings-note {
+      padding-top: 1.25rem;
+      border-top: 1px solid #ced4da;
+    }
+  }
+
+  .wechat-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

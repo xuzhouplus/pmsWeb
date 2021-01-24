@@ -1,0 +1,26 @@
+.github-settings-container {
+  height: 100%;
+
+  .github-settings-table {
+    overflow-y: auto;
+    max-height: 100%;
+
+    .github_app_id {
+      height: 4.375rem;
+    }
+
+    .invalid-tooltip {
+      left: 0.3rem;
+    }
+
+    .github-settings-note {
+      padding-top: 1.25rem;
+      border-top: 1px solid #ced4da;
+    }
+  }
+
+  .github-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

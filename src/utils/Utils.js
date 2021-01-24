@@ -1,4 +1,4 @@
-import {JSEncrypt} from 'jsencrypt';
+import {JSEncrypt} from 'encryptlong';
 import axios from "axios";
 import configs from "../configs";
 
@@ -6,7 +6,7 @@ const Utils = {
 	login: function (account, password, callback, fallback) {
 		return this.http('post', configs.proxyBackendHost + configs.loginUrl, {
 			account: account,
-			password: this.jsEncrypt(password)
+			password: this.jsEncrypt(password, configs.publicKey)
 		}, callback, fallback)
 	},
 	logout: function (callback, fallback) {
@@ -119,7 +119,7 @@ const Utils = {
 	postList: function (data, callback, fallback) {
 		return this.http('get', configs.proxyBackendHost + configs.postListUrl, data, callback, fallback);
 	},
-	getPostInfo:function (id, callback, fallback) {
+	getPostInfo: function (id, callback, fallback) {
 		return this.http('get', configs.proxyBackendHost + configs.getPostInfolUrl, {id: id}, callback, fallback)
 	},
 	getPostDetail: function (id, callback, fallback) {
@@ -133,6 +133,114 @@ const Utils = {
 	},
 	deletePost: function (id, callback, fallback) {
 		return this.http('post', configs.proxyBackendHost + configs.deletePostUrl, {id: id}, callback, fallback)
+	},
+	baiduPanSettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			data = {data: this.jsEncrypt(data, configs.publicKey)}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.baiduPanSettingsUrl, data, callback, fallback);
+	},
+	alipaySettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			if (data.alipay_app_primary_key) {
+				let that = this;
+				if (data.alipay_app_primary_key.length > 117) {
+					let splits = data.alipay_app_primary_key.match(/.{1,117}/g);
+					data.alipay_app_primary_key = [];
+					splits.forEach(function (entry) {
+						data.alipay_app_primary_key.push(that.jsEncrypt(entry, configs.publicKey));
+					});
+				} else {
+					data.alipay_app_primary_key = this.jsEncrypt(data.alipay_app_primary_key, configs.publicKey);
+				}
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.alipaySettingsUrl, data, callback, fallback);
+	},
+	facebookSettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			if (data.facebook_app_secret) {
+				data.facebook_app_secret = this.jsEncrypt(data.facebook_app_secret, configs.publicKey);
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.facebookSettingUrl, data, callback, fallback);
+	},
+	githubSettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			if (data.github_app_secret) {
+				data.github_app_secret = this.jsEncrypt(data.github_app_secret, configs.publicKey);
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.githubSettingUrl, data, callback, fallback);
+	},
+	googleSettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			if (data.google_app_secret) {
+				data.google_app_secret = this.jsEncrypt(data.google_app_secret, configs.publicKey);
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.googleSettingUrl, data, callback, fallback);
+	},
+	lineSettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			if (data.line_app_secret) {
+				data.line_app_secret = this.jsEncrypt(data.line_app_secret, configs.publicKey);
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.lineSettingUrl, data, callback, fallback);
+	},
+	qqSettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			if (data.qq_app_secret) {
+				data.qq_app_secret = this.jsEncrypt(data.qq_app_secret, configs.publicKey);
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.qqSettingUrl, data, callback, fallback);
+	},
+	twitterSettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			if (data.twitter_app_secret) {
+				data.twitter_app_secret = this.jsEncrypt(data.twitter_app_secret, configs.publicKey);
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.twitterSettingUrl, data, callback, fallback);
+	},
+	wechatSettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			if (data.wechat_app_secret) {
+				data.wechat_app_secret = this.jsEncrypt(data.wechat_app_secret, configs.publicKey);
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.wechatSettingUrl, data, callback, fallback);
+	},
+	weiboSettings: function (type, data, callback, fallback) {
+		if (type == 'post') {
+			if (data.weibo_app_secret) {
+				data.weibo_app_secret = this.jsEncrypt(data.weibo_app_secret, configs.publicKey);
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.weiboSettingUrl, data, callback, fallback);
+	},
+	siteSettings: function (type, data, callback, fallback) {
+		return this.http(type, configs.proxyBackendHost + configs.siteSettingsUrl, data, callback, fallback);
+	},
+	carouselSettings: function (type, data, callback, fallback) {
+		return this.http(type, configs.proxyBackendHost + configs.carouselSettingsUrl, data, callback, fallback);
+	},
+	adminProfile: function (type, data, callback, fallback) {
+		if (type == 'post' && data.password) {
+			data.password = this.jsEncrypt(data.password, configs.publicKey);
+		}
+		return this.http(type, configs.proxyBackendHost + configs.adminProfileUrl, data, callback, fallback);
+	},
+	adminConnects: function (data, callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.adminConnectsUrl, data, callback, fallback);
+	},
+	adminAuthorize: function (data, callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.adminAuthorizeUrl, data, callback, fallback);
+	},
+	adminConnect: function (data, callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.adminConnectUrl, data, callback, fallback);
 	},
 	http: function (type, url, data, callback, fallback) {
 		const CancelToken = axios.CancelToken;
@@ -173,11 +281,17 @@ const Utils = {
 		});
 		return source;
 	},
-	jsEncrypt: function (message) {
-		const key = configs.publicKey;
+	jsEncrypt: function (message, key) {
+		// return QuickEncrypt.encrypt( message, key)
 		const jsencrypt = new JSEncrypt()
 		jsencrypt.setPublicKey(key);
-		return jsencrypt.encrypt(message);
+		return jsencrypt.encryptLong(message);
+	},
+	jsDecrypt: function (message, key) {
+		// return QuickEncrypt.encrypt( message, key)
+		const jsencrypt = new JSEncrypt()
+		jsencrypt.setPrivateKey(key);
+		return jsencrypt.decryptLong(message);
 	},
 	//获取链接中参数的方法
 	getQueryString: function (name) {

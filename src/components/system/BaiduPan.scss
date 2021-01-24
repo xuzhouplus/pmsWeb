@@ -1,0 +1,22 @@
+.baidu-pan-settings-container {
+  height: 100%;
+
+  .baidu-pan-settings-table {
+    overflow-y: auto;
+    max-height: 100%;
+
+    .invalid-tooltip {
+      left: 0.3rem;
+    }
+
+    .baidu-pan-settings-note {
+      padding-top: 1.25rem;
+      border-top: 1px solid #ced4da;
+    }
+  }
+
+  .baidu-pan-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

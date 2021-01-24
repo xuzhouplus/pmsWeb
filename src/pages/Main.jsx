@@ -9,6 +9,7 @@ import AdminNavibar from "../components/navbar/AdminNavibar";
 import {login, logout} from "../redux/Actions";
 import Utils from "../utils/Utils";
 import axios from "axios";
+import Authorize from "./profile/Authorize";
 
 function mapStateToProps(state) {
 	return {
@@ -84,6 +85,11 @@ class Main extends React.Component {
 		const FileView = lazy(() => import('./file/View'));
 		//about
 		const About = lazy(() => import('./about/About'));
+		//settings
+		const Setting = lazy(() => import('./system/Index'));
+		//profile
+		const Profile = lazy(() => import('./profile/Index'));
+		const Authorize = lazy(() => import('./profile/Authorize'));
 		//404
 		const NotFound = lazy(() => import('./NotFound'));
 		let NavigateBar;
@@ -113,6 +119,9 @@ class Main extends React.Component {
 									<Route path="/post/list/:page?" component={PostList}></Route>
 									<Route path="/post/:uuid" component={PostView}></Route>
 									<Route path="/about" exact component={About}></Route>
+									<Route path="/system/:type?" component={Setting}></Route>
+									<Route path="/profile/authorize" exact component={Authorize}></Route>
+									<Route path="/profile/:type?" component={Profile}></Route>
 									<Route path="*" component={NotFound}/>
 								</Switch>
 							</Suspense>

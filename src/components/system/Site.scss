@@ -1,0 +1,12 @@
+.site-settings-container {
+  height: 100%;
+
+  .site-settings-table {
+    overflow-y: auto;
+  }
+
+  .site-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
