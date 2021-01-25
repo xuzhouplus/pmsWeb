@@ -1,9 +1,8 @@
 import React from 'react';
-import {Row, Col, Image} from 'react-bootstrap';
-import './Home.scss';
-import logo from '../../logo.svg'
+import {Row, Col} from 'react-bootstrap';
 import WebGlCarousel from "../../components/carousel/WebGLCarousel";
 import Utils from "../../utils/Utils";
+import './Home.scss';
 
 class Home extends React.Component {
     constructor(props) {
@@ -17,7 +16,7 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
-        if (this.state.carousel.files.length == 0) {
+        if (this.state.carousel.files.length === 0) {
             Utils.carousel(function (response) {
                 console.log(response);
             });

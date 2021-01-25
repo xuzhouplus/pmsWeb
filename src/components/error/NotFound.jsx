@@ -4,7 +4,7 @@ import React
 class NotFound extends React.Component {
 	render () {
 		return (
-			<div>
+			<div className="full_container">
 				404
 			</div>
 		)

@@ -53,7 +53,7 @@ class Line extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id] == '') {
+		if (state.settings[event.target.id] === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -69,7 +69,7 @@ class Line extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.line_app_id == '') {
+		if (settings.line_app_id === '') {
 			this.setState({
 				line_app_id: {
 					isInvalid: true,
@@ -79,7 +79,7 @@ class Line extends React.Component {
 			})
 			return;
 		}
-		if (settings.line_app_secret == '' && (!this.state.line_app_secret.inputted)) {
+		if (settings.line_app_secret === '' && (!this.state.line_app_secret.inputted)) {
 			this.setState({
 				line_app_secret: {
 					isInvalid: true,
@@ -125,7 +125,7 @@ class Line extends React.Component {
 						</Form.Row>
 						<div className="line-settings-note">
 							<p>配置 Line 对接配置后，可以在账号管理页面绑定 Line 账号，可以使用 Line 授权登录。</p>
-							<p>Line 配置信息需要访问<a href="https://developers.line.biz/zh-hant/docs/line-login/overview/" target="_blank"> Line Developers </a>获取。</p>
+							<p>Line 配置信息需要访问<a href="https://developers.line.biz/zh-hant/docs/line-login/overview/" target="_blank" rel="noreferrer noopener"> Line Developers </a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="line-settings-footer">

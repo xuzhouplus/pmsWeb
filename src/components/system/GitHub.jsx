@@ -55,7 +55,7 @@ class GitHub extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id] == '') {
+		if (state.settings[event.target.id] === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -71,7 +71,7 @@ class GitHub extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.github_app_name == '') {
+		if (settings.github_app_name === '') {
 			this.setState({
 				github_public_key: {
 					isInvalid: true,
@@ -81,7 +81,7 @@ class GitHub extends React.Component {
 			})
 			return;
 		}
-		if (settings.github_app_id == '') {
+		if (settings.github_app_id === '') {
 			this.setState({
 				github_app_id: {
 					isInvalid: true,
@@ -91,7 +91,7 @@ class GitHub extends React.Component {
 			})
 			return;
 		}
-		if (settings.github_app_secret == '' && (!this.state.github_app_secret.inputted)) {
+		if (settings.github_app_secret === '' && (!this.state.github_app_secret.inputted)) {
 			this.setState({
 				github_app_secret: {
 					isInvalid: true,
@@ -145,7 +145,7 @@ class GitHub extends React.Component {
 						</Form.Row>
 						<div className="github-settings-note">
 							<p>配置 GitHub 对接配置后，可以在账号管理页面绑定 GitHub 账号，可以使用 GitHub 授权登录。</p>
-							<p>GitHub 配置信息需要访问<a href="https://docs.github.com/en/developers/apps/authorizing-oauth-apps" target="_blank"> GitHub Docs </a>获取。</p>
+							<p>GitHub 配置信息需要访问<a href="https://docs.github.com/en/developers/apps/authorizing-oauth-apps" target="_blank" rel="noreferrer noopener"> GitHub Docs </a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="github-settings-footer">

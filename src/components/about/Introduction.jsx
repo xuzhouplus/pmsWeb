@@ -13,8 +13,8 @@ class Introduction extends Component {
 						<div><h3 className="name">徐州</h3>
 							<div className="english-name">Bill</div>
 						</div>
-						<div><a href="mailto:xuzhouplus@gmail.com" target="_blank">xuzhouplus@gmail.com</a></div>
-						<div><a href="https://github.com/xuzhouplus" target="_blank">https://github.com/xuzhouplus</a></div>
+						<div><a href="mailto:xuzhouplus@gmail.com" target="_blank" rel="noreferrer noopener">xuzhouplus@gmail.com</a></div>
+						<div><a href="https://github.com/xuzhouplus" target="_blank" rel="noreferrer noopener">https://github.com/xuzhouplus</a></div>
 						<div>电子科技大学成都学院</div>
 						<div>成都华栖云科技有限公司</div>
 						<div>Linux、Docker、Vagrant</div>

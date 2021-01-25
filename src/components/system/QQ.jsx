@@ -53,7 +53,7 @@ class QQ extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id] == '') {
+		if (state.settings[event.target.id] === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -69,7 +69,7 @@ class QQ extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.qq_app_id == '') {
+		if (settings.qq_app_id === '') {
 			this.setState({
 				qq_app_id: {
 					isInvalid: true,
@@ -79,7 +79,7 @@ class QQ extends React.Component {
 			})
 			return;
 		}
-		if (settings.qq_app_secret == '' && (!this.state.qq_app_secret.inputted)) {
+		if (settings.qq_app_secret === '' && (!this.state.qq_app_secret.inputted)) {
 			this.setState({
 				qq_app_secret: {
 					isInvalid: true,
@@ -125,7 +125,7 @@ class QQ extends React.Component {
 						</Form.Row>
 						<div className="qq-settings-note">
 							<p>配置 QQ 对接配置后，可以在账号管理页面绑定 QQ 账号，可以使用 QQ 授权登录。</p>
-							<p> QQ 配置信息需要访问<a href="https://wiki.connect.qq.com/" target="_blank"> QQ 互联</a>获取。</p>
+							<p> QQ 配置信息需要访问<a href="https://wiki.connect.qq.com/" target="_blank" rel="noreferrer noopener"> QQ 互联</a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="qq-settings-footer">

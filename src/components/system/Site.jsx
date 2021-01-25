@@ -1,9 +1,9 @@
 import React from "react";
 import Utils from "../../utils/Utils";
 import Swal from "sweetalert2";
-import {Button, Card, Col, Form} from "react-bootstrap";
-import "./Site.scss";
+import {Button, Card, Form} from "react-bootstrap";
 import Loading from "../loading/Loading";
+import "./Site.scss";
 
 class Site extends React.Component {
 	constructor(props) {
@@ -35,7 +35,7 @@ class Site extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id].value == '') {
+		if (state.settings[event.target.id].value === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -55,7 +55,7 @@ class Site extends React.Component {
 		for (let key in settings) {
 			let setting = settings[key];
 			console.log(setting);
-			if (setting.value == '') {
+			if (setting.value === '') {
 				let state = {
 					key: {
 						text: '请输入' + setting.name,
@@ -88,39 +88,40 @@ class Site extends React.Component {
 				let options;
 				let items = [];
 				switch (setting.type) {
-					case 'input':
-						control = <Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}/>
-						break;
 					case 'textarea':
 						control = <Form.Control as="textarea" onChange={this.handleChange} onBlur={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}/>
 						break;
 					case 'select':
 						options = JSON.parse(setting.options);
 						for (let key in options) {
-							items.push(<option key={key} selected={setting.value == key}>{options[key]}</option>);
+							items.push(<option key={key} selected={setting.value === key}>{options[key]}</option>);
 						}
 						control = <Form.Control as="select" onChange={this.handleChange} onBlur={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}>{items}</Form.Control>
 						break;
 					case 'multiSelect':
 						options = JSON.parse(setting.options);
 						for (let key in options) {
-							items.push(<option key={key} selected={setting.value == key}>{options[key]}</option>);
+							items.push(<option key={key} selected={setting.value === key}>{options[key]}</option>);
 						}
 						control = <Form.Control as="select" multiple onChange={this.handleChange} onBlur={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}>{items}</Form.Control>
 						break;
 					case 'checkbox':
 						options = JSON.parse(setting.options);
 						for (let key in options) {
-							items.push(<Form.Check inline key={key} label={options[key]} type="checkbox" id={key} checked={setting.value == key}/>);
+							items.push(<Form.Check inline key={key} label={options[key]} type="checkbox" id={key} checked={setting.value === key}/>);
 						}
 						control = <div>{items}</div>
 						break;
 					case 'radio':
 						options = JSON.parse(setting.options);
 						for (let key in options) {
-							items.push(<Form.Check inline key={key} label={options[key]} type="radio" id={key} checked={setting.value == key}/>);
+							items.push(<Form.Check inline key={key} label={options[key]} type="radio" id={key} checked={setting.value === key}/>);
 						}
 						control = <div>{items}</div>
+						break;
+					case 'input':
+					default:
+						control = <Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}/>
 						break;
 				}
 				formContent.push(<Form.Group key={setting.key} controlId={setting.key} className="position-relative">

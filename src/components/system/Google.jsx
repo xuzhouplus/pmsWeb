@@ -53,7 +53,7 @@ class Google extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id] == '') {
+		if (state.settings[event.target.id] === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -69,7 +69,7 @@ class Google extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.google_app_id == '') {
+		if (settings.google_app_id === '') {
 			this.setState({
 				google_app_id: {
 					isInvalid: true,
@@ -79,7 +79,7 @@ class Google extends React.Component {
 			})
 			return;
 		}
-		if (settings.google_app_secret == '' && (!this.state.google_app_secret.inputted)) {
+		if (settings.google_app_secret === '' && (!this.state.google_app_secret.inputted)) {
 			this.setState({
 				google_app_secret: {
 					isInvalid: true,
@@ -125,7 +125,7 @@ class Google extends React.Component {
 						</Form.Row>
 						<div className="google-settings-note">
 							<p>配置 Google 对接配置后，可以在账号管理页面绑定 Google 账号，可以使用 Google 授权登录。</p>
-							<p>Google  配置信息需要访问<a href="https://developers.google.com/identity/protocols/oauth2" target="_blank"> Google Developers </a>获取。</p>
+							<p>Google  配置信息需要访问<a href="https://developers.google.com/identity/protocols/oauth2" target="_blank" rel="noreferrer noopener"> Google Developers </a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="google-settings-footer">

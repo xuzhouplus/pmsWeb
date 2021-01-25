@@ -14,10 +14,10 @@ class Index extends React.Component {
 					<Card>
 						<Card.Body>
 							<ListGroup as="ul">
-								<ListGroup.Item action active={this.props.match.params.type == ""} disabled={this.props.match.params.type == ""} href="/profile">
+								<ListGroup.Item action active={this.props.match.params.type === ""} disabled={this.props.match.params.type === ""} href="/profile">
 									基础配置
 								</ListGroup.Item>
-								<ListGroup.Item action active={this.props.match.params.type == "connect"} disabled={this.props.match.params.type == "connect"} href="/profile/connect">
+								<ListGroup.Item action active={this.props.match.params.type === "connect"} disabled={this.props.match.params.type === "connect"} href="/profile/connect">
 									第三方互联
 								</ListGroup.Item>
 							</ListGroup>

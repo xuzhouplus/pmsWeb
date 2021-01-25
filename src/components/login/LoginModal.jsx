@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, Button, Modal, Image} from 'react-bootstrap';
-import './Login.scss';
 import Utils from '../../utils/Utils';
+import './Login.scss';
 
 class LoginModal extends React.Component {
 	constructor(props) {
@@ -34,7 +34,7 @@ class LoginModal extends React.Component {
 			status: 'logging'
 		})
 		let loginAccount = this.state.account;
-		if (loginAccount.value == "") {
+		if (loginAccount.value === "") {
 			loginAccount.text = "请输入登录账号";
 			loginAccount.isInvalid = true;
 			loginAccount.isValid = false;
@@ -45,7 +45,7 @@ class LoginModal extends React.Component {
 			return
 		}
 		let loginPassword = this.state.password;
-		if (loginPassword.value == "") {
+		if (loginPassword.value === "") {
 			loginPassword.text = "请输入登录密码";
 			loginPassword.isInvalid = true;
 			loginPassword.isValid = false;
@@ -75,7 +75,7 @@ class LoginModal extends React.Component {
 		switch (event.target.type) {
 			case "text":
 				let loginAccount = this.state.account;
-				if (inputValue == "") {
+				if (inputValue === "") {
 					loginAccount.text = "请输入登录账号";
 					loginAccount.isInvalid = true;
 					loginAccount.isValid = false;
@@ -92,7 +92,7 @@ class LoginModal extends React.Component {
 				break;
 			case "password":
 				let loginPassword = this.state.password;
-				if (inputValue == "") {
+				if (inputValue === "") {
 					loginPassword.text = "请输入登录密码";
 					loginPassword.isInvalid = true;
 					loginPassword.isValid = false;
@@ -107,13 +107,18 @@ class LoginModal extends React.Component {
 					password: loginPassword
 				});
 				break;
+			default:
+			//@todo nothing
 		}
 	}
 	connectToWechat = () => {
+		//@todo nothing
 	}
 	connectToQQ = () => {
+		//@todo nothing
 	}
 	connectToWeibo = () => {
+		//@todo nothing
 	}
 
 	componentWillUnmount() {
@@ -147,7 +152,7 @@ class LoginModal extends React.Component {
 							</Form.Control.Feedback>
 						</Form.Group>
 						<div className="form-button">
-							<Button variant="primary" className={this.state.status == 'logging' ? 'logging' : ''} type="button" onClick={this.handleSubmit}>
+							<Button variant="primary" className={this.state.status === 'logging' ? 'logging' : ''} type="button" onClick={this.handleSubmit}>
 							</Button>
 						</div>
 					</Form>

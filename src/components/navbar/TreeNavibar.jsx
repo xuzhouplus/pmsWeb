@@ -11,13 +11,13 @@ class TreeNavibar extends React.Component {
 					<Card>
 						<Card.Body>
 							<ListGroup as="ul">
-								<ListGroup.Item action active={this.props.active == "file"} disabled={this.props.active == "file"} href="/file/list">
+								<ListGroup.Item action active={this.props.active === "file"} disabled={this.props.active === "file"} href="/file/list">
 									文件管理
 								</ListGroup.Item>
-								<ListGroup.Item action active={this.props.active == "carousel"} disabled={this.props.active == "carousel"} href="/carousel">
+								<ListGroup.Item action active={this.props.active === "carousel"} disabled={this.props.active === "carousel"} href="/carousel">
 									轮播管理
 								</ListGroup.Item>
-								<ListGroup.Item action active={this.props.active == "post"} disabled={this.props.active == "post"} href="/post/list">
+								<ListGroup.Item action active={this.props.active === "post"} disabled={this.props.active === "post"} href="/post/list">
 									稿件管理
 								</ListGroup.Item>
 							</ListGroup>

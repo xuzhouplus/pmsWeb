@@ -41,7 +41,7 @@ class Authorize extends React.Component {
 							</Card.Footer>
 						</Card>
 						<div className="admin-connect-note">
-							<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank">iconfont - 阿里巴巴矢量图标库</a>
+							<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank" rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>
 						</div>
 					</Card.Body>
 				</Card>

@@ -9,7 +9,6 @@ import AdminNavibar from "../components/navbar/AdminNavibar";
 import {login, logout} from "../redux/Actions";
 import Utils from "../utils/Utils";
 import axios from "axios";
-import Authorize from "./profile/Authorize";
 
 function mapStateToProps(state) {
 	return {
@@ -93,7 +92,6 @@ class Main extends React.Component {
 		//404
 		const NotFound = lazy(() => import('./NotFound'));
 		let NavigateBar;
-		console.log(this.props.account);
 		if (this.props.account && this.props.account.uuid) {
 			NavigateBar = <AdminNavibar account={this.props.account} logout={this.logout}></AdminNavibar>
 		} else {

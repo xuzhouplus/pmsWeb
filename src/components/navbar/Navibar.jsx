@@ -28,7 +28,6 @@ class Navibar extends React.Component {
 	}
 
 	handleModal = () => {
-		console.log(this.state);
 		this.setState({
 			loginModal: !this.state.loginModal
 		})
@@ -45,7 +44,7 @@ class Navibar extends React.Component {
 			<Navbar>
 				{loginModal}
 				<Navbar.Brand href="/">
-					<Image src={logo} rounded className="brand-img" alt={'home'}/>
+					<Image src={logo} rounded className="brand-img" alt="Home"/>
 					<div className="brand-text">React-Bootstrap</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav"/>

@@ -53,7 +53,7 @@ class Twitter extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id] == '') {
+		if (state.settings[event.target.id] === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -69,7 +69,7 @@ class Twitter extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.twitter_app_id == '') {
+		if (settings.twitter_app_id === '') {
 			this.setState({
 				twitter_app_id: {
 					isInvalid: true,
@@ -79,7 +79,7 @@ class Twitter extends React.Component {
 			})
 			return;
 		}
-		if (settings.twitter_app_secret == '' && (!this.state.twitter_app_secret.inputted)) {
+		if (settings.twitter_app_secret === '' && (!this.state.twitter_app_secret.inputted)) {
 			this.setState({
 				twitter_app_secret: {
 					isInvalid: true,
@@ -125,7 +125,7 @@ class Twitter extends React.Component {
 						</Form.Row>
 						<div className="twitter-settings-note">
 							<p>配置 Twitter 对接配置后，可以在账号管理页面绑定 Twitter 账号，可以使用 Twitter 授权登录。</p>
-							<p>Twitter 配置信息需要访问<a href="https://developer.twitter.com/en/docs/authentication" target="_blank"> Twitter Developers </a>获取。</p>
+							<p>Twitter 配置信息需要访问<a href="https://developer.twitter.com/en/docs/authentication" target="_blank" rel="noreferrer noopener"> Twitter Developers </a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="twitter-settings-footer">

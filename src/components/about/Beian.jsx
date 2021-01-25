@@ -6,8 +6,7 @@ class Beian extends React.Component {
 			<div className="row justify-content-center navbar navbar-dark bg-dark">
 				<ul className="navbar-nav">
 					<li className="nav-item home">
-						<a href="http://www.beian.miit.gov.cn/" target="_blank"
-						   className="nav-link">蜀ICP备18021274号</a>
+						<a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noreferrer noopener" className="nav-link">蜀ICP备18021274号</a>
 					</li>
 				</ul>
 			</div>

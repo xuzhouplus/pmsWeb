@@ -14,7 +14,6 @@ class About extends React.Component {
 	}
 
 	componentDidMount() {
-		let messageContainer = document.getElementById('message-container');
 		let startText = document.getElementById('start-text');
 		let middleSchool = document.getElementById('middle-school');
 		let collegeSchool = document.getElementById('college-school');

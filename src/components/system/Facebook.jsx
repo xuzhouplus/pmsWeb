@@ -53,7 +53,7 @@ class Facebook extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id] == '') {
+		if (state.settings[event.target.id] === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -69,7 +69,7 @@ class Facebook extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.facebook_app_id == '') {
+		if (settings.facebook_app_id === '') {
 			this.setState({
 				facebook_app_id: {
 					isInvalid: true,
@@ -79,7 +79,7 @@ class Facebook extends React.Component {
 			})
 			return;
 		}
-		if (settings.facebook_app_secret == '' && (!this.state.facebook_app_secret.inputted)) {
+		if (settings.facebook_app_secret === '' && (!this.state.facebook_app_secret.inputted)) {
 			this.setState({
 				facebook_app_secret: {
 					isInvalid: true,
@@ -125,7 +125,7 @@ class Facebook extends React.Component {
 						</Form.Row>
 						<div className="facebook-settings-note">
 							<p>配置 Facebook 对接配置后，可以在账号管理页面绑定 Facebook 账号，可以使用 Facebook 授权登录。</p>
-							<p>Facebook 配置信息需要访问<a href="https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow#login" target="_blank"> Facebook for Developers </a>获取。</p>
+							<p>Facebook 配置信息需要访问<a href="https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow#login" target="_blank" rel="noreferrer noopener"> Facebook for Developers </a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="facebook-settings-footer">

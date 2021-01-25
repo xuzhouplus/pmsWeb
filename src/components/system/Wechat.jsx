@@ -53,7 +53,7 @@ class Wechat extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id] == '') {
+		if (state.settings[event.target.id] === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -69,7 +69,7 @@ class Wechat extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.wechat_app_id == '') {
+		if (settings.wechat_app_id === '') {
 			this.setState({
 				wechat_app_id: {
 					isInvalid: true,
@@ -79,7 +79,7 @@ class Wechat extends React.Component {
 			})
 			return;
 		}
-		if (settings.wechat_app_secret == '' && (!this.state.wechat_app_secret.inputted)) {
+		if (settings.wechat_app_secret === '' && (!this.state.wechat_app_secret.inputted)) {
 			this.setState({
 				wechat_app_secret: {
 					isInvalid: true,
@@ -125,7 +125,7 @@ class Wechat extends React.Component {
 						</Form.Row>
 						<div className="wechat-settings-note">
 							<p>配置微信对接配置后，可以在账号管理页面绑定微信账号，可以使用微信授权登录。</p>
-							<p>微信配置信息需要访问<a href="https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html" target="_blank">微信开放平台</a>获取。</p>
+							<p>微信配置信息需要访问<a href="https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html" target="_blank" rel="noreferrer noopener">微信开放平台</a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="wechat-settings-footer">

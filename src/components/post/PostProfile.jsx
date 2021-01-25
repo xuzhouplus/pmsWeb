@@ -23,7 +23,6 @@ class PostProfile extends React.Component {
 	}
 
 	selectFile = (file) => {
-		console.log(file);
 		this.setState({
 			cover: file
 		})
@@ -39,7 +38,7 @@ class PostProfile extends React.Component {
 		switch (event.target.id) {
 			case "input-title":
 				let title = this.state.title;
-				if (inputValue == "") {
+				if (inputValue === "") {
 					title['text'] = "请输入" + title.label;
 					title['isInvalid'] = true;
 					title['isValid'] = false;
@@ -56,7 +55,7 @@ class PostProfile extends React.Component {
 				break;
 			case "input-sub-title":
 				let subTitle = this.state.subTitle;
-				if (inputValue == "") {
+				if (inputValue === "") {
 					subTitle['text'] = "请输入" + subTitle.label;
 					subTitle['isInvalid'] = true;
 					subTitle['isValid'] = false;
@@ -71,6 +70,8 @@ class PostProfile extends React.Component {
 					subTitle: subTitle
 				});
 				break;
+			default:
+				//@todo nothing
 		}
 	}
 	handleSubmit = (status, event) => {
@@ -120,7 +121,7 @@ class PostProfile extends React.Component {
 		let previewBox = '';
 		console.log(this.state.cover.thumb);
 		if (this.state.cover.thumb || this.state.cover.path) {
-			previewBox = <img src={this.state.cover.thumb ? this.state.cover.thumb : this.state.cover.path}/>;
+			previewBox = <img src={this.state.cover.thumb ? this.state.cover.thumb : this.state.cover.path} alt="Cover"/>;
 		}
 		let selectFileModal
 		if (this.state.showSelect) {

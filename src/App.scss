@@ -40,6 +40,40 @@
   background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
+.bg-main-color-transparent {
+  color: #F8F8F8;
+  background-color: var(--main-color-transparent);
+  border-color: var(--main-color-transparent);
+}
+
+.bg-main-color {
+  color: #F8F8F8;
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.btn-main-color {
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.full_container {
+  width: 100% !important;
+  height: calc(100vh - 112px) !important;
+  margin: 56px 0;
+}
+
+.full_screen {
+  width: 100% !important;
+  height: 100vh !important;
+}
+
+.direct-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .app-container {
   .btn,
   .form-control {
@@ -48,28 +82,6 @@
       outline: none;
       box-shadow: none;
     }
-  }
-
-  .btn-main-color {
-    background-color: var(--main-color);
-    border-color: var(--main-color);
-  }
-
-  .full_container {
-    width: 100% !important;
-    height: calc(100vh - 112px) !important;
-    margin: 56px 0;
-  }
-
-  .full_screen {
-    width: 100% !important;
-    height: 100vh !important;
-  }
-
-  .direct-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .app-header {

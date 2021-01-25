@@ -16,8 +16,7 @@ class Connect extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			connects: [],
-			authorize: 'https://www.baidu.com'
+			connects: []
 		}
 	}
 
@@ -90,8 +89,14 @@ class Connect extends React.Component {
 										微博
 									</Card.Footer>
 								</Card>
-							</div>
-							<div className="admin-connect-row">
+								<Card onClick={this.handleClick.bind(this, 'baidu')}>
+									<Card.Body>
+										<Card.Img src={process.env.PUBLIC_URL + '/connects/baidu.png'}></Card.Img>
+									</Card.Body>
+									<Card.Footer>
+										百度
+									</Card.Footer>
+								</Card>
 								<Card onClick={this.handleClick.bind(this, 'github')}>
 									<Card.Body>
 										<Card.Img src={process.env.PUBLIC_URL + '/connects/github.png'}></Card.Img>
@@ -135,7 +140,7 @@ class Connect extends React.Component {
 							</div>
 						</div>
 						<div className="admin-connect-note">
-							<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank">iconfont - 阿里巴巴矢量图标库</a>
+							<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank" rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>
 						</div>
 					</Card.Body>
 				</Card>

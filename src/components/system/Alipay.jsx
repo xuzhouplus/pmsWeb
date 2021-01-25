@@ -55,7 +55,7 @@ class Alipay extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id] == '') {
+		if (state.settings[event.target.id] === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -71,7 +71,7 @@ class Alipay extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.alipay_app_id == '') {
+		if (settings.alipay_app_id === '') {
 			this.setState({
 				alipay_app_id: {
 					isInvalid: true,
@@ -81,7 +81,7 @@ class Alipay extends React.Component {
 			})
 			return;
 		}
-		if (settings.alipay_app_primary_key == '' && (!this.state.alipay_app_primary_key.inputted)) {
+		if (settings.alipay_app_primary_key === '' && (!this.state.alipay_app_primary_key.inputted)) {
 			this.setState({
 				alipay_app_primary_key: {
 					isInvalid: true,
@@ -92,7 +92,7 @@ class Alipay extends React.Component {
 			})
 			return;
 		}
-		if (settings.alipay_public_key == '') {
+		if (settings.alipay_public_key === '') {
 			this.setState({
 				alipay_public_key: {
 					isInvalid: true,
@@ -145,7 +145,7 @@ class Alipay extends React.Component {
 						</Form.Row>
 						<div className="alipay-settings-note">
 							<p>配置支付宝对接配置后，可以在账号管理页面绑定支付宝账号，可以使用支付宝授权登录。</p>
-							<p>支付宝配置信息需要访问<a href="https://open.alipay.com/" target="_blank">支付宝开放平台</a>获取。</p>
+							<p>支付宝配置信息需要访问<a href="https://open.alipay.com/" target="_blank" rel="noreferrer noopener">支付宝开放平台</a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="alipay-settings-footer">

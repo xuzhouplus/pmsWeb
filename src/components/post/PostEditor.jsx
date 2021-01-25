@@ -62,7 +62,7 @@ class PostEditor extends React.Component {
 
 	render() {
 		let editorComponent = null;
-		if (this.state.type == 'md') {
+		if (this.state.type === 'md') {
 			editorComponent = <PostMdEditor value={this.state.mdeValue} onChange={this.handleEditorChange}></PostMdEditor>
 		}
 		let profileComponent

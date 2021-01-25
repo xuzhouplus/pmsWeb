@@ -53,7 +53,7 @@ class Weibo extends React.Component {
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id] == '') {
+		if (state.settings[event.target.id] === '') {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
@@ -69,7 +69,7 @@ class Weibo extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.weibo_app_id == '') {
+		if (settings.weibo_app_id === '') {
 			this.setState({
 				weibo_app_id: {
 					isInvalid: true,
@@ -79,7 +79,7 @@ class Weibo extends React.Component {
 			})
 			return;
 		}
-		if (settings.weibo_app_secret == '' && (!this.state.weibo_app_secret.inputted)) {
+		if (settings.weibo_app_secret === '' && (!this.state.weibo_app_secret.inputted)) {
 			this.setState({
 				weibo_app_secret: {
 					isInvalid: true,
@@ -125,7 +125,7 @@ class Weibo extends React.Component {
 						</Form.Row>
 						<div className="weibo-settings-note">
 							<p>配置微博对接配置后，可以在账号管理页面绑定微博账号，可以使用微博授权登录。</p>
-							<p>微博配置信息需要访问<a href="https://open.weibo.com/authentication/" target="_blank">微博开放平台</a>获取。</p>
+							<p>微博配置信息需要访问<a href="https://open.weibo.com/authentication/" target="_blank" rel="noreferrer noopener">微博开放平台</a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="weibo-settings-footer">

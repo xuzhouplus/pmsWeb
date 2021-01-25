@@ -5,7 +5,7 @@ class Loading extends React.Component {
     render() {
         return (
             <div className="loading-component">
-                <img src={process.env.PUBLIC_URL + '/logo.gif'} alt=""/>
+                <img src={process.env.PUBLIC_URL + '/logo.gif'} alt="Loading"/>
             </div>
         )
     }

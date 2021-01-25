@@ -50,7 +50,7 @@ class CarouselCreateModal extends React.Component {
 
 	handleSubmit = () => {
 		let title = this.state.title;
-		if (title.value == "") {
+		if (title.value === "") {
 			title['text'] = "请输入" + title.label;
 			title['isInvalid'] = true;
 			title['isValid'] = false;
@@ -60,7 +60,7 @@ class CarouselCreateModal extends React.Component {
 			return;
 		}
 		let description = this.state.description;
-		if (description.value == "") {
+		if (description.value === "") {
 			description['text'] = "请输入" + description.label;
 			description['isInvalid'] = true;
 			description['isValid'] = false;
@@ -70,7 +70,7 @@ class CarouselCreateModal extends React.Component {
 			return;
 		}
 		let link = this.state.link;
-		if (link.value == "") {
+		if (link.value === "") {
 			link['text'] = "请输入" + link.label;
 			link['isInvalid'] = true;
 			link['isValid'] = false;
@@ -80,7 +80,6 @@ class CarouselCreateModal extends React.Component {
 			return;
 		}
 		const that = this;
-		console.log(that.props)
 		const cancelTokenSource = Utils.createCarousel({
 			file_id: this.state.file.id,
 			title: this.state.title.value,
@@ -92,7 +91,7 @@ class CarouselCreateModal extends React.Component {
 		}, function (response) {
 			console.log(response);
 			if (that.state.cancelTokenSource) {
-				if (response.code == 1) {
+				if (response.code === 1) {
 					that.props.afterSubmit(response.data);
 				} else {
 
@@ -110,7 +109,7 @@ class CarouselCreateModal extends React.Component {
 		switch (event.target.id) {
 			case "input-title":
 				let title = this.state.title;
-				if (inputValue == "") {
+				if (inputValue === "") {
 					title['text'] = "请输入" + title.label;
 					title['isInvalid'] = true;
 					title['isValid'] = false;
@@ -127,7 +126,7 @@ class CarouselCreateModal extends React.Component {
 				break;
 			case "input-description":
 				let description = this.state.description;
-				if (inputValue == "") {
+				if (inputValue === "") {
 					description['text'] = "请输入" + description.label;
 					description['isInvalid'] = true;
 					description['isValid'] = false;
@@ -144,7 +143,7 @@ class CarouselCreateModal extends React.Component {
 				break;
 			case "input-link":
 				let link = this.state.link;
-				if (inputValue == "") {
+				if (inputValue === "") {
 					link['text'] = "请输入" + link.label;
 					link['isInvalid'] = true;
 					link['isValid'] = false;
@@ -160,7 +159,7 @@ class CarouselCreateModal extends React.Component {
 				});
 				break;
 			case "input-order":
-				if (inputValue == '') {
+				if (inputValue === '') {
 					inputValue = 99;
 				} else {
 					inputValue = parseInt(inputValue);
@@ -176,6 +175,9 @@ class CarouselCreateModal extends React.Component {
 				this.setState({
 					order: order
 				});
+				break;
+			default:
+				//@todo nothing
 				break;
 		}
 	}
@@ -206,7 +208,7 @@ class CarouselCreateModal extends React.Component {
 			<div className="file-add-note">选择已上传的文件</div>
 		</div>;
 		if (this.state.file.id) {
-			addPlaceholder = <img src={this.state.file.preview}/>
+			addPlaceholder = <img src={this.state.file.preview} alt="preview"/>
 		}
 		return (
 			<Modal className="carousel-create-modal" centered show={this.props.show} onHide={this.props.handleModal}>
@@ -248,7 +250,7 @@ class CarouselCreateModal extends React.Component {
 							</Form.Control.Feedback>
 						</Form.Group>
 						<div className="form-button">
-							<Button variant="primary" className={this.state.status == 'uploading' ? 'uploading' : ''} type="button" onClick={this.handleSubmit}>
+							<Button variant="primary" className={this.state.status === 'uploading' ? 'uploading' : ''} type="button" onClick={this.handleSubmit}>
 							</Button>
 						</div>
 					</Form>

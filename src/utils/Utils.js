@@ -134,14 +134,16 @@ const Utils = {
 	deletePost: function (id, callback, fallback) {
 		return this.http('post', configs.proxyBackendHost + configs.deletePostUrl, {id: id}, callback, fallback)
 	},
-	baiduPanSettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
-			data = {data: this.jsEncrypt(data, configs.publicKey)}
+	baiduSettings: function (type, data, callback, fallback) {
+		if (type === 'post') {
+			if (data.baidu_secret_key) {
+				data.baidu_secret_key = this.jsEncrypt(data.baidu_secret_key, configs.publicKey);
+			}
 		}
-		return this.http(type, configs.proxyBackendHost + configs.baiduPanSettingsUrl, data, callback, fallback);
+		return this.http(type, configs.proxyBackendHost + configs.baiduSettingsUrl, data, callback, fallback);
 	},
 	alipaySettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
+		if (type === 'post') {
 			if (data.alipay_app_primary_key) {
 				let that = this;
 				if (data.alipay_app_primary_key.length > 117) {
@@ -158,7 +160,7 @@ const Utils = {
 		return this.http(type, configs.proxyBackendHost + configs.alipaySettingsUrl, data, callback, fallback);
 	},
 	facebookSettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
+		if (type === 'post') {
 			if (data.facebook_app_secret) {
 				data.facebook_app_secret = this.jsEncrypt(data.facebook_app_secret, configs.publicKey);
 			}
@@ -166,7 +168,7 @@ const Utils = {
 		return this.http(type, configs.proxyBackendHost + configs.facebookSettingUrl, data, callback, fallback);
 	},
 	githubSettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
+		if (type === 'post') {
 			if (data.github_app_secret) {
 				data.github_app_secret = this.jsEncrypt(data.github_app_secret, configs.publicKey);
 			}
@@ -174,7 +176,7 @@ const Utils = {
 		return this.http(type, configs.proxyBackendHost + configs.githubSettingUrl, data, callback, fallback);
 	},
 	googleSettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
+		if (type === 'post') {
 			if (data.google_app_secret) {
 				data.google_app_secret = this.jsEncrypt(data.google_app_secret, configs.publicKey);
 			}
@@ -182,7 +184,7 @@ const Utils = {
 		return this.http(type, configs.proxyBackendHost + configs.googleSettingUrl, data, callback, fallback);
 	},
 	lineSettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
+		if (type === 'post') {
 			if (data.line_app_secret) {
 				data.line_app_secret = this.jsEncrypt(data.line_app_secret, configs.publicKey);
 			}
@@ -190,7 +192,7 @@ const Utils = {
 		return this.http(type, configs.proxyBackendHost + configs.lineSettingUrl, data, callback, fallback);
 	},
 	qqSettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
+		if (type === 'post') {
 			if (data.qq_app_secret) {
 				data.qq_app_secret = this.jsEncrypt(data.qq_app_secret, configs.publicKey);
 			}
@@ -198,7 +200,7 @@ const Utils = {
 		return this.http(type, configs.proxyBackendHost + configs.qqSettingUrl, data, callback, fallback);
 	},
 	twitterSettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
+		if (type === 'post') {
 			if (data.twitter_app_secret) {
 				data.twitter_app_secret = this.jsEncrypt(data.twitter_app_secret, configs.publicKey);
 			}
@@ -206,7 +208,7 @@ const Utils = {
 		return this.http(type, configs.proxyBackendHost + configs.twitterSettingUrl, data, callback, fallback);
 	},
 	wechatSettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
+		if (type === 'post') {
 			if (data.wechat_app_secret) {
 				data.wechat_app_secret = this.jsEncrypt(data.wechat_app_secret, configs.publicKey);
 			}
@@ -214,7 +216,7 @@ const Utils = {
 		return this.http(type, configs.proxyBackendHost + configs.wechatSettingUrl, data, callback, fallback);
 	},
 	weiboSettings: function (type, data, callback, fallback) {
-		if (type == 'post') {
+		if (type === 'post') {
 			if (data.weibo_app_secret) {
 				data.weibo_app_secret = this.jsEncrypt(data.weibo_app_secret, configs.publicKey);
 			}
@@ -228,7 +230,7 @@ const Utils = {
 		return this.http(type, configs.proxyBackendHost + configs.carouselSettingsUrl, data, callback, fallback);
 	},
 	adminProfile: function (type, data, callback, fallback) {
-		if (type == 'post' && data.password) {
+		if (type === 'post' && data.password) {
 			data.password = this.jsEncrypt(data.password, configs.publicKey);
 		}
 		return this.http(type, configs.proxyBackendHost + configs.adminProfileUrl, data, callback, fallback);
@@ -250,7 +252,7 @@ const Utils = {
 			url: url,
 			cancelToken: source.token
 		};
-		if (type == 'get') {
+		if (type === 'get') {
 			options.params = data;
 		} else {
 			options.data = data;
@@ -307,10 +309,10 @@ const Utils = {
 	loadScript: function (url, callback) {
 		const script = document.createElement("script");
 		script.type = "text/javascript";
-		if (typeof (callback) != "undefined") {
+		if (typeof (callback) !== "undefined") {
 			if (script.readyState) {
 				script.onreadystatechange = function () {
-					if (script.readyState == "loaded" || script.readyState == "complete") {
+					if (script.readyState === "loaded" || script.readyState === "complete") {
 						script.onreadystatechange = null;
 						callback();
 					}
@@ -346,7 +348,7 @@ const Utils = {
 		}
 	},
 	objectIsEmpty: function (object) {
-		if (typeof object == 'undefined') {
+		if (typeof object === 'undefined') {
 			return true;
 		}
 		return Object.keys(object).length === 0;

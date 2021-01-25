@@ -31,7 +31,7 @@ const configs = {
 	deletePostUrl: "/post/delete",
 	carouselSettingsUrl: "/setting/carousel",
 	siteSettingsUrl: "/setting/site",
-	baiduPanSettingsUrl: "/setting/baidu-pan",
+	baiduSettingsUrl: "/setting/baidu",
 	alipaySettingsUrl: "/setting/alipay",
 	facebookSettingUrl: "/setting/facebook",
 	githubSettingUrl: "/setting/github",

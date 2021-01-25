@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Image, Modal} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import "./FileUploadModal.scss";
 import Utils from "../../utils/Utils";
 
@@ -70,7 +70,7 @@ class FileUploadModal extends React.Component {
 			return;
 		}
 		let name = this.state.name;
-		if (name.value == '') {
+		if (name.value === '') {
 			name.text = "名称不能为空";
 			this.setState({
 				name: name
@@ -78,7 +78,6 @@ class FileUploadModal extends React.Component {
 			return;
 		}
 		const that = this;
-		console.log(that.props)
 		Utils.uploadFile({
 			file: this.state.file.input,
 			type: this.state.file.type,
@@ -148,7 +147,7 @@ class FileUploadModal extends React.Component {
 		switch (event.target.id) {
 			case "input-name":
 				let name = this.state.name;
-				if (inputValue == "") {
+				if (inputValue === "") {
 					name.text = "请输入名称";
 					name.isInvalid = true;
 					name.isValid = false;
@@ -173,6 +172,9 @@ class FileUploadModal extends React.Component {
 					description: description
 				});
 				break;
+			default:
+				//@todo nothing
+				break;
 		}
 	}
 
@@ -181,7 +183,7 @@ class FileUploadModal extends React.Component {
 		if (this.state.file.type) {
 			switch (Utils.getFileType(this.state.file)) {
 				case 'image':
-					previewBox = <img src={this.state.file.url}/>;
+					previewBox = <img src={this.state.file.url} alt="preview"/>;
 					break;
 				case 'video':
 					previewBox = <video controls="controls">
@@ -221,7 +223,7 @@ class FileUploadModal extends React.Component {
 							</Form.Control.Feedback>
 						</Form.Group>
 						<div className="form-button">
-							<Button variant="primary" className={this.state.status == 'uploading' ? 'uploading' : ''} type="button" onClick={this.handleSubmit}>
+							<Button variant="primary" className={this.state.status === 'uploading' ? 'uploading' : ''} type="button" onClick={this.handleSubmit}>
 							</Button>
 						</div>
 					</Form>

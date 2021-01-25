@@ -2,10 +2,10 @@ import React from 'react';
 import TweenMax from 'gsap';
 import * as THREE from 'three';
 import ImagesLoaded from 'imagesloaded';
-import './WebGLCarousel.scss';
 import Utils from "../../utils/Utils";
 import Loading from "../loading/Loading";
 import configs from "../../configs";
+import './WebGLCarousel.scss';
 
 class WebGlCarousel extends React.Component {
 	constructor(props) {
@@ -203,17 +203,6 @@ class WebGlCarousel extends React.Component {
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
 			};
-			const colorReverse = function (oldColor) {
-				oldColor = '0x' + oldColor.replace(/#/g, '');
-				let str = '000000' + (0xFFFFFF - oldColor).toString(16);
-				return str.substring(str.length - 6, str.length);
-			}
-			const getButtonsInfo = function () {
-				const paginateButtons = paginationContainer.querySelectorAll('button');
-				paginateButtons.forEach(function (paginateButton) {
-					console.log(paginateButton.getBoundingClientRect());
-				})
-			};
 			animate();
 			loop();
 		};
@@ -237,7 +226,7 @@ class WebGlCarousel extends React.Component {
 				})
 			}
 		}, (error) => {
-
+			console.log(error);
 		})
 		this.setState({
 			cancelTokenSource: cancelTokenSource

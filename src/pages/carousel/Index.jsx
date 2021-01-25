@@ -1,17 +1,10 @@
 import React from "react";
-import {Button, Card, Col} from "react-bootstrap";
-import Loading from "../../components/loading/Loading";
+import {Button, Card} from "react-bootstrap";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
-import './Index.scss'
-import FileListModal from "../../components/file/FileListModal";
-import FilePreviewModal from "../../components/file/FilePreviewModal";
-import InfiniteScroll from "react-infinite-scroll-component";
-import FileBox from "../../components/file/FileBox";
-import FileUploadModal from "../../components/file/FileUploadModal";
 import CarouselCreateModal from "../../components/carousel/CarouselCreateModal";
-import CarouselBox from "../../components/carousel/CarouselBox";
+import './Index.scss'
 
 function mapStateToProps(state) {
 	return {

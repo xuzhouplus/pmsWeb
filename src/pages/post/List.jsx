@@ -1,12 +1,12 @@
 import React from "react";
-import {Button, Card, Col, FormControl, InputGroup, Pagination, Row} from "react-bootstrap";
+import {Button, Card, Col, FormControl, InputGroup, Row} from "react-bootstrap";
 import Loading from "../../components/loading/Loading";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Utils from "../../utils/Utils";
 import PostBox from "../../components/post/PostBox";
 import PostEditor from "../../components/post/PostEditor";
-import "./List.scss"
 import Paginator from "../../components/paginator/Paginator";
+import "./List.scss"
 
 class List extends React.Component {
 	constructor(props) {
@@ -101,7 +101,7 @@ class List extends React.Component {
 		let boxList
 		if (this.state.posts.length > 0) {
 			boxList = this.state.posts.map((item, index) =>
-				<PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)} edit={this.edit.bind(this, index)} delete={this.delete.bind(this, index)} putOn={item.status == 2 ? this.toggleStatus.bind(this, index) : null} putOff={item.status == 1 ? this.toggleStatus.bind(this, index) : null}></PostBox>
+				<PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)} edit={this.edit.bind(this, index)} delete={this.delete.bind(this, index)} putOn={item.status === 2 ? this.toggleStatus.bind(this, index) : null} putOff={item.status === 1 ? this.toggleStatus.bind(this, index) : null}></PostBox>
 			);
 		} else {
 			boxList = <Loading></Loading>

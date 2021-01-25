@@ -1,10 +1,6 @@
 import React from "react";
 
 class CarouselBox extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidMount() {
 		this.renderCanvas();
 	}

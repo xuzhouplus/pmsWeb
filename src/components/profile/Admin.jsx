@@ -4,7 +4,7 @@ import Utils from "../../utils/Utils";
 import Loading from "../loading/Loading";
 import {Button, Card, Form} from "react-bootstrap";
 import "./Admin.scss";
-import {login, logout} from "../../redux/Actions";
+import {login} from "../../redux/Actions";
 
 function mapStateToProps(state) {
 	return {
@@ -99,13 +99,12 @@ class Admin extends React.Component {
 		let state = this.state;
 		let key = event.target.id;
 		let inputValue;
-		if (key == 'status') {
+		if (key === 'status') {
 			inputValue = state.status.value ? false : true;
 			state.profile.status = inputValue ? 1 : 2;
 		} else {
 			inputValue = event.target.value ? event.target.value.trim() : "";
 		}
-		console.log(inputValue);
 		state[key]['value'] = inputValue;
 		this.setState(state)
 	}
@@ -120,9 +119,9 @@ class Admin extends React.Component {
 			return;
 		}
 		let password = this.state.password;
-		if (password.value != '') {
+		if (password.value !== '') {
 			let repeatPassword = this.state.repeat_password
-			if (repeatPassword.value != password.value) {
+			if (repeatPassword.value !== password.value) {
 				repeatPassword.text = "重复密码不匹配";
 				this.setState({
 					repeat_password: repeatPassword
@@ -151,10 +150,10 @@ class Admin extends React.Component {
 		} else {
 			let previewBox = '';
 			if (this.state.file.type) {
-				if (Utils.getFileType(this.state.file) != 'image') {
+				if (Utils.getFileType(this.state.file) !== 'image') {
 					previewBox = <div>不支持的文件格式</div>
 				} else {
-					previewBox = <img src={this.state.file.url}/>;
+					previewBox = <img src={this.state.file.url} alt="Avatar"/>;
 				}
 			}
 			return (

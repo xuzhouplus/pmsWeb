@@ -4,10 +4,6 @@ import {withRouter} from "react-router-dom";
 import "./Paginator.scss";
 
 class Paginator extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
 	onClick = (page, event) => {
 		event.stopPropagation();
 		event.preventDefault();
@@ -27,7 +23,7 @@ class Paginator extends React.Component {
 		while (loopPage < this.props.count) {
 			loopPage++;
 			if (loopPage < 3 || (this.props.count - loopPage) < 3) {
-				if (this.props.page == loopPage) {
+				if (this.props.page === loopPage) {
 					paginator.push(<Pagination.Item active key={'paginator-' + loopPage}>{loopPage}</Pagination.Item>)
 				} else {
 					paginator.push(<Pagination.Item key={'paginator-' + loopPage} href={path + '/' + loopPage} onClick={this.onClick.bind(this, loopPage)}>{loopPage}</Pagination.Item>)

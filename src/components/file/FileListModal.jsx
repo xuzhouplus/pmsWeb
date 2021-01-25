@@ -4,8 +4,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Utils from "../../utils/Utils";
 import {Button, Card, Col, Modal} from "react-bootstrap";
 import FileBox from "./FileBox";
-import './FileListModal.scss'
 import FileUploadModal from "./FileUploadModal";
+import './FileListModal.scss'
 
 class FileListModal extends React.Component {
 	constructor(props) {
