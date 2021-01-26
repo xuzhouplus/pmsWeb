@@ -2,18 +2,12 @@ import React from 'react';
 import TweenMax from 'gsap';
 import * as THREE from 'three';
 import ImagesLoaded from 'imagesloaded';
-import Utils from "../../utils/Utils";
-import Loading from "../loading/Loading";
 import configs from "../../configs";
 import './WebGLCarousel.scss';
 
 class WebGlCarousel extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			isLoading: true,
-			cancelTokenSource: null
-		};
 		this.interval = null;
 	}
 
@@ -207,6 +201,7 @@ class WebGlCarousel extends React.Component {
 			loop();
 		};
 
+		console.log(carousels)
 		let sliderContainer = document.getElementById('slider');
 		let carouselImages = sliderContainer.querySelectorAll('img');
 		ImagesLoaded(carouselImages, function () {
@@ -218,27 +213,12 @@ class WebGlCarousel extends React.Component {
 	}
 
 	componentDidMount() {
-		const cancelTokenSource = Utils.getCarouselIndex((response) => {
-			if (this.state.cancelTokenSource) {
-				this.renderCarousel(response.data)
-				this.setState({
-					isLoading: false
-				})
-			}
-		}, (error) => {
-			console.log(error);
-		})
-		this.setState({
-			cancelTokenSource: cancelTokenSource
-		})
+		this.renderCarousel(this.props.files)
 	}
 
 	componentWillUnmount() {
 		if (this.interval) {
 			clearInterval(this.interval);
-		}
-		if (this.state.cancelTokenSource) {
-			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
 		}
 	}
 
@@ -247,7 +227,6 @@ class WebGlCarousel extends React.Component {
 			<div className="section row carousel" id="slider">
 				<div id="image-list">
 				</div>
-				{this.state.isLoading ? <Loading></Loading> : ''}
 			</div>
 		);
 	}

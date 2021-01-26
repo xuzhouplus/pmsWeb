@@ -8,6 +8,7 @@ class Home extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			cancelTokenSource: null,
 			carousel: {
 				type: 'webgl',
 				files: []
@@ -17,12 +18,18 @@ class Home extends React.Component {
 
 	componentDidMount() {
 		if (this.state.carousel.files.length === 0) {
-			Utils.carousel(function (response) {
+			Utils.getCarouselIndex(response => {
 				console.log(response);
+				this.setState({
+					carousel: {
+						files: response.data
+					}
+				})
+			}, (error) => {
+				console.log(error);
 			});
 		}
 	}
-
 
 	render() {
 		if (this.state.carousel.files.length === 0) {
@@ -40,7 +47,7 @@ class Home extends React.Component {
 			<Row className="home-container">
 				<Col xs={12} lg={12}>
 					<div className="home-content h-100 d-flex justify-content-center align-items-center">
-						<WebGlCarousel></WebGlCarousel>
+						<WebGlCarousel files={this.state.carousel.files}></WebGlCarousel>
 					</div>
 				</Col>
 			</Row>

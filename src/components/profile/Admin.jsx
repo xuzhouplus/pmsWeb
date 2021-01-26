@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import Utils from "../../utils/Utils";
 import Loading from "../loading/Loading";
 import {Button, Card, Form} from "react-bootstrap";
+import {loginAction} from "../../redux/Actions";
 import "./Admin.scss";
-import {login} from "../../redux/Actions";
 
 function mapStateToProps(state) {
 	return {
@@ -16,7 +16,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		login: (user) => {
 			dispatch({
-				type: login.type,
+				type: loginAction.type,
 				payload: user
 			})
 		}
@@ -43,7 +43,6 @@ class Admin extends React.Component {
 
 	getAdminProfile = () => {
 		Utils.adminProfile('get', {id: this.props.account.uuid}, response => {
-			console.log(response);
 			this.setState({
 				profile: response.data,
 				status: {

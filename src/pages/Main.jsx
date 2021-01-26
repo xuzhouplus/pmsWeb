@@ -6,12 +6,13 @@ import Loading from "./mask/Loading";
 import Footer from "../components/footer/Footer";
 import {connect} from "react-redux";
 import AdminNavibar from "../components/navbar/AdminNavibar";
-import {login, logout} from "../redux/Actions";
+import {loginAction, logoutAction} from "../redux/Actions";
 import Utils from "../utils/Utils";
 import axios from "axios";
 
 function mapStateToProps(state) {
 	return {
+		program: state.program,
 		account: state.auth
 	};
 }
@@ -20,13 +21,13 @@ function mapDispatchToProps(dispatch) {
 	return {
 		login: (user) => {
 			dispatch({
-				type: login.type,
+				type: loginAction.type,
 				payload: user
 			})
 		},
 		logout: () => {
 			dispatch({
-				type: logout.type
+				type: logoutAction.type
 			})
 		}
 	}
@@ -34,7 +35,6 @@ function mapDispatchToProps(dispatch) {
 
 class Main extends React.Component {
 	login = (loginUser) => {
-		console.log(loginUser);
 		axios.defaults.headers.common['Authorization'] = loginUser.token;
 		this.setState({
 			loginModal: false
@@ -45,7 +45,6 @@ class Main extends React.Component {
 	logout = () => {
 		const that = this;
 		Utils.logout(function (response) {
-			console.log(response);
 			sessionStorage.removeItem('auth');
 			that.props.logout()
 		}, function (error) {
@@ -61,7 +60,6 @@ class Main extends React.Component {
 			that.login(auth);
 		} else {
 			Utils.auth(function (response) {
-				console.log(response);
 				that.login(response.data);
 				sessionStorage.setItem('auth', JSON.stringify(response.data));
 			}, function (error) {
@@ -95,7 +93,7 @@ class Main extends React.Component {
 		if (this.props.account && this.props.account.uuid) {
 			NavigateBar = <AdminNavibar account={this.props.account} logout={this.logout}></AdminNavibar>
 		} else {
-			NavigateBar = <Navibar login={this.login}/>
+			NavigateBar = <Navibar showLogin={this.props.program.showLogin} afterLogin={this.login}/>
 		}
 		return (
 			<Container fluid className="app-container">

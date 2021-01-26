@@ -1,6 +1,9 @@
 import {JSEncrypt} from 'encryptlong';
 import axios from "axios";
 import configs from "../configs";
+import {store} from "../redux/Store";
+import {logoutAction, programAction} from "../redux/Actions";
+import Swal from "sweetalert2";
 
 const Utils = {
 	login: function (account, password, callback, fallback) {
@@ -258,7 +261,6 @@ const Utils = {
 			options.data = data;
 		}
 		axios(options).then(result => {
-			console.log(result);
 			if (result.data.code === 1) {
 				callback(result.data);
 			} else {
@@ -267,14 +269,47 @@ const Utils = {
 		}).catch(function (error) {
 			let message;
 			if (error.response) {
+				if (error.response.status === 401) {
+					let state = store.getState();
+					if (state.auth.id) {
+						store.dispatch({
+							type: logoutAction.type,
+							payload: {}
+						});
+					}
+					if (!state.program.showLogin) {
+						Swal.fire({
+							icon: 'warning',
+							text: "你还没有登录，请登录！",
+							confirmButtonText: "确定",
+							backdrop: true,
+							allowOutsideClick: false,
+							didClose: function () {
+								store.dispatch({
+									type: programAction.type,
+									payload: {
+										showLogin: true
+									}
+								});
+							}
+						})
+					}
+					return;
+				}
 				// The request was made and the server responded with a status code
 				// that falls out of the range of 2xx
-				message = error.response.data;
+				message = error.response.data.message;
 			} else if (error.request) {
 				// The request was made but no response was received
 				// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
 				// http.ClientRequest in node.js
-				message = error.request;
+				if (error.request.responseType === 'text') {
+					message = error.request.responseText;
+				} else if (error.request.responseType === 'document') {
+					message = error.request.responseXML;
+				} else {
+					message = error.request.response;
+				}
 			} else {
 				// Something happened in setting up the request that triggered an Error
 				message = error.message;

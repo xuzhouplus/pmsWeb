@@ -1,17 +1,23 @@
-let login = {
+let loginAction = {
 	type: 'login',
 	payload: {}
 }
-let logout = {
+let logoutAction = {
 	type: 'logout'
 }
 
-let init = {
+let initAction = {
 	type: 'init'
 }
 
+let programAction = {
+	type: 'program',
+	payload: {}
+}
+
 export {
-	login,
-	logout,
-	init
+	loginAction,
+	logoutAction,
+	initAction,
+	programAction
 }

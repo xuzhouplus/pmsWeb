@@ -2,7 +2,7 @@ import React from 'react'
 import './App.scss'
 import {Container} from 'react-bootstrap'
 import Loading from './pages/mask/Loading';
-import {init} from "./redux/Actions";
+import {initAction} from "./redux/Actions";
 import {connect} from "react-redux";
 import Utils from "./utils/Utils";
 import Message from "./pages/mask/Message"
@@ -18,7 +18,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		init: (site) => {
 			dispatch({
-				type: init.type,
+				type: initAction.type,
 				payload: site
 			})
 		},
@@ -35,7 +35,6 @@ class App extends React.Component {
 
 	componentDidMount() {
 		Utils.site((response) => {
-			console.log(response);
 			if (response.code === 1) {
 				this.props.init(response.data);
 			}

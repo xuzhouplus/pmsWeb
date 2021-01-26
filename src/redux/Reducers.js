@@ -1,11 +1,11 @@
-import {login, logout, init} from './Actions';
-import {authState, siteState} from './States';
+import {loginAction, logoutAction, initAction, programAction} from './Actions';
+import {programState, authState, siteState} from './States';
 
 let auth = (state = authState, action) => {
 	switch (action.type) {
-		case login.type:
+		case loginAction.type:
 			return action.payload;
-		case logout.type:
+		case logoutAction.type:
 			return {
 				id: null,
 				name: "",
@@ -18,9 +18,9 @@ let auth = (state = authState, action) => {
 }
 let site = (state = siteState, action) => {
 	switch (action.type) {
-		case init.type:
+		case initAction.type:
 			return action.payload;
-		case logout.type:
+		case logoutAction.type:
 			return {
 				title: "",
 				icp: null,
@@ -35,7 +35,17 @@ let site = (state = siteState, action) => {
 			return state;
 	}
 }
+
+let program = (state = programState, action) => {
+	switch (action.type) {
+		case programAction.type:
+			return action.payload;
+		default:
+			return state;
+	}
+}
 export {
 	auth,
-	site
+	site,
+	program
 }
