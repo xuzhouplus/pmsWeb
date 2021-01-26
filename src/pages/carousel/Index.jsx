@@ -97,8 +97,6 @@ class Index extends React.Component {
 	}
 
 	render() {
-		console.log(this.state.carousels);
-		console.log(this.props.site);
 		let boxList = this.state.carousels.map((item, index) =>
 			<div key={index} className="carousel-button file-box">
 				<img key={index} src={item.thumb} alt={item.title} onClick={this.preview.bind(this, index)}></img>

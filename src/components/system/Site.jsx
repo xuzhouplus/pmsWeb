@@ -4,11 +4,13 @@ import Swal from "sweetalert2";
 import {Button, Card, Form} from "react-bootstrap";
 import Loading from "../loading/Loading";
 import "./Site.scss";
+import Select from "react-select";
 
 class Site extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			cancelTokenSource: null,
 			settings: []
 		}
 	}
@@ -17,31 +19,104 @@ class Site extends React.Component {
 		this.getSiteSettings();
 	}
 
+	componentWillUnmount() {
+		if (this.state.cancelTokenSource) {
+			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
+		}
+	}
+
 	getSiteSettings = () => {
-		Utils.siteSettings('get', {}, response => {
+		const cancelTokenSource = Utils.siteSettings('get', {}, response => {
 			console.log(response);
-			this.setState({
-				settings: response.data
-			})
+			if (this.state.cancelTokenSource) {
+				this.setState({
+					settings: response.data
+				})
+			}
 		}, error => {
 			console.log(error);
 		})
+		this.setState({
+			cancelTokenSource: cancelTokenSource
+		})
 	}
-
-	handleChange = (event) => {
+	handleSelect = (key, selecteds) => {
 		let state = this.state;
-		let label = event.target.previousSibling.innerText
-		state.settings[event.target.id].value = event.target.value ? event.target.value.trim() : "";
+		let field = state.settings[key];
+		let value;
+		if (field.type === 'multiSelect') {
+			let valueArray = selecteds.map(selected => {
+				return selected.value;
+			});
+			value = valueArray.join(',');
+		} else {
+			value = selecteds.value;
+		}
+		if (value === ',') {
+			value = '';
+		}
+		if (value === '' && field.required === 1) {
+			state[key] = {
+				text: '请输入' + field.name,
+				isInvalid: true,
+				isValid: false,
+			};
+		}
+		state.settings[key].value = value;
+		this.setState(state);
+	}
+	handleChange = (event) => {
+		console.log(event);
+		let target = event.target;
+		let state = this.state;
+		let label;
+		let id;
+		let value;
+		let required;
+
+		switch (target.type) {
+			case 'checkbox':
+				value = target.value;
+				id = target.id;
+				let checkboxIdSplits = id.split('-');
+				id = checkboxIdSplits[0];
+				let checked = state.settings[id].value.split(',');
+				let checkedIndex = checked.indexOf(value);
+				if (checkedIndex !== -1) {
+					checked.splice(checkedIndex, 1);
+				} else {
+					checked.push(value);
+				}
+				value = checked.join(',');
+				if (value === ',') {
+					value = '';
+				}
+				target = target.parentNode;
+				break;
+			case 'radio':
+				value = target.value;
+				id = target.id;
+				let radioIdSplits = id.split('-');
+				id = radioIdSplits[0];
+				target = target.parentNode;
+				break;
+			default:
+				id = target.id;
+				value = target.value.trim();
+		}
+		state.settings[id].value = value;
+		required = state.settings[id].required;
+		label = state.settings[id].name;
 		let text = "";
 		let isInvalid = false;
 		let isValid = false;
-		if (state.settings[event.target.id].value === '') {
+		if (value === '' && required === 1) {
 			text = '请输入' + label;
 			isInvalid = true;
 		} else {
 			isValid = true;
 		}
-		state[event.target.id] = {
+		state[id] = {
 			text: text,
 			isInvalid: isInvalid,
 			isValid: isValid,
@@ -54,15 +129,13 @@ class Site extends React.Component {
 		let data = {};
 		for (let key in settings) {
 			let setting = settings[key];
-			console.log(setting);
-			if (setting.value === '') {
-				let state = {
-					key: {
-						text: '请输入' + setting.name,
-						isInvalid: true,
-						isValid: false,
-					}
-				}
+			if (setting.value === '' && setting.required === 1) {
+				let state = this.state;
+				state[key] = {
+					text: '请输入' + setting.name,
+					isInvalid: true,
+					isValid: false,
+				};
 				this.setState(state);
 				return;
 			}
@@ -93,50 +166,81 @@ class Site extends React.Component {
 						break;
 					case 'select':
 						options = JSON.parse(setting.options);
+						let selectedOption = [];
 						for (let key in options) {
-							items.push(<option key={key} selected={setting.value === key}>{options[key]}</option>);
+							let selectOption = {value: key, label: options[key]};
+							items.push(selectOption);
+							if (key === setting.value) {
+								selectedOption.push(selectOption)
+							}
 						}
-						control = <Form.Control as="select" onChange={this.handleChange} onBlur={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}>{items}</Form.Control>
+						control = <Select className="select-control" classNamePrefix="select-control" options={items} onChange={this.handleSelect.bind(this, setting.key)} value={selectedOption} placeholder=""/>
 						break;
 					case 'multiSelect':
 						options = JSON.parse(setting.options);
+						let multiSelectedValue = setting.value ? setting.value.split(',') : [];
+						let multiSelectedOption = [];
 						for (let key in options) {
-							items.push(<option key={key} selected={setting.value === key}>{options[key]}</option>);
+							let selectOption = {value: key, label: options[key]};
+							items.push(selectOption);
+							if (multiSelectedValue.indexOf(key) !== -1) {
+								multiSelectedOption.push(selectOption)
+							}
 						}
-						control = <Form.Control as="select" multiple onChange={this.handleChange} onBlur={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}>{items}</Form.Control>
+						control = <Select className="select-control" classNamePrefix="select-control" options={items} isMulti onChange={this.handleSelect.bind(this, setting.key)} value={multiSelectedOption} placeholder=""/>
 						break;
 					case 'checkbox':
 						options = JSON.parse(setting.options);
+						let selected = setting.value.split(',');
 						for (let key in options) {
-							items.push(<Form.Check inline key={key} label={options[key]} type="checkbox" id={key} checked={setting.value === key}/>);
+							items.push(<Form.Check onChange={this.handleChange} inline key={key} value={key} label={options[key]} type="checkbox" id={setting.key + '-' + key} checked={selected.indexOf(key) !== -1}/>);
 						}
-						control = <div>{items}</div>
+						control = <div className="form-control">{items}</div>
 						break;
 					case 'radio':
 						options = JSON.parse(setting.options);
 						for (let key in options) {
-							items.push(<Form.Check inline key={key} label={options[key]} type="radio" id={key} checked={setting.value === key}/>);
+							items.push(<Form.Check onChange={this.handleChange} inline key={key} value={key} label={options[key]} type="radio" id={setting.key + '-' + key} checked={setting.value === key}/>);
 						}
-						control = <div>{items}</div>
+						control = <div className="form-control">{items}</div>
 						break;
 					case 'input':
 					default:
 						control = <Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}/>
 						break;
 				}
-				formContent.push(<Form.Group key={setting.key} controlId={setting.key} className="position-relative">
-					<Form.Label>{setting.name}</Form.Label>
-					{control}
-					<Form.Control.Feedback type="invalid" tooltip>
-						{this.state[setting.key] ? this.state[setting.key].text : ''}
-					</Form.Control.Feedback>
-				</Form.Group>);
+				let formGroup = null;
+				let classNames = ['position-relative'];
+				let fieldState = this.state[setting.key];
+				if (setting.type === 'radio' || setting.type === 'checkbox' || setting.type === 'select' || setting.type === 'multiSelect') {
+					classNames.push('custom-react-' + setting.type);
+					if (fieldState) {
+						if (fieldState.isInvalid) {
+							classNames.push('is-invalid');
+						}
+						if (fieldState.isValid) {
+							classNames.push('is-valid');
+						}
+					}
+					formGroup = <Form.Group key={setting.key} controlId={setting.key} className={classNames}>
+						<Form.Label>{setting.name}</Form.Label>
+						{control}
+						<div className="invalid-tooltip">请输入{setting.name}</div>
+					</Form.Group>
+				} else {
+					formGroup = <Form.Group key={setting.key} controlId={setting.key} className="position-relative">
+						<Form.Label>{setting.name}</Form.Label>
+						{control}
+						<Form.Control.Feedback type="invalid" tooltip>{fieldState ? fieldState.text : ''}</Form.Control.Feedback>
+					</Form.Group>
+				}
+				formContent.push(formGroup);
 			}
 
 			return (
 				<Card className="site-settings-container">
 					<Card.Body className="site-settings-table">
-						<Form noValidate >
+						<Form noValidate>
 							{formContent}
 						</Form>
 					</Card.Body>

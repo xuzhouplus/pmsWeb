@@ -58,7 +58,7 @@ class Carousel extends React.Component {
 			let options = JSON.parse(this.state.settings.carousel_type.options);
 			let items = [];
 			for (let key in options) {
-				items.push(<option key={key} selected={this.state.settings.carousel_type.value === key}>{options[key]}</option>);
+				items.push(<option key={key} value={key}>{options[key]}</option>);
 			}
 			return (
 				<Card className="carousel-settings-container">
@@ -66,7 +66,7 @@ class Carousel extends React.Component {
 						<Form>
 							<Form.Group controlId="carousel_type" className="position-relative">
 								<Form.Label>轮播类型</Form.Label>
-								<Form.Control as="select" onChange={this.handleChange} onBlur={this.handleChange} isInvalid={this.state.carousel_type.isInvalid} isValid={this.state.carousel_type.isValid}>{items}</Form.Control>
+								<Form.Control as="select" onChange={this.handleChange} onBlur={this.handleChange} defaultValue={this.state.settings.carousel_type.value} isInvalid={this.state.carousel_type.isInvalid} isValid={this.state.carousel_type.isValid}>{items}</Form.Control>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.carousel_type.text}
 								</Form.Control.Feedback>

@@ -17,13 +17,13 @@ class GitHub extends React.Component {
 		super(props);
 		this.state = {
 			settings: {
-				github_app_name: "",
+				github_application_name: "",
 				github_app_id: "",
 				github_app_secret: ""
 			},
 			github_app_id: {},
 			github_app_secret: {},
-			github_app_name: {},
+			github_application_name: {},
 		}
 	}
 
@@ -71,12 +71,12 @@ class GitHub extends React.Component {
 
 	formSubmit = () => {
 		let settings = this.state.settings;
-		if (settings.github_app_name === '') {
+		if (settings.github_application_name === '') {
 			this.setState({
-				github_public_key: {
+				github_application_name: {
 					isInvalid: true,
 					isValid: false,
-					text: '请输入 GitHub 公钥'
+					text: '请输入 GitHub Application Name'
 				}
 			})
 			return;
@@ -119,11 +119,11 @@ class GitHub extends React.Component {
 				<Card className="github-settings-container">
 					<Card.Body className="github-settings-table">
 						<Form.Row>
-							<Form.Group as={Col} controlId="github_app_name" className="position-relative github_app_id">
+							<Form.Group as={Col} controlId="github_application_name" className="position-relative github_app_id">
 								<Form.Label> GitHub Client ID</Form.Label>
-								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.github_app_name} isInvalid={this.state.github_app_name.isInvalid} isValid={this.state.github_app_name.isValid}/>
+								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.github_application_name} isInvalid={this.state.github_application_name.isInvalid} isValid={this.state.github_application_name.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
-									{this.state.github_app_name.text}
+									{this.state.github_application_name.text}
 								</Form.Control.Feedback>
 							</Form.Group>
 
