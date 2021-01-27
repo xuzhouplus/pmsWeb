@@ -28,10 +28,14 @@ class Navibar extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
-		if (this.state.loginModal !== nextProps.showLogin) {
+		let thisLoginModal = this.state.loginModal;
+		if (thisLoginModal !== nextProps.showLogin) {
 			this.setState({
 				loginModal: nextProps.showLogin
 			})
+			return true;
+		}
+		if (thisLoginModal !== nextState.loginModal) {
 			return true;
 		}
 		return false;
@@ -44,6 +48,7 @@ class Navibar extends React.Component {
 	}
 
 	render() {
+		console.log(this.state);
 		let logo = process.env.PUBLIC_URL + '/logo192.png';
 		let loginModal = '';
 		if (this.state.loginModal) {
