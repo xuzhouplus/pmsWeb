@@ -5,14 +5,12 @@ import './Footer.scss'
 class Footer extends React.Component {
 	render() {
 		return (
-			<Navbar className="footer-navbar bg-main-color">
-				<Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-				<Navbar.Collapse id="basic-navbar-nav">
-					<Nav className="mr-auto">
-						<Nav.Link href="#home">Home</Nav.Link>
-						<Nav.Link href="#link">Link</Nav.Link>
-					</Nav>
-				</Navbar.Collapse>
+			<Navbar>
+				<Nav className="footer-navbar bg-main-color justify-content-center">
+					<Nav.Item>
+						<Nav.Link href="http://www.miit.gov.cn/" target="_blank" rel="noreferrer noopener">{this.props.site.icp}</Nav.Link>
+					</Nav.Item>
+				</Nav>
 			</Navbar>
 		);
 	}

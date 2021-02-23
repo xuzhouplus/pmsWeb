@@ -18,16 +18,27 @@ class Home extends React.Component {
 
 	componentDidMount() {
 		if (this.state.carousel.files.length === 0) {
-			Utils.getCarouselIndex(response => {
+			let cancelTokenSource = Utils.getCarouselIndex(response => {
 				console.log(response);
-				this.setState({
-					carousel: {
-						files: response.data
-					}
-				})
+				if (this.state.cancelTokenSource) {
+					this.setState({
+						carousel: {
+							files: response.data
+						}
+					})
+				}
 			}, (error) => {
 				console.log(error);
 			});
+			this.setState({
+				cancelTokenSource: cancelTokenSource
+			})
+		}
+	}
+
+	componentWillUnmount() {
+		if (this.state.cancelTokenSource) {
+			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
 		}
 	}
 

@@ -18,8 +18,8 @@ class AdminNavibar extends React.Component {
 		return (
 			<Navbar>
 				<Navbar.Brand href="/">
-					<Image src={process.env.PUBLIC_URL + '/logo192.png'} rounded className="brand-img" alt="Home"/>
-					<div className="brand-text">React-Bootstrap</div>
+					<Image src={this.props.site.logo} rounded className="brand-img" alt="Home"/>
+					<div className="brand-text">{this.props.site.title}</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav"/>
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">

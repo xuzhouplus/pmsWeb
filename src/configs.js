@@ -44,6 +44,7 @@ const configs = {
 	adminProfileUrl: "/admin/profile",
 	adminConnectsUrl: "/admin/connects",
 	adminConnectUrl: "/admin/admin-connect",
+	unbindConnectUrl: "/admin/unbind",
 	adminAuthorizeUrl: "/admin/authorize",
 	loginDuration: 3 * 24 * 60 * 60,
 	imageTypes: [

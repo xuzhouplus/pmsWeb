@@ -1,15 +1,15 @@
 .login-container {
   .modal-header {
+    height: 4rem;
+
+    img.logo {
+      max-height: 100%;
+    }
+
     .close {
       &:active,
       &:focus {
         outline: 0;
-      }
-    }
-
-    .modal-title {
-      img {
-        height: 2.25rem;
       }
     }
   }
@@ -50,14 +50,13 @@
   }
 
   .modal-footer {
-    .connect {
-      padding: 0;
-      width: 1.6rem;
-      height: 1.6rem;
+    height: 3rem;
 
-      img {
-        max-height: 100%;
-      }
+    .connect-button {
+      cursor: pointer;
+      padding: 0;
+      max-height: 100%;
+      margin: 0;
     }
   }
 }

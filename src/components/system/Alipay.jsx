@@ -3,8 +3,8 @@ import {Button, Form, Col, Card} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
-import "./Alipay.scss";
 import Loading from "../loading/Loading";
+import "./Alipay.scss";
 
 function mapStateToProps(state) {
 	return {

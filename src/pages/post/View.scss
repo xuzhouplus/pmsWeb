@@ -5,6 +5,16 @@
   overflow-y: scroll;
   height: calc(100vh - 7rem);
 
+  .post-title {
+    border-bottom: 1px solid var(--main-color);
+  }
+
+  .post-cover {
+    height: 25rem;
+    display: block;
+    margin: 1rem auto;
+  }
+
   #post-md-viewer {
     border: none;
   }

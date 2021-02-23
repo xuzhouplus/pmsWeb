@@ -1,59 +1,13 @@
 .about-container {
-  height: 100vh;
-  width: 100vw;
   margin-left: -15px;
   margin-right: -15px;
   overflow: hidden;
 
-  .message-dependence-box {
-    height: 100%;
+  .message-container {
+    height: 86%;
 
-    .note-info {
-      height: 100%;
-      overflow: hidden;
-
-      .message-section {
-        position: absolute;
-        top: 25%;
-        left: 125rem;
-        transition: left 2s;
-        -moz-transition: left 2s ease-in; /* Firefox 4 */
-        -webkit-transition: left 2s ease-in; /* Safari 和 Chrome */
-        -o-transition: left 2s ease-in;
-
-        &.start-text {
-          h3 {
-            width: 40%;
-            margin: auto;
-          }
-        }
-
-        &.personal-introduction {
-          top: 20%;
-
-          .introduction-container {
-            width: 40%;
-
-            .introduction-photo {
-              img {
-                height: 25rem;
-              }
-            }
-
-            .introduction-profile {
-              display: flex;
-              flex-direction: column;
-              justify-content: space-around;
-
-              .name,
-              .english-name {
-                display: inline;
-                margin-right: .625rem;
-              }
-            }
-          }
-        }
-      }
+    .message-box {
+      width: 40%;
     }
   }
 

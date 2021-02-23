@@ -47,7 +47,7 @@ class Carousel extends React.Component {
 			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
 		}, error => {
 			console.log(error);
-			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'error', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
 		})
 	}
 

@@ -1,0 +1,52 @@
+.audio-visualizer {
+  background-color: #272822;
+  color: #FEFEFE;
+
+  #audio-visualizer-wrapper {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @keyframes radi {
+    from {
+      mask-size: 0;
+      -webkit-mask-size: 0;
+      animation-timing-function: ease-in-out;
+      -webkit-animation-timing-function: ease-in-out
+    }
+    to {
+      mask-size: 300%;
+      -webkit-mask-size: 300%
+    }
+  }
+
+  @-webkit-keyframes radi /* Safari 和 Chrome */
+  {
+    from {
+      mask-size: 0;
+      -webkit-mask-size: 0;
+      animation-timing-function: ease-in-out;
+      -webkit-animation-timing-function: ease-in-out
+    }
+    to {
+      mask-size: 300%;
+      -webkit-mask-size: 300%
+    }
+  }
+
+  .radi {
+    //mask-image: url("public/image/About/circle_mask.png");
+    //-webkit-mask-image: url("public/image/About/circle_mask.png");
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: 50% 50%;
+    -webkit-mask-position: 50% 50%;
+    mask-size: 300%;
+    -webkit-mask-size: 300%;
+    animation: radi 1.5s;
+    -moz-animation: radi 1.5s;
+    -webkit-animation: radi 1.5s;
+  }
+}

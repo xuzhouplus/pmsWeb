@@ -13,7 +13,8 @@ import axios from "axios";
 function mapStateToProps(state) {
 	return {
 		program: state.program,
-		account: state.auth
+		account: state.auth,
+		site: state.site
 	};
 }
 
@@ -91,10 +92,11 @@ class Main extends React.Component {
 		const NotFound = lazy(() => import('./NotFound'));
 		let NavigateBar;
 		if (this.props.account && this.props.account.uuid) {
-			NavigateBar = <AdminNavibar account={this.props.account} logout={this.logout}></AdminNavibar>
+			NavigateBar = <AdminNavibar site={this.props.site} account={this.props.account} logout={this.logout}></AdminNavibar>
 		} else {
-			NavigateBar = <Navibar showLogin={this.props.program.showLogin} afterLogin={this.login}/>
+			NavigateBar = <Navibar site={this.props.site} showLogin={this.props.program.showLogin} afterLogin={this.login}/>
 		}
+		console.log(this.props.site);
 		return (
 			<Container fluid className="app-container">
 				<Row className="app-header fixed-top">
@@ -126,7 +128,7 @@ class Main extends React.Component {
 				</Row>
 				<Row className="app-footer fixed-bottom">
 					<Col xs={12} lg={12}>
-						<Footer/>
+						<Footer site={this.props.site}/>
 					</Col>
 				</Row>
 			</Container>

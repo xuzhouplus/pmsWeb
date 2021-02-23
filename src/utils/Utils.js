@@ -247,6 +247,9 @@ const Utils = {
 	adminConnect: function (data, callback, fallback) {
 		return this.http('get', configs.proxyBackendHost + configs.adminConnectUrl, data, callback, fallback);
 	},
+	unbindConnect: function (data, callback, fallback) {
+		return this.http('post', configs.proxyBackendHost + configs.unbindConnectUrl, data, callback, fallback);
+	},
 	http: function (type, url, data, callback, fallback) {
 		const CancelToken = axios.CancelToken;
 		const source = CancelToken.source();

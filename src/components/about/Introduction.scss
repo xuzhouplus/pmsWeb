@@ -1,0 +1,17 @@
+.introduction-container {
+  margin-top: 56px;
+  margin-bottom: 56px;
+  height: 100%;
+
+  .introduction-photo,
+  .introduction-profile {
+    display: flex;
+    align-items: center;
+  }
+
+  .introduction-photo {
+    img {
+      max-width: 100%;
+    }
+  }
+}

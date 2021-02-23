@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Col, Container, Image, Row} from "react-bootstrap";
+import "./Introduction.scss";
+
 
 class Introduction extends Component {
 	render() {
@@ -10,6 +12,7 @@ class Introduction extends Component {
 						<Image src={process.env.PUBLIC_URL + '/images/About/default.jpeg'}></Image>
 					</Col>
 					<Col className="col-7 introduction-profile">
+						<div className="profile-container">
 						<div><h3 className="name">徐州</h3>
 							<div className="english-name">Bill</div>
 						</div>
@@ -27,6 +30,7 @@ class Introduction extends Component {
 						<div>Jquery、React、Vue</div>
 						<div>Java、Spring Boot</div>
 						<div>Go、Iris</div>
+						</div>
 					</Col>
 				</Row>
 			</Container>

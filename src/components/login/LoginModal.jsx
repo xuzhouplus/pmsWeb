@@ -1,7 +1,8 @@
 import React from 'react';
 import {Form, Button, Modal, Image} from 'react-bootstrap';
 import Utils from '../../utils/Utils';
-import './Login.scss';
+import Swal from "sweetalert2";
+import './LoginModal.scss';
 
 class LoginModal extends React.Component {
 	constructor(props) {
@@ -55,18 +56,24 @@ class LoginModal extends React.Component {
 			});
 			return
 		}
-		const that = this;
-		const cancelTokenSource = Utils.login(loginAccount.value, loginPassword.value, function (response) {
+		const cancelTokenSource = Utils.login(loginAccount.value, loginPassword.value, response => {
 			console.log(response);
-			that.props.afterLogged(response.data);
-		}, function (error) {
+			this.props.afterLogged(response.data);
+		}, error => {
 			console.log(error);
-			that.setState({
+			Swal.fire({
+				icon: 'error',
+				text: error,
+				confirmButtonText: "确定",
+				backdrop: true,
+				allowOutsideClick: false
+			})
+			this.setState({
 				status: 'inputting',
 				cancelTokenSource: null
 			})
 		});
-		that.setState({
+		this.setState({
 			cancelTokenSource: cancelTokenSource
 		})
 	}
@@ -131,9 +138,7 @@ class LoginModal extends React.Component {
 		return (
 			<Modal className="login-container" centered show={this.props.show} onHide={this.props.handleModal}>
 				<Modal.Header closeButton>
-					<Modal.Title>
-						<Image src={this.props.appLogo}/>
-					</Modal.Title>
+					<Image className="logo" alt="Logo" src={this.props.appLogo}/>
 				</Modal.Header>
 				<Modal.Body>
 					<Form className="login-form" validated={this.state.validated} onSubmit={this.handleSubmit}>
@@ -158,7 +163,7 @@ class LoginModal extends React.Component {
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>
-					<Image src={process.env.PUBLIC_URL + '/connects/alipay.png'}></Image>
+					<Image className="connect-button" alt="connect-alipay" src={process.env.PUBLIC_URL + '/connects/alipay.png'}></Image>
 				</Modal.Footer>
 			</Modal>
 		);

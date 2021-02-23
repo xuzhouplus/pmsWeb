@@ -5,6 +5,7 @@ import Loading from "../loading/Loading";
 import {Button, Card, Form} from "react-bootstrap";
 import {loginAction} from "../../redux/Actions";
 import "./Admin.scss";
+import Swal from "sweetalert2";
 
 function mapStateToProps(state) {
 	return {
@@ -29,8 +30,12 @@ class Admin extends React.Component {
 		super(props);
 		this.state = {
 			profile: {},
-			password: {},
-			repeat_password: {},
+			password: {
+				value: ''
+			},
+			repeat_password: {
+				value: ''
+			},
 			file: {},
 			status: {}
 		}
@@ -103,20 +108,30 @@ class Admin extends React.Component {
 			state.profile.status = inputValue ? 1 : 2;
 		} else {
 			inputValue = event.target.value ? event.target.value.trim() : "";
+			if (key === 'password') {
+				if (inputValue !== state.repeat_password.value && state.repeat_password.value !== '') {
+					state.repeat_password.text = "重复密码不匹配";
+					state.repeat_password.isInvalid = true;
+					state.repeat_password.isValid = false;
+				}
+			}
+
+			if (key === 'repeat_password') {
+				if (inputValue !== state.password.value) {
+					state.repeat_password.text = "重复密码不匹配";
+					state.repeat_password.isInvalid = true;
+					state.repeat_password.isValid = false;
+				} else {
+					state.repeat_password.isInvalid = false;
+					state.repeat_password.isValid = true;
+				}
+			}
 		}
 		state[key]['value'] = inputValue;
 		this.setState(state)
 	}
 
 	handleSubmit = () => {
-		let file = this.state.file;
-		if (!file.input) {
-			file.error = "文件不能为空";
-			this.setState({
-				file: file
-			})
-			return;
-		}
 		let password = this.state.password;
 		if (password.value !== '') {
 			let repeatPassword = this.state.repeat_password
@@ -129,7 +144,7 @@ class Admin extends React.Component {
 			}
 		}
 		Utils.adminProfile('post', {
-			avatar: this.state.file.url,
+			avatar: this.state.file ? this.state.file.url : '',
 			uuid: this.props.account.uuid,
 			password: this.state.password.value,
 			status: this.state.profile.status
@@ -138,8 +153,10 @@ class Admin extends React.Component {
 			let loginUser = this.props.account;
 			loginUser.avatar = response.data.avatar;
 			this.props.login(loginUser)
+			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
 		}, (error) => {
 			console.log(error);
+			Swal.fire({icon: 'error', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
 		})
 	}
 
@@ -176,7 +193,7 @@ class Admin extends React.Component {
 
 							<Form.Group controlId="password" className="position-relative">
 								<Form.Label>密码</Form.Label>
-								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.password.value} isInvalid={this.state.password.isInvalid} isValid={this.state.password.isValid}/>
+								<Form.Control type="password" onChange={this.handleChange} onBlur={this.handleChange} value={this.state.password.value} isInvalid={this.state.password.isInvalid} isValid={this.state.password.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.password.text}
 								</Form.Control.Feedback>
@@ -184,7 +201,7 @@ class Admin extends React.Component {
 
 							<Form.Group controlId="repeat_password" className="position-relative">
 								<Form.Label>重复密码</Form.Label>
-								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.repeat_password.value} isInvalid={this.state.repeat_password.isInvalid} isValid={this.state.repeat_password.isValid}/>
+								<Form.Control type="password" onChange={this.handleChange} onBlur={this.handleChange} value={this.state.repeat_password.value} isInvalid={this.state.repeat_password.isInvalid} isValid={this.state.repeat_password.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.repeat_password.text}
 								</Form.Control.Feedback>

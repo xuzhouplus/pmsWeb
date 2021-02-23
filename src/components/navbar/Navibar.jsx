@@ -49,18 +49,17 @@ class Navibar extends React.Component {
 
 	render() {
 		console.log(this.state);
-		let logo = process.env.PUBLIC_URL + '/logo192.png';
 		let loginModal = '';
 		if (this.state.loginModal) {
 			loginModal = <LoginModal show={this.state.loginModal} handleModal={this.handleModal} afterLogged={this.props.afterLogin}
-									 appLogo={logo} account={this.state.account} password={this.state.password}/>
+									 appLogo={this.props.site.logo} account={this.state.account} password={this.state.password}/>
 		}
 		return (
 			<Navbar>
 				{loginModal}
 				<Navbar.Brand href="/">
-					<Image src={logo} rounded className="brand-img" alt="Home"/>
-					<div className="brand-text">React-Bootstrap</div>
+					<Image src={this.props.site.logo} rounded className="brand-img" alt="Home"/>
+					<div className="brand-text">{this.props.site.title}</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav"/>
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">

@@ -1,5 +1,17 @@
 .footer-navbar {
-  a {
-    color: #F8F8F8;
+  width: 100%;
+
+  .nav-item {
+    .nav-link {
+      color: #F8F8F8;
+
+      &:hover {
+        color: #CCCCCC;
+      }
+
+      &.active{
+        color: #F8F8F8;
+      }
+    }
   }
 }
