@@ -64,8 +64,7 @@ class WebGlCarousel extends React.Component {
 			loader.crossOrigin = "anonymous";
 			//加载图片
 			images.forEach(function (img, index) {
-				let imgUrl = img.url.replace(configs.backendHost, configs.proxyBackendHost);
-				image = loader.load(imgUrl);
+				image = loader.load(img.url);
 				image.magFilter = image.minFilter = THREE.LinearFilter;
 				image.anisotropy = renderer.capabilities.getMaxAnisotropy();
 				sliderImages.push(image);

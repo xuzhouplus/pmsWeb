@@ -17,7 +17,7 @@ class LoginModal extends React.Component {
 				text: 'Please input account',
 				isValid: false,
 				isInvalid: false,
-				value: "admin"
+				value: ""
 			}, props.account),
 			password: Object.assign({}, {
 				label: 'Password',
@@ -25,7 +25,7 @@ class LoginModal extends React.Component {
 				text: 'Please input password',
 				isValid: false,
 				isInvalid: false,
-				value: "123456"
+				value: ""
 			}, props.password),
 		};
 	}
