@@ -20,7 +20,6 @@ class Index extends React.Component {
 		const Site = lazy(() => import('../../components/system/Site'));
 
 		let type = this.props.match.params.type ? this.props.match.params.type : 'carousel';
-		console.log(type);
 
 		return (
 			<Row className="tree-navibar-container full_container system-settings">

@@ -9,6 +9,7 @@ class Carousel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			cancelTokenSource: null,
 			settings: {},
 			carousel_type: {},
 			carousel_limit: {}
@@ -19,14 +20,24 @@ class Carousel extends React.Component {
 		this.getCarouselSettings();
 	}
 
+	componentWillUnmount() {
+		if (this.state.cancelTokenSource) {
+			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
+		}
+	}
+
 	getCarouselSettings = () => {
-		Utils.carouselSettings('get', {}, response => {
-			console.log(response);
-			this.setState({
-				settings: response.data
-			})
+		const cancelTokenSource = Utils.carouselSettings('get', {}, response => {
+			if (this.state.cancelTokenSource) {
+				this.setState({
+					settings: response.data
+				})
+			}
 		}, error => {
 			console.log(error);
+		})
+		this.setState({
+			cancelTokenSource: cancelTokenSource
 		})
 	}
 	handleChange = (event) => {

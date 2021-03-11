@@ -19,7 +19,6 @@ class Home extends React.Component {
 	componentDidMount() {
 		if (this.state.carousel.files.length === 0) {
 			let cancelTokenSource = Utils.getCarouselIndex(response => {
-				console.log(response);
 				if (this.state.cancelTokenSource) {
 					this.setState({
 						carousel: {

@@ -16,7 +16,7 @@ class AdminNavibar extends React.Component {
 
 	render() {
 		return (
-			<Navbar>
+			<Navbar className="main-color-navbar">
 				<Navbar.Brand href="/">
 					<Image src={this.props.site.logo} rounded className="brand-img" alt="Home"/>
 					<div className="brand-text">{this.props.site.title}</div>

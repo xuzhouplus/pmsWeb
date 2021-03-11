@@ -1,11 +1,12 @@
 import React, {lazy, Suspense} from "react";
 import {Col, Container, Row} from "react-bootstrap";
-import Navibar from "../components/navbar/Navibar";
+import Helmet from "react-helmet";
+import Navibar from "@components/navbar/Navibar";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Loading from "./mask/Loading";
-import Footer from "../components/footer/Footer";
+import Footer from "@components/footer/Footer";
 import {connect} from "react-redux";
-import AdminNavibar from "../components/navbar/AdminNavibar";
+import AdminNavibar from "@components/navbar/AdminNavibar";
 import {loginAction, logoutAction} from "../redux/Actions";
 import Utils from "../utils/Utils";
 import axios from "axios";
@@ -96,9 +97,9 @@ class Main extends React.Component {
 		} else {
 			NavigateBar = <Navibar site={this.props.site} showLogin={this.props.program.showLogin} afterLogin={this.login}/>
 		}
-		console.log(this.props.site);
 		return (
 			<Container fluid className="app-container">
+				<Helmet title={this.props.site.title} link={[{rel: "shortcut icon", href: this.props.site.icon}]}></Helmet>
 				<Row className="app-header fixed-top">
 					<Col xs={12} lg={12}>
 						{NavigateBar}

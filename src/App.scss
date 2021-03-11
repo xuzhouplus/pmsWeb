@@ -57,6 +57,21 @@
   border-color: var(--main-color);
 }
 
+.main-color-navbar {
+  .navbar-brand {
+    color: rgb(255, 255, 255);
+  }
+  .navbar-nav{
+    .nav-link {
+      color: rgba(255, 255, 255, 0.5);
+      &:focus,
+      &:hover{
+        color: rgb(255, 255, 255);
+      }
+    }
+  }
+}
+
 .full_container {
   width: 100% !important;
   height: calc(100vh - 112px) !important;
@@ -104,7 +119,7 @@
   }
 
   .app-footer {
-    background-color: var(--main-color);
+    background-color: rgba(0, 0, 0, 0.2);
     color: #F8F8F8;
     z-index: 99;
   }

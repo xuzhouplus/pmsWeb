@@ -2,7 +2,6 @@ import React from 'react';
 import TweenMax from 'gsap';
 import * as THREE from 'three';
 import ImagesLoaded from 'imagesloaded';
-import configs from "../../configs";
 import './WebGLCarousel.scss';
 
 class WebGlCarousel extends React.Component {
@@ -167,6 +166,9 @@ class WebGlCarousel extends React.Component {
 			};
 			let pageIndex = 0;
 			const loop = function () {
+				if(webGLCarouselComponent.interval){
+					clearInterval(webGLCarouselComponent.interval);
+				}
 				let interval = setInterval(function () {
 					const paginateButtons = Array.from(paginationContainer.querySelectorAll('button'));
 					pageIndex++;
@@ -200,7 +202,6 @@ class WebGlCarousel extends React.Component {
 			loop();
 		};
 
-		console.log(carousels)
 		let sliderContainer = document.getElementById('slider');
 		let carouselImages = sliderContainer.querySelectorAll('img');
 		ImagesLoaded(carouselImages, function () {

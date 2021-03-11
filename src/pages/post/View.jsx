@@ -1,6 +1,6 @@
 import React from "react";
 import Utils from "../../utils/Utils";
-import {Col, Image, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import PostMdViewer from "../../components/post/PostMdViewer";
 import "./View.scss";
 
@@ -37,7 +37,6 @@ class View extends React.Component {
 					<h1>{this.state.post.title}</h1>
 					<h5>{this.state.post.sub_title}</h5>
 					</div>
-					<Image className="post-cover" src={this.state.post.cover} alt="封面"></Image>
 					<PostMdViewer value={this.state.post.content}/>
 				</Col>
 			</Row>

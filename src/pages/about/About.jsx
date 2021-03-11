@@ -4,7 +4,6 @@ import {Col, Row} from "react-bootstrap";
 import Configs from "@/configs";
 import Message from "@components/about/Message";
 import Introduction from "@components/about/Introduction";
-import Beian from "@components/about/Beian";
 import Dependence from "@components/about/Dependence";
 import './About.scss'
 

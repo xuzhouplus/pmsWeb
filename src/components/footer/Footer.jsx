@@ -6,9 +6,9 @@ class Footer extends React.Component {
 	render() {
 		return (
 			<Navbar>
-				<Nav className="footer-navbar bg-main-color justify-content-center">
+				<Nav className="footer-navbar justify-content-center">
 					<Nav.Item>
-						<Nav.Link href="http://www.miit.gov.cn/" target="_blank" rel="noreferrer noopener">{this.props.site.icp}</Nav.Link>
+						<Nav.Link href="http://beian.miit.gov.cn/" target="_blank" rel="noreferrer noopener">{this.props.site.icp}</Nav.Link>
 					</Nav.Item>
 				</Nav>
 			</Navbar>

@@ -7,6 +7,14 @@
 
   .post-title {
     border-bottom: 1px solid var(--main-color);
+
+    h1 {
+      color: var(--main-color);
+    }
+
+    h5 {
+      color: var(--main-color-transparent);
+    }
   }
 
   .post-cover {

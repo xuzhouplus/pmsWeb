@@ -40,16 +40,15 @@ class Index extends React.Component {
 	}
 
 	getCarouselList = () => {
-		const that = this;
 		if (this.state.isLoading) {
 			return;
 		}
 		this.setState({
 			idLoading: true
 		})
-		const cancelTokenSource = Utils.getCarouselList({}, function (response) {
-			if (that.state.cancelTokenSource) {
-				that.setState({
+		const cancelTokenSource = Utils.getCarouselList({},  (response)=> {
+			if (this.state.cancelTokenSource) {
+				this.setState({
 					carousels: response.data,
 					cancelTokenSource: null,
 					isLoading: false,
@@ -59,7 +58,7 @@ class Index extends React.Component {
 		}, function (error) {
 
 		})
-		that.setState({
+		this.setState({
 			cancelTokenSource: cancelTokenSource
 		})
 	}

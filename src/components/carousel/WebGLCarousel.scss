@@ -29,7 +29,7 @@
     padding: 10px;
     color: #F8F8F8;
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #666666;
+    -webkit-text-stroke-color: var(--main-color);
     opacity: 0.8;
   }
 
@@ -74,7 +74,7 @@
     height: 16px;
     background-color: #F8F8F8;
     border-radius: 100%;
-    border: 1px solid #666666;
+    border: 1px solid var(--main-color);
     padding: 0;
     margin: 30px 0;
     cursor: pointer;
@@ -128,7 +128,7 @@
       width: 18px;
       height: 18px;
       border-radius: 100%;
-      border: 1px solid #666666;
+      border: 1px solid var(--main-color);
       opacity: 0.2;
       transition: opacity 0.4s ease-in-out, width 0.4s ease-in-out, height 0.4s ease-in-out;
     }

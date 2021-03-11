@@ -14,7 +14,7 @@ class Navibar extends React.Component {
 				text: '请输入账号',
 				isValid: false,
 				isInvalid: false,
-				value: 'admin'
+				value: ''
 			},
 			password: {
 				label: '密码',
@@ -22,7 +22,7 @@ class Navibar extends React.Component {
 				text: '请输入密码',
 				isValid: false,
 				isInvalid: false,
-				value: '123456'
+				value: ''
 			},
 		}
 	}
@@ -48,14 +48,13 @@ class Navibar extends React.Component {
 	}
 
 	render() {
-		console.log(this.state);
 		let loginModal = '';
 		if (this.state.loginModal) {
 			loginModal = <LoginModal show={this.state.loginModal} handleModal={this.handleModal} afterLogged={this.props.afterLogin}
 									 appLogo={this.props.site.logo} account={this.state.account} password={this.state.password}/>
 		}
 		return (
-			<Navbar>
+			<Navbar className="main-color-navbar">
 				{loginModal}
 				<Navbar.Brand href="/">
 					<Image src={this.props.site.logo} rounded className="brand-img" alt="Home"/>

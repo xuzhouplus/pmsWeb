@@ -57,7 +57,6 @@ class LoginModal extends React.Component {
 			return
 		}
 		const cancelTokenSource = Utils.login(loginAccount.value, loginPassword.value, response => {
-			console.log(response);
 			this.props.afterLogged(response.data);
 		}, error => {
 			console.log(error);
