@@ -5,8 +5,8 @@ import './PostBox.scss';
 class PostBox extends React.Component {
 	render() {
 		let previewButton = null;
-		if (this.props.preview) {
-			previewButton = <Button variant="primary" className="btn-main-color" onClick={this.props.preview}>预览</Button>
+		if (this.props.preview || this.props.view) {
+			previewButton = <Button variant="primary" className="btn-main-color" onClick={this.props.preview}>查看</Button>
 		}
 		let putOnButton = null;
 		if (this.props.putOn) {
@@ -30,7 +30,7 @@ class PostBox extends React.Component {
 		}
 
 		return (
-			<Card className="post-box" onClick={this.props.preview} style={{"backgroundImage": "url(" + this.props.thumb + ")"}}>
+			<Card className="post-box" onClick={this.props.preview ? this.props.preview : (this.props.view ? this.props.view : null)} style={{"backgroundImage": "url(" + this.props.thumb + ")"}}>
 				<Card.Body>
 					<Card.Title>{this.props.name}</Card.Title>
 					<Card.Text>

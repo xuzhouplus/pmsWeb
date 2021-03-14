@@ -43,7 +43,6 @@ AudioVisualizer.prototype = {
 		try {
 			this.audioContext = new AudioContext();
 		} catch (e) {
-			this._updateInfo('!Your browser does not support AudioContext', false);
 			console.log(e);
 		}
 	},
@@ -60,19 +59,15 @@ AudioVisualizer.prototype = {
 			}
 			// that._updateInfo('Decoding the audio', true);
 			audioContext.decodeAudioData(fileResult, function (buffer) {
-				that._updateInfo('Decode succussfully,start the visualizer', true);
 				that._visualize(audioContext, buffer);
 			}, function (e) {
-				that._updateInfo('!Fail to decode the file', false);
 				console.error(e);
 			});
 		};
 		fr.onerror = function (e) {
-			that._updateInfo('!Fail to read the file', false);
 			console.error(e);
 		};
 		//assign the file to the reader
-		this._updateInfo('Starting read the file', true);
 		fr.readAsArrayBuffer(file);
 	},
 	_visualize: function (audioContext, buffer) {
@@ -169,27 +164,6 @@ AudioVisualizer.prototype = {
 		this.status = 0;
 		const text = 'HTML5 Audio API showcase | An Audio Viusalizer';
 		instance.info = text;
-	},
-	_updateInfo: function (text, processing) {
-		let infoBar = document.getElementById('audio-visualizer-text'),
-			dots = '...',
-			i = 0,
-			that = this;
-		infoBar.innerHTML = text + dots.substring(0, i++);
-		if (this.infoUpdateId !== null) {
-			clearTimeout(this.infoUpdateId);
-		}
-		if (processing) {
-			//animate dots at the end of the info text
-			const animateDot = function () {
-				if (i > 3) {
-					i = 0
-				}
-				infoBar.innerHTML = text + dots.substring(0, i++);
-				that.infoUpdateId = setTimeout(animateDot, 250);
-			};
-			this.infoUpdateId = setTimeout(animateDot, 250);
-		}
 	}
 }
 

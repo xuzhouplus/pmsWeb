@@ -14,7 +14,7 @@ class Index extends React.Component {
 			isLoading: false,
 			search: null,
 			page: 0,
-			count: 0,
+			limit: 10,
 			posts: []
 		}
 	}
@@ -36,13 +36,12 @@ class Index extends React.Component {
 		this.setState({
 			idLoading: true
 		})
-		const cancelTokenSource = Utils.posts({search: this.state.search, page: this.state.page}, response => {
+		const cancelTokenSource = Utils.posts({search: this.state.search, page: this.state.page, limit: this.state.limit}, response => {
 			console.log(response)
 			if (this.state.cancelTokenSource) {
 				this.setState({
 					page: response.data.page + 1,
-					posts: this.state.posts.concat(response.data.posts),
-					count: response.data.count
+					posts: this.state.posts.concat(response.data.posts)
 				})
 			}
 		}, error => {
@@ -64,10 +63,11 @@ class Index extends React.Component {
 		let boxList
 		console.log(this.state.posts);
 		if (this.state.posts.length > 0) {
-			boxList = this.state.posts.map((item, index) =>
-				<PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)}></PostBox>
+			boxList = this.state.posts.map((item, index) => {
+					return <PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)}></PostBox>
+				}
 			);
-			boxList = <InfiniteScroll scrollableTarget="post-index-container" dataLength={this.state.count} next={this.getPostList} hasMore={this.state.page < this.state.count} loader={<Loading></Loading>}>{boxList}</InfiniteScroll>
+			boxList = <InfiniteScroll scrollableTarget="post-index-container" dataLength={this.state.posts.length} next={this.getPostList} hasMore={this.state.size < this.state.limit} loader={<Loading></Loading>}>{boxList}</InfiniteScroll>
 		} else {
 			boxList = <Loading></Loading>
 		}
