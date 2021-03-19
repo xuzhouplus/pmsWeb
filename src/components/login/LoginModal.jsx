@@ -2,7 +2,14 @@ import React from 'react';
 import {Form, Button, Modal, Image} from 'react-bootstrap';
 import Utils from '../../utils/Utils';
 import Swal from "sweetalert2";
+import {connect} from "react-redux";
 import './LoginModal.scss';
+
+function mapStateToProps(state) {
+	return {
+		site: state.site
+	};
+}
 
 class LoginModal extends React.Component {
 	constructor(props) {
@@ -134,6 +141,9 @@ class LoginModal extends React.Component {
 	}
 
 	render() {
+		const connectBox = this.props.site.connects.map(connect =>
+			<Image key={connect} className="connect-button" alt="connect-alipay" src={process.env.PUBLIC_URL + '/connects/' + connect + '.png'}></Image>
+		)
 		return (
 			<Modal className="login-container" centered show={this.props.show} onHide={this.props.handleModal}>
 				<Modal.Header closeButton>
@@ -162,11 +172,11 @@ class LoginModal extends React.Component {
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>
-					<Image className="connect-button" alt="connect-alipay" src={process.env.PUBLIC_URL + '/connects/alipay.png'}></Image>
+					{connectBox}
 				</Modal.Footer>
 			</Modal>
 		);
 	}
 }
 
-export default LoginModal;
+export default connect(mapStateToProps, null)(LoginModal);

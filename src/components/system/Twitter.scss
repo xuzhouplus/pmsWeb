@@ -1,16 +1,16 @@
-.alipay-settings-container {
+.twitter-settings-container {
   height: 100%;
 
-  .alipay-settings-table {
+  .twitter-settings-table {
     overflow-y: auto;
     max-height: 100%;
 
-    .alipay_app_id {
+    .twitter_app_id {
       height: 4.375rem;
     }
 
-    #alipay_app_primary_key,
-    #alipay_public_key {
+    #twitter_app_primary_key,
+    #twitter_public_key {
       resize: none;
     }
 
@@ -18,13 +18,13 @@
       left: 0.3rem;
     }
 
-    .alipay-settings-note {
+    .twitter-settings-note {
       padding-top: 1.25rem;
       border-top: 1px solid #ced4da;
     }
   }
 
-  .alipay-settings-footer {
+  .twitter-settings-footer {
     display: flex;
     justify-content: flex-end;
   }

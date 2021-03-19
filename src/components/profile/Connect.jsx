@@ -8,7 +8,8 @@ import Swal from "sweetalert2";
 
 function mapStateToProps(state) {
 	return {
-		account: state.auth
+		account: state.auth,
+		site: state.site
 	};
 }
 
@@ -147,21 +148,23 @@ class Connect extends React.Component {
 		} else {
 			let connectBox = this.state.providers.map((providers, index) => {
 				let rowBox = providers.map(provider => {
-					let connect = this.state.connects[provider.id];
-					if (typeof connect !== 'undefined') {
-						return <Card key={provider.id} onClick={this.handleUnbind.bind(this, connect.id)}>
-							<Card.Body style={{'backgroundImage': 'url("' + connect.avatar + '")'}}>
-								<Card.Title>{connect.account.replace('\\', '')}</Card.Title>
-								<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
-							</Card.Body>
-						</Card>;
-					} else {
-						return <Card key={provider.id} onClick={this.handleBind.bind(this, provider.id)}>
-							<Card.Body className="connect-link" style={{'backgroundImage': 'url("' + process.env.PUBLIC_URL + '/connects/link.png")'}}>
-								<Card.Title>{provider.name}</Card.Title>
-								<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
-							</Card.Body>
-						</Card>;
+					if (this.props.site.connects.indexOf(provider.id) != -1) {
+						let connect = this.state.connects[provider.id];
+						if (typeof connect !== 'undefined') {
+							return <Card key={provider.id} onClick={this.handleUnbind.bind(this, connect.id)}>
+								<Card.Body style={{'backgroundImage': 'url("' + connect.avatar + '")'}}>
+									<Card.Title>{connect.account.replace('\\', '')}</Card.Title>
+									<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
+								</Card.Body>
+							</Card>;
+						} else {
+							return <Card key={provider.id} onClick={this.handleBind.bind(this, provider.id)}>
+								<Card.Body className="connect-link" style={{'backgroundImage': 'url("' + process.env.PUBLIC_URL + '/connects/link.png")'}}>
+									<Card.Title>{provider.name}</Card.Title>
+									<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
+								</Card.Body>
+							</Card>;
+						}
 					}
 				})
 				return <div key={'connect-row-' + index} className="admin-connect-row">
