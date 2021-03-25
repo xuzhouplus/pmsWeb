@@ -46,11 +46,15 @@ class Navibar extends React.Component {
 			loginModal: !this.state.loginModal
 		})
 	}
+	afterLogged = (loginUser) => {
+		this.handleModal();
+		this.props.afterLogin(loginUser);
+	}
 
 	render() {
 		let loginModal = '';
 		if (this.state.loginModal) {
-			loginModal = <LoginModal show={this.state.loginModal} handleModal={this.handleModal} afterLogged={this.props.afterLogin}
+			loginModal = <LoginModal show={this.state.loginModal} handleModal={this.handleModal} afterLogged={this.afterLogged}
 									 appLogo={this.props.site.logo} account={this.state.account} password={this.state.password}/>
 		}
 		return (

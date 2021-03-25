@@ -7,9 +7,8 @@ import Loading from "./mask/Loading";
 import Footer from "@components/footer/Footer";
 import {connect} from "react-redux";
 import AdminNavibar from "@components/navbar/AdminNavibar";
-import {loginAction, logoutAction} from "../redux/Actions";
+import {loginAction, logoutAction, programAction} from "../redux/Actions";
 import Utils from "../utils/Utils";
-import axios from "axios";
 
 function mapStateToProps(state) {
 	return {
@@ -21,6 +20,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
+		program: (program) => {
+			dispatch({
+				type: programAction.type,
+				payload: program
+			})
+		},
 		login: (user) => {
 			dispatch({
 				type: loginAction.type,
@@ -37,10 +42,12 @@ function mapDispatchToProps(dispatch) {
 
 class Main extends React.Component {
 	login = (loginUser) => {
-		axios.defaults.headers.common['Authorization'] = loginUser.token;
+		// axios.defaults.headers.common['Authorization'] = loginUser.token;
+		sessionStorage.setItem('auth', JSON.stringify(loginUser));
 		this.setState({
 			loginModal: false
 		})
+		this.props.program({showLogin: false})
 		this.props.login(loginUser)
 	}
 
@@ -55,17 +62,16 @@ class Main extends React.Component {
 	}
 
 	componentDidMount() {
-		const that = this;
 		let authString = sessionStorage.getItem('auth');
 		if (authString) {
 			let auth = JSON.parse(authString);
-			that.login(auth);
+			this.login(auth);
 		} else {
-			Utils.auth(function (response) {
-				that.login(response.data);
-				sessionStorage.setItem('auth', JSON.stringify(response.data));
-			}, function (error) {
+			Utils.auth(response => {
+				this.login(response.data);
+			}, error => {
 				console.log(error);
+				this.props.logout();
 			});
 		}
 	}

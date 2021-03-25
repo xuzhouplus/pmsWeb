@@ -29,7 +29,8 @@ let site = (state = siteState, action) => {
 				icon: "",
 				logo: "",
 				carousel_type: null,
-				carousel_limit: null
+				carousel_limit: null,
+				connects: []
 			}
 		default:
 			return state;

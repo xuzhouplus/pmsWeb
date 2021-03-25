@@ -1,7 +1,6 @@
 import React from 'react';
 import {Form, Button, Modal, Image} from 'react-bootstrap';
 import Utils from '../../utils/Utils';
-import Swal from "sweetalert2";
 import {connect} from "react-redux";
 import './LoginModal.scss';
 
@@ -67,15 +66,12 @@ class LoginModal extends React.Component {
 			this.props.afterLogged(response.data);
 		}, error => {
 			console.log(error);
-			Swal.fire({
-				icon: 'error',
-				text: error,
-				confirmButtonText: "确定",
-				backdrop: true,
-				allowOutsideClick: false
-			})
+			loginAccount.text = error;
+			loginAccount.isInvalid = true;
+			loginAccount.isValid = false;
 			this.setState({
 				status: 'inputting',
+				account: loginAccount,
 				cancelTokenSource: null
 			})
 		});

@@ -267,7 +267,11 @@ const Utils = {
 			if (result.data.code === 1) {
 				callback(result.data);
 			} else {
-				fallback(result.statusText);
+				if(result.data.message){
+					fallback(result.data.message);
+				}else {
+					fallback(result.statusText);
+				}
 			}
 		}).catch(function (error) {
 			let message;
