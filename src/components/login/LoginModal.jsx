@@ -120,14 +120,17 @@ class LoginModal extends React.Component {
 			//@todo nothing
 		}
 	}
-	connectToWechat = () => {
-		//@todo nothing
-	}
-	connectToQQ = () => {
-		//@todo nothing
-	}
-	connectToWeibo = () => {
-		//@todo nothing
+	connect = (type) => {
+		Utils.adminAuthorize({
+			type: type,
+			scope: 'auth_user',
+			to: 'login'
+		}, response => {
+			console.log(response);
+			window.location.href = response.data;
+		}, error => {
+			console.log(error);
+		});
 	}
 
 	componentWillUnmount() {
@@ -138,7 +141,7 @@ class LoginModal extends React.Component {
 
 	render() {
 		const connectBox = this.props.site.connects.map(connect =>
-			<Image key={connect} className="connect-button" alt="connect-alipay" src={process.env.PUBLIC_URL + '/connects/' + connect + '.png'}></Image>
+			<Image key={connect} className="connect-button" alt="connect-alipay" src={process.env.PUBLIC_URL + '/connects/' + connect + '.png'} onClick={this.connect.bind(this, connect)}></Image>
 		)
 		return (
 			<Modal className="login-container" centered show={this.props.show} onHide={this.props.handleModal}>

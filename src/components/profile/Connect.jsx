@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import Utils from "../../utils/Utils";
 import Loading from "../loading/Loading";
 import {Card} from "react-bootstrap";
-import "./Connect.scss";
 import Swal from "sweetalert2";
+import "./Connect.scss";
 
 function mapStateToProps(state) {
 	return {

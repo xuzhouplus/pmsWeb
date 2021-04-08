@@ -33,11 +33,12 @@ class Authorize extends React.Component {
 				<Card className="admin-connect-container">
 					<Card.Body className="admin-connect-table">
 						<Card>
-							<Card.Body>
-								<Card.Img src={process.env.PUBLIC_URL + '/connects/alipay.png'}></Card.Img>
+							<Card.Body className="connect-link" style={{'backgroundImage': 'url("' + this.state.connect.avatar + '")'}}>
+								<Card.Title>{this.state.connect.account.replace('\\', '')}</Card.Title>
+								<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + '/connects/' + this.state.connect.type + '.png'}></Card.Img>
 							</Card.Body>
 							<Card.Footer>
-								支付宝
+								<a href="/profile/connect">绑定成功</a>
 							</Card.Footer>
 						</Card>
 						<div className="admin-connect-note">
