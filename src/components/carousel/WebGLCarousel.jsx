@@ -2,6 +2,7 @@ import React from 'react';
 import TweenMax from 'gsap';
 import * as THREE from 'three';
 import ImagesLoaded from 'imagesloaded';
+import configs from '@/configs';
 import './WebGLCarousel.scss';
 
 class WebGlCarousel extends React.Component {
@@ -63,6 +64,9 @@ class WebGlCarousel extends React.Component {
 			loader.crossOrigin = "anonymous";
 			//加载图片
 			images.forEach(function (img, index) {
+				if (img.url.indexOf(configs.proxyBackendHost) === -1) {
+					img.url = configs.proxyBackendHost + img.url;
+				}
 				image = loader.load(img.url);
 				image.magFilter = image.minFilter = THREE.LinearFilter;
 				image.anisotropy = renderer.capabilities.getMaxAnisotropy();
@@ -166,7 +170,7 @@ class WebGlCarousel extends React.Component {
 			};
 			let pageIndex = 0;
 			const loop = function () {
-				if(webGLCarouselComponent.interval){
+				if (webGLCarouselComponent.interval) {
 					clearInterval(webGLCarouselComponent.interval);
 				}
 				let interval = setInterval(function () {
