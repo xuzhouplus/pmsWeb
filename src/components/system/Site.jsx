@@ -204,6 +204,10 @@ class Site extends React.Component {
 						}
 						control = <div className="form-control">{items}</div>
 						break;
+					case 'range':
+						options = JSON.parse(setting.options);
+						control = <Form.Control key={key} type="range" min={options.min} max={options.max} onChange={this.handleChange} value={setting.value}  isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}/>
+						break;
 					case 'input':
 					default:
 						control = <Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}/>
@@ -226,12 +230,14 @@ class Site extends React.Component {
 						<Form.Label>{setting.name}</Form.Label>
 						{control}
 						<div className="invalid-tooltip">请输入{setting.name}</div>
+						<Form.Text muted>{setting.description}</Form.Text>
 					</Form.Group>
 				} else {
 					formGroup = <Form.Group key={setting.key} controlId={setting.key} className="position-relative">
 						<Form.Label>{setting.name}</Form.Label>
 						{control}
 						<Form.Control.Feedback type="invalid" tooltip>{fieldState ? fieldState.text : ''}</Form.Control.Feedback>
+						<Form.Text muted>{setting.description}</Form.Text>
 					</Form.Group>
 				}
 				formContent.push(formGroup);

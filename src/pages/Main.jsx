@@ -71,12 +71,13 @@ class Main extends React.Component {
 				this.login(response.data);
 			}, error => {
 				console.log(error);
-				this.props.logout();
+				// this.props.logout();
 			});
 		}
 	}
 
 	render() {
+		console.log(this.props.site);
 		//home
 		const Home = lazy(() => import('./home/Home'));
 		//carousel
@@ -105,7 +106,7 @@ class Main extends React.Component {
 		}
 		return (
 			<Container fluid className="app-container">
-				<Helmet title={this.props.site.title} link={[{rel: "shortcut icon", href: this.props.site.icon}]}></Helmet>
+				<Helmet title={this.props.site.title} link={[{rel: "shortcut icon", href: this.props.site.icon ? this.props.site.icon : '/favicon.ico'}]}></Helmet>
 				<Row className="app-header fixed-top">
 					<Col xs={12} lg={12}>
 						{NavigateBar}

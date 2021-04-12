@@ -12,7 +12,8 @@ class Carousel extends React.Component {
 			cancelTokenSource: null,
 			settings: {},
 			carousel_type: {},
-			carousel_limit: {}
+			carousel_limit: {},
+			carousel_interval: {}
 		}
 	}
 
@@ -52,7 +53,8 @@ class Carousel extends React.Component {
 		let settings = this.state.settings;
 		Utils.carouselSettings('post', {
 			carousel_type: settings.carousel_type.value,
-			carousel_limit: settings.carousel_limit.value
+			carousel_limit: settings.carousel_limit.value,
+			carousel_interval: settings.carousel_interval.value
 		}, response => {
 			console.log(response);
 			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
@@ -71,6 +73,7 @@ class Carousel extends React.Component {
 			for (let key in options) {
 				items.push(<option key={key} value={key}>{options[key]}</option>);
 			}
+			console.log(this.state);
 			return (
 				<Card className="carousel-settings-container">
 					<Card.Body className="carousel-settings-table">
@@ -81,6 +84,15 @@ class Carousel extends React.Component {
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.carousel_type.text}
 								</Form.Control.Feedback>
+								<Form.Text muted>{this.state.settings.carousel_type.description}</Form.Text>
+							</Form.Group>
+							<Form.Group controlId="carousel_interval" className="position-relative">
+								<Form.Label>轮播间隔时间</Form.Label>
+								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} defaultValue={this.state.settings.carousel_interval.value} isInvalid={this.state.carousel_interval.isInvalid} isValid={this.state.carousel_interval.isValid}></Form.Control>
+								<Form.Control.Feedback type="invalid" tooltip>
+									{this.state.carousel_interval.text}
+								</Form.Control.Feedback>
+								<Form.Text muted>{this.state.settings.carousel_interval.description}</Form.Text>
 							</Form.Group>
 							<Form.Group controlId="carousel_limit" className="position-relative">
 								<Form.Label>轮播数量限制（{this.state.settings.carousel_limit.value}）</Form.Label>
@@ -88,6 +100,7 @@ class Carousel extends React.Component {
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.carousel_limit.text}
 								</Form.Control.Feedback>
+								<Form.Text muted>{this.state.settings.carousel_limit.description}</Form.Text>
 							</Form.Group>
 						</Form>
 					</Card.Body>

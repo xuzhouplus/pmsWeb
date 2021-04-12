@@ -10,6 +10,10 @@ let initAction = {
 	type: 'init'
 }
 
+let destroyAction = {
+	type: 'destroy'
+}
+
 let programAction = {
 	type: 'program',
 	payload: {}
@@ -19,5 +23,6 @@ export {
 	loginAction,
 	logoutAction,
 	initAction,
+	destroyAction,
 	programAction
 }

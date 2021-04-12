@@ -6,7 +6,7 @@ const configs = {
 		"vvE/9qLTkQzDNGF56QIDAQAB\n" +
 		"-----END PUBLIC KEY-----",
 	fullpageLicenseKey: 'B2024500-5DBF4886-84798F7B-C8C76066',
-	proxyBackendHost: "http://www.xuzhouplus.com.cn/server",
+	proxyBackendHost: "/server",
 	vaptchaJsUrl: "://v.vaptcha.com/v3.js",
 	settingUrl: "/setting",
 	authUrl: "/admin/auth",

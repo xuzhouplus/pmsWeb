@@ -61,7 +61,7 @@ class Navibar extends React.Component {
 			<Navbar className="main-color-navbar">
 				{loginModal}
 				<Navbar.Brand href="/">
-					<Image src={this.props.site.logo} rounded className="brand-img" alt="Home"/>
+					<Image src={this.props.site.logo ? this.props.site.logo : '/logo192.png'} rounded className="brand-img" alt={this.props.site.title}/>
 					<div className="brand-text">{this.props.site.title}</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav"/>

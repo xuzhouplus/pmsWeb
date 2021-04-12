@@ -18,7 +18,7 @@ class AdminNavibar extends React.Component {
 		return (
 			<Navbar className="main-color-navbar">
 				<Navbar.Brand href="/">
-					<Image src={this.props.site.logo} rounded className="brand-img" alt="Home"/>
+					<Image src={this.props.site.logo ? this.props.site.logo : '/logo192.png'} rounded className="brand-img" alt="Home"/>
 					<div className="brand-text">{this.props.site.title}</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav"/>

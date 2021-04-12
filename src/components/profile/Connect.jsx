@@ -148,7 +148,7 @@ class Connect extends React.Component {
 		} else {
 			let connectBox = this.state.providers.map((providers, index) => {
 				let rowBox = providers.map(provider => {
-					if (this.props.site.connects.indexOf(provider.id) != -1) {
+					if (this.props.site.connects.indexOf(provider.id) !== -1) {
 						let connect = this.state.connects[provider.id];
 						if (typeof connect !== 'undefined') {
 							return <Card key={provider.id} onClick={this.handleUnbind.bind(this, connect.id)}>
@@ -165,6 +165,8 @@ class Connect extends React.Component {
 								</Card.Body>
 							</Card>;
 						}
+					}else{
+						return '';
 					}
 				})
 				return <div key={'connect-row-' + index} className="admin-connect-row">

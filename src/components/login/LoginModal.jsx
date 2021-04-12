@@ -146,7 +146,7 @@ class LoginModal extends React.Component {
 		return (
 			<Modal className="login-container" centered show={this.props.show} onHide={this.props.handleModal}>
 				<Modal.Header closeButton>
-					<Image className="logo" alt="Logo" src={this.props.appLogo}/>
+					<Image className="logo" alt="Logo" src={this.props.appLogo ? this.props.appLogo : '/logo192.png'}/>
 				</Modal.Header>
 				<Modal.Body>
 					<Form className="login-form" validated={this.state.validated} onSubmit={this.handleSubmit}>

@@ -1,4 +1,4 @@
-import {loginAction, logoutAction, initAction, programAction} from './Actions';
+import {loginAction, logoutAction, initAction, destroyAction, programAction} from './Actions';
 import {programState, authState, siteState} from './States';
 
 let auth = (state = authState, action) => {
@@ -20,7 +20,7 @@ let site = (state = siteState, action) => {
 	switch (action.type) {
 		case initAction.type:
 			return action.payload;
-		case logoutAction.type:
+		case destroyAction.type:
 			return {
 				title: "",
 				icp: null,
@@ -30,6 +30,7 @@ let site = (state = siteState, action) => {
 				logo: "",
 				carousel_type: null,
 				carousel_limit: null,
+				carousel_interval: null,
 				connects: []
 			}
 		default:

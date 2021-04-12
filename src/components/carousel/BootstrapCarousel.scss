@@ -1,0 +1,64 @@
+.bootstrap-carousel {
+  .carousel-indicators {
+    bottom: 4rem;
+
+    li {
+      display: block;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-color: #F8F8F8;
+      border: 1px solid var(--main-color);
+
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        border-radius: 100%;
+        border: 1px solid #F8F8F8;
+        opacity: 0.2;
+        transition: opacity 0.4s ease-in-out, width 0.4s ease-in-out, height 0.4s ease-in-out;
+      }
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        border: 1px solid var(--main-color);
+        opacity: 0.2;
+        transition: opacity 0.4s ease-in-out, width 0.4s ease-in-out, height 0.4s ease-in-out;
+      }
+    }
+  }
+
+  .carousel-caption {
+    position: absolute;
+    width: 34%;
+    top: 50%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding-bottom: 0;
+    text-align: right;
+    z-index: 5;
+    transform: translateY(-50%);
+    color: #F8F8F8;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: var(--main-color);
+    opacity: 0.8;
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+
+    .carousel-title {
+      font-size: 100px;
+      letter-spacing: -1px;
+    }
+
+    .carousel-description {
+      margin-top: 10px;
+      font-weight: 400;
+      font-size: 50px;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import {Nav, Navbar} from "react-bootstrap";
 import './Footer.scss'
 
-class Footer extends React.Component {
+class Footer extends React.PureComponent {
 	render() {
 		return (
 			<Navbar>

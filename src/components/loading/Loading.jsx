@@ -1,7 +1,7 @@
 import React from 'react'
 import './Loading.scss'
 
-class Loading extends React.Component {
+class Loading extends React.PureComponent {
     render() {
         return (
             <div className="loading-component">

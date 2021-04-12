@@ -1,17 +1,17 @@
 import React from 'react';
 import TweenMax from 'gsap';
 import * as THREE from 'three';
-import ImagesLoaded from 'imagesloaded';
 import configs from '@/configs';
+import ImagesLoaded from 'imagesloaded';
 import './WebGLCarousel.scss';
 
-class WebGlCarousel extends React.Component {
+class WebGlCarousel extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.interval = null;
 	}
 
-	renderCarousel(carousels) {
+	renderCarousel = (carousels, intervalTime) => {
 		let webGLCarouselComponent = this;
 		let displacementSlider = function (options) {
 			const vertex = 'varying vec2 vUv;void main() {vUv = uv;gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );}';
@@ -178,7 +178,7 @@ class WebGlCarousel extends React.Component {
 					pageIndex++;
 					pageIndex = parseInt(pageIndex % paginateButtons.length);
 					render(pageIndex);
-				}, 5000);
+				}, intervalTime * 1000);
 				webGLCarouselComponent.interval = interval;
 			};
 			const addEvents = function addEvents() {
@@ -190,18 +190,17 @@ class WebGlCarousel extends React.Component {
 						loop();
 					});
 				});
+
+				window.addEventListener('resize', function (e) {
+					renderer.setSize(renderWidth, renderHeight);
+				});
 			};
-
-			addEvents();
-
-			window.addEventListener('resize', function (e) {
-				renderer.setSize(renderWidth, renderHeight);
-			});
 
 			const animate = function animate() {
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
 			};
+			addEvents();
 			animate();
 			loop();
 		};
@@ -213,11 +212,11 @@ class WebGlCarousel extends React.Component {
 				container: sliderContainer,
 				images: carousels
 			});
-		});
+		})
 	}
 
 	componentDidMount() {
-		this.renderCarousel(this.props.files)
+		this.renderCarousel(this.props.files, this.props.interval)
 	}
 
 	componentWillUnmount() {
@@ -227,10 +226,10 @@ class WebGlCarousel extends React.Component {
 	}
 
 	render() {
+		let imgList = this.props.files.map(file => <img key={file.id} src={file.url} alt={file.title}></img>)
 		return (
-			<div className="section row carousel" id="slider">
-				<div id="image-list">
-				</div>
+			<div className="section row carousel webgl-carousel" id="slider">
+				<div className="image-list">{imgList}</div>
 			</div>
 		);
 	}
