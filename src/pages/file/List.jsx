@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Card, Row, Button, InputGroup, FormControl} from "react-bootstrap";
+import {Col, Card, Row, Button, InputGroup, FormControl, ListGroup} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import FileUploadModal from "../../components/file/FileUploadModal";
 import FilePreviewModal from "../../components/file/FilePreviewModal";
@@ -7,6 +7,7 @@ import FileBox from "../../components/file/FileBox";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Paginator from "../../components/paginator/Paginator";
 import './List.scss';
+import {LinkContainer} from "react-router-bootstrap";
 
 class List extends React.Component {
 	constructor(props) {
@@ -17,7 +18,7 @@ class List extends React.Component {
 			modal: false,
 			isLoading: false,
 			page: 0,
-			limit: 20,
+			limit: 8,
 			count: 0,
 			total: 0,
 			files: []
@@ -26,6 +27,12 @@ class List extends React.Component {
 
 	componentDidMount() {
 		this.getFileList(this.props.match.params.page);
+	}
+
+	componentWillUnmount() {
+		if (this.state.cancelTokenSource) {
+			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
+		}
 	}
 
 	handleModal = () => {
@@ -46,7 +53,7 @@ class List extends React.Component {
 		this.setState({
 			idLoading: true
 		})
-		if (page - 1 < 0) {
+		if ((typeof page == 'undefined') || (page - 1) < 0) {
 			page = 1
 		}
 		const cancelTokenSource = Utils.getFileList({page: page - 1, limit: this.state.limit}, (response) => {
@@ -83,7 +90,7 @@ class List extends React.Component {
 	source = (index, event) => {
 		event.stopPropagation();
 		console.log(this.state.files[index]);
-		const subWindow = window.open(this.state.files[index].path, this.state.files[index].name, "channelmode=yes,fullscreen=yes,menubar=no,toolbar=no,status=no,location=no")
+		const subWindow = window.open(this.state.files[index].path, this.state.files[index].name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
 		subWindow.document.body.style.backgroundColor = "#00236099";
 	}
 	delete = (index, event) => {
@@ -92,21 +99,14 @@ class List extends React.Component {
 		Utils.deleteFile({
 			id: this.state.files[index].id
 		}, (response) => {
-			this.getFileList();
+			this.getFileList(this.state.page);
 		}, (error) => {
 			console.log(error);
 		});
 	}
 
 	changePage = (page) => {
-		console.log(page);
 		this.getFileList(page);
-	}
-
-	componentWillUnmount() {
-		if (this.state.cancelTokenSource) {
-			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
-		}
 	}
 
 	render() {
@@ -118,7 +118,28 @@ class List extends React.Component {
 			uploadModal = <FileUploadModal show={this.state.modal} handleModal={this.handleModal} afterUpload={this.afterUpload}/>
 		}
 		return (
-			<TreeNavibar active="file">
+			<TreeNavibar>
+				<Card>
+					<Card.Body>
+						<ListGroup as="ul">
+							<LinkContainer to="/file/list">
+								<ListGroup.Item action active disabled>
+									文件管理
+								</ListGroup.Item>
+							</LinkContainer>
+							<LinkContainer to="/carousel">
+								<ListGroup.Item action>
+									轮播管理
+								</ListGroup.Item>
+							</LinkContainer>
+							<LinkContainer to="/post/list">
+								<ListGroup.Item action>
+									稿件管理
+								</ListGroup.Item>
+							</LinkContainer>
+						</ListGroup>
+					</Card.Body>
+				</Card>
 				<Card className="file-list-container">
 					{this.state.preview ? <FilePreviewModal hide={this.hidePreview} {...this.state.preview}/> : ''}
 					{uploadModal}

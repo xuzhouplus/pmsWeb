@@ -60,22 +60,23 @@ class Index extends React.Component {
 	}
 
 	render() {
-		let boxList
-		console.log(this.state.posts);
-		if (this.state.posts.length > 0) {
-			boxList = this.state.posts.map((item, index) => {
-					return <PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)}></PostBox>
-				}
-			);
-			boxList = <InfiniteScroll scrollableTarget="post-index-container" dataLength={this.state.posts.length} next={this.getPostList} hasMore={this.state.size < this.state.limit} loader={<Loading></Loading>}>{boxList}</InfiniteScroll>
+		let boxContent
+		if (this.state.isLoading) {
+			boxContent = <Loading></Loading>
 		} else {
-			boxList = <Loading></Loading>
+			if (this.state.posts.length > 0) {
+				const boxList = this.state.posts.map((item, index) => {
+						return <PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)}></PostBox>
+					}
+				);
+				boxContent = <InfiniteScroll scrollableTarget="post-index-container" dataLength={this.state.posts.length} next={this.getPostList} hasMore={this.state.size < this.state.limit} loader={<Loading></Loading>}>{boxList}</InfiniteScroll>
+			}
 		}
 		return (
 			<Container>
 				<Row id="post-index-container" className="post-index-container">
 					<Col xs={12} lg={12} className="post-list-box">
-						{boxList}
+						{boxContent}
 					</Col>
 				</Row>
 			</Container>

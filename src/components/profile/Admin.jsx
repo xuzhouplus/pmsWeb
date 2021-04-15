@@ -4,8 +4,8 @@ import Utils from "../../utils/Utils";
 import Loading from "../loading/Loading";
 import {Button, Card, Form} from "react-bootstrap";
 import {loginAction} from "../../redux/Actions";
-import "./Admin.scss";
 import Swal from "sweetalert2";
+import "./Admin.scss";
 
 function mapStateToProps(state) {
 	return {

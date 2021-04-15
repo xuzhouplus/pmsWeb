@@ -36,7 +36,9 @@ class LoginModal extends React.Component {
 		};
 	}
 
-	handleSubmit = () => {
+	handleSubmit = (event) => {
+		event.stopPropagation();
+		event.preventDefault();
 		this.setState({
 			status: 'logging'
 		})
@@ -140,6 +142,7 @@ class LoginModal extends React.Component {
 	}
 
 	render() {
+		console.log(this.props);
 		const connectBox = this.props.site.connects.map(connect =>
 			<Image key={connect} className="connect-button" alt="connect-alipay" src={process.env.PUBLIC_URL + '/connects/' + connect + '.png'} onClick={this.connect.bind(this, connect)}></Image>
 		)
@@ -149,7 +152,7 @@ class LoginModal extends React.Component {
 					<Image className="logo" alt="Logo" src={this.props.appLogo ? this.props.appLogo : '/logo192.png'}/>
 				</Modal.Header>
 				<Modal.Body>
-					<Form className="login-form" validated={this.state.validated} onSubmit={this.handleSubmit}>
+					<Form className="login-form" id="login-modal-form" validated={this.state.validated} onSubmit={this.handleSubmit}>
 						<Form.Group className="position-relative">
 							<Form.Label htmlFor="input-account">{this.state.account.label}</Form.Label>
 							<Form.Control id="input-account" aria-describedby="account-text" type='text' placeholder={this.state.account.placeholder} value={this.state.account.value} isInvalid={this.state.account.isInvalid} isValid={this.state.account.isValid} onChange={this.onBlur} onBlur={this.onBlur}/>
@@ -165,7 +168,7 @@ class LoginModal extends React.Component {
 							</Form.Control.Feedback>
 						</Form.Group>
 						<div className="form-button">
-							<Button variant="primary" className={this.state.status === 'logging' ? 'logging' : ''} type="button" onClick={this.handleSubmit}>
+							<Button variant="primary" className={this.state.status === 'logging' ? 'logging' : ''} type="submit" onClick={this.handleSubmit}>
 							</Button>
 						</div>
 					</Form>

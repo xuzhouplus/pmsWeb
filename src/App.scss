@@ -28,8 +28,10 @@
 }
 
 :root {
-  --main-color: #002360;
-  --main-color-transparent: #00236099;
+  --main-color: black;
+  --main-color-transparent: rgba(0, 0, 0, 0.6);
+  --second-color: #939597;
+  --second-color-transparent: rgba(93, 95, 97, 0.6);
 }
 
 .modal-backdrop {
@@ -37,7 +39,7 @@
 }
 
 .modal {
-  background-color: rgba(0, 0, 0, 0.5) !important;
+  background-color: var(--main-color-transparent) !important;
 }
 
 .bg-main-color-transparent {
@@ -61,11 +63,15 @@
   .navbar-brand {
     color: rgb(255, 255, 255);
   }
-  .navbar-nav{
+
+  .navbar-nav {
     .nav-link {
       color: rgba(255, 255, 255, 0.5);
+
+      &.active,
+      &.show,
       &:focus,
-      &:hover{
+      &:hover {
         color: rgb(255, 255, 255);
       }
     }
@@ -90,6 +96,8 @@
 }
 
 .app-container {
+  a,
+  button,
   .btn,
   .form-control {
     &.focus,
@@ -100,9 +108,13 @@
   }
 
   .app-header {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--main-color);
     color: #F8F8F8;
     z-index: 99;
+
+    &.home-page {
+      background-color: var(--main-color-transparent);
+    }
 
     .navbar-brand {
       display: flex;
@@ -119,8 +131,12 @@
   }
 
   .app-footer {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--main-color);
     color: #F8F8F8;
     z-index: 99;
+
+    &.home-page {
+      background-color: var(--main-color-transparent);
+    }
   }
 }

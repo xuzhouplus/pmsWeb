@@ -1,6 +1,7 @@
 import React from 'react';
 import {Navbar, Nav, NavDropdown, Image} from 'react-bootstrap';
 import './Navibar.scss'
+import {LinkContainer} from "react-router-bootstrap";
 
 class AdminNavibar extends React.Component {
 	constructor(props) {
@@ -25,19 +26,29 @@ class AdminNavibar extends React.Component {
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
 					<Nav>
 						<Nav.Item>
-							<Nav.Link href="/">主页</Nav.Link>
+							<LinkContainer to="/" exact>
+								<Nav.Link eventKey="admin-home">主页</Nav.Link>
+							</LinkContainer>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href="/post/list">稿件</Nav.Link>
+							<LinkContainer to="/post/list">
+								<Nav.Link eventKey="admin-post">稿件</Nav.Link>
+							</LinkContainer>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href="/file/list">文件</Nav.Link>
+							<LinkContainer to="/file/list">
+								<Nav.Link eventKey="admin-file">文件</Nav.Link>
+							</LinkContainer>
 						</Nav.Item>
 						<NavDropdown title={this.props.account.account} id="account-nav-dropdown">
-							<NavDropdown.Item href="/profile">账号信息</NavDropdown.Item>
-							<NavDropdown.Item href="/system">系统配置</NavDropdown.Item>
+							<LinkContainer to="/profile/index">
+								<NavDropdown.Item eventKey="admin-profile">账号信息</NavDropdown.Item>
+							</LinkContainer>
+							<LinkContainer to="/system">
+								<NavDropdown.Item eventKey="admin-system">系统配置</NavDropdown.Item>
+							</LinkContainer>
 							<NavDropdown.Divider/>
-							<NavDropdown.Item href="#" onClick={this.logout}>登出</NavDropdown.Item>
+							<NavDropdown.Item eventKey="admin-logout" href="#" onClick={this.logout}>登出</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
 				</Navbar.Collapse>

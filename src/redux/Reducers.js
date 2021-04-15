@@ -7,7 +7,7 @@ let auth = (state = authState, action) => {
 			return action.payload;
 		case logoutAction.type:
 			return {
-				id: null,
+				uuid: null,
 				name: "",
 				avatar: "",
 				token: ""

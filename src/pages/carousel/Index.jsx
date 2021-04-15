@@ -1,10 +1,11 @@
 import React from "react";
-import {Button, Card} from "react-bootstrap";
+import {Button, Card, ListGroup} from "react-bootstrap";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import CarouselCreateModal from "../../components/carousel/CarouselCreateModal";
 import './Index.scss'
+import {LinkContainer} from "react-router-bootstrap";
 
 function mapStateToProps(state) {
 	return {
@@ -116,7 +117,28 @@ class Index extends React.Component {
 			</div>
 		}
 		return (
-			<TreeNavibar active="carousel">
+			<TreeNavibar>
+				<Card>
+					<Card.Body>
+						<ListGroup as="ul">
+							<LinkContainer to="/file/list">
+								<ListGroup.Item action>
+									文件管理
+								</ListGroup.Item>
+							</LinkContainer>
+							<LinkContainer to="/carousel">
+								<ListGroup.Item action active disabled>
+									轮播管理
+								</ListGroup.Item>
+							</LinkContainer>
+							<LinkContainer to="/post/list">
+								<ListGroup.Item action>
+									稿件管理
+								</ListGroup.Item>
+							</LinkContainer>
+						</ListGroup>
+					</Card.Body>
+				</Card>
 				<Card className="carousel-list-container">
 					{uploadModal}
 					<Card.Body id="file-table" className="file-table">

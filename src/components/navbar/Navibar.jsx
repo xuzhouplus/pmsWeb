@@ -1,13 +1,13 @@
 import React from 'react';
 import {Navbar, Nav, Image} from 'react-bootstrap';
 import LoginModal from '../login/LoginModal'
+import {LinkContainer} from 'react-router-bootstrap'
 import './Navibar.scss'
 
 class Navibar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loginModal: false,
 			account: {
 				label: '账号',
 				placeholder: '请输入账号',
@@ -27,34 +27,10 @@ class Navibar extends React.Component {
 		}
 	}
 
-	shouldComponentUpdate(nextProps, nextState, nextContext) {
-		let thisLoginModal = this.state.loginModal;
-		if (thisLoginModal !== nextProps.showLogin) {
-			this.setState({
-				loginModal: nextProps.showLogin
-			})
-			return true;
-		}
-		if (thisLoginModal !== nextState.loginModal) {
-			return true;
-		}
-		return false;
-	}
-
-	handleModal = () => {
-		this.setState({
-			loginModal: !this.state.loginModal
-		})
-	}
-	afterLogged = (loginUser) => {
-		this.handleModal();
-		this.props.afterLogin(loginUser);
-	}
-
 	render() {
 		let loginModal = '';
-		if (this.state.loginModal) {
-			loginModal = <LoginModal show={this.state.loginModal} handleModal={this.handleModal} afterLogged={this.afterLogged}
+		if (this.props.showLogin) {
+			loginModal = <LoginModal show={this.props.showLogin} handleModal={this.props.handleModal} afterLogged={this.props.afterLogin}
 									 appLogo={this.props.site.logo} account={this.state.account} password={this.state.password}/>
 		}
 		return (
@@ -68,16 +44,22 @@ class Navibar extends React.Component {
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
 					<Nav>
 						<Nav.Item>
-							<Nav.Link href="/">主页</Nav.Link>
+							<LinkContainer to="/" exact>
+								<Nav.Link eventKey="home">主页</Nav.Link>
+							</LinkContainer>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href="/post">稿件</Nav.Link>
+							<LinkContainer to="/post">
+								<Nav.Link eventKey="post">稿件</Nav.Link>
+							</LinkContainer>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href="/about">关于</Nav.Link>
+							<LinkContainer to="/about">
+								<Nav.Link eventKey="about">关于</Nav.Link>
+							</LinkContainer>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link onClick={this.handleModal}>登录</Nav.Link>
+							<Nav.Link eventKey="login" onClick={this.handleModal}>登录</Nav.Link>
 						</Nav.Item>
 					</Nav>
 				</Navbar.Collapse>

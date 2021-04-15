@@ -1,17 +1,20 @@
 import React from "react";
-import {Button, Card, Col, FormControl, InputGroup, Row} from "react-bootstrap";
+import {Button, Card, Col, FormControl, InputGroup, ListGroup, Row} from "react-bootstrap";
 import Loading from "../../components/loading/Loading";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Utils from "../../utils/Utils";
 import PostBox from "../../components/post/PostBox";
 import PostEditor from "../../components/post/PostEditor";
 import Paginator from "../../components/paginator/Paginator";
+import {LinkContainer} from "react-router-bootstrap";
 import "./List.scss"
 
 class List extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			cancelTokenSource: null,
+			isLoading: false,
 			editor: false,
 			editPost: null,
 			posts: [],
@@ -25,19 +28,35 @@ class List extends React.Component {
 		this.getPostList(this.props.match.params.page);
 	}
 
+	componentWillUnmount() {
+		if (this.state.cancelTokenSource) {
+			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
+		}
+	}
+
 	getPostList = (page) => {
-		if (page - 1 > 0) {
+		if (this.state.isLoading) {
+			return;
+		}
+		this.setState({
+			idLoading: true
+		})
+		if ((typeof page == 'undefined') || (page - 1) < 0) {
 			page = 1
 		}
-		Utils.postList({page: page - 1, limit: this.state.limit}, response => {
+		let cancelTokenSource = Utils.postList({page: page - 1, limit: this.state.limit}, response => {
 			console.log(response);
 			this.setState({
+				isLoading: false,
 				posts: response.data.posts,
 				page: response.data.page + 1,
 				count: response.data.count
 			})
 		}, error => {
 			console.log(error);
+		})
+		this.setState({
+			cancelTokenSource: cancelTokenSource
 		})
 	}
 
@@ -99,12 +118,14 @@ class List extends React.Component {
 	render() {
 		let logo = process.env.PUBLIC_URL + '/logo192.png';
 		let boxList
-		if (this.state.posts.length > 0) {
-			boxList = this.state.posts.map((item, index) =>
-				<PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)} edit={this.edit.bind(this, index)} delete={this.delete.bind(this, index)} putOn={item.status === 2 ? this.toggleStatus.bind(this, index) : null} putOff={item.status === 1 ? this.toggleStatus.bind(this, index) : null}></PostBox>
-			);
-		} else {
+		if (this.state.isLoading) {
 			boxList = <Loading></Loading>
+		} else {
+			if (this.state.posts.length > 0) {
+				boxList = this.state.posts.map((item, index) =>
+					<PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)} edit={this.edit.bind(this, index)} delete={this.delete.bind(this, index)} putOn={item.status === 2 ? this.toggleStatus.bind(this, index) : null} putOff={item.status === 1 ? this.toggleStatus.bind(this, index) : null}></PostBox>
+				);
+			}
 		}
 		let editorModal = '';
 		if (this.state.editor) {
@@ -112,9 +133,30 @@ class List extends React.Component {
 				<PostEditor appLogo={logo} id={this.state.editPost} show={this.state.editor} hide={this.handleModal} afterSave={this.afterSave}/>
 		}
 		return (
-			<TreeNavibar active="post">
-				{editorModal}
+			<TreeNavibar>
+				<Card>
+					<Card.Body>
+						<ListGroup as="ul">
+							<LinkContainer to="/file/list">
+								<ListGroup.Item action>
+									文件管理
+								</ListGroup.Item>
+							</LinkContainer>
+							<LinkContainer to="/carousel">
+								<ListGroup.Item action>
+									轮播管理
+								</ListGroup.Item>
+							</LinkContainer>
+							<LinkContainer to="/post/list">
+								<ListGroup.Item action active disabled>
+									稿件管理
+								</ListGroup.Item>
+							</LinkContainer>
+						</ListGroup>
+					</Card.Body>
+				</Card>
 				<Card className="post-list-container">
+					{editorModal}
 					<Card.Header className="post-header">
 						<Row>
 							<Col xs={4} lg={4} className="post-table-search">

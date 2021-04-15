@@ -267,9 +267,9 @@ const Utils = {
 			if (result.data.code === 1) {
 				callback(result.data);
 			} else {
-				if(result.data.message){
+				if (result.data.message) {
 					fallback(result.data.message);
-				}else {
+				} else {
 					fallback(result.statusText);
 				}
 			}
@@ -278,7 +278,8 @@ const Utils = {
 			if (error.response) {
 				if (error.response.status === 401) {
 					let state = store.getState();
-					if (state.auth.id) {
+					console.log(state);
+					if (state.auth.uuid) {
 						store.dispatch({
 							type: logoutAction.type,
 							payload: {}
@@ -346,6 +347,15 @@ const Utils = {
 	},
 	checkPathName: function (pathName) {
 		return document.location.pathname.indexOf(pathName) > 0;
+	},
+	getRequestPath: function () {
+		let result = [];
+		let path = document.location.pathname
+		if (path !== '/') {
+			result = path.split('/');
+			result.shift();
+		}
+		return result;
 	},
 	//动态加载js
 	loadScript: function (url, callback) {
