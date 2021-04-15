@@ -6,74 +6,14 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Loading from "./mask/Loading";
 import Footer from "@components/footer/Footer";
 import {connect} from "react-redux";
-import AdminNavibar from "@components/navbar/AdminNavibar";
-import {loginAction, logoutAction, programAction} from "../redux/Actions";
-import Utils from "../utils/Utils";
 
 function mapStateToProps(state) {
 	return {
-		program: state.program,
-		account: state.auth,
 		site: state.site
 	};
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		state: (program) => {
-			dispatch({
-				type: programAction.type,
-				payload: program
-			})
-		},
-		login: (user) => {
-			dispatch({
-				type: loginAction.type,
-				payload: user
-			})
-		},
-		logout: () => {
-			dispatch({
-				type: logoutAction.type
-			})
-		}
-	}
-}
-
 class Main extends React.Component {
-	login = (loginUser) => {
-		this.handleLoginModal()
-		this.props.login(loginUser)
-	}
-
-	logout = () => {
-		const that = this;
-		Utils.logout(function (response) {
-			that.props.logout()
-		}, function (error) {
-			console.log(error);
-		})
-	}
-
-	handleLoginModal = () => {
-		this.props.state({showLogin: !this.props.program.showLogin})
-	}
-
-	componentDidMount() {
-		// let authString = sessionStorage.getItem('auth');
-		// if (authString) {
-		// 	let auth = JSON.parse(authString);
-		// 	this.login(auth);
-		// } else {
-		Utils.auth(response => {
-			this.login(response.data);
-		}, error => {
-			console.log(error);
-			// this.props.logout();
-		});
-		// }
-	}
-
 	render() {
 		//home
 		const Home = lazy(() => import('./home/Home'));
@@ -98,21 +38,14 @@ class Main extends React.Component {
 		const NotFound = lazy(() => import('./NotFound'));
 		//登录
 		const LoginForm = lazy(() => import('./login/Login'));
-		let NavigateBar;
-		if (this.props.account && this.props.account.uuid) {
-			NavigateBar = <AdminNavibar site={this.props.site} account={this.props.account} logout={this.logout}></AdminNavibar>
-		} else {
-			NavigateBar = <Navibar site={this.props.site} showLogin={this.props.program.showLogin} handleModal={this.handleLoginModal} afterLogin={this.login}/>
-		}
 		const isHomePage = (document.location.pathname === '/' ? true : false)
-		console.log(isHomePage)
 		return (
 			<Router>
 				<Container fluid className="app-container">
 					<Helmet title={this.props.site.title} link={[{rel: "shortcut icon", href: this.props.site.icon ? this.props.site.icon : '/favicon.ico'}]}></Helmet>
 					<Row className={["app-header", "fixed-top", isHomePage ? "home-page" : ""]}>
 						<Col xs={12} lg={12}>
-							{NavigateBar}
+							<Navibar/>
 						</Col>
 					</Row>
 					<Row className="app-body">
@@ -148,4 +81,4 @@ class Main extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, null)(Main);

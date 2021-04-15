@@ -1,8 +1,40 @@
 import React from 'react';
-import {Navbar, Nav, Image} from 'react-bootstrap';
-import LoginModal from '../login/LoginModal'
-import {LinkContainer} from 'react-router-bootstrap'
+import {loginAction, logoutAction, programAction} from "@/redux/Actions";
+import {connect} from "react-redux";
+import Utils from "@utils/Utils";
+import AdminNavibar from "@components/navbar/AdminNavibar";
+import BaseNavibar from "@components/navbar/BaseNavibar";
 import './Navibar.scss'
+
+function mapStateToProps(state) {
+	return {
+		program: state.program,
+		account: state.auth,
+		site: state.site
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		state: (program) => {
+			dispatch({
+				type: programAction.type,
+				payload: program
+			})
+		},
+		login: (user) => {
+			dispatch({
+				type: loginAction.type,
+				payload: user
+			})
+		},
+		logout: () => {
+			dispatch({
+				type: logoutAction.type
+			})
+		}
+	}
+}
 
 class Navibar extends React.Component {
 	constructor(props) {
@@ -27,45 +59,37 @@ class Navibar extends React.Component {
 		}
 	}
 
+	componentDidMount() {
+		Utils.auth(response => {
+			this.login(response.data);
+		}, error => {
+			console.log(error);
+		});
+	}
+
+	login = (loginUser) => {
+		this.props.login(loginUser)
+	}
+	logout = () => {
+		const that = this;
+		Utils.logout(function (response) {
+			that.props.logout()
+		}, function (error) {
+			console.log(error);
+		})
+	}
+	handleModal = () => {
+		this.props.state({
+			showLogin: !this.props.program.showLogin
+		})
+	}
+
 	render() {
-		let loginModal = '';
-		if (this.props.showLogin) {
-			loginModal = <LoginModal show={this.props.showLogin} handleModal={this.props.handleModal} afterLogged={this.props.afterLogin}
-									 appLogo={this.props.site.logo} account={this.state.account} password={this.state.password}/>
+		if (this.props.account && this.props.account.uuid) {
+			return (<AdminNavibar logo={this.props.site.logo} title={this.props.site.title} account={this.props.account.account} logout={this.logout}/>)
 		}
-		return (
-			<Navbar className="main-color-navbar">
-				{loginModal}
-				<Navbar.Brand href="/">
-					<Image src={this.props.site.logo ? this.props.site.logo : '/logo192.png'} rounded className="brand-img" alt={this.props.site.title}/>
-					<div className="brand-text">{this.props.site.title}</div>
-				</Navbar.Brand>
-				<Navbar.Toggle aria-controls="basic-navbar-nav"/>
-				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-					<Nav>
-						<Nav.Item>
-							<LinkContainer to="/" exact>
-								<Nav.Link eventKey="home">主页</Nav.Link>
-							</LinkContainer>
-						</Nav.Item>
-						<Nav.Item>
-							<LinkContainer to="/post">
-								<Nav.Link eventKey="post">稿件</Nav.Link>
-							</LinkContainer>
-						</Nav.Item>
-						<Nav.Item>
-							<LinkContainer to="/about">
-								<Nav.Link eventKey="about">关于</Nav.Link>
-							</LinkContainer>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link eventKey="login" onClick={this.handleModal}>登录</Nav.Link>
-						</Nav.Item>
-					</Nav>
-				</Navbar.Collapse>
-			</Navbar>
-		);
+		return (<BaseNavibar showLogin={this.props.program.showLogin} handleModal={this.handleModal} afterLogin={this.login} account={this.state.account} password={this.state.password} logo={this.props.site.logo} title={this.props.site.title}/>);
 	}
 }
 
-export default Navibar;
+export default connect(mapStateToProps, mapDispatchToProps)(Navibar);
