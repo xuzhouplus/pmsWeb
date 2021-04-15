@@ -19,12 +19,7 @@ const Utils = {
 		this.http('post', configs.proxyBackendHost + configs.authUrl, null, callback, fallback)
 	},
 	site: function (callback, fallback) {
-		let siteConfigs = localStorage.getItem('site_configs');
-		if (siteConfigs) {
-			callback(JSON.parse(siteConfigs));
-		}
 		this.http('get', configs.proxyBackendHost + configs.settingUrl, null, function (response) {
-			localStorage.setItem('site_configs', JSON.stringify(response));
 			callback(response);
 		}, fallback)
 	},

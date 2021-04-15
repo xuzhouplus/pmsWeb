@@ -5,6 +5,7 @@ import BootstrapCarousel from "../../components/carousel/BootstrapCarousel";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import './Home.scss';
+import Loading from "@components/loading/Loading";
 
 function mapStateToProps(state) {
 	return {
@@ -17,6 +18,7 @@ class Home extends React.PureComponent {
 		super(props);
 		this.state = {
 			cancelTokenSource: null,
+			isLoading: false,
 			carousel: {
 				type: 'webgl',
 				files: []
@@ -26,15 +28,22 @@ class Home extends React.PureComponent {
 
 	componentDidMount() {
 		if (this.state.carousel.files.length === 0) {
+			this.setState({
+				isLoading: true
+			})
 			let cancelTokenSource = Utils.getCarouselIndex(response => {
 				if (this.state.cancelTokenSource) {
 					this.setState({
+						isLoading: false,
 						carousel: {
 							files: response.data
 						}
 					})
 				}
 			}, (error) => {
+				this.setState({
+					isLoading: false
+				})
 				console.log(error);
 			});
 			this.setState({
@@ -51,18 +60,22 @@ class Home extends React.PureComponent {
 
 	render() {
 		let content;
-		if (this.state.carousel.files.length === 0) {
-			content = <div className="home-content h-100 d-flex justify-content-center align-items-center"><img src={process.env.PUBLIC_URL + '/logo192.png'} alt='Logo'/></div>
-		}else {
-			switch (this.props.site.carousel_type) {
-				case 'webgl':
-					content = <WebGlCarousel files={this.state.carousel.files} interval={this.props.site.carousel_interval}/>
-					break;
-				case 'bootstrap':
-					content = <BootstrapCarousel files={this.state.carousel.files} interval={this.props.site.carousel_interval}/>
-					break;
-				default:
-					content = <WebGlCarousel files={this.state.carousel.files} interval={this.props.site.carousel_interval}/>
+		if (this.state.isLoading) {
+			content = <Loading/>
+		} else {
+			if (this.state.carousel.files.length === 0) {
+				content = <div className="home-content h-100 d-flex justify-content-center align-items-center"><img src={process.env.PUBLIC_URL + '/logo192.png'} alt='Logo'/></div>
+			} else {
+				switch (this.props.site.carousel_type) {
+					case 'webgl':
+						content = <WebGlCarousel files={this.state.carousel.files} interval={this.props.site.carousel_interval}/>
+						break;
+					case 'bootstrap':
+						content = <BootstrapCarousel files={this.state.carousel.files} interval={this.props.site.carousel_interval}/>
+						break;
+					default:
+						content = <WebGlCarousel files={this.state.carousel.files} interval={this.props.site.carousel_interval}/>
+				}
 			}
 		}
 		return (

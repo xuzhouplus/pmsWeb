@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.scss'
 import {Container} from 'react-bootstrap'
 import Loading from './pages/mask/Loading';
 import {initAction} from "./redux/Actions";
@@ -8,6 +7,7 @@ import Utils from "./utils/Utils";
 import Message from "./pages/mask/Message"
 import Main from "./pages/Main";
 import Visualizer from "./components/about/Visualizer";
+import './App.scss'
 
 function mapStateToProps(state) {
 	return {
