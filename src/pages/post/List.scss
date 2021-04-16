@@ -2,12 +2,16 @@
   height: 100%;
 
   .post-header {
-    .post-table-search {
-      justify-content: left;
-    }
+    .row {
+      width: 100%;
 
-    .post-table-buttons {
-      text-align: right;
+      .post-table-search {
+        justify-content: left;
+      }
+
+      .post-table-buttons {
+        text-align: right;
+      }
     }
   }
 

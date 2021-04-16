@@ -2,12 +2,16 @@
   height: 100%;
 
   .file-header {
-    .file-table-search {
-      justify-content: left;
-    }
+    .row {
+      width: 100%;
 
-    .file-table-buttons {
-      text-align: right;
+      .file-table-search {
+        justify-content: left;
+      }
+
+      .file-table-buttons {
+        text-align: right;
+      }
     }
   }
 

@@ -3,6 +3,7 @@ import Loading from "@components/loading/Loading";
 import {Card} from "react-bootstrap";
 import Utils from "@utils/Utils";
 import {Link} from "react-router-dom";
+import "./Authorize.scss"
 
 class Authorize extends React.Component {
 	constructor(props) {
@@ -37,7 +38,7 @@ class Authorize extends React.Component {
 		} else {
 			if (!Utils.objectIsEmpty(this.state.connect)) {
 				return (
-					<Card className="admin-connect-container">
+					<Card className="profile-authorize absolute-center">
 						<Card.Body className="admin-connect-table">
 							<Card>
 								<Card.Body className="connect-link" style={{'backgroundImage': 'url("' + this.state.connect.avatar + '")'}}>
@@ -56,11 +57,13 @@ class Authorize extends React.Component {
 				);
 			} else {
 				return (
-					<Card className="admin-connect-container direct-center">
-						<Card.Body className="admin-connect-table">
+					<Card className="profile-authorize absolute-center">
+						<Card.Body className="loading-container">
 							<Loading></Loading>
-							<Link to="/profile/connect">验证中，请稍候</Link>
 						</Card.Body>
+						<Card.Footer className="text-center">
+							<Link to="/profile/connect">验证中，请稍候</Link>
+						</Card.Footer>
 					</Card>
 				);
 			}

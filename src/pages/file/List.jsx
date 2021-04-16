@@ -1,13 +1,13 @@
 import React from "react";
-import {Col, Card, Row, Button, InputGroup, FormControl, ListGroup} from "react-bootstrap";
+import {Col, Card, Row, Button, InputGroup, FormControl, ListGroup, Form} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import FileUploadModal from "../../components/file/FileUploadModal";
 import FilePreviewModal from "../../components/file/FilePreviewModal";
 import FileBox from "../../components/file/FileBox";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Paginator from "../../components/paginator/Paginator";
-import './List.scss';
 import {LinkContainer} from "react-router-bootstrap";
+import './List.scss';
 
 class List extends React.Component {
 	constructor(props) {
@@ -21,6 +21,7 @@ class List extends React.Component {
 			limit: 8,
 			count: 0,
 			total: 0,
+			search: null,
 			files: []
 		};
 	}
@@ -56,7 +57,7 @@ class List extends React.Component {
 		if ((typeof page == 'undefined') || (page - 1) < 0) {
 			page = 1
 		}
-		const cancelTokenSource = Utils.getFileList({page: page - 1, limit: this.state.limit}, (response) => {
+		const cancelTokenSource = Utils.getFileList({page: page - 1, limit: this.state.limit, name: this.state.search}, (response) => {
 			if (this.state.cancelTokenSource) {
 				this.setState({
 					files: response.data.files,
@@ -108,6 +109,16 @@ class List extends React.Component {
 	changePage = (page) => {
 		this.getFileList(page);
 	}
+	searchChange = (event) => {
+		this.setState({
+			search: event.target.value ? event.target.value.trim() : null
+		})
+	}
+	handleSearch = (event) => {
+		event.stopPropagation();
+		event.preventDefault();
+		this.getFileList(0)
+	}
 
 	render() {
 		let boxList = this.state.files.map((item, index) =>
@@ -144,19 +155,21 @@ class List extends React.Component {
 					{this.state.preview ? <FilePreviewModal hide={this.hidePreview} {...this.state.preview}/> : ''}
 					{uploadModal}
 					<Card.Header className="file-header">
-						<Row>
-							<Col xs={4} lg={4} className="file-table-search">
-								<InputGroup>
-									<FormControl placeholder="输入内容搜索"/>
-									<InputGroup.Append>
-										<Button className="btn-main-color">搜索</Button>
-									</InputGroup.Append>
-								</InputGroup>
-							</Col>
-							<Col sx={8} lg={8} className="file-table-buttons">
-								<Button onClick={this.handleModal} className="btn-main-color">上传文件</Button>
-							</Col>
-						</Row>
+						<Form inline onSubmit={this.handleSearch}>
+							<Row>
+								<Col xs={4} lg={4} className="file-table-search">
+									<InputGroup>
+										<FormControl placeholder="输入内容搜索" onChange={this.searchChange}/>
+										<InputGroup.Append>
+											<Button className="btn-main-color" type="submit">搜索</Button>
+										</InputGroup.Append>
+									</InputGroup>
+								</Col>
+								<Col sx={8} lg={8} className="file-table-buttons">
+									<Button onClick={this.handleModal} className="btn-main-color">上传文件</Button>
+								</Col>
+							</Row>
+						</Form>
 					</Card.Header>
 					<Card.Body id="file-table" className="file-table">
 						<Row className="file-table-list">

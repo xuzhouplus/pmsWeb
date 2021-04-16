@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Col, FormControl, InputGroup, ListGroup, Row} from "react-bootstrap";
+import {Button, Card, Col, Form, FormControl, InputGroup, ListGroup, Row} from "react-bootstrap";
 import Loading from "../../components/loading/Loading";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Utils from "../../utils/Utils";
@@ -115,6 +115,17 @@ class List extends React.Component {
 		this.getPostList(page);
 	}
 
+	searchChange = (event) => {
+		this.setState({
+			search: event.target.value ? event.target.value.trim() : null
+		})
+	}
+	handleSearch = (event) => {
+		event.stopPropagation();
+		event.preventDefault();
+		this.getPostList(0)
+	}
+
 	render() {
 		let logo = process.env.PUBLIC_URL + '/logo192.png';
 		let boxList
@@ -158,19 +169,21 @@ class List extends React.Component {
 				<Card className="post-list-container">
 					{editorModal}
 					<Card.Header className="post-header">
-						<Row>
-							<Col xs={4} lg={4} className="post-table-search">
-								<InputGroup>
-									<FormControl placeholder="输入内容搜索"/>
-									<InputGroup.Append>
-										<Button className="btn-main-color">搜索</Button>
-									</InputGroup.Append>
-								</InputGroup>
-							</Col>
-							<Col sx={8} lg={8} className="post-table-buttons">
-								<Button onClick={this.handleModal} className="btn-main-color">新建稿件</Button>
-							</Col>
-						</Row>
+						<Form inline onSubmit={this.handleSearch}>
+							<Row>
+								<Col xs={4} lg={4} className="post-table-search">
+									<InputGroup>
+										<FormControl placeholder="输入内容搜索" onChange={this.searchChange}/>
+										<InputGroup.Append>
+											<Button className="btn-main-color" type="submit">搜索</Button>
+										</InputGroup.Append>
+									</InputGroup>
+								</Col>
+								<Col sx={8} lg={8} className="post-table-buttons">
+									<Button onClick={this.handleModal} className="btn-main-color">新建稿件</Button>
+								</Col>
+							</Row>
+						</Form>
 					</Card.Header>
 					<Card.Body id="post-table" className="post-table">
 						<Row className="post-table-list">
