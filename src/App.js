@@ -42,9 +42,8 @@ class App extends React.Component {
 				this.props.init(response.data);
 			}
 		}, (error) => {
-			let that = this;
-			let timeout = setTimeout(function () {
-				that.changeToAudioVisualizer();
+			let timeout = setTimeout(() => {
+				this.changeToAudioVisualizer();
 			}, 5000)
 			this.setState({
 				timeout: timeout,
@@ -54,7 +53,7 @@ class App extends React.Component {
 	}
 
 	componentWillUnmount() {
-		if(this.state.audioVisualizer) {
+		if (this.state.audioVisualizer) {
 			this.changeToAudioVisualizer();
 		}
 	}

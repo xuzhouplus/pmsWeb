@@ -1,8 +1,13 @@
 import React from 'react';
 import {Form, Button, Modal, Image} from 'react-bootstrap';
-import Utils from '../../utils/Utils';
+import Utils from '@utils/Utils';
 import {connect} from "react-redux";
+import Swal from "sweetalert2";
 import './LoginModal.scss';
+import withReactContent from "sweetalert2-react-content";
+import Loading from "@components/loading/Loading";
+
+const MySwal = withReactContent(Swal)
 
 function mapStateToProps(state) {
 	return {
@@ -126,12 +131,40 @@ class LoginModal extends React.Component {
 		Utils.adminAuthorize({
 			type: type,
 			scope: 'auth_user',
-			to: 'login'
+			action: 'login'
 		}, response => {
-			console.log(response);
-			window.location.href = response.data;
+			window.open(response.data, type, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
+			let timerInterval
+			MySwal.fire({
+				html: <div>
+					<Loading/>
+					<p>等待认证中</p>
+				</div>,
+				backdrop: true,
+				allowOutsideClick: false,
+				didOpen: () => {
+					timerInterval = setInterval(() => {
+						Utils.auth(response => {
+							clearInterval(timerInterval)
+							this.props.afterLogged(response.data);
+						}, error => {
+							console.log(error);
+						});
+					}, 3000);
+				},
+				willClose: () => {
+					clearInterval(timerInterval)
+				}
+			})
 		}, error => {
 			console.log(error);
+			Swal.fire({
+				icon: 'error',
+				text: error,
+				confirmButtonText: "确定",
+				backdrop: true,
+				allowOutsideClick: false
+			})
 		});
 	}
 
@@ -142,7 +175,6 @@ class LoginModal extends React.Component {
 	}
 
 	render() {
-		console.log(this.props);
 		const connectBox = this.props.site.connects.map(connect =>
 			<Image key={connect} className="connect-button" alt="connect-alipay" src={process.env.PUBLIC_URL + '/connects/' + connect + '.png'} onClick={this.connect.bind(this, connect)}></Image>
 		)

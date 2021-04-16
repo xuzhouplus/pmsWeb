@@ -68,6 +68,7 @@ class Navibar extends React.Component {
 	}
 
 	login = (loginUser) => {
+		this.handleModal();
 		this.props.login(loginUser)
 	}
 	logout = () => {

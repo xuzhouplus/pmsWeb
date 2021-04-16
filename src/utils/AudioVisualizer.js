@@ -8,23 +8,26 @@ const AudioVisualizer = function () {
 	this.status = 0; //flag for sound is playing 1 or stopped 0
 	this.forceStop = false;
 	this.allCapsReachBottom = false;
+	this.stopEvent = null
 };
 AudioVisualizer.prototype = {
 	init: function () {
 		this._prepareAPI();
 		// this._addEventListner();
 	},
-	play: function (src) {
+	play: function (src, stopEvent) {
 		let that = this;
+		that.stopEvent = stopEvent;
 		fetch(src).then(res => res.blob().then(blob => {
 			that.file = blob;
 			if (that.status === 1) {
-				//the sound is still playing but we upload another file, so set the forceStop flag to true
 				that.forceStop = true;
 			}
-			//once the file is ready,start the visualizer
 			that._start();
 		}));
+	},
+	replay: function () {
+		this._start();
 	},
 	resume: function () {
 		this.audioContext.resume();
@@ -74,6 +77,7 @@ AudioVisualizer.prototype = {
 		const audioBufferSouceNode = audioContext.createBufferSource(),
 			analyser = audioContext.createAnalyser(),
 			that = this;
+		analyser.fftSize = 512;
 		//connect the source to the analyser
 		audioBufferSouceNode.connect(analyser);
 		//connect the analyser to the destination(the speaker), or we won't hear the sound
@@ -101,69 +105,53 @@ AudioVisualizer.prototype = {
 		this._drawSpectrum(analyser);
 	},
 	_drawSpectrum: function (analyser) {
-		const that = this,
-			canvas = document.getElementById('audio-visualizer-canvas'),
-			cwidth = canvas.width,
-			cheight = canvas.height - 2,
-			meterWidth = 10, //width of the meters in the spectrum
-			//gap = 2, //gap between meters
-			capHeight = 2,
-			capStyle = '#fff',
-			meterNum = 800 / (10 + 2), //count of the meters
-			capYPositionArray = [], ////store the vertical position of hte caps for the preivous frame
-			ctx = canvas.getContext('2d'),
-			gradient = ctx.createLinearGradient(0, 0, 0, 300);
-		gradient.addColorStop(1, '#0f0');
+		const PI = Math.PI;
+		const canvas = document.getElementById('audio-visualizer-canvas');
+		const ctx = canvas.getContext('2d');
+		const cwidth = canvas.width;
+		const cheight = canvas.height;
+		const cr = 200;//环形半径
+		const minHeight = 2;
+		const meterWidth = 5;
+		const meterNum = 180;//设置方块的数量，考虑到闭环的关系
+		const gradient = ctx.createLinearGradient(0, -cr, 0, -cwidth / 2);
+		gradient.addColorStop(0, '#0f0');
 		gradient.addColorStop(0.5, '#ff0');
-		gradient.addColorStop(0, '#f00');
-		const drawMeter = function () {
+		gradient.addColorStop(1, '#f00');
+		ctx.fillStyle = gradient;
+
+		const render = () => {
+			if (this.status === 0) {
+				cancelAnimationFrame(this.animationId); //since the sound is stoped and animation finished, stop the requestAnimation to prevent potential memory leak,THIS IS VERY IMPORTANT!
+				return;
+			}
 			const array = new Uint8Array(analyser.frequencyBinCount);
 			analyser.getByteFrequencyData(array);
-			if (that.status === 0) {
-				//fix when some sounds end the value still not back to zero
-				for (let i = array.length - 1; i >= 0; i--) {
-					array[i] = 0;
-				}
-				let allCapsReachBottom = true;
-				for (let i = capYPositionArray.length - 1; i >= 0; i--) {
-					allCapsReachBottom = allCapsReachBottom && (capYPositionArray[i] === 0);
-				}
-				if (allCapsReachBottom) {
-					cancelAnimationFrame(that.animationId); //since the sound is stoped and animation finished, stop the requestAnimation to prevent potential memory leak,THIS IS VERY IMPORTANT!
-					return;
-				}
-			}
-			const step = Math.round(array.length / meterNum); //sample limited data from the total array
+			const step = Math.round(array.length / meterNum);
 			ctx.clearRect(0, 0, cwidth, cheight);
+			ctx.save();
+			ctx.translate(cwidth / 2, cheight / 2);
 			for (let i = 0; i < meterNum; i++) {
 				const value = array[i * step];
-				if (capYPositionArray.length < Math.round(meterNum)) {
-					capYPositionArray.push(value);
-				}
-				ctx.fillStyle = capStyle;
-				//draw the cap, with transition effect
-				if (value < capYPositionArray[i]) {
-					ctx.fillRect(i * 12, cheight - (--capYPositionArray[i]), meterWidth, capHeight);
-				} else {
-					ctx.fillRect(i * 12, cheight - value, meterWidth, capHeight);
-					capYPositionArray[i] = value;
-				}
-				ctx.fillStyle = gradient; //set the filllStyle to gradient for a better look
-				ctx.fillRect(i * 12 /*meterWidth+gap*/, cheight - value + capHeight, meterWidth, cheight); //the meter
+				const meterHeight = value * (cheight / 2 - cr) / 256 || minHeight;
+				ctx.rotate(2 * PI / meterNum);
+				ctx.fillRect(-meterWidth / 2, -cr - meterHeight, meterWidth, meterHeight);
 			}
-			that.animationId = requestAnimationFrame(drawMeter);
-		};
-		this.animationId = requestAnimationFrame(drawMeter);
+			ctx.restore();
+			this.animationId = requestAnimationFrame(render);
+		}
+		this.animationId = requestAnimationFrame(render);
 	},
 	_audioEnd: function (instance) {
 		if (this.forceStop) {
 			this.forceStop = false;
 			this.status = 1;
-			return;
+		} else {
+			this.status = 0;
 		}
-		this.status = 0;
-		const text = 'HTML5 Audio API showcase | An Audio Viusalizer';
-		instance.info = text;
+		if ((typeof this.stopEvent) == 'function') {
+			this.stopEvent();
+		}
 	}
 }
 

@@ -239,8 +239,8 @@ const Utils = {
 	adminAuthorize: function (data, callback, fallback) {
 		return this.http('get', configs.proxyBackendHost + configs.adminAuthorizeUrl, data, callback, fallback);
 	},
-	adminConnect: function (data, callback, fallback) {
-		return this.http('get', configs.proxyBackendHost + configs.adminConnectUrl, data, callback, fallback);
+	adminCallback: function (data, callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.adminCallbackUrl, data, callback, fallback);
 	},
 	unbindConnect: function (data, callback, fallback) {
 		return this.http('post', configs.proxyBackendHost + configs.unbindConnectUrl, data, callback, fallback);
@@ -339,6 +339,16 @@ const Utils = {
 		const r = decodeURI(window.location.search).substr(1).match(reg);
 		if (r != null) return unescape(r[2]);
 		return null;
+	},
+	getQueryVariable: function () {
+		let queryVariables = {}
+		let query = window.location.search.substring(1);
+		let vars = query.split("&");
+		for (let i = 0; i < vars.length; i++) {
+			let pair = vars[i].split("=");
+			queryVariables[pair[0]] = pair[1]
+		}
+		return queryVariables;
 	},
 	checkPathName: function (pathName) {
 		return document.location.pathname.indexOf(pathName) > 0;
