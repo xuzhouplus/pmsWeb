@@ -1,46 +1,49 @@
+import * as THREE from 'three';
+import TimelineMax from 'gsap';
+import TweenLite from 'gsap';
+import Power3 from 'gsap';
+import Power2 from 'gsap';
+
 function AudioSystem() {
 	var listener = new THREE.AudioListener();
-	var sound    = new THREE.Audio(listener);
-	var loader   = new THREE.AudioLoader();
+	var sound = new THREE.Audio(listener);
+	var loader = new THREE.AudioLoader();
 
-	var FFT_SIZE      = 2048;
+	var FFT_SIZE = 2048;
 	var MASTER_VOLUME = .8;
-	var audioContext  = sound.context;
-	var analyser      = audioContext.createAnalyser();
+	var audioContext = sound.context;
+	var analyser = audioContext.createAnalyser();
 
 	listener.setMasterVolume(MASTER_VOLUME);
-	loader.load(URL, function(buffer) {
+	loader.load(URL, function (buffer) {
 		console.log('audio loaded.')
 		sound.setBuffer(buffer);
 		sound.setLoop(false);
 		sound.setVolume(.5);
 		sound.getOutput().connect(analyser);
-
-		// sound.play();
-		document.querySelector('#play-btn').style.display = 'block';
 		soundwave.transitionShowSoundwave();
 	});
 
-	this.waveform  = new Uint8Array(analyser.frequencyBinCount);
+	this.waveform = new Uint8Array(analyser.frequencyBinCount);
 	this.frequency = new Uint8Array(analyser.frequencyBinCount);
 
-	this.sound    = sound;
+	this.sound = sound;
 	this.analyser = analyser;
 
 	audioUniforms.waveform.value = new THREE.DataTexture(this.waveform, FFT_SIZE / 2, 1, THREE.LuminanceFormat);
 	audioUniforms.frequency.value = new THREE.DataTexture(this.frequency, FFT_SIZE / 2, 1, THREE.LuminanceFormat);
 }
 
-AudioSystem.prototype.start = function() {
+AudioSystem.prototype.start = function () {
 	this.sound.play();
 }
 
-AudioSystem.prototype.update = function() {
+AudioSystem.prototype.update = function () {
 	this.analyser.getByteTimeDomainData(this.waveform);
 	this.analyser.getByteFrequencyData(this.frequency);
 }
 
-AudioSystem.prototype.play = function() {
+AudioSystem.prototype.play = function () {
 	this.sound.play();
 }
 
@@ -83,10 +86,10 @@ var audioUniforms = {
 // =====================================================
 var appUniforms = {
 	screen: {
-		value: new THREE.Vector2
+		value: new THREE.Vector2()
 	},
 	mouse: {
-		value: new THREE.Vector2
+		value: new THREE.Vector2()
 	},
 	time: {
 		value: 0
@@ -109,11 +112,11 @@ function ParticleBufferGeometry(options) {
 	if (typeof options.particleGeometry == 'function') {
 		t = options.particleGeometry;
 	} else if (Array.isArray(options.particleGeometry)) {
-		t = function() {
+		t = function () {
 			return options.particleGeometry[THREE.Math.randInt(0, options.particleGeometry.length - 1)];
 		}
 	} else {
-		t = function() {
+		t = function () {
 			return options.particleGeometry;
 		}
 	}
@@ -121,7 +124,8 @@ function ParticleBufferGeometry(options) {
 	for (var i = [], n = [], r = [], o = [], a = 0; a < options.particleCount; a++) {
 		for (var s = t(), l = s.indexArray.length, h = o.length / 3, u = 0; u < l; u++) r.push(s.indexArray[u] + h);
 		for (var p = Math.random(), d = Math.random(), f = Math.random(), m = s.vertexArray.length / 3, v = 0; v < m; v++) {
-			i.push(a), n.push(p, d, f);
+			i.push(a);
+			n.push(p, d, f);
 			var g = s.vertexArray[3 * v + 0],
 				y = s.vertexArray[3 * v + 1],
 				_ = s.vertexArray[3 * v + 2];
@@ -137,7 +141,7 @@ function ParticleBufferGeometry(options) {
 		E = new THREE.BufferAttribute(S, 3),
 		P = new Float32Array(o),
 		M = new THREE.BufferAttribute(P, 3),
-		A = new THREE.BufferGeometry;
+		A = new THREE.BufferGeometry();
 
 	A.setIndex(w);
 	A.addAttribute("pid", T);
@@ -343,13 +347,13 @@ function createSoundwaveRing(options) {
 }
 
 function SoundwaveRing(options) {
-	this.index    = options.index;
+	this.index = options.index;
 	this.object3D = createSoundwaveRing(options);
 }
 
 // =====================================================
 function Soundwave() {
-	this.object3D = new THREE.Object3D;
+	this.object3D = new THREE.Object3D();
 
 	var children = [
 		new SoundwaveRing({
@@ -451,7 +455,7 @@ function Soundwave() {
 	});
 }
 
-Soundwave.prototype.transitionShowSoundwave = function() {
+Soundwave.prototype.transitionShowSoundwave = function () {
 	var timeline = new TimelineMax();
 
 	var object3D = this.object3D;
@@ -504,7 +508,7 @@ Soundwave.prototype.transitionShowSoundwave = function() {
 	// })
 }
 
-Soundwave.prototype.transitionExplodeSoundwave = function() {
+Soundwave.prototype.transitionExplodeSoundwave = function () {
 	var timeline = new TimelineMax();
 	var object3D = this.object3D;
 
@@ -549,12 +553,12 @@ function CameraDolly() {
 	this.fixedTargetVector = new THREE.Vector3;
 }
 
-CameraDolly.prototype.start = function() {
+CameraDolly.prototype.start = function () {
 	this.object3D.add(app.camera);
 	app.camera.target = new THREE.Vector3
 }
 
-CameraDolly.prototype.update = function() {
+CameraDolly.prototype.update = function () {
 	// var t = app.mouse,
 	var t = new THREE.Vector3,
 		i = new THREE.Vector3;
@@ -598,7 +602,7 @@ function Application() {
 	this.animate = this.animate.bind(this);
 }
 
-Application.prototype.setup = function() {
+Application.prototype.setup = function () {
 	var e = window.innerWidth,
 		t = window.innerHeight,
 		i = window.devicePixelRatio || 1;
@@ -612,14 +616,14 @@ Application.prototype.setup = function() {
 	}
 }
 
-Application.prototype.animate = function() {
+Application.prototype.animate = function () {
 	requestAnimationFrame(this.animate);
 	// dispatch update
 	onUpdate();
 	this.render();
 }
 
-Application.prototype.start = function() {
+Application.prototype.start = function () {
 	// dispatch start
 	this.setup();
 	this.clock.start();
@@ -627,15 +631,15 @@ Application.prototype.start = function() {
 	this.animate();
 }
 
-Application.prototype.render = function() {
+Application.prototype.render = function () {
 	this.renderer.render(this.scene, this.camera);
 }
 
-Application.prototype.getTime = function() {
+Application.prototype.getTime = function () {
 	return this.clock.elapsedTime;
 }
 
-Application.prototype.getDelta = function() {
+Application.prototype.getDelta = function () {
 	return this.clock.getDelta();
 }
 
@@ -646,8 +650,8 @@ function RewindApplication(options) {
 	app = new Application();
 
 	var renderer = app.renderer;
-	var scene    = app.scene;
-	var camera   = app.camera;
+	var scene = app.scene;
+	var camera = app.camera;
 
 	// renderer.setClearColor(16185078);
 
@@ -672,7 +676,7 @@ function RewindApplication(options) {
 }
 
 // =====================================================
-var renderWebGL = (function() {
+var renderWebGL = (function () {
 
 	function start() {
 		app.start();
@@ -683,7 +687,7 @@ var renderWebGL = (function() {
 
 	}
 
-	return function(container, options) {
+	return function (container, options) {
 		RewindApplication(options);
 		container.appendChild(app.canvas);
 
@@ -708,7 +712,7 @@ function onStart() {
 function onUpdate() {
 	// bindApplicationUniforms
 	appUniforms.time.value = app.getTime();
-	appUniforms.dt.value   = app.getDelta();
+	appUniforms.dt.value = app.getDelta();
 	// appUniforms.time.value = 0;
 	// appUniforms.dt.value   = 0;
 
@@ -725,12 +729,25 @@ function onUpdate() {
 	dolly.update();
 }
 
-// =====================================================
-var URL = 'https://m8.music.126.net/21180815163607/04976f67866d4b4d11575ab418904467/ymusic/515a/5508/520b/f0cf47930abbbb0562c9ea61707c4c0b.mp3?infoId=92001';
+const AudioVisualizerWebGL = function (options) {
+	const defaultOptions = {
+		mount: document.body
+	};
+	this.options = Object.assign({}, defaultOptions, options)
+}
+AudioVisualizerWebGL.prototype = {
+	bridge: null,
+	play: function (url) {
+		this.bridge = renderWebGL(this.options.mount, {
+			audioSrc: url
+		});
+		audio = new AudioSystem();
+		this.bridge.start();
+	},
+	replay: function () {
+		this.bridge.play()
+	}
+}
 
-var bridge = renderWebGL(document.body, {
-	audioSrc: URL
-});
+export default AudioVisualizerWebGL;
 
-audio = new AudioSystem();
-bridge.start();

@@ -37,19 +37,19 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		Utils.site((response) => {
-			if (response.code === 1) {
-				this.props.init(response.data);
-			}
-		}, (error) => {
-			let timeout = setTimeout(() => {
+		// Utils.site((response) => {
+		// 	if (response.code === 1) {
+		// 		this.props.init(response.data);
+		// 	}
+		// }, (error) => {
+		// 	let timeout = setTimeout(() => {
 				this.changeToAudioVisualizer();
-			}, 5000)
-			this.setState({
-				timeout: timeout,
-				error: error
-			})
-		});
+			// }, 5000)
+			// this.setState({
+			// 	timeout: timeout,
+			// 	error: error
+			// })
+		// });
 	}
 
 	componentWillUnmount() {

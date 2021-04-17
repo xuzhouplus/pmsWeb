@@ -1,0 +1,55 @@
+.webgl-visualizer {
+  width: 100%;
+  height: 100%;
+
+  .audio-visualizer-button {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    background-color: transparent;
+
+    button {
+      border: 0;
+      width: 60px;
+      height: 60px;
+      background-color: transparent;
+
+      &.play-button {
+        background-image: url("/assets/icons/play_gray.png");
+
+        &:hover {
+          background-image: url("/assets/icons/play_white.png");
+        }
+      }
+
+      &.replay-button {
+        background-image: url("/assets/icons/replay_gray.png");
+
+        &:hover {
+          background-image: url("/assets/icons/replay_white.png");
+        }
+      }
+    }
+
+    &.start {
+      .replay-button {
+        display: none;
+      }
+    }
+
+    &.playing {
+      .play-button,
+      .replay-button {
+        display: none;
+      }
+    }
+
+    &.stop {
+      .play-button {
+        display: none;
+      }
+    }
+  }
+}
