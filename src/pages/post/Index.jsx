@@ -70,6 +70,8 @@ class Index extends React.Component {
 					}
 				);
 				boxContent = <InfiniteScroll scrollableTarget="post-index-container" dataLength={this.state.posts.length} next={this.getPostList} hasMore={this.state.size < this.state.limit} loader={<Loading></Loading>}>{boxList}</InfiniteScroll>
+			} else {
+				boxContent = <div className="text-center">暂无数据</div>
 			}
 		}
 		return (

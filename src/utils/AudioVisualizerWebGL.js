@@ -1,10 +1,7 @@
 import * as THREE from 'three';
-import TimelineMax from 'gsap';
-import TweenLite from 'gsap';
-import Power3 from 'gsap';
-import Power2 from 'gsap';
+import {Power2, Power3, TimelineMax, TweenLite} from 'gsap/all';
 
-function AudioSystem() {
+function AudioSystem(options) {
 	var listener = new THREE.AudioListener();
 	var sound = new THREE.Audio(listener);
 	var loader = new THREE.AudioLoader();
@@ -15,12 +12,12 @@ function AudioSystem() {
 	var analyser = audioContext.createAnalyser();
 
 	listener.setMasterVolume(MASTER_VOLUME);
-	loader.load(URL, function (buffer) {
-		console.log('audio loaded.')
+	loader.load(options['url'], function (buffer) {
 		sound.setBuffer(buffer);
 		sound.setLoop(false);
 		sound.setVolume(.5);
 		sound.getOutput().connect(analyser);
+		options.onload();
 		soundwave.transitionShowSoundwave();
 	});
 
@@ -32,10 +29,15 @@ function AudioSystem() {
 
 	audioUniforms.waveform.value = new THREE.DataTexture(this.waveform, FFT_SIZE / 2, 1, THREE.LuminanceFormat);
 	audioUniforms.frequency.value = new THREE.DataTexture(this.frequency, FFT_SIZE / 2, 1, THREE.LuminanceFormat);
+	this.options = options
 }
 
 AudioSystem.prototype.start = function () {
 	this.sound.play();
+	this.sound.source.onended = () => {
+		this.sound.stop();
+		this.options.onended();
+	};
 }
 
 AudioSystem.prototype.update = function () {
@@ -45,6 +47,10 @@ AudioSystem.prototype.update = function () {
 
 AudioSystem.prototype.play = function () {
 	this.sound.play();
+}
+AudioSystem.prototype.replay = function () {
+	this.sound.stop();
+	this.play();
 }
 
 // =====================================================
@@ -144,9 +150,9 @@ function ParticleBufferGeometry(options) {
 		A = new THREE.BufferGeometry();
 
 	A.setIndex(w);
-	A.addAttribute("pid", T);
-	A.addAttribute("seed", E);
-	A.addAttribute("position", M);
+	A.setAttribute("pid", T);
+	A.setAttribute("seed", E);
+	A.setAttribute("position", M);
 
 	Object.defineProperties(A, {
 		particleCount: {
@@ -456,8 +462,7 @@ function Soundwave() {
 }
 
 Soundwave.prototype.transitionShowSoundwave = function () {
-	var timeline = new TimelineMax();
-
+	let timeline = new TimelineMax();
 	var object3D = this.object3D;
 	object3D.visible = true;
 
@@ -546,22 +551,22 @@ Soundwave.prototype.transitionExplodeSoundwave = function () {
 
 // =====================================================
 function CameraDolly() {
-	this.object3D = new THREE.Object3D;
+	this.object3D = new THREE.Object3D();
 	this.parallaxScale = .15;
 	this.parallaxSpeed = .1;
 	this.fixedTarget = !0;
-	this.fixedTargetVector = new THREE.Vector3;
+	this.fixedTargetVector = new THREE.Vector3();
 }
 
 CameraDolly.prototype.start = function () {
 	this.object3D.add(app.camera);
-	app.camera.target = new THREE.Vector3
+	app.camera.target = new THREE.Vector3()
 }
 
 CameraDolly.prototype.update = function () {
 	// var t = app.mouse,
-	var t = new THREE.Vector3,
-		i = new THREE.Vector3;
+	var t = new THREE.Vector3(),
+		i = new THREE.Vector3();
 
 	i.x = +t.x * this.parallaxScale;
 	i.y = -t.y * this.parallaxScale;
@@ -690,7 +695,6 @@ var renderWebGL = (function () {
 	return function (container, options) {
 		RewindApplication(options);
 		container.appendChild(app.canvas);
-
 		return {
 			start: start,
 			transition: transition
@@ -731,21 +735,36 @@ function onUpdate() {
 
 const AudioVisualizerWebGL = function (options) {
 	const defaultOptions = {
-		mount: document.body
+		mount: document.body,
+		onload: function () {
+
+		},
+		onended: function () {
+
+		},
+		audio: null
 	};
 	this.options = Object.assign({}, defaultOptions, options)
+	this.init();
 }
 AudioVisualizerWebGL.prototype = {
 	bridge: null,
-	play: function (url) {
-		this.bridge = renderWebGL(this.options.mount, {
-			audioSrc: url
+	init: function () {
+		let bridge = renderWebGL(this.options.mount, {
+			audioSrc: this.options.audio
 		});
-		audio = new AudioSystem();
-		this.bridge.start();
+		audio = new AudioSystem({
+			url: this.options.audio,
+			onload: this.options.onload,
+			onended: this.options.onended
+		});
+		bridge.start();
+	},
+	play: function () {
+		audio.start();
 	},
 	replay: function () {
-		this.bridge.play()
+		audio.replay();
 	}
 }
 

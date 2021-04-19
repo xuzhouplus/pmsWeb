@@ -7,10 +7,10 @@ import "./Index.scss";
 class Connect extends React.PureComponent {
 	render() {
 		return (
-			<TreeNavibar>
-				<Navibar active="connect"></Navibar>
-				<ConnectComponent></ConnectComponent>
-			</TreeNavibar>
+				<TreeNavibar>
+					<Navibar active="connect"></Navibar>
+					<ConnectComponent></ConnectComponent>
+				</TreeNavibar>
 		);
 	}
 }

@@ -95,7 +95,7 @@ class Connect extends React.Component {
 		})
 	}
 
-	handleBind = (connectType) => {
+	handleBind = (provider) => {
 		Swal.fire({
 			icon: 'info',
 			html: '<div>确定绑定此第三方账号？<br/>绑定后将可以使用此第三方授权登录。</div>',
@@ -107,18 +107,38 @@ class Connect extends React.Component {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				Utils.adminAuthorize({
-					type: connectType,
-					scope: 'auth_user'
+					type: provider.id,
+					scope: 'auth_user',
+					action: 'bind'
 				}, response => {
 					console.log(response);
-					window.location.href = response.data;
+					window.open(response.data, provider.name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+					let timeCount = 0;
+					let interval = setInterval(() => {
+						if (window.closed) {
+							clearInterval(interval);
+							this.getAdminConnect();
+						} else {
+							timeCount++;
+							if (timeCount === 1200) {
+								clearInterval(interval)
+							}
+						}
+					}, 3000)
 				}, error => {
 					console.log(error);
+					Swal.fire({
+						icon: 'error',
+						text: error,
+						confirmButtonText: "确定",
+						backdrop: true,
+						allowOutsideClick: false
+					})
 				});
 			}
 		})
 	}
-	handleUnbind = (connectId) => {
+	handleUnbind = (connect) => {
 		Swal.fire({
 			icon: 'warning',
 			html: '<div>确定解绑此第三方账号？<br/>解绑后将不能使用此第三方授权登录。</div>',
@@ -131,12 +151,19 @@ class Connect extends React.Component {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				Utils.unbindConnect({
-					id: connectId,
+					id: connect.id,
 				}, response => {
 					console.log(response);
-					window.location.href = response.data;
+					this.getAdminConnect();
 				}, error => {
 					console.log(error);
+					Swal.fire({
+						icon: 'error',
+						text: error,
+						confirmButtonText: "确定",
+						backdrop: true,
+						allowOutsideClick: false
+					})
 				});
 			}
 		})
@@ -151,21 +178,21 @@ class Connect extends React.Component {
 					if (this.props.site.connects.indexOf(provider.id) !== -1) {
 						let connect = this.state.connects[provider.id];
 						if (typeof connect !== 'undefined') {
-							return <Card key={provider.id} onClick={this.handleUnbind.bind(this, connect.id)}>
+							return <Card key={provider.id} onClick={this.handleUnbind.bind(this, connect)}>
 								<Card.Body style={{'backgroundImage': 'url("' + connect.avatar + '")'}}>
 									<Card.Title>{connect.account.replace('\\', '')}</Card.Title>
 									<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
 								</Card.Body>
 							</Card>;
 						} else {
-							return <Card key={provider.id} onClick={this.handleBind.bind(this, provider.id)}>
+							return <Card key={provider.id} onClick={this.handleBind.bind(this, provider)}>
 								<Card.Body className="connect-link" style={{'backgroundImage': 'url("' + process.env.PUBLIC_URL + '/connects/link.png")'}}>
 									<Card.Title>{provider.name}</Card.Title>
 									<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
 								</Card.Body>
 							</Card>;
 						}
-					}else{
+					} else {
 						return '';
 					}
 				})

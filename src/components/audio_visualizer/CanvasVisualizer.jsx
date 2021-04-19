@@ -1,5 +1,5 @@
 import React from "react"
-import AudioVisualizer from "@utils/AudioVisualizer";
+import AudioVisualizerCanvas from "@utils/AudioVisualizerCanvas";
 import "./CanvasVisualizer.scss"
 
 class CanvasVisualizer extends React.Component {
@@ -9,13 +9,25 @@ class CanvasVisualizer extends React.Component {
 			// src: process.env.PUBLIC_URL + '/audio/OneMoreChance.mp3',
 			src: props.src,
 			audioVisualizer: null,
-			status: 'start'
+			status: 'loading'
 		}
 	}
 
 	componentDidMount() {
-		const audioVisualizer = new AudioVisualizer();
-		audioVisualizer.init();
+		const audioVisualizer = new AudioVisualizerCanvas();
+		audioVisualizer.init({
+			audio: this.state.src,
+			onload: () => {
+				this.setState({
+					status: 'start'
+				})
+			},
+			onended: () => {
+				this.setState({
+					status: 'stop'
+				})
+			}
+		});
 		this.setState({
 			audioVisualizer: audioVisualizer
 		})
@@ -29,11 +41,7 @@ class CanvasVisualizer extends React.Component {
 	}
 
 	play = () => {
-		this.state.audioVisualizer.play(this.state.src, () => {
-			this.setState({
-				status: 'stop'
-			})
-		});
+		this.state.audioVisualizer.play();
 		this.setState({
 			status: 'playing'
 		})
@@ -53,6 +61,7 @@ class CanvasVisualizer extends React.Component {
 				<div className={['audio-visualizer-button', this.state.status].join(' ')}>
 					<button className="play-button" onClick={this.play}></button>
 					<button className="replay-button" onClick={this.replay}></button>
+					<button className="logo-button"></button>
 				</div>
 			</div>
 		);

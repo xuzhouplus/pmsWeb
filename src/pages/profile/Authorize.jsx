@@ -4,12 +4,14 @@ import {Card} from "react-bootstrap";
 import Utils from "@utils/Utils";
 import {Link} from "react-router-dom";
 import "./Authorize.scss"
+import NotFound from "@components/error/NotFound";
 
 class Authorize extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isLoading: true,
+			error: null,
 			connect: {}
 		}
 	}
@@ -27,12 +29,17 @@ class Authorize extends React.Component {
 		}, error => {
 			console.log(error);
 			this.setState({
-				isLoading: false
+				isLoading: false,
+				error: error
 			})
 		})
 	}
 
 	render() {
+		let type = this.props.match.params.type;
+		if (!type) {
+			return (<NotFound/>)
+		}
 		if (this.state.isLoading) {
 			return (<Loading/>);
 		} else {
@@ -56,13 +63,25 @@ class Authorize extends React.Component {
 					</Card>
 				);
 			} else {
+				if (this.state.error) {
+					return (
+						<Card className="profile-authorize absolute-center">
+							<Card.Body className="loading-container">
+								<image alt="logo" src="/logo192.png"/>
+							</Card.Body>
+							<Card.Footer className="text-center">
+								{this.state.error}
+							</Card.Footer>
+						</Card>
+					);
+				}
 				return (
 					<Card className="profile-authorize absolute-center">
-						<Card.Body className="loading-container">
+						<Card.Body className={['loading-container', 'bg-' + type].join(' ')}>
 							<Loading></Loading>
 						</Card.Body>
 						<Card.Footer className="text-center">
-							<Link to="/profile/connect">验证中，请稍候</Link>
+							验证中，请稍候
 						</Card.Footer>
 					</Card>
 				);

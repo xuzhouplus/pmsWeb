@@ -31,10 +31,26 @@
           background-image: url("/assets/icons/replay_white.png");
         }
       }
+
+      &.logo-button {
+        background-image: url("/assets/images/logo.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        border: solid 2px var(--main-color);
+        border-radius: 30px;
+      }
+    }
+
+    &.loading {
+      .replay-button,
+      .logo-button {
+        display: none;
+      }
     }
 
     &.start {
-      .replay-button {
+      .replay-button,
+      .logo-button {
         display: none;
       }
     }
@@ -47,7 +63,8 @@
     }
 
     &.stop {
-      .play-button {
+      .play-button,
+      .logo-button {
         display: none;
       }
     }

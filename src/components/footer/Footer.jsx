@@ -5,7 +5,7 @@ import './Footer.scss'
 class Footer extends React.PureComponent {
 	render() {
 		return (
-			<Navbar>
+			<Navbar className="main-color-navbar">
 				<Nav className="footer-navbar justify-content-center">
 					<Nav.Item>
 						<Nav.Link href="http://beian.miit.gov.cn/" target="_blank" rel="noreferrer noopener">{this.props.site.icp}</Nav.Link>

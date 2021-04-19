@@ -78,6 +78,50 @@
   }
 }
 
+.bg-alipay {
+  background-image: url("/assets/connects/alipay.png");
+}
+
+.bg-baidu {
+  background-image: url("/assets/connects/baidu.png");
+}
+
+.bg-facebook {
+  background-image: url("/assets/connects/facebook.png");
+}
+
+.bg-github {
+  background-image: url("/assets/connects/github.png");
+}
+
+.bg-google {
+  background-image: url("/assets/connects/google.png");
+}
+
+.bg-line {
+  background-image: url("/assets/connects/line.png");
+}
+
+.bg-qq {
+  background-image: url("/assets/connects/qq.png");
+}
+
+.bg-twitter {
+  background-image: url("/assets/connects/twitter.png");
+}
+
+.bg-wechat {
+  background-image: url("/assets/connects/wechat.png");
+}
+
+.bg-weibo {
+  background-image: url("/assets/connects/weibo.png");
+}
+
+.bg-link {
+  background-image: url("/assets/connects/link.png");
+}
+
 .full_container {
   width: 100% !important;
   height: calc(100vh - 112px) !important;
@@ -113,7 +157,8 @@
       box-shadow: none;
     }
   }
-  a{
+
+  a {
     text-decoration: none;
   }
 

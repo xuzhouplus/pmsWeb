@@ -192,8 +192,10 @@ class WebGlCarousel extends React.PureComponent {
 				});
 
 				window.addEventListener('resize', function (e) {
+					const renderWidth = container.clientWidth;
+					const renderHeight = container.clientHeight;
 					renderer.setSize(renderWidth, renderHeight);
-				});
+				}, true);
 			};
 
 			const animate = function animate() {

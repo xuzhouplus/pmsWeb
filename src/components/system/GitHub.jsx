@@ -119,8 +119,8 @@ class GitHub extends React.Component {
 				<Card className="github-settings-container">
 					<Card.Body className="github-settings-table">
 						<Form.Row>
-							<Form.Group as={Col} controlId="github_application_name" className="position-relative github_app_id">
-								<Form.Label> GitHub Client ID</Form.Label>
+							<Form.Group as={Col} controlId="github_application_name" className="position-relative github_application_name">
+								<Form.Label> GitHub App Name</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.github_application_name} isInvalid={this.state.github_application_name.isInvalid} isValid={this.state.github_application_name.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.github_application_name.text}
@@ -128,7 +128,7 @@ class GitHub extends React.Component {
 							</Form.Group>
 
 							<Form.Group as={Col} controlId="github_app_id" className="position-relative github_app_id">
-								<Form.Label>GitHub App Name</Form.Label>
+								<Form.Label>GitHub Client ID</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.github_app_id} isInvalid={this.state.github_app_id.isInvalid} isValid={this.state.github_app_id.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.github_app_id.text}
