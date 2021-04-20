@@ -5,6 +5,13 @@ import {Button, Card, Form} from "react-bootstrap";
 import Loading from "../loading/Loading";
 import "./Site.scss";
 import Select from "react-select";
+import {connect} from "react-redux";
+
+function mapStateToProps(state) {
+	return {
+		account: state.auth
+	};
+}
 
 class Site extends React.Component {
 	constructor(props) {
@@ -25,16 +32,28 @@ class Site extends React.Component {
 		}
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getSiteSettings();
+		}
+		return true;
+	}
+
 	getSiteSettings = () => {
 		const cancelTokenSource = Utils.siteSettings('get', {}, response => {
 			console.log(response);
 			if (this.state.cancelTokenSource) {
 				this.setState({
+					cancelTokenSource: null,
 					settings: response.data
 				})
 			}
 		}, error => {
 			console.log(error);
+			this.setState({
+				cancelTokenSource: null,
+				settings: []
+			})
 		})
 		this.setState({
 			cancelTokenSource: cancelTokenSource
@@ -206,7 +225,7 @@ class Site extends React.Component {
 						break;
 					case 'range':
 						options = JSON.parse(setting.options);
-						control = <Form.Control key={key} type="range" min={options.min} max={options.max} onChange={this.handleChange} value={setting.value}  isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}/>
+						control = <Form.Control key={key} type="range" min={options.min} max={options.max} onChange={this.handleChange} value={setting.value} isInvalid={this.state[setting.key] ? this.state[setting.key].isInvalid : false} isValid={this.state[setting.key] ? this.state[setting.key].isValid : false}/>
 						break;
 					case 'input':
 					default:
@@ -259,4 +278,4 @@ class Site extends React.Component {
 	}
 }
 
-export default Site;
+export default connect(mapStateToProps, null)(Site);

@@ -25,7 +25,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 class Admin extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -46,8 +45,15 @@ class Admin extends React.Component {
 		this.getAdminProfile();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getAdminProfile();
+		}
+		return true;
+	}
+
 	getAdminProfile = () => {
-		Utils.adminProfile('get', {id: this.props.account.uuid}, response => {
+		Utils.adminProfile('get', {}, response => {
 			this.setState({
 				profile: response.data,
 				status: {
@@ -60,6 +66,17 @@ class Admin extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				profile: {},
+				password: {
+					value: ''
+				},
+				repeat_password: {
+					value: ''
+				},
+				file: {},
+				status: {}
+			})
 		})
 	}
 

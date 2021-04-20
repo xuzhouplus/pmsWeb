@@ -83,8 +83,15 @@ class Connect extends React.Component {
 		this.getAdminConnect();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getAdminConnect();
+		}
+		return true;
+	}
+
 	getAdminConnect = () => {
-		Utils.adminConnects({id: this.props.account.uuid}, response => {
+		Utils.adminConnects({}, response => {
 			console.log(response);
 			this.setState({
 				loading: false,
@@ -92,6 +99,9 @@ class Connect extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				connects: {}
+			})
 		})
 	}
 

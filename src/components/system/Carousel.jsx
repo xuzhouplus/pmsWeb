@@ -4,6 +4,13 @@ import Utils from "../../utils/Utils";
 import Loading from "../loading/Loading";
 import Swal from "sweetalert2";
 import "./Carousel.scss";
+import {connect} from "react-redux";
+
+function mapStateToProps(state) {
+	return {
+		account: state.auth
+	};
+}
 
 class Carousel extends React.Component {
 	constructor(props) {
@@ -21,6 +28,13 @@ class Carousel extends React.Component {
 		this.getCarouselSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getCarouselSettings();
+		}
+		return true;
+	}
+
 	componentWillUnmount() {
 		if (this.state.cancelTokenSource) {
 			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
@@ -31,11 +45,19 @@ class Carousel extends React.Component {
 		const cancelTokenSource = Utils.carouselSettings('get', {}, response => {
 			if (this.state.cancelTokenSource) {
 				this.setState({
-					settings: response.data
+					settings: response.data,
+					cancelTokenSource: null
 				})
 			}
 		}, error => {
 			console.log(error);
+			this.setState({
+				cancelTokenSource: null,
+				settings: {},
+				carousel_type: {},
+				carousel_limit: {},
+				carousel_interval: {}
+			})
 		})
 		this.setState({
 			cancelTokenSource: cancelTokenSource
@@ -115,4 +137,4 @@ class Carousel extends React.Component {
 
 }
 
-export default Carousel;
+export default connect(mapStateToProps, null)(Carousel);

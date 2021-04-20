@@ -29,6 +29,13 @@ class Facebook extends React.Component {
 		this.getFacebookSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getFacebookSettings();
+		}
+		return true;
+	}
+
 	getFacebookSettings = () => {
 		Utils.facebookSettings('get', {}, response => {
 			console.log(response);
@@ -43,6 +50,14 @@ class Facebook extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					facebook_app_id: "",
+					facebook_app_secret: ""
+				},
+				facebook_app_id: {},
+				facebook_app_secret: {}
+			})
 		})
 	}
 

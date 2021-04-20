@@ -29,6 +29,13 @@ class Line extends React.Component {
 		this.getLineSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getLineSettings();
+		}
+		return true;
+	}
+
 	getLineSettings = () => {
 		Utils.lineSettings('get', {}, response => {
 			console.log(response);
@@ -43,6 +50,14 @@ class Line extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					line_app_id: "",
+					line_app_secret: ""
+				},
+				line_app_id: {},
+				line_app_secret: {}
+			})
 		})
 	}
 

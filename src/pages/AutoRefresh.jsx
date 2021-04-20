@@ -9,9 +9,7 @@ function mapStateToProps(state) {
 
 class AutoRefresh extends React.Component {
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
-		console.log(nextProps);
-		console.log(this.props);
-		return nextProps.account.uuid !== this.props.uuid;
+		return true;
 	}
 
 	render() {

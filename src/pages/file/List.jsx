@@ -7,6 +7,8 @@ import FileBox from "../../components/file/FileBox";
 import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Paginator from "../../components/paginator/Paginator";
 import {LinkContainer} from "react-router-bootstrap";
+import {connect} from "react-redux";
+import Map from "@/redux/Map"
 import './List.scss';
 
 class List extends React.Component {
@@ -34,6 +36,13 @@ class List extends React.Component {
 		if (this.state.cancelTokenSource) {
 			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
 		}
+	}
+
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getFileList(this.props.match.params.page);
+		}
+		return true;
 	}
 
 	handleModal = () => {
@@ -70,6 +79,11 @@ class List extends React.Component {
 				})
 			}
 		}, (error) => {
+			this.setState({
+				files: [],
+				cancelTokenSource: null,
+				isLoading: false
+			})
 			console.log(error);
 		});
 		this.setState({
@@ -188,4 +202,4 @@ class List extends React.Component {
 
 }
 
-export default List;
+export default connect(Map.mapAccountStateToProps, null)(List);

@@ -29,6 +29,13 @@ class Twitter extends React.Component {
 		this.getTwitterSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getTwitterSettings();
+		}
+		return true;
+	}
+
 	getTwitterSettings = () => {
 		Utils.twitterSettings('get', {}, response => {
 			console.log(response);
@@ -43,6 +50,14 @@ class Twitter extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					twitter_app_id: "",
+					twitter_app_secret: ""
+				},
+				twitter_app_id: {},
+				twitter_app_secret: {}
+			})
 		})
 	}
 

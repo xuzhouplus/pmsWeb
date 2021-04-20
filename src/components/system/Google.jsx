@@ -29,6 +29,13 @@ class Google extends React.Component {
 		this.getGoogleSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getGoogleSettings();
+		}
+		return true;
+	}
+
 	getGoogleSettings = () => {
 		Utils.googleSettings('get', {}, response => {
 			console.log(response);
@@ -43,6 +50,14 @@ class Google extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					google_app_id: "",
+					google_app_secret: ""
+				},
+				google_app_id: {},
+				google_app_secret: {}
+			})
 		})
 	}
 

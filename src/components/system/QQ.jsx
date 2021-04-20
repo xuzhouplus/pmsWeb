@@ -29,6 +29,13 @@ class QQ extends React.Component {
 		this.getQQSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getQQSettings();
+		}
+		return true;
+	}
+
 	getQQSettings = () => {
 		Utils.qqSettings('get', {}, response => {
 			console.log(response);
@@ -43,6 +50,14 @@ class QQ extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					qq_app_id: "",
+					qq_app_secret: ""
+				},
+				qq_app_id: {},
+				qq_app_secret: {}
+			})
 		})
 	}
 

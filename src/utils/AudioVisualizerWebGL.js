@@ -176,12 +176,12 @@ function FannedCircleParticleGeometry() {
 	}
 }
 
-function TetrahedronParticleGeometry() {
-	return {
-		indexArray: [2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1],
-		vertexArray: [1, 1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1]
-	}
-}
+// function TetrahedronParticleGeometry() {
+// 	return {
+// 		indexArray: [2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1],
+// 		vertexArray: [1, 1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1]
+// 	}
+// }
 
 // =====================================================
 

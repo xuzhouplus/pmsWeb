@@ -29,6 +29,13 @@ class Wechat extends React.Component {
 		this.getWechatSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getWechatSettings();
+		}
+		return true;
+	}
+
 	getWechatSettings = () => {
 		Utils.wechatSettings('get', {}, response => {
 			console.log(response);
@@ -43,6 +50,14 @@ class Wechat extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					wechat_app_id: "",
+					wechat_app_secret: "",
+				},
+				wechat_app_id: {},
+				wechat_app_secret: {}
+			})
 		})
 	}
 

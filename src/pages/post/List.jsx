@@ -7,6 +7,8 @@ import PostBox from "../../components/post/PostBox";
 import PostEditor from "../../components/post/PostEditor";
 import Paginator from "../../components/paginator/Paginator";
 import {LinkContainer} from "react-router-bootstrap";
+import {connect} from "react-redux";
+import Map from "@redux/Map";
 import "./List.scss"
 
 class List extends React.Component {
@@ -17,6 +19,7 @@ class List extends React.Component {
 			isLoading: false,
 			editor: false,
 			editPost: null,
+			search: '',
 			posts: [],
 			page: 1,
 			limit: 20,
@@ -32,6 +35,13 @@ class List extends React.Component {
 		if (this.state.cancelTokenSource) {
 			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
 		}
+	}
+
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getPostList(this.props.match.params.page);
+		}
+		return true;
 	}
 
 	getPostList = (page) => {
@@ -50,10 +60,16 @@ class List extends React.Component {
 				isLoading: false,
 				posts: response.data.posts,
 				page: response.data.page + 1,
-				count: response.data.count
+				count: response.data.count,
+				cancelTokenSource: null
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				posts: [],
+				cancelTokenSource: null,
+				isLoading: false
+			})
 		})
 		this.setState({
 			cancelTokenSource: cancelTokenSource
@@ -201,4 +217,4 @@ class List extends React.Component {
 	}
 }
 
-export default List;
+export default connect(Map.mapAccountStateToProps, null)(List);

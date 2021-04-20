@@ -29,6 +29,13 @@ class Baidu extends React.Component {
 		this.getBaiduSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getBaiduSettings();
+		}
+		return true;
+	}
+
 	getBaiduSettings = () => {
 		Utils.baiduSettings('get', {}, response => {
 			console.log(response);
@@ -43,6 +50,14 @@ class Baidu extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					baidu_api_key: "",
+					baidu_secret_key: "",
+				},
+				baidu_api_key: {},
+				baidu_secret_key: {}
+			})
 		})
 	}
 

@@ -3,16 +3,10 @@ import {Row, Col} from 'react-bootstrap';
 import WebGlCarousel from "../../components/carousel/WebGLCarousel";
 import BootstrapCarousel from "../../components/carousel/BootstrapCarousel";
 import Utils from "../../utils/Utils";
-import {connect} from "react-redux";
-import './Home.scss';
 import Loading from "@components/loading/Loading";
-import AutoRefresh from "@pages/AutoRefresh";
-
-function mapStateToProps(state) {
-	return {
-		site: state.site
-	};
-}
+import {connect} from "react-redux";
+import Map from "@redux/Map"
+import './Home.scss';
 
 class Home extends React.PureComponent {
 	constructor(props) {
@@ -80,17 +74,15 @@ class Home extends React.PureComponent {
 			}
 		}
 		return (
-			<AutoRefresh>
-				<Row className="home-container">
-					<Col xs={12} lg={12}>
-						<div className="home-content h-100 d-flex justify-content-center align-items-center">
-							{content}
-						</div>
-					</Col>
-				</Row>
-			</AutoRefresh>
+			<Row className="home-container">
+				<Col xs={12} lg={12}>
+					<div className="home-content h-100 d-flex justify-content-center align-items-center">
+						{content}
+					</div>
+				</Col>
+			</Row>
 		)
 	}
 }
 
-export default connect(mapStateToProps, null)(Home);
+export default connect(Map.mapSiteStateToProps)(Home);

@@ -29,6 +29,13 @@ class Weibo extends React.Component {
 		this.getWeiboSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getWeiboSettings();
+		}
+		return true;
+	}
+
 	getWeiboSettings = () => {
 		Utils.weiboSettings('get', {}, response => {
 			console.log(response);
@@ -43,6 +50,14 @@ class Weibo extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					weibo_app_id: "",
+					weibo_app_secret: ""
+				},
+				weibo_app_id: {},
+				weibo_app_secret: {}
+			})
 		})
 	}
 

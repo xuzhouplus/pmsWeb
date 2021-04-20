@@ -10,7 +10,8 @@
 	  "@assets/*": ["./src/assets/*"],
 	  "@components/*": ["./src/components/*"],
 	  "@pages/*": ["./src/pages/*"],
-	  "@utils/*": ["./src/utils/*"]
+	  "@utils/*": ["./src/utils/*"],
+	  "@redux/*": ["./src/redux/*"]
 	},
 	"experimentalDecorators": true
   },

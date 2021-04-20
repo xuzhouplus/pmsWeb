@@ -9,7 +9,8 @@ module.exports = {
 			'@assets':pathResolve( "assets"),
 			'@components': pathResolve( "src/components"),
 			'@pages': pathResolve("src/pages"),
-			'@utils': pathResolve("src/utils")
+			'@utils': pathResolve("src/utils"),
+			'@redux': pathResolve("src/redux")
 		}
 	}
 };

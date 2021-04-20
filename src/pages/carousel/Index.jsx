@@ -4,25 +4,15 @@ import TreeNavibar from "../../components/navbar/TreeNavibar";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import CarouselCreateModal from "../../components/carousel/CarouselCreateModal";
-import './Index.scss'
 import {LinkContainer} from "react-router-bootstrap";
-
-function mapStateToProps(state) {
-	return {
-		site: state.site
-	};
-}
+import Map from "@redux/Map";
+import './Index.scss'
 
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			idLoading: false,
-			page: 0,
-			limit: 20,
-			count: 0,
-			like: null,
-			enable: null,
 			carousels: [],
 			cancelTokenSource: null,
 			showModal: false,
@@ -40,6 +30,13 @@ class Index extends React.Component {
 		}
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getCarouselList();
+		}
+		return true;
+	}
+
 	getCarouselList = () => {
 		if (this.state.isLoading) {
 			return;
@@ -47,7 +44,7 @@ class Index extends React.Component {
 		this.setState({
 			idLoading: true
 		})
-		const cancelTokenSource = Utils.getCarouselList({},  (response)=> {
+		const cancelTokenSource = Utils.getCarouselList({}, (response) => {
 			if (this.state.cancelTokenSource) {
 				this.setState({
 					carousels: response.data,
@@ -56,8 +53,14 @@ class Index extends React.Component {
 					preview: response.data[0]
 				})
 			}
-		}, function (error) {
-
+		}, error => {
+			console.log(error);
+			this.setState({
+				carousels: [],
+				cancelTokenSource: null,
+				isLoading: false,
+				preview: {}
+			})
 		})
 		this.setState({
 			cancelTokenSource: cancelTokenSource
@@ -156,4 +159,4 @@ class Index extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, null)(Index);
+export default connect(Map.mapStatesToProps, null)(Index);

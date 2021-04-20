@@ -31,6 +31,13 @@ class GitHub extends React.Component {
 		this.getGitHubSettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getGitHubSettings();
+		}
+		return true;
+	}
+
 	getGitHubSettings = () => {
 		Utils.githubSettings('get', {}, response => {
 			console.log(response);
@@ -45,6 +52,16 @@ class GitHub extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					github_application_name: "",
+					github_app_id: "",
+					github_app_secret: ""
+				},
+				github_app_id: {},
+				github_app_secret: {},
+				github_application_name: {},
+			})
 		})
 	}
 

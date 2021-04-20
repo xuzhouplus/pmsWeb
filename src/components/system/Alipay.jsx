@@ -31,6 +31,13 @@ class Alipay extends React.Component {
 		this.getAlipaySettings();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.account.uuid !== this.props.account.uuid) {
+			this.getAlipaySettings();
+		}
+		return true;
+	}
+
 	getAlipaySettings = () => {
 		Utils.alipaySettings('get', {}, response => {
 			console.log(response);
@@ -45,6 +52,16 @@ class Alipay extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			this.setState({
+				settings: {
+					alipay_app_id: "",
+					alipay_app_primary_key: "",
+					alipay_public_key: ""
+				},
+				alipay_app_id: {},
+				alipay_app_primary_key: {},
+				alipay_public_key: {},
+			})
 		})
 	}
 
