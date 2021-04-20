@@ -34,6 +34,7 @@ class CanvasVisualizer extends React.Component {
 	}
 
 	componentWillUnmount() {
+		this.state.audioVisualizer.close();
 		this.setState({
 			audioVisualizer: null,
 			status: 'start'
@@ -61,7 +62,7 @@ class CanvasVisualizer extends React.Component {
 				<div className={['audio-visualizer-button', this.state.status].join(' ')}>
 					<button className="play-button" onClick={this.play}></button>
 					<button className="replay-button" onClick={this.replay}></button>
-					<button className="logo-button"></button>
+					<button className="logo-button" onClick={this.props.changeBg}></button>
 				</div>
 			</div>
 		);

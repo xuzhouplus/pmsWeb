@@ -10,7 +10,21 @@ class Visualizer extends React.Component {
 			src: process.env.PUBLIC_URL + '/audio/OneMoreChance.mp3',
 			type: this.randomType(),//canvas、webgl
 			// src: 'https://m8.music.126.net/21180815163607/04976f67866d4b4d11575ab418904467/ymusic/515a/5508/520b/f0cf47930abbbb0562c9ea61707c4c0b.mp3?infoId=92001',
+			bg1: {
+				src: null,
+				display: 'none',
+			},
+			bg2: {
+				src: null,
+				display: 'none',
+			},
 		}
+	}
+
+	componentDidMount() {
+		setTimeout(() => {
+			this.randomBg();
+		}, 1500)
 	}
 
 	randomType = () => {
@@ -22,6 +36,33 @@ class Visualizer extends React.Component {
 		}
 	}
 
+	randomBg = () => {
+		const bgs = [
+			'/images/carousels/bipenggou.jpg',
+			'/images/carousels/dujiangyan.jpg',
+			'/images/carousels/emeishan.jpg',
+			'/images/carousels/huashan.jpg',
+			'/images/carousels/jianmenguan.jpg',
+			'/images/carousels/langzhonggucheng.jpg',
+			'/images/carousels/uestc.jpg',
+			'/images/carousels/yiheyuan.jpg'
+		];
+		let rand = Math.floor(Math.random() * bgs.length);
+		let bg = bgs[rand]
+		let bgBox = document.createElement('div')
+		bgBox.setAttribute('class', 'full_screen position-absolute radi')
+		bgBox.setAttribute('style', 'background: #fff url(' + bg + ') no-repeat 50% 50%')
+		let container = document.getElementById('audio-visualizer')
+		let bgList = container.getElementsByClassName('radi')
+		if (bgList.length > 0) {
+			let removeBg = bgList[0]
+			setTimeout(() => {
+				removeBg.remove()
+			}, 1500)
+		}
+		container.appendChild(bgBox)
+	}
+
 	render() {
 		let Visualizer;
 		if (this.state.type === 'canvas') {
@@ -30,12 +71,11 @@ class Visualizer extends React.Component {
 			Visualizer = WebGLVisualizer
 		}
 		return (
-			<div className="audio-visualizer full_screen radi">
-				<Visualizer src={this.state.src}/>
+			<div id="audio-visualizer" className="audio-visualizer full_screen">
+				<Visualizer src={this.state.src} changeBg={this.randomBg}/>
 			</div>
 		);
 	}
-
 }
 
 export default Visualizer;

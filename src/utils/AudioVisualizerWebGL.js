@@ -52,6 +52,9 @@ AudioSystem.prototype.replay = function () {
 	this.sound.stop();
 	this.play();
 }
+AudioSystem.prototype.stop = function () {
+	this.sound.stop();
+}
 
 // =====================================================
 
@@ -765,6 +768,9 @@ AudioVisualizerWebGL.prototype = {
 	},
 	replay: function () {
 		audio.replay();
+	},
+	stop:function () {
+		audio.stop();
 	}
 }
 
