@@ -46,14 +46,16 @@ AudioSystem.prototype.update = function () {
 }
 
 AudioSystem.prototype.play = function () {
-	this.sound.play();
+	this.start();
 }
 AudioSystem.prototype.replay = function () {
 	this.sound.stop();
-	this.play();
+	this.start();
 }
 AudioSystem.prototype.stop = function () {
-	this.sound.stop();
+	if(this.sound.isPlaying) {
+		this.sound.stop();
+	}
 }
 
 // =====================================================

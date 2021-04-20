@@ -7,7 +7,8 @@ class Visualizer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			src: process.env.PUBLIC_URL + '/audio/OneMoreChance.mp3',
+			// src: process.env.PUBLIC_URL + '/audio/OneMoreChance.mp3',
+			src: process.env.PUBLIC_URL + '/audio/WhateverItTakes.wav',
 			type: this.randomType(),//canvas、webgl
 			// src: 'https://m8.music.126.net/21180815163607/04976f67866d4b4d11575ab418904467/ymusic/515a/5508/520b/f0cf47930abbbb0562c9ea61707c4c0b.mp3?infoId=92001',
 			bg1: {
@@ -18,6 +19,7 @@ class Visualizer extends React.Component {
 				src: null,
 				display: 'none',
 			},
+			interval: null
 		}
 	}
 
@@ -25,6 +27,19 @@ class Visualizer extends React.Component {
 		setTimeout(() => {
 			this.randomBg();
 		}, 1500)
+		let interval = setInterval(() => {
+			this.randomBg();
+		}, 5000)
+		this.setState({
+			interval: interval
+		})
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.state.interval)
+		this.setState({
+			interval: null
+		})
 	}
 
 	randomType = () => {
