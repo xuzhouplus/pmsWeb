@@ -6,12 +6,14 @@ import Message from "@components/about/Message";
 import Introduction from "@components/about/Introduction";
 import Dependence from "@components/about/Dependence";
 import './About.scss'
+import Utils from "@utils/Utils";
 
 class About extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			fullPageInstance: null
+			fullPageInstance: null,
+			wallpaper: ''
 		};
 	}
 
@@ -32,8 +34,14 @@ class About extends React.Component {
 	}
 
 	render() {
+		let style = {};
+		if (this.state.wallpaper) {
+			style = {
+				'backgroundImg': 'url("' + this.state.wallpaper + '")'
+			}
+		}
 		return (
-			<Row className="about-container">
+			<Row className="about-container" style={style}>
 				<Col xs={12} lg={12} className="about-content">
 					<div className="container-fluid justify-content-center about" id="fullpage">
 						<div className="section message-dependence">

@@ -2,6 +2,7 @@ import LoginModal from "@components/login/LoginModal";
 import {Image, Nav, Navbar} from "react-bootstrap";
 import React from "react";
 import {LinkContainer} from 'react-router-bootstrap'
+import configs from "@/configs";
 
 class BaseNavibar extends React.Component{
 	render() {
@@ -14,7 +15,7 @@ class BaseNavibar extends React.Component{
 			<Navbar className="main-color-navbar">
 				{loginModal}
 				<Navbar.Brand href="/">
-					<Image src={this.props.logo ? this.props.logo : '/logo192.png'} rounded className="brand-img" alt={this.props.title}/>
+					<Image src={this.props.logo ? this.props.logo : configs.defaultLogo} rounded className="brand-img" alt={this.props.title}/>
 					<div className="brand-text">{this.props.title}</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav"/>

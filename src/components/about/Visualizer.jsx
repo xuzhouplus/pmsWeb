@@ -2,6 +2,12 @@ import React from "react";
 import CanvasVisualizer from "@components/audio_visualizer/CanvasVisualizer";
 import WebGLVisualizer from "@components/audio_visualizer/WebGLVisualizer";
 import "./Visualizer.scss";
+import Helmet from "react-helmet";
+import {Col, Container, Row} from "react-bootstrap";
+import Navibar from "@components/navbar/Navibar";
+import Footer from "@components/footer/Footer";
+import MaintainNavbar from "@components/navbar/MaintainNavbar";
+import configs from "@/configs";
 
 class Visualizer extends React.Component {
 	constructor(props) {
@@ -86,9 +92,26 @@ class Visualizer extends React.Component {
 			Visualizer = WebGLVisualizer
 		}
 		return (
-			<div id="audio-visualizer" className="audio-visualizer full_screen">
-				<Visualizer src={this.state.src} changeBg={this.randomBg}/>
-			</div>
+			<Container fluid className="app-container">
+				<Helmet title={configs.defaultTitle} link={[{rel: "shortcut icon", href: configs.defaultFavicon}]}></Helmet>
+				<Row className={["app-header", "fixed-top", "home-page"]}>
+					<Col xs={12} lg={12}>
+						<MaintainNavbar/>
+					</Col>
+				</Row>
+				<Row className="app-body">
+					<Col xs={12} lg={12}>
+						<div id="audio-visualizer" className="row audio-visualizer full_screen">
+							<Visualizer src={this.state.src} changeBg={this.randomBg}/>
+						</div>
+					</Col>
+				</Row>
+				<Row className={["app-footer", "fixed-bottom", "home-page"]}>
+					<Col xs={12} lg={12}>
+						<Footer site={{icp: configs.defaultICP}}/>
+					</Col>
+				</Row>
+			</Container>
 		);
 	}
 }

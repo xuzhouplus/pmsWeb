@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Loading from "./mask/Loading";
 import Footer from "@components/footer/Footer";
 import {connect} from "react-redux";
+import configs from "@/configs";
 
 function mapStateToProps(state) {
 	return {
@@ -42,7 +43,7 @@ class Main extends React.Component {
 		return (
 			<Router>
 				<Container fluid className="app-container">
-					<Helmet title={this.props.site.title} link={[{rel: "shortcut icon", href: this.props.site.icon ? this.props.site.icon : '/favicon.ico'}]}></Helmet>
+					<Helmet title={this.props.site.title} link={[{rel: "shortcut icon", href: this.props.site.icon ? this.props.site.icon : configs.defaultFavicon}]}></Helmet>
 					<Row className={["app-header", "fixed-top", isHomePage ? "home-page" : ""]}>
 						<Col xs={12} lg={12}>
 							<Navibar/>

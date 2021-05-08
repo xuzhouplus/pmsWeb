@@ -2,13 +2,14 @@ import React from 'react';
 import {Navbar, Nav, NavDropdown, Image} from 'react-bootstrap';
 import './Navibar.scss'
 import {LinkContainer} from "react-router-bootstrap";
+import configs from "@/configs";
 
 class AdminNavibar extends React.Component {
 	render() {
 		return (
 			<Navbar className="main-color-navbar">
 				<Navbar.Brand href="/">
-					<Image src={this.props.logo ? this.props.logo : '/logo192.png'} rounded className="brand-img" alt={this.props.title}/>
+					<Image src={this.props.logo ? this.props.logo : configs.defaultLogo} rounded className="brand-img" alt={this.props.title}/>
 					<div className="brand-text">{this.props.title}</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav"/>
