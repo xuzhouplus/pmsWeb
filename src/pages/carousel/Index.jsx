@@ -47,10 +47,11 @@ class Index extends React.Component {
 		const cancelTokenSource = Utils.getCarouselList({}, (response) => {
 			if (this.state.cancelTokenSource) {
 				this.setState({
-					carousels: response.data,
+					carousels: response.data.list,
+					limit: response.data.limit,
 					cancelTokenSource: null,
 					isLoading: false,
-					preview: response.data[0]
+					preview: response.data.list[0]
 				})
 			}
 		}, error => {
@@ -119,6 +120,10 @@ class Index extends React.Component {
 				</div>
 			</div>
 		}
+		let addBox = '';
+		if (this.state.limit > this.state.carousels.length) {
+			addBox = <Card className="carousel-button file-box" onClick={this.handleModal}>+</Card>
+		}
 		return (
 			<TreeNavibar>
 				<Card>
@@ -149,9 +154,7 @@ class Index extends React.Component {
 					</Card.Body>
 					<Card.Footer className="carousel-preview-list">
 						{boxList}
-						<Card className="carousel-button file-box" onClick={this.handleModal}>
-							+
-						</Card>
+						{addBox}
 					</Card.Footer>
 				</Card>
 			</TreeNavibar>

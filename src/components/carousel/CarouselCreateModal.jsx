@@ -4,6 +4,7 @@ import "./CarouselCreateModal.scss";
 import FileListModal from "../file/FileListModal";
 import config from "../../configs";
 import Utils from "../../utils/Utils";
+import Image from "../../utils/Image";
 
 class CarouselCreateModal extends React.Component {
 	constructor(props) {
@@ -183,10 +184,21 @@ class CarouselCreateModal extends React.Component {
 	}
 
 	selectFile = (file) => {
-		file['preview'] = config.proxyBackendHost + config.previewCarouselUrl + '?file_id=' + file.id;
-		this.setState({
-			file: file,
-			showSelect: false
+		console.log(file);
+		if (file.id == this.state.file.id) {
+			this.setState({
+				showSelect: false
+			})
+			return
+		}
+		Image.gaussianBlur(file.preview, this.state.canvas.width, this.state.canvas.height, (result) => {
+			file['canvas'] = result
+			this.setState({
+				file: file,
+				title: Object.assign({}, this.state.title, {value: file.name}),
+				description: Object.assign({}, this.state.description, {value: file.description ? file.description : ''}),
+				showSelect: false
+			})
 		})
 	}
 
@@ -208,7 +220,7 @@ class CarouselCreateModal extends React.Component {
 			<div className="file-add-note">选择已上传的文件</div>
 		</div>;
 		if (this.state.file.id) {
-			addPlaceholder = <img src={this.state.file.preview} alt="preview"/>
+			addPlaceholder = <img src={this.state.file.canvas} alt="preview"/>
 		}
 		return (
 			<Modal className="carousel-create-modal" centered show={this.props.show} onHide={this.props.handleModal}>

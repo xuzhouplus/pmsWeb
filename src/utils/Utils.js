@@ -271,6 +271,7 @@ const Utils = {
 		}).catch(function (error) {
 			let message;
 			if (error.response) {
+				console.log(error.response)
 				if (error.response.status === 401) {
 					let state = store.getState();
 					console.log(state);
@@ -300,7 +301,7 @@ const Utils = {
 				}
 				// The request was made and the server responded with a status code
 				// that falls out of the range of 2xx
-				message = error.response.data.message;
+				message = (error.response.data && error.response.data.message) ? error.response.data.message : error.response.statusText;
 			} else if (error.request) {
 				// The request was made but no response was received
 				// `error.request` is an instance of XMLHttpRequest in the browser and an instance of

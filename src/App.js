@@ -4,9 +4,9 @@ import Loading from './pages/mask/Loading';
 import {initAction} from "./redux/Actions";
 import {connect} from "react-redux";
 import Utils from "./utils/Utils";
-import Message from "./pages/mask/Message"
 import Main from "./pages/Main";
 import Visualizer from "./components/about/Visualizer";
+import Swal from "sweetalert2";
 import './App.scss'
 
 function mapStateToProps(state) {
@@ -30,7 +30,6 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			timeout: null,
 			audioVisualizer: null,
 			error: ''
 		}
@@ -42,12 +41,9 @@ class App extends React.Component {
 				this.props.init(response.data);
 			}
 		}, (error) => {
-			let timeout = setTimeout(() => {
-				this.changeToAudioVisualizer();
-			}, 5000)
+			console.log(error);
 			this.setState({
-				timeout: timeout,
-				error: error
+				error: "can't connect to server."
 			})
 		});
 	}
@@ -71,11 +67,9 @@ class App extends React.Component {
 			);
 		}
 		if (this.state.error) {
-			return (
-				<Container fluid className="app-container full_screen direct-center">
-					<Message message={this.state.error}></Message>
-				</Container>
-			);
+			Swal.fire('connect to server failed or server is under maintain').then(() => {
+				this.changeToAudioVisualizer()
+			})
 		}
 		if (Utils.objectIsEmpty(this.props.site)) {
 			return (
