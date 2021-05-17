@@ -20,7 +20,7 @@ class List extends React.Component {
 			modal: false,
 			isLoading: false,
 			page: 0,
-			limit: 8,
+			limit: 16,
 			count: 0,
 			total: 0,
 			search: null,

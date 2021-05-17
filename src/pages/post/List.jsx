@@ -92,7 +92,7 @@ class List extends React.Component {
 	preview = (index, event) => {
 		event.stopPropagation();
 		let post = this.state.posts[index];
-		window.location.href = '/post/' + post.uuid;
+		window.open('/post/' + post.uuid);
 	}
 	edit = (index, event) => {
 		event.stopPropagation();

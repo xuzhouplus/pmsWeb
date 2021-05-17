@@ -67,7 +67,7 @@ class App extends React.Component {
 			);
 		}
 		if (this.state.error) {
-			Swal.fire('connect to server failed or server is under maintain').then(() => {
+			Swal.fire('服务端不可用，请稍后重试。').then(() => {
 				this.changeToAudioVisualizer()
 			})
 		}
