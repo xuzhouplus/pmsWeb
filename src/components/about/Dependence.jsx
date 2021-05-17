@@ -49,6 +49,11 @@ class Dependence extends React.Component {
 						</a>
 					</div>
 					<div className="col col-auto">
+						<a className="text-dark" href="https://golang.google.cn/" target="_blank" rel="noreferrer noopener">
+							<img className="brand-logo go" alt="Go" src={process.env.PUBLIC_URL + '/images/About/go.svg'}></img>Go
+						</a>
+					</div>
+					<div className="col col-auto">
 						<a className="text-dark" href="https://www.mysql.com/" target="_blank" rel="noreferrer noopener">
 							<img className="brand-logo mysql" alt="MySQL" src={process.env.PUBLIC_URL + '/images/About/mysql.svg'}></img>MySQL
 						</a>

@@ -2,7 +2,6 @@ import React from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import "./CarouselCreateModal.scss";
 import FileListModal from "../file/FileListModal";
-import config from "../../configs";
 import Utils from "../../utils/Utils";
 import Image from "../../utils/Image";
 
@@ -184,8 +183,7 @@ class CarouselCreateModal extends React.Component {
 	}
 
 	selectFile = (file) => {
-		console.log(file);
-		if (file.id == this.state.file.id) {
+		if (file.id === this.state.file.id) {
 			this.setState({
 				showSelect: false
 			})

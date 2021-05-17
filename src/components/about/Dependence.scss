@@ -1,5 +1,6 @@
 .based-on {
   border-top: 1px solid var(--main-color);
+
   .brand-logo {
     &.react {
       height: 1.7rem;
@@ -23,6 +24,10 @@
 
     &.nginx {
       height: 0.8rem;
+    }
+
+    &.go {
+      height: 1rem;
     }
 
     &.php {

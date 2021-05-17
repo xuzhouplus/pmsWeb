@@ -43,26 +43,31 @@ class WebGLVisualizer extends React.Component {
 	}
 
 	play = () => {
-		this.state.audioVisualizer.play();
-		this.setState({
-			status: 'playing'
-		})
-	}
-
-	replay = () => {
-		this.state.audioVisualizer.replay();
-		this.setState({
-			status: 'playing'
-		})
+		switch (this.state.status) {
+			case 'start':
+				this.state.audioVisualizer.play();
+				this.setState({
+					status: 'playing'
+				})
+				break;
+			case 'stop':
+				this.state.audioVisualizer.replay();
+				this.setState({
+					status: 'playing'
+				})
+				break;
+			case 'playing':
+				this.props.changeBg()
+				break;
+			default:
+		}
 	}
 
 	render() {
 		return (
 			<div id="webgl-visualizer" className="webgl-visualizer">
 				<div className={['audio-visualizer-button', this.state.status].join(' ')}>
-					<button className="play-button" onClick={this.play}></button>
-					<button className="replay-button" onClick={this.replay}></button>
-					<button className="logo-button" onClick={this.props.changeBg}></button>
+					<button className="logo-button" onClick={this.play}></button>
 				</div>
 			</div>
 		);

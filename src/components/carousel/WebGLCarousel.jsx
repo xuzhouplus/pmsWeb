@@ -31,9 +31,9 @@ class WebGlCarousel extends React.PureComponent {
 			//添加初始文字
 			containerHtml = containerHtml + '<div class="slider-inner">' +
 				'<div id="slider-content">' +
-				'<div id="slide-title">' +
+				'<a id="slide-title" href="' + firstImage.link + '" target="_blank">' +
 				firstImage.title
-				+ '</div>' +
+				+ '</a>' +
 				'<div id="slide-status">' +
 				firstImage.description
 				+ '</div>' +
@@ -108,6 +108,7 @@ class WebGlCarousel extends React.PureComponent {
 			const render = function (slideId) {
 				pageIndex = slideId;
 				if (!isAnimating) {
+					let currentImage = images[slideId]
 					isAnimating = true;
 					paginationContainer.querySelector('.active').className = '';
 					paginationContainer.querySelectorAll('button')[pageIndex].className = 'active';
@@ -125,8 +126,8 @@ class WebGlCarousel extends React.PureComponent {
 						}
 					});
 
-					let nextSlideTitle = images[slideId]['title'];
-					let nextSlideStatus = images[slideId]['description'];
+					let nextSlideTitle = currentImage['title'];
+					let nextSlideStatus = currentImage['description'];
 
 					TweenMax.fromTo(slideTitleEl, 0.5, {
 						autoAlpha: 1,
@@ -139,6 +140,7 @@ class WebGlCarousel extends React.PureComponent {
 						ease: 'Expo.easeIn',
 						onComplete: function onComplete() {
 							slideTitleEl.innerHTML = nextSlideTitle;
+							slideTitleEl.href = currentImage['link']
 							TweenMax.to(slideTitleEl, 0.5, {
 								autoAlpha: 1,
 								filter: 'blur(0px)',

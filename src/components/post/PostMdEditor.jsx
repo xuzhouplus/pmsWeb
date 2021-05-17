@@ -27,7 +27,7 @@ class PostMdEditor extends React.Component {
 			},
 		});
 		this.state = {
-			mdeValue: 'd',
+			mdeValue: '',
 			showSelect: false,
 			showUpload: false
 		}
