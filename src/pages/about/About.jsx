@@ -3,10 +3,8 @@ import fullpage from 'fullpage.js';
 import {Col, Row} from "react-bootstrap";
 import Configs from "@/configs";
 import Message from "@components/about/Message";
-import Introduction from "@components/about/Introduction";
 import Dependence from "@components/about/Dependence";
 import './About.scss'
-import Utils from "@utils/Utils";
 
 class About extends React.Component {
 	constructor(props) {
@@ -47,9 +45,6 @@ class About extends React.Component {
 						<div className="section message-dependence">
 							<Message/>
 							<Dependence/>
-						</div>
-						<div className="section">
-							<Introduction/>
 						</div>
 					</div>
 				</Col>

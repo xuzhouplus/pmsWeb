@@ -13,61 +13,17 @@
     background-color: transparent;
 
     button {
-      border: 0;
-      width: 60px;
-      height: 60px;
+      width: 120px;
+      height: 120px;
       background-color: transparent;
-
-      &.play-button {
-        background-image: url("/assets/icons/play_gray.png");
-
-        &:hover {
-          background-image: url("/assets/icons/play_white.png");
-        }
-      }
-
-      &.replay-button {
-        background-image: url("/assets/icons/replay_gray.png");
-
-        &:hover {
-          background-image: url("/assets/icons/replay_white.png");
-        }
-      }
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 80px;
+      border: solid 3px var(--main-color-transparent);
+      border-radius: 60px;
 
       &.logo-button {
-        background-image: url("/assets/images/logo.svg");
-        background-position: center;
-        background-repeat: no-repeat;
-        border: solid 2px var(--main-color);
-        border-radius: 30px;
-      }
-    }
-
-    &.loading {
-      .replay-button,
-      .logo-button {
-        display: none;
-      }
-    }
-
-    &.start {
-      .replay-button,
-      .logo-button {
-        display: none;
-      }
-    }
-
-    &.playing {
-      .play-button,
-      .replay-button {
-        display: none;
-      }
-    }
-
-    &.stop {
-      .play-button,
-      .logo-button {
-        display: none;
+        background-image: url("/assets/images/logo192.png");
       }
     }
   }

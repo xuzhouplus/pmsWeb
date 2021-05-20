@@ -118,7 +118,7 @@ class Carousel extends React.Component {
 							</Form.Group>
 							<Form.Group controlId="carousel_limit" className="position-relative">
 								<Form.Label>轮播数量限制（{this.state.settings.carousel_limit.value}）</Form.Label>
-								<Form.Control type="range" custom min="1" max="8" onChange={this.handleChange} value={this.state.settings.carousel_limit.value} isInvalid={this.state.carousel_limit.isInvalid} isValid={this.state.carousel_limit.isValid}/>
+								<Form.Control type="range" custom min="3" max="8" onChange={this.handleChange} value={this.state.settings.carousel_limit.value} isInvalid={this.state.carousel_limit.isInvalid} isValid={this.state.carousel_limit.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.carousel_limit.text}
 								</Form.Control.Feedback>

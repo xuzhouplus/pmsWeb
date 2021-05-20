@@ -19,32 +19,29 @@
     transform: translateY(-50%);
 
     #slider-content {
-      & {
-        padding: 10px;
-        color: #F8F8F8;
-        -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: var(--main-color);
-        opacity: 0.8;
-      }
+      padding: 10px;
+      opacity: 0.8;
 
       #slide-title {
         font-size: 100px;
         letter-spacing: -1px;
-      }
-
-      .meta {
         display: inline-block;
-        font-family: 'Arial', sans-serif;
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        position: relative;
-        font-size: 25px;
+        color: #F8F8F8DD;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: var(--main-color);
+
+        &:hover {
+          color: #F8F8F8;
+        }
       }
 
       #slide-status {
         margin-top: 10px;
         font-weight: 400;
         font-size: 50px;
+        color: #F8F8F8DD;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: var(--main-color);
       }
     }
   }

@@ -13,7 +13,6 @@ class View extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props.match.params.uuid);
 		this.getPostDetail(this.props.match.params.uuid);
 	}
 

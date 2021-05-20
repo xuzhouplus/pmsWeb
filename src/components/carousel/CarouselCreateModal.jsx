@@ -183,8 +183,7 @@ class CarouselCreateModal extends React.Component {
 	}
 
 	selectFile = (file) => {
-		console.log(file);
-		if (file.id == this.state.file.id) {
+		if (file.id === this.state.file.id) {
 			this.setState({
 				showSelect: false
 			})
