@@ -1,13 +1,12 @@
 import React from "react";
 import CanvasVisualizer from "@components/audio_visualizer/CanvasVisualizer";
 import WebGLVisualizer from "@components/audio_visualizer/WebGLVisualizer";
-import "./Visualizer.scss";
 import Helmet from "react-helmet";
 import {Col, Container, Row} from "react-bootstrap";
-import Navibar from "@components/navbar/Navibar";
 import Footer from "@components/footer/Footer";
 import MaintainNavbar from "@components/navbar/MaintainNavbar";
 import configs from "@/configs";
+import "./Visualizer.scss";
 
 class Visualizer extends React.Component {
 	constructor(props) {

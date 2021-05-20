@@ -16,7 +16,7 @@ const Utils = {
 		this.http('post', configs.proxyBackendHost + configs.logoutUrl, null, callback, fallback)
 	},
 	auth: function (callback, fallback) {
-		this.http('post', configs.proxyBackendHost + configs.authUrl, null, callback, fallback)
+		this.http('get', configs.proxyBackendHost + configs.authUrl, null, callback, fallback)
 	},
 	site: function (callback, fallback) {
 		this.http('get', configs.proxyBackendHost + configs.settingUrl, null, function (response) {
