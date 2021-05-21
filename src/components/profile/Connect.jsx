@@ -122,16 +122,18 @@ class Connect extends React.Component {
 					action: 'bind'
 				}, response => {
 					console.log(response);
-					window.open(response.data, provider.name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+					let authWindow=window.open(response.data, provider.name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 					let timeCount = 0;
 					let interval = setInterval(() => {
-						if (window.closed) {
+						if (authWindow.closed) {
+							console.log("auth window closed");
 							clearInterval(interval);
 							this.getAdminConnect();
 						} else {
 							timeCount++;
 							if (timeCount === 1200) {
-								clearInterval(interval)
+								clearInterval(interval);
+								this.getAdminConnect();
 							}
 						}
 					}, 3000)

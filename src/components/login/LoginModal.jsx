@@ -133,7 +133,7 @@ class LoginModal extends React.Component {
 			scope: 'auth_user',
 			action: 'login'
 		}, response => {
-			window.open(response.data, type, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
+			let authWindow = window.open(response.data, type, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
 			let timerInterval
 			MySwal.fire({
 				html: <div>
@@ -145,10 +145,19 @@ class LoginModal extends React.Component {
 				didOpen: () => {
 					timerInterval = setInterval(() => {
 						Utils.auth(response => {
+							Swal.close()
 							clearInterval(timerInterval)
 							this.props.afterLogged(response.data);
 						}, error => {
 							console.log(error);
+							if (authWindow.closed) {
+								MySwal.close()
+								MySwal.fire({
+									html: <div>
+										<p>登录失败</p>
+									</div>,
+								})
+							}
 						});
 					}, 3000);
 				},

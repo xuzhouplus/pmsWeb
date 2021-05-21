@@ -62,7 +62,7 @@ class Main extends React.Component {
 									<Route path="/post/:uuid" component={PostView}></Route>
 									<Route path="/about" exact component={About}></Route>
 									<Route path="/system/:type?" component={Setting}></Route>
-									<Route path="/profile/authorize" exact component={Authorize}></Route>
+									<Route path="/profile/authorize/:type?" exact component={Authorize}></Route>
 									<Route path="/profile/connect" exact component={ProfileConnect}></Route>
 									<Route path="/profile/index" exact component={ProfileIndex}></Route>
 									<Route path="/login" exact component={LoginForm}></Route>

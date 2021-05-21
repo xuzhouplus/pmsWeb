@@ -1,8 +1,7 @@
 import React from "react";
 import Loading from "@components/loading/Loading";
-import {Card} from "react-bootstrap";
+import {Button, Card} from "react-bootstrap";
 import Utils from "@utils/Utils";
-import {Link} from "react-router-dom";
 import "./Authorize.scss"
 import NotFound from "@components/error/NotFound";
 
@@ -34,6 +33,9 @@ class Authorize extends React.Component {
 			})
 		})
 	}
+	redirect = () => {
+		window.close()
+	}
 
 	render() {
 		let type = this.props.match.params.type;
@@ -53,7 +55,7 @@ class Authorize extends React.Component {
 									<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + '/connects/' + this.state.connect.type + '.png'}></Card.Img>
 								</Card.Body>
 								<Card.Footer>
-									<Link to="/profile/connect">绑定成功</Link>
+									<Button onClick={this.redirect}>操作成功，关闭窗口</Button>
 								</Card.Footer>
 							</Card>
 							<div className="admin-connect-note">
@@ -67,7 +69,7 @@ class Authorize extends React.Component {
 					return (
 						<Card className="profile-authorize absolute-center">
 							<Card.Body className="loading-container">
-								<image alt="logo" src="/logo192.png"/>
+								<img alt="logo" src="/logo192.png"/>
 							</Card.Body>
 							<Card.Footer className="text-center">
 								{this.state.error}
