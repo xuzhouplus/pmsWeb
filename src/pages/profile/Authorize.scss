@@ -1,6 +1,48 @@
+
+.connect-loading {
+  .loading-note {
+    text-align: center;
+    font-size: 1.25rem;
+  }
+}
+
 .profile-authorize {
-  .loading-container {
-    width: 200px;
-    height: 200px;
+  .connect-avatar {
+    height: 12rem;
+    width: 12rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: auto;
+  }
+
+  .connect-account {
+    font-size: 1.25rem;
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .connect-redirect {
+    text-align: center;
+  }
+
+  .connect-note {
+    position: absolute;
+    bottom: 60px;
+    text-align: center;
+    width: 100%;
+    left: 0px;
+    right: 0px;
+  }
+}
+
+.connect-error {
+  .error-text {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .error-redirect {
+    text-align: center;
   }
 }

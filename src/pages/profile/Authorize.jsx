@@ -2,8 +2,8 @@ import React from "react";
 import Loading from "@components/loading/Loading";
 import {Button, Card} from "react-bootstrap";
 import Utils from "@utils/Utils";
-import "./Authorize.scss"
 import NotFound from "@components/error/NotFound";
+import "./Authorize.scss"
 
 class Authorize extends React.Component {
 	constructor(props) {
@@ -43,49 +43,41 @@ class Authorize extends React.Component {
 			return (<NotFound/>)
 		}
 		if (this.state.isLoading) {
-			return (<Loading/>);
+			return (
+				<div className="connect-loading absolute-center">
+					<Loading/>
+					<div className="loading-note">认证中，请稍候</div>
+				</div>
+			);
 		} else {
 			if (!Utils.objectIsEmpty(this.state.connect)) {
 				return (
-					<Card className="profile-authorize absolute-center">
-						<Card.Body className="admin-connect-table">
-							<Card>
-								<Card.Body className="connect-link" style={{'backgroundImage': 'url("' + this.state.connect.avatar + '")'}}>
-									<Card.Title>{this.state.connect.account.replace('\\', '')}</Card.Title>
-									<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + '/connects/' + this.state.connect.type + '.png'}></Card.Img>
-								</Card.Body>
-								<Card.Footer>
-									<Button onClick={this.redirect}>操作成功，关闭窗口</Button>
-								</Card.Footer>
-							</Card>
-							<div className="admin-connect-note">
-								<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank" rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>
+					<div className="full_container profile-authorize">
+						<div className="absolute-center">
+							<div className="connect-avatar" style={{'backgroundImage': 'url("' + this.state.connect.avatar + '")'}}></div>
+							<div className="connect-account">{this.state.connect.account.replace('\\', '')}</div>
+							<div className="connect-redirect">
+								<Button onClick={this.redirect}>操作成功</Button>
 							</div>
-						</Card.Body>
-					</Card>
+						</div>
+						<div className="connect-note">
+							<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank" rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>
+						</div>
+					</div>
 				);
 			} else {
-				if (this.state.error) {
-					return (
-						<Card className="profile-authorize absolute-center">
-							<Card.Body className="loading-container">
-								<img alt="logo" src="/logo192.png"/>
-							</Card.Body>
-							<Card.Footer className="text-center">
-								{this.state.error}
-							</Card.Footer>
-						</Card>
-					);
-				}
 				return (
-					<Card className="profile-authorize absolute-center">
-						<Card.Body className={['loading-container', 'bg-' + type].join(' ')}>
-							<Loading></Loading>
-						</Card.Body>
-						<Card.Footer className="text-center">
-							验证中，请稍候
-						</Card.Footer>
-					</Card>
+					<div className="connect-error full_container">
+						<div className="absolute-center">
+							<img alt="logo" src="/logo192.png"/>
+							<div className="error-text text-center">
+								{this.state.error}
+							</div>
+							<div className="error-redirect">
+								<Button type="sec" onClick={this.redirect}>操作失败</Button>
+							</div>
+						</div>
+					</div>
 				);
 			}
 		}
