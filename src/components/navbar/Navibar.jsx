@@ -87,7 +87,7 @@ class Navibar extends React.Component {
 	}
 
 	render() {
-		const reg = /\/profile\/authorize\/[a-z]+/g;
+		const reg = /\/profile\/authorize\/([a-z]+)$/;
 		const isAuthorize = reg.test(document.location.pathname)
 		if (isAuthorize) {
 			return (<MaintainNavbar logo={this.props.site.logo} title={this.props.site.title}></MaintainNavbar>)
