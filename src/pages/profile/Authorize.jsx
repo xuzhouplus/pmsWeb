@@ -1,6 +1,6 @@
 import React from "react";
 import Loading from "@components/loading/Loading";
-import {Button, Card} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import Utils from "@utils/Utils";
 import NotFound from "@components/error/NotFound";
 import "./Authorize.scss"
