@@ -26,7 +26,6 @@ function AudioSystem(options) {
 
 	this.sound = sound;
 	this.analyser = analyser;
-
 	audioUniforms.waveform.value = new THREE.DataTexture(this.waveform, FFT_SIZE / 2, 1, THREE.LuminanceFormat);
 	audioUniforms.frequency.value = new THREE.DataTexture(this.frequency, FFT_SIZE / 2, 1, THREE.LuminanceFormat);
 	this.options = options
@@ -53,8 +52,13 @@ AudioSystem.prototype.replay = function () {
 	this.start();
 }
 AudioSystem.prototype.stop = function () {
-	if(this.sound.isPlaying) {
+	if (this.sound.isPlaying) {
 		this.sound.stop();
+	}
+}
+AudioSystem.prototype.pause = function () {
+	if (this.sound.isPlaying) {
+		this.sound.pause();
 	}
 }
 
@@ -771,7 +775,13 @@ AudioVisualizerWebGL.prototype = {
 	replay: function () {
 		audio.replay();
 	},
-	stop:function () {
+	pause: function () {
+		audio.pause();
+	},
+	resume: function () {
+		audio.play();
+	},
+	stop: function () {
 		audio.stop();
 	}
 }

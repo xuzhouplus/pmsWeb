@@ -45,6 +45,11 @@ class Connect extends React.Component {
 						id: 'baidu',
 						name: '百度',
 						logo: '/connects/baidu.png'
+					},
+					{
+						id: 'gitee',
+						name: '码云',
+						logo: '/connects/gitee.png'
 					}
 				],
 				[
@@ -121,7 +126,6 @@ class Connect extends React.Component {
 					scope: 'auth_user',
 					action: 'bind'
 				}, response => {
-					console.log(response);
 					let authWindow=window.open(response.data, provider.name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 					let timeCount = 0;
 					let interval = setInterval(() => {

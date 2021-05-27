@@ -173,6 +173,14 @@ const Utils = {
 		}
 		return this.http(type, configs.proxyBackendHost + configs.githubSettingUrl, data, callback, fallback);
 	},
+	giteeSettings: function (type, data, callback, fallback) {
+		if (type === 'post') {
+			if (data.gitee_app_secret) {
+				data.gitee_app_secret = this.jsEncrypt(data.gitee_app_secret, configs.publicKey);
+			}
+		}
+		return this.http(type, configs.proxyBackendHost + configs.giteeSettingUrl, data, callback, fallback);
+	},
 	googleSettings: function (type, data, callback, fallback) {
 		if (type === 'post') {
 			if (data.google_app_secret) {

@@ -53,6 +53,11 @@ class Index extends React.Component {
 			navList.push(<LinkContainer to="/system/github"><ListGroup.Item action active={type === "github"} disabled={type === "github"}>GitHub 配置</ListGroup.Item></LinkContainer>)
 			components['github'] = GitHub;
 		}
+		if (this.props.site.connects.indexOf('gitee') > -1) {
+			const Gitee = lazy(() => import('../../components/system/Gitee'));
+			navList.push(<LinkContainer to="/system/gitee"><ListGroup.Item action active={type === "gitee"} disabled={type === "gitee"}>码云配置</ListGroup.Item></LinkContainer>)
+			components['gitee'] = Gitee;
+		}
 		if (this.props.site.connects.indexOf('google') > -1) {
 			const Google = lazy(() => import('../../components/system/Google'));
 			navList.push(<LinkContainer to="/system/google"><ListGroup.Item action active={type === "google"} disabled={type === "google"}>Google 配置</ListGroup.Item></LinkContainer>)

@@ -38,6 +38,7 @@ const configs = {
 	alipaySettingsUrl: "/setting/alipay",
 	facebookSettingUrl: "/setting/facebook",
 	githubSettingUrl: "/setting/github",
+	giteeSettingUrl: "/setting/gitee",
 	googleSettingUrl: "/setting/google",
 	lineSettingUrl: "/setting/line",
 	qqSettingUrl: "/setting/qq",

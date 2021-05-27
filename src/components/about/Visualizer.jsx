@@ -29,15 +29,6 @@ class Visualizer extends React.Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => {
-			this.randomBg();
-		}, 1500)
-		let interval = setInterval(() => {
-			this.randomBg();
-		}, 5000)
-		this.setState({
-			interval: interval
-		})
 	}
 
 	componentWillUnmount() {

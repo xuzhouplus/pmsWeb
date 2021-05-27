@@ -3,9 +3,9 @@ import {Form, Button, Modal, Image} from 'react-bootstrap';
 import Utils from '@utils/Utils';
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
-import './LoginModal.scss';
 import withReactContent from "sweetalert2-react-content";
 import Loading from "@components/loading/Loading";
+import './LoginModal.scss';
 
 const MySwal = withReactContent(Swal)
 
@@ -22,13 +22,25 @@ class LoginModal extends React.Component {
 			validated: false,
 			status: 'inputting',
 			cancelTokenSource: null,
+			connectMap: {
+				alipay: '支付宝',
+				baidu: '百度',
+				facebook: 'Facebook',
+				github: 'GitHub',
+				google: 'Google',
+				line: 'Line',
+				qq: 'QQ',
+				twitter: 'Twitter',
+				wechat: '微信',
+				weibo: '微博'
+			},
 			account: Object.assign({}, {
 				label: 'Account',
 				placeholder: 'Please input account',
 				text: 'Please input account',
 				isValid: false,
 				isInvalid: false,
-				value: ""
+				value: ''
 			}, props.account),
 			password: Object.assign({}, {
 				label: 'Password',
@@ -36,7 +48,7 @@ class LoginModal extends React.Component {
 				text: 'Please input password',
 				isValid: false,
 				isInvalid: false,
-				value: ""
+				value: ''
 			}, props.password),
 		};
 	}
@@ -145,8 +157,13 @@ class LoginModal extends React.Component {
 				didOpen: () => {
 					timerInterval = setInterval(() => {
 						Utils.auth(response => {
-							Swal.close()
 							clearInterval(timerInterval)
+							MySwal.close()
+							MySwal.fire({
+								html: <div>
+									<p>登录成功</p>
+								</div>,
+							})
 							this.props.afterLogged(response.data);
 						}, error => {
 							console.log(error);
@@ -185,7 +202,7 @@ class LoginModal extends React.Component {
 
 	render() {
 		const connectBox = this.props.site.connects.map(connect =>
-			<Image key={connect} className="connect-button" alt="connect-alipay" src={process.env.PUBLIC_URL + '/connects/' + connect + '.png'} onClick={this.connect.bind(this, connect)}></Image>
+			<Image key={connect} className="connect-button" alt={"connect-" + connect} title={"使用" + this.state.connectMap[connect] + "登录"} src={process.env.PUBLIC_URL + '/connects/' + connect + '.png'} onClick={this.connect.bind(this, connect)}></Image>
 		)
 		return (
 			<Modal className="login-container" centered show={this.props.show} onHide={this.props.handleModal}>

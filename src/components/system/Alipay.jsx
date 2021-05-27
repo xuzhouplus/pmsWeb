@@ -40,13 +40,14 @@ class Alipay extends React.Component {
 
 	getAlipaySettings = () => {
 		Utils.alipaySettings('get', {}, response => {
-			console.log(response);
+			let inputted = false
 			if (response.data.alipay_app_primary_key) {
+				inputted = response.data.alipay_app_primary_key === "true"
 				response.data.alipay_app_primary_key = "";
 			}
 			this.setState({
 				alipay_app_primary_key: {
-					inputted: true
+					inputted: inputted
 				},
 				settings: response.data
 			})
@@ -73,12 +74,17 @@ class Alipay extends React.Component {
 		let isInvalid = false;
 		let isValid = false;
 		if (state.settings[event.target.id] === '') {
-			text = '请输入' + label;
-			isInvalid = true;
+			if (state[event.target.id].inputted) {
+				isValid = true;
+			} else {
+				text = '请输入' + label;
+				isInvalid = true;
+			}
 		} else {
 			isValid = true;
 		}
 		state[event.target.id] = {
+			inputted: state[event.target.id].inputted,
 			text: text,
 			isInvalid: isInvalid,
 			isValid: isValid,

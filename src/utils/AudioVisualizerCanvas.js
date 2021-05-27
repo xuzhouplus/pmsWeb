@@ -25,6 +25,9 @@ AudioVisualizerCanvas.prototype = {
 	replay: function () {
 		this._start();
 	},
+	pause: function () {
+		this.audioContext.suspend();
+	},
 	resume: function () {
 		this.audioContext.resume();
 	},

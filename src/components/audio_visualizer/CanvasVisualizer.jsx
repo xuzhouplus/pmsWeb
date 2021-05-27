@@ -56,7 +56,16 @@ class CanvasVisualizer extends React.Component {
 				})
 				break;
 			case 'playing':
-				this.props.changeBg()
+				this.state.audioVisualizer.pause();
+				this.setState({
+					status: 'pause'
+				})
+				break;
+			case 'pause':
+				this.state.audioVisualizer.resume();
+				this.setState({
+					status: 'playing'
+				})
 				break;
 			default:
 		}

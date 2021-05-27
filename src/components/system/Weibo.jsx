@@ -38,13 +38,14 @@ class Weibo extends React.Component {
 
 	getWeiboSettings = () => {
 		Utils.weiboSettings('get', {}, response => {
-			console.log(response);
+			let inputted = false
 			if (response.data.weibo_app_secret) {
+				inputted = response.data.weibo_app_secret === "true"
 				response.data.weibo_app_secret = "";
 			}
 			this.setState({
 				weibo_app_secret: {
-					inputted: true
+					inputted: inputted
 				},
 				settings: response.data
 			})
@@ -69,12 +70,17 @@ class Weibo extends React.Component {
 		let isInvalid = false;
 		let isValid = false;
 		if (state.settings[event.target.id] === '') {
-			text = '请输入' + label;
-			isInvalid = true;
+			if (state[event.target.id].inputted) {
+				isValid = true;
+			} else {
+				text = '请输入' + label;
+				isInvalid = true;
+			}
 		} else {
 			isValid = true;
 		}
 		state[event.target.id] = {
+			inputted: state[event.target.id].inputted,
 			text: text,
 			isInvalid: isInvalid,
 			isValid: isValid,

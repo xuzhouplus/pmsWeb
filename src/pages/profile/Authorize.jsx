@@ -61,7 +61,7 @@ class Authorize extends React.Component {
 							</div>
 						</div>
 						<div className="connect-note">
-							<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank" rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>
+							{/*<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank" rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>*/}
 						</div>
 					</div>
 				);
