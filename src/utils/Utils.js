@@ -132,6 +132,12 @@ const Utils = {
 	deletePost: function (id, callback, fallback) {
 		return this.http('post', configs.proxyBackendHost + configs.deletePostUrl, {id: id}, callback, fallback)
 	},
+	connects: function (callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.connectsUrl, {}, callback, fallback);
+	},
+	loginSetting: function (callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.loginSettingUrl, {}, callback, fallback);
+	},
 	baiduSettings: function (type, data, callback, fallback) {
 		if (type === 'post') {
 			if (data.baidu_secret_key) {

@@ -80,11 +80,13 @@ class Connect extends React.Component {
 					},
 				]
 			],
+			types: [],
 			connects: {}
 		}
 	}
 
 	componentDidMount() {
+		this.getConnectTypes();
 		this.getAdminConnect();
 	}
 
@@ -95,9 +97,17 @@ class Connect extends React.Component {
 		return true;
 	}
 
+	getConnectTypes = () => {
+		Utils.connects(response => {
+			this.setState({
+				types: response.data
+			})
+		}, error => {
+			console.log(error);
+		})
+	}
 	getAdminConnect = () => {
 		Utils.adminConnects({}, response => {
-			console.log(response);
 			this.setState({
 				loading: false,
 				connects: response.data
@@ -126,7 +136,7 @@ class Connect extends React.Component {
 					scope: 'auth_user',
 					action: 'bind'
 				}, response => {
-					let authWindow=window.open(response.data, provider.name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+					let authWindow = window.open(response.data, provider.name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 					let timeCount = 0;
 					let interval = setInterval(() => {
 						if (authWindow.closed) {
@@ -191,7 +201,7 @@ class Connect extends React.Component {
 		} else {
 			let connectBox = this.state.providers.map((providers, index) => {
 				let rowBox = providers.map(provider => {
-					if (this.props.site.connects.indexOf(provider.id) !== -1) {
+					if (this.state.types.indexOf(provider.id) !== -1) {
 						let connect = this.state.connects[provider.id];
 						if (typeof connect !== 'undefined') {
 							return <Card key={provider.id} onClick={this.handleUnbind.bind(this, connect)}>

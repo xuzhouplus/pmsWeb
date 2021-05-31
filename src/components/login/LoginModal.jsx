@@ -1,19 +1,12 @@
 import React from 'react';
 import {Form, Button, Modal, Image} from 'react-bootstrap';
 import Utils from '@utils/Utils';
-import {connect} from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Loading from "@components/loading/Loading";
 import './LoginModal.scss';
 
 const MySwal = withReactContent(Swal)
-
-function mapStateToProps(state) {
-	return {
-		site: state.site
-	};
-}
 
 class LoginModal extends React.Component {
 	constructor(props) {
@@ -22,6 +15,7 @@ class LoginModal extends React.Component {
 			validated: false,
 			status: 'inputting',
 			cancelTokenSource: null,
+			connects: [],
 			connectMap: {
 				alipay: '支付宝',
 				baidu: '百度',
@@ -53,6 +47,17 @@ class LoginModal extends React.Component {
 		};
 	}
 
+	getLoginSetting = () => {
+		Utils.loginSetting(response => {
+			if (response.code === 1) {
+				this.setState({
+					connects: response.data
+				})
+			}
+		}, error => {
+			console.log(error)
+		})
+	}
 	handleSubmit = (event) => {
 		event.stopPropagation();
 		event.preventDefault();
@@ -194,6 +199,10 @@ class LoginModal extends React.Component {
 		});
 	}
 
+	componentDidMount() {
+		this.getLoginSetting();
+	}
+
 	componentWillUnmount() {
 		if (this.state.cancelTokenSource) {
 			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
@@ -201,7 +210,7 @@ class LoginModal extends React.Component {
 	}
 
 	render() {
-		const connectBox = this.props.site.connects.map(connect =>
+		const connectBox = this.state.connects.map(connect =>
 			<Image key={connect} className="connect-button" alt={"connect-" + connect} title={"使用" + this.state.connectMap[connect] + "登录"} src={process.env.PUBLIC_URL + '/connects/' + connect + '.png'} onClick={this.connect.bind(this, connect)}></Image>
 		)
 		return (
@@ -239,4 +248,4 @@ class LoginModal extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, null)(LoginModal);
+export default LoginModal;

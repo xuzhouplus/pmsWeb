@@ -33,6 +33,8 @@ const configs = {
 	togglePostStatusUrl: "/post/toggle-status",
 	deletePostUrl: "/post/delete",
 	carouselSettingsUrl: "/setting/carousel",
+	connectsUrl: "/setting/connects",
+	loginSettingUrl: "/setting/login",
 	siteSettingsUrl: "/setting/site",
 	baiduSettingsUrl: "/setting/baidu",
 	alipaySettingsUrl: "/setting/alipay",
