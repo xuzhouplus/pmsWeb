@@ -1,7 +1,6 @@
 import React from 'react';
 import TweenMax from 'gsap';
 import * as THREE from 'three';
-import configs from '@/configs';
 import ImagesLoaded from 'imagesloaded';
 import './WebGLCarousel.scss';
 
