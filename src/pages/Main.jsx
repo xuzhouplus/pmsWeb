@@ -39,12 +39,11 @@ class Main extends React.Component {
 		const NotFound = lazy(() => import('./NotFound'));
 		//登录
 		const LoginForm = lazy(() => import('./login/Login'));
-		const isHomePage = (document.location.pathname === '/' ? true : false)
 		return (
 			<Router>
 				<Container fluid className="app-container">
 					<Helmet title={this.props.site.title} link={[{rel: "shortcut icon", href: this.props.site.icon ? this.props.site.icon : configs.defaultFavicon}]}></Helmet>
-					<Row className={["app-header", "fixed-top", isHomePage ? "home-page" : ""]}>
+					<Row className={["app-header", "fixed-top"]}>
 						<Col xs={12} lg={12}>
 							<Navibar/>
 						</Col>
@@ -71,7 +70,7 @@ class Main extends React.Component {
 							</Suspense>
 						</Col>
 					</Row>
-					<Row className={["app-footer", "fixed-bottom", isHomePage ? "home-page" : ""]}>
+					<Row className={["app-footer", "fixed-bottom"]}>
 						<Col xs={12} lg={12}>
 							<Footer site={this.props.site}/>
 						</Col>

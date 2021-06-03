@@ -1,13 +1,22 @@
 import React from 'react';
 import {Navbar, Nav, NavDropdown, Image} from 'react-bootstrap';
-import './Navibar.scss'
 import {LinkContainer} from "react-router-bootstrap";
 import configs from "@/configs";
+import PropTypes from 'prop-types'
+import {withRouter} from "react-router";
+import './Navibar.scss'
 
 class AdminNavibar extends React.Component {
+	static propTypes = {
+		match: PropTypes.object.isRequired,
+		location: PropTypes.object.isRequired,
+		history: PropTypes.object.isRequired
+	}
+
 	render() {
+		const isHomePage = (document.location.pathname === '/' ? true : false)
 		return (
-			<Navbar className="main-color-navbar">
+			<Navbar className={["main-color-navbar", isHomePage ? "home-page" : ""]}>
 				<Navbar.Brand href="/">
 					<Image src={this.props.logo ? this.props.logo : configs.defaultLogo} rounded className="brand-img" alt={this.props.title}/>
 					<div className="brand-text">{this.props.title}</div>
@@ -47,4 +56,4 @@ class AdminNavibar extends React.Component {
 	}
 }
 
-export default AdminNavibar;
+export default withRouter(AdminNavibar);

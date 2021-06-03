@@ -27,11 +27,11 @@
         letter-spacing: -1px;
         display: inline-block;
         color: #F8F8F8DD;
-        -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: var(--main-color);
+        text-shadow: 0px 0px 8px var(--main-color-transparent);
 
         &:hover {
           color: #F8F8F8;
+          text-shadow: 0px 0px 8px var(--main-color);
         }
       }
 
@@ -40,8 +40,7 @@
         font-weight: 400;
         font-size: 50px;
         color: #F8F8F8DD;
-        -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: var(--main-color);
+        text-shadow: 0px 0px 8px var(--main-color-transparent);
       }
     }
   }

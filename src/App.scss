@@ -167,19 +167,22 @@
   }
 
   .app-header {
-    background-color: var(--main-color);
-    color: #F8F8F8;
     z-index: 99;
 
-    &.home-page {
-      background-color: var(--main-color-transparent);
-    }
+    .navbar {
+      background-color: var(--main-color);
+      color: #F8F8F8;
 
-    .navbar-brand {
-      display: flex;
+      &.home-page {
+        background-color: var(--main-color-transparent);
+      }
 
-      .brand-img {
-        height: 1.875rem;
+      .navbar-brand {
+        display: flex;
+
+        .brand-img {
+          height: 1.875rem;
+        }
       }
     }
   }
@@ -190,12 +193,15 @@
   }
 
   .app-footer {
-    background-color: var(--main-color);
-    color: #F8F8F8;
     z-index: 99;
 
-    &.home-page {
-      background-color: var(--main-color-transparent);
+    .navbar {
+      background-color: var(--main-color);
+      color: #F8F8F8;
+
+      &.home-page {
+        background-color: var(--main-color-transparent);
+      }
     }
   }
 }
