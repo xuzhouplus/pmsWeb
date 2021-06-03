@@ -3,16 +3,9 @@ import {Image, Nav, Navbar} from "react-bootstrap";
 import React from "react";
 import {LinkContainer} from 'react-router-bootstrap'
 import configs from "@/configs";
-import PropTypes from "prop-types";
 import {withRouter} from "react-router";
 
 class BaseNavibar extends React.Component {
-	static propTypes = {
-		match: PropTypes.object.isRequired,
-		location: PropTypes.object.isRequired,
-		history: PropTypes.object.isRequired
-	}
-
 	render() {
 		let loginModal = '';
 		if (this.props.showLogin) {

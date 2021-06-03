@@ -1,16 +1,9 @@
 import React from 'react';
 import {Nav, Navbar} from "react-bootstrap";
 import {withRouter} from "react-router";
-import PropTypes from "prop-types";
 import './Footer.scss'
 
 class Footer extends React.PureComponent {
-	static propTypes = {
-		match: PropTypes.object.isRequired,
-		location: PropTypes.object.isRequired,
-		history: PropTypes.object.isRequired
-	}
-
 	render() {
 		return (
 			<Navbar className="main-color-navbar">

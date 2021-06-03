@@ -2,17 +2,10 @@ import React from 'react';
 import {Navbar, Nav, NavDropdown, Image} from 'react-bootstrap';
 import {LinkContainer} from "react-router-bootstrap";
 import configs from "@/configs";
-import PropTypes from 'prop-types'
 import {withRouter} from "react-router";
 import './Navibar.scss'
 
 class AdminNavibar extends React.Component {
-	static propTypes = {
-		match: PropTypes.object.isRequired,
-		location: PropTypes.object.isRequired,
-		history: PropTypes.object.isRequired
-	}
-
 	render() {
 		const isHomePage = (document.location.pathname === '/' ? true : false)
 		return (
