@@ -61,7 +61,7 @@ class Visualizer extends React.Component {
 		let rand = Math.floor(Math.random() * bgs.length);
 		let bg = bgs[rand]
 		let bgBox = document.createElement('div')
-		bgBox.setAttribute('class', 'full_screen position-absolute radi')
+		bgBox.setAttribute('class', 'full-screen position-absolute radi')
 		bgBox.setAttribute('style', 'background: #fff url(' + bg + ') no-repeat 50% 50%')
 		let container = document.getElementById('audio-visualizer')
 		let bgList = container.getElementsByClassName('radi')
@@ -91,7 +91,7 @@ class Visualizer extends React.Component {
 				</Row>
 				<Row className="app-body">
 					<Col xs={12} lg={12}>
-						<div id="audio-visualizer" className="row audio-visualizer full_screen">
+						<div id="audio-visualizer" className="row audio-visualizer full-screen">
 							<Visualizer src={this.state.src} changeBg={this.randomBg}/>
 						</div>
 					</Col>

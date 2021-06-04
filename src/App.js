@@ -73,7 +73,7 @@ class App extends React.Component {
 		}
 		if (Utils.objectIsEmpty(this.props.site)) {
 			return (
-				<Container fluid className="app-container full_screen direct-center">
+				<Container fluid className="app-container full-screen direct-center">
 					<Loading></Loading>
 				</Container>
 			);

@@ -5,7 +5,7 @@ import "./BootstrapCarousel.scss"
 class BootstrapCarousel extends PureComponent {
 	render() {
 		let items = this.props.files.map(file => <Carousel.Item key={file.uuid}>
-			<img className="d-block full_screen" src={file.url} alt={file.title}/>
+			<img className="d-block full-screen" src={file.url} alt={file.title}/>
 			<Carousel.Caption>
 				<div className="carousel-title">{file.title}</div>
 				<div className="carousel-description">{file.description}</div>

@@ -52,7 +52,7 @@ class Authorize extends React.Component {
 		} else {
 			if (!Utils.objectIsEmpty(this.state.connect)) {
 				return (
-					<div className="full_container profile-authorize">
+					<div className="full-container profile-authorize">
 						<div className="absolute-center">
 							<div className="connect-avatar" style={{'backgroundImage': 'url("' + this.state.connect.avatar + '")'}}></div>
 							<div className="connect-account">{this.state.connect.account.replace('\\', '')}</div>
@@ -67,7 +67,7 @@ class Authorize extends React.Component {
 				);
 			} else {
 				return (
-					<div className="connect-error full_container">
+					<div className="connect-error full-container">
 						<div className="absolute-center">
 							<img alt="logo" src="/logo192.png"/>
 							<div className="error-text text-center">
