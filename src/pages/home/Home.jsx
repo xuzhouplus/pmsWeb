@@ -76,7 +76,7 @@ class Home extends React.PureComponent {
 		return (
 			<Row className="home-container">
 				<Col xs={12} lg={12}>
-					<div className="home-content h-100 d-flex justify-content-center align-items-center">
+					<div className="home-content full_screen d-flex justify-content-center align-items-center">
 						{content}
 					</div>
 				</Col>

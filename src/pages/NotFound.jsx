@@ -1,10 +1,8 @@
-import React
-	from 'react'
-import NotFoundComponent
-	from '../components/error/NotFound'
+import React from 'react'
+import NotFoundComponent from '../components/error/NotFound'
 
 class NotFound extends React.Component {
-	render () {
+	render() {
 		return (
 			<NotFoundComponent/>
 		)
