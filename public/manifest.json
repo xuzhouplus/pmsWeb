@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "pms",
+  "name": "Post Manage Service",
   "icons": [
     {
       "src": "favicon.ico",
