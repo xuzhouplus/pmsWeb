@@ -1,7 +1,7 @@
 const configs = {
 	defaultTitle: "Cool",
 	defaultICP: "123456",
-	defaultLogo: "/logo192.png",
+	defaultLogo: "/logo.svg",
 	defaultFavicon: "/favicon.ico",
 	publicKey: "-----BEGIN PUBLIC KEY-----\n" +
 		"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDD1jENRClo1hdOjCZAaq8FGxVP\n" +
