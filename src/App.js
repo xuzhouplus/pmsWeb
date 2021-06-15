@@ -5,8 +5,8 @@ import {initAction} from "./redux/Actions";
 import {connect} from "react-redux";
 import Utils from "./utils/Utils";
 import Main from "./pages/Main";
-import Visualizer from "./components/about/Visualizer";
 import Swal from "sweetalert2";
+import Maintain from "@pages/Maintain";
 import './App.scss'
 
 function mapStateToProps(state) {
@@ -30,7 +30,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			audioVisualizer: null,
+			maintain: false,
 			error: ''
 		}
 	}
@@ -42,34 +42,22 @@ class App extends React.Component {
 			}
 		}, (error) => {
 			console.log(error);
-			this.setState({
-				error: "can't connect to server."
-			})
+			this.maintain()
+			Swal.fire('服务端暂不可用。')
 		});
 	}
 
-	componentWillUnmount() {
-		if (this.state.audioVisualizer) {
-			this.changeToAudioVisualizer();
-		}
-	}
-
-	changeToAudioVisualizer = () => {
+	maintain = () => {
 		this.setState({
-			audioVisualizer: this.state.audioVisualizer ? false : true
+			maintain: true
 		})
 	}
 
 	render() {
-		if (this.state.audioVisualizer) {
+		if (this.state.maintain) {
 			return (
-				<Visualizer></Visualizer>
+				<Maintain></Maintain>
 			);
-		}
-		if (this.state.error) {
-			Swal.fire('服务端不可用，请稍后重试。').then(() => {
-				this.changeToAudioVisualizer()
-			})
 		}
 		if (Utils.objectIsEmpty(this.props.site)) {
 			return (

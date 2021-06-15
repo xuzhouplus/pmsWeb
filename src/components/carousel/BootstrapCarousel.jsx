@@ -7,7 +7,7 @@ class BootstrapCarousel extends PureComponent {
 		let items = this.props.files.map(file => <Carousel.Item key={file.uuid}>
 			<img className="d-block full-screen" src={file.url} alt={file.title}/>
 			<Carousel.Caption>
-				<div className="carousel-title">{file.title}</div>
+				<a className="carousel-title" href={file.link} target="_blank" rel="noreferrer">{file.title}</a>
 				<div className="carousel-description">{file.description}</div>
 			</Carousel.Caption>
 		</Carousel.Item>)

@@ -44,23 +44,13 @@ class Dependence extends React.Component {
 						</a>
 					</div>
 					<div className="col col-auto">
-						<a className="text-dark" href="https://www.php.net/" target="_blank" rel="noreferrer noopener">
-							<img className="brand-logo php" alt="PHP" src={process.env.PUBLIC_URL + '/images/About/php.svg'}></img>PHP
-						</a>
-					</div>
-					<div className="col col-auto">
-						<a className="text-dark" href="https://golang.google.cn/" target="_blank" rel="noreferrer noopener">
-							<img className="brand-logo go" alt="Go" src={process.env.PUBLIC_URL + '/images/About/go.svg'}></img>Go
+						<a className="text-dark" href="https://gin-gonic.com/" target="_blank" rel="noreferrer noopener">
+							<img className="brand-logo gin" alt="Gin" src={process.env.PUBLIC_URL + '/images/About/gin.png'}></img>Gin
 						</a>
 					</div>
 					<div className="col col-auto">
 						<a className="text-dark" href="https://www.mysql.com/" target="_blank" rel="noreferrer noopener">
 							<img className="brand-logo mysql" alt="MySQL" src={process.env.PUBLIC_URL + '/images/About/mysql.svg'}></img>MySQL
-						</a>
-					</div>
-					<div className="col col-auto">
-						<a className="text-dark" href="https://www.yiiframework.com/" target="_blank" rel="noreferrer noopener">
-							<img className="brand-logo yii" alt="Yii2" src={process.env.PUBLIC_URL + '/images/About/yii.svg'}></img>Yii2
 						</a>
 					</div>
 				</div>
