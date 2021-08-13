@@ -4,6 +4,7 @@ import PostMdEditor from "./PostMdEditor";
 import Utils from "../../utils/Utils";
 import PostProfile from "./PostProfile";
 import "./PostEditor.scss";
+import PostCkEditor from "@components/post/PostCkEditor";
 
 class PostEditor extends React.Component {
 	constructor(props) {
@@ -15,7 +16,7 @@ class PostEditor extends React.Component {
 			cover: '',
 			title: '',
 			subTitle: '',
-			type: 'md'
+			type: 'richText'
 		}
 	}
 
@@ -64,6 +65,8 @@ class PostEditor extends React.Component {
 		let editorComponent = null;
 		if (this.state.type === 'md') {
 			editorComponent = <PostMdEditor value={this.state.mdeValue} onChange={this.handleEditorChange}></PostMdEditor>
+		}else{
+			editorComponent = <PostCkEditor value={this.state.mdeValue} onChange={this.handleEditorChange}></PostCkEditor>
 		}
 		let profileComponent
 		if (this.props.id) {
