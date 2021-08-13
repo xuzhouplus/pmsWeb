@@ -3,14 +3,12 @@
 
   .nav-item {
     .nav-link {
-      color: #F8F8F8;
+      color: #F8F8F8DD;
+      text-shadow: 0px 0px 8px var(--main-color-transparent);
 
       &:hover {
-        color: #CCCCCC;
-      }
-
-      &.active{
         color: #F8F8F8;
+        text-shadow: 0px 0px 8px var(--main-color);
       }
     }
   }

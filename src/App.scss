@@ -32,6 +32,7 @@
   --main-color-transparent: rgba(0, 0, 0, 0.6);
   --second-color: #939597;
   --second-color-transparent: rgba(93, 95, 97, 0.6);
+  --primary-color: #39A2DB
 }
 
 .modal-backdrop {
@@ -57,11 +58,26 @@
 .btn-main-color {
   background-color: var(--main-color);
   border-color: var(--main-color);
+
+  &:hover,
+  &:active,
+  &.active {
+    background-color: var(--second-color);
+    border-color: var(--second-color);
+  }
 }
 
 .main-color-navbar {
   .navbar-brand {
     color: rgb(255, 255, 255);
+  }
+
+  .brand-text {
+    color: rgba(255, 255, 255, 0.5);
+
+    &:hover {
+      color: rgb(255, 255, 255);
+    }
   }
 
   .navbar-nav {
@@ -172,6 +188,8 @@
     .navbar {
       background-color: var(--main-color);
       color: #F8F8F8;
+      transition: background-color 2s;
+      -webkit-transition: background-color 0.5s; /* Safari */
 
       &.home-page {
         background-color: var(--main-color-transparent);
@@ -198,6 +216,8 @@
     .navbar {
       background-color: var(--main-color);
       color: #F8F8F8;
+      transition: background-color 2s;
+      -webkit-transition: background-color 0.5s; /* Safari */
 
       &.home-page {
         background-color: var(--main-color-transparent);
