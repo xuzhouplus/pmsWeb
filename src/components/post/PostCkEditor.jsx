@@ -1,89 +1,119 @@
 import react from "react";
 import {CKEditor} from '@ckeditor/ckeditor5-react';
-import Editor from '@utils/ckeditor';
+import DecoupledDocumentEditor from '@utils/ckeditor';
+import "./PostCkEditor.scss";
 
 class PostCkEditor extends react.Component {
+    selectedFile = {}
+
+    selectFileInterval = null
+
+    config = {
+        toolbar: {
+            items: [
+                'heading',
+                '|',
+                'fontSize',
+                'fontFamily',
+                '|',
+                'fontColor',
+                'fontBackgroundColor',
+                '|',
+                'bold',
+                'italic',
+                'underline',
+                'strikethrough',
+                '|',
+                'alignment',
+                '|',
+                'numberedList',
+                'bulletedList',
+                '|',
+                'outdent',
+                'indent',
+                '|',
+                'todoList',
+                'link',
+                'blockQuote',
+                'findAndReplace',
+                'insertTable',
+                'mediaEmbed',
+                'imageInsert',
+                'code',
+                'codeBlock',
+                'pageBreak',
+                '|',
+                'undo',
+                'redo'
+            ]
+        },
+        language: 'zh-cn',
+        image: {
+            toolbar: [
+                'imageTextAlternative',
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+                'linkImage'
+            ]
+        },
+        table: {
+            contentToolbar: [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells',
+                'tableCellProperties',
+                'tableProperties'
+            ]
+        },
+        licenseKey: '',
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showSelect: false,
+            showUpload: false
+        }
+    }
+
+    selectFilePromise = () => {
+
+    }
+
+    selectFile = (file) => {
+        this.selectedFile = file;
+        this.hideSelect()
+    }
+
+    hideSelect = () => {
+        this.setState({
+            showSelect: false
+        })
+    }
+
+    componentWillUnmount() {
+        if (this.selectFileInterval) {
+            clearInterval(this.selectFileInterval)
+        }
+    }
+
     render() {
         return (
             <div className="post-ckeditor">
                 <CKEditor
+                    editor={DecoupledDocumentEditor}
+                    config={this.config}
+                    data={this.props.value}
                     onReady={editor => {
-                        console.log('Editor is ready to use!', editor);
-                        // Insert the toolbar before the editable area.
                         editor.ui.getEditableElement().parentElement.insertBefore(
                             editor.ui.view.toolbar.element,
                             editor.ui.getEditableElement()
                         );
-
-                        this.editor = editor;
                     }}
-                    onError={({willEditorRestart}) => {
-                        // If the editor is restarted, the toolbar element will be created once again.
-                        // The `onReady` callback will be called again and the new toolbar will be added.
-                        // This is why you need to remove the older toolbar.
-                        if (willEditorRestart) {
-                            this.editor.ui.view.toolbar.element.remove();
-                        }
-                    }}
-                    onChange={(event, editor) => console.log({event, editor})}
-                    editor={Editor}
-                    data="<p>Hello from CKEditor 5's decoupled editor!</p>"
-                    config={{
-                        toolbar: {
-                            items: [
-                                'heading',
-                                '|',
-                                'fontSize',
-                                'fontFamily',
-                                '|',
-                                'fontColor',
-                                'fontBackgroundColor',
-                                '|',
-                                'bold',
-                                'italic',
-                                'underline',
-                                'strikethrough',
-                                '|',
-                                'alignment',
-                                '|',
-                                'numberedList',
-                                'bulletedList',
-                                '|',
-                                'outdent',
-                                'indent',
-                                '|',
-                                'todoList',
-                                'link',
-                                'blockQuote',
-                                'imageUpload',
-                                'insertTable',
-                                'mediaEmbed',
-                                'codeBlock',
-                                'code',
-                                '|',
-                                'undo',
-                                'redo'
-                            ]
-                        },
-                        language: 'zh-cn',
-                        image: {
-                            toolbar: [
-                                'imageTextAlternative',
-                                'imageStyle:inline',
-                                'imageStyle:block',
-                                'imageStyle:side'
-                            ]
-                        },
-                        table: {
-                            contentToolbar: [
-                                'tableColumn',
-                                'tableRow',
-                                'mergeTableCells',
-                                'tableCellProperties',
-                                'tableProperties'
-                            ]
-                        },
-                        licenseKey: '',
+                    onChange={(event, editor) => {
+                        const data = editor.getData();
+                        this.props.onChange(data)
                     }}
                 />
             </div>

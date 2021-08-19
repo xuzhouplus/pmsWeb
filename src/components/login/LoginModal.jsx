@@ -48,14 +48,18 @@ class LoginModal extends React.Component {
 	}
 
 	getLoginSetting = () => {
-		Utils.loginSetting(response => {
-			if (response.code === 1) {
+		let cancelTokenSource = Utils.loginSetting(response => {
+			if (response.code === 1 && this.state.cancelTokenSource) {
 				this.setState({
-					connects: response.data
+					connects: response.data,
+					cancelTokenSource: null
 				})
 			}
 		}, error => {
 			console.log(error)
+		})
+		this.setState({
+			cancelTokenSource: cancelTokenSource
 		})
 	}
 	handleSubmit = (event) => {

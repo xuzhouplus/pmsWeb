@@ -1,0 +1,16 @@
+.post-ckeditor {
+  height: 100%;
+
+  .ck-toolbar {
+    height: 40px;
+    width: 100%;
+  }
+
+  .ck-content {
+    height: 100%;
+    margin-top: -40px;
+    padding-top: 40px;
+    overflow: auto;;
+    border: 1px solid #e0e0e0;
+  }
+}

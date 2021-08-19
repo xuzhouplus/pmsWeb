@@ -1,26 +1,17 @@
-.post-editor-modal {
-  .modal-dialog {
-    width: 90%;
-    max-width: none !important;
-    height: 90%;
+.post-md-editor {
+  height: 100%;
 
-    .modal-content {
-      height: 100%;
+  #post-editor {
+    height: 100%;
 
-      .modal-header {
-        .modal-title {
-          img {
-            height: 2.25rem;
-          }
-        }
-      }
+    .rc-md-navigation {
+      z-index: 2;
+    }
 
-      .modal-body {
-        #post-editor {
-          height: 100%;
-          max-height: 100%;
-        }
-      }
+    .editor-container {
+      margin-top: -38px;
+      padding-top: 38px;
+      z-index: 1;
     }
   }
 }
