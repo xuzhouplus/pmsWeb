@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Col, Card} from "react-bootstrap";
+import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
@@ -127,7 +127,7 @@ class QQ extends React.Component {
 			return (
 				<Card className="qq-settings-container">
 					<Card.Body className="qq-settings-table">
-						<Form.Row>
+						<Form as={Row} className="mb-3">
 							<Form.Group as={Col} controlId="qq_app_id" className="position-relative qq_app_id">
 								<Form.Label>QQ AppID</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.qq_app_id} isInvalid={this.state.qq_app_id.isInvalid} isValid={this.state.qq_app_id.isValid}/>
@@ -143,7 +143,7 @@ class QQ extends React.Component {
 									{this.state.qq_app_secret.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-						</Form.Row>
+						</Form>
 						<div className="qq-settings-note">
 							<p>配置 QQ 对接配置后，可以在账号管理页面绑定 QQ 账号，可以使用 QQ 授权登录。</p>
 							<p> QQ 配置信息需要访问<a href="https://wiki.connect.qq.com/" target="_blank" rel="noreferrer noopener"> QQ 互联</a>获取。</p>

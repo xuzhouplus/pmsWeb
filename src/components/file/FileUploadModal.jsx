@@ -198,7 +198,7 @@ class FileUploadModal extends React.Component {
 			<Modal className="file-upload-modal" centered show={this.props.show} onHide={this.props.handleModal}>
 				<Modal.Body>
 					<Form className="file-form" onSubmit={this.handleSubmit}>
-						<Form.Group className="position-relative file-input-group">
+						<Form.Group className="position-relative file-input-group md-3">
 							<label htmlFor="file-input" className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")}>
 								{this.state.file.url ? previewBox : <div className="file-input-box">
 									<div className="file-add-mark">+</div>
@@ -208,21 +208,21 @@ class FileUploadModal extends React.Component {
 							<div className="invalid-tooltip">{this.state.file.error}</div>
 							<input type="file" id="file-input" ref={this.fileRef} onChange={this.onFileSelected} accept="image/png,image/jpg,image/jpeg"></input>
 						</Form.Group>
-						<Form.Group className="position-relative">
+						<Form.Group className="position-relative md-3">
 							<Form.Label htmlFor="input-name">{this.state.name.label}</Form.Label>
 							<Form.Control id="input-name" aria-describedby="name-text" type='text' value={this.state.name.value} isInvalid={this.state.name.isInvalid} isValid={this.state.name.isValid} onChange={this.onChange} onBlur={this.onChange}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.name.text}
 							</Form.Control.Feedback>
 						</Form.Group>
-						<Form.Group className="position-relative">
+						<Form.Group className="position-relative md-3">
 							<Form.Label htmlFor="input-description">{this.state.description.label}</Form.Label>
 							<Form.Control id="input-description" aria-describedby="description-text" type='text' value={this.state.description.value} isInvalid={this.state.description.isInvalid} isValid={this.state.description.isValid} onChange={this.onChange} onBlur={this.onChange}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.description.text}
 							</Form.Control.Feedback>
 						</Form.Group>
-						<div className="form-button">
+						<div className="form-button md-3">
 							<Button variant="primary" className={this.state.status === 'uploading' ? 'uploading' : ''} type="button" onClick={this.handleSubmit}>
 							</Button>
 						</div>

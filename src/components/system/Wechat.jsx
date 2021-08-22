@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Col, Card} from "react-bootstrap";
+import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
@@ -127,7 +127,7 @@ class Wechat extends React.Component {
 			return (
 				<Card className="wechat-settings-container">
 					<Card.Body className="wechat-settings-table">
-						<Form.Row>
+						<Form as={Row} className="mb-3">
 							<Form.Group as={Col} controlId="wechat_app_id" className="position-relative wechat_app_id">
 								<Form.Label>微信AppID</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.wechat_app_id} isInvalid={this.state.wechat_app_id.isInvalid} isValid={this.state.wechat_app_id.isValid}/>
@@ -143,7 +143,7 @@ class Wechat extends React.Component {
 									{this.state.wechat_app_secret.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-						</Form.Row>
+						</Form>
 						<div className="wechat-settings-note">
 							<p>配置微信对接配置后，可以在账号管理页面绑定微信账号，可以使用微信授权登录。</p>
 							<p>微信配置信息需要访问<a href="https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html" target="_blank" rel="noreferrer noopener">微信开放平台</a>获取。</p>

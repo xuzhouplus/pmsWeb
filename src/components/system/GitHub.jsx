@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Col, Card} from "react-bootstrap";
+import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
@@ -141,7 +141,7 @@ class GitHub extends React.Component {
 			return (
 				<Card className="github-settings-container">
 					<Card.Body className="github-settings-table">
-						<Form.Row>
+						<Form as={Row} className="mb-3">
 							<Form.Group as={Col} controlId="github_application_name" className="position-relative github_application_name">
 								<Form.Label> GitHub App Name</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.github_application_name} isInvalid={this.state.github_application_name.isInvalid} isValid={this.state.github_application_name.isValid}/>
@@ -165,7 +165,7 @@ class GitHub extends React.Component {
 									{this.state.github_app_secret.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-						</Form.Row>
+						</Form>
 						<div className="github-settings-note">
 							<p>配置 GitHub 对接配置后，可以在账号管理页面绑定 GitHub 账号，可以使用 GitHub 授权登录。</p>
 							<p>GitHub 配置信息需要访问<a href="https://docs.github.com/en/developers/apps/authorizing-oauth-apps" target="_blank" rel="noreferrer noopener"> GitHub Docs </a>获取。</p>

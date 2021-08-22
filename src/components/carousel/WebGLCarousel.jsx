@@ -228,7 +228,7 @@ class WebGlCarousel extends React.PureComponent {
 	render() {
 		let imgList = this.props.files.map(file => <img key={file.uuid} src={file.url} alt={file.title}></img>)
 		return (
-			<div className="section row carousel webgl-carousel" id="slider">
+			<div className="section carousel webgl-carousel g-0" id="slider">
 				<div className="image-list">{imgList}</div>
 			</div>
 		);

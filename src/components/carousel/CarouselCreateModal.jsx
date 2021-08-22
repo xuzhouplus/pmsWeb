@@ -225,41 +225,41 @@ class CarouselCreateModal extends React.Component {
 				<Modal.Body>
 					<FileListModal show={this.state.showSelect} hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>
 					<Form className="file-form" onSubmit={this.handleSubmit}>
-						<Form.Group className="position-relative file-input-group">
+						<Form.Group className="position-relative file-input-group md-3">
 							<div id="file-preview-box" className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")} onClick={this.handleSelectModal}>
 								{addPlaceholder}
 							</div>
 							<div className="invalid-tooltip">{this.state.file.error}</div>
 						</Form.Group>
-						<Form.Group className="position-relative">
+						<Form.Group className="position-relative md-3">
 							<Form.Label htmlFor="input-title">{this.state.title.label}</Form.Label>
 							<Form.Control id="input-title" aria-describedby="title-text" type='text' value={this.state.title.value} isInvalid={this.state.title.isInvalid} isValid={this.state.title.isValid} onChange={this.onChange} onBlur={this.onChange}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.title.text}
 							</Form.Control.Feedback>
 						</Form.Group>
-						<Form.Group className="position-relative">
+						<Form.Group className="position-relative md-3">
 							<Form.Label htmlFor="input-description">{this.state.description.label}</Form.Label>
 							<Form.Control id="input-description" aria-describedby="description-text" type='text' value={this.state.description.value} isInvalid={this.state.description.isInvalid} isValid={this.state.description.isValid} onChange={this.onChange} onBlur={this.onChange}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.description.text}
 							</Form.Control.Feedback>
 						</Form.Group>
-						<Form.Group className="position-relative">
+						<Form.Group className="position-relative md-3">
 							<Form.Label htmlFor="input-link">{this.state.link.label}</Form.Label>
 							<Form.Control id="input-link" aria-describedby="link-text" type='text' value={this.state.link.value} isInvalid={this.state.link.isInvalid} isValid={this.state.link.isValid} onChange={this.onChange} onBlur={this.onChange}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.link.text}
 							</Form.Control.Feedback>
 						</Form.Group>
-						<Form.Group className="position-relative">
+						<Form.Group className="position-relative md-3">
 							<Form.Label htmlFor="input-order">{this.state.order.label}</Form.Label>
 							<Form.Control id="input-order" aria-describedby="order-text" type='number' value={this.state.order.value} isInvalid={this.state.order.isInvalid} isValid={this.state.order.isValid} onChange={this.onChange} onBlur={this.onChange}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.order.text}
 							</Form.Control.Feedback>
 						</Form.Group>
-						<div className="form-button">
+						<div className="form-button md-3">
 							<Button variant="primary" className={this.state.status === 'uploading' ? 'uploading' : ''} type="button" onClick={this.handleSubmit}>
 							</Button>
 						</div>

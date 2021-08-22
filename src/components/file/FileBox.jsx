@@ -28,7 +28,7 @@ class FileBox extends React.Component {
 		return (
 			<Card className="file-box" onClick={this.props.preview} style={{"backgroundImage": "url(" + this.props.thumb + ")"}}>
 				<Card.Body>
-					<Card.Title>{this.props.name}</Card.Title>
+					<Card.Title as="h4">{this.props.name}</Card.Title>
 					<Card.Text>
 						{this.props.description}
 					</Card.Text>

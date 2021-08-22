@@ -36,9 +36,9 @@ class Visualizer extends React.Component {
 	randomType = () => {
 		let rand = Math.floor(Math.random() * 10);
 		if (rand % 2 === 0) {
-			return 'webgl';
+			return 'webgl'
 		} else {
-			return 'canvas';
+			return 'canvas'
 		}
 	}
 
@@ -53,7 +53,7 @@ class Visualizer extends React.Component {
 			'/images/carousels/uestc.jpg',
 			'/images/carousels/yiheyuan.jpg'
 		];
-		let rand = Math.floor(Math.random() * bgs.length);
+		let rand = Math.floor(Math.random() * bgs.length)
 		let bg = bgs[rand]
 		let bgBox = document.createElement('div')
 		bgBox.setAttribute('class', 'full-screen position-absolute radi')
@@ -77,7 +77,7 @@ class Visualizer extends React.Component {
 			Visualizer = WebGLVisualizer
 		}
 		return (
-			<div id="audio-visualizer" className="row audio-visualizer full-screen">
+			<div id="audio-visualizer" className="audio-visualizer">
 				<Visualizer src={this.state.src} changeBg={this.randomBg}/>
 			</div>
 		);

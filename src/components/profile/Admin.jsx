@@ -193,7 +193,7 @@ class Admin extends React.Component {
 				<Card className="admin-profile-container">
 					<Card.Body className="admin-profile-table">
 						<Form className="admin-profile-form">
-							<Form.Group className="position-relative file-input-group">
+							<Form.Group className="position-relative mb-3 file-input-group">
 								<label htmlFor="file-input" className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")}>
 									{this.state.file.url ? previewBox : <div className="file-input-box">
 										<div className="file-add-mark">+</div>
@@ -203,12 +203,12 @@ class Admin extends React.Component {
 								<div className="invalid-tooltip">{this.state.file.error}</div>
 								<input type="file" id="file-input" ref={this.fileRef} onChange={this.onFileSelected} accept="image/png,image/jpg,image/jpeg"></input>
 							</Form.Group>
-							<Form.Group controlId="account" className="position-relative account">
+							<Form.Group controlId="account" className="position-relative mb-3 account">
 								<Form.Label>账号</Form.Label>
 								<Form.Control value={this.state.profile.account} readOnly disabled/>
 							</Form.Group>
 
-							<Form.Group controlId="password" className="position-relative">
+							<Form.Group controlId="password" className="position-relative mb-3">
 								<Form.Label>密码</Form.Label>
 								<Form.Control type="password" onChange={this.handleChange} onBlur={this.handleChange} value={this.state.password.value} isInvalid={this.state.password.isInvalid} isValid={this.state.password.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
@@ -216,14 +216,14 @@ class Admin extends React.Component {
 								</Form.Control.Feedback>
 							</Form.Group>
 
-							<Form.Group controlId="repeat_password" className="position-relative">
+							<Form.Group controlId="repeat_password" className="position-relative mb-3">
 								<Form.Label>重复密码</Form.Label>
 								<Form.Control type="password" onChange={this.handleChange} onBlur={this.handleChange} value={this.state.repeat_password.value} isInvalid={this.state.repeat_password.isInvalid} isValid={this.state.repeat_password.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.repeat_password.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-							<Form.Group controlId="status" className="position-relative">
+							<Form.Group controlId="status" className="position-relative mb-3">
 								<Form.Label>状态</Form.Label>
 								<Form.Check type="switch" id="status" checked={this.state.status.value} onChange={this.handleChange} label=""/>
 							</Form.Group>

@@ -1,6 +1,7 @@
 .audio-visualizer {
-  background-color: #272822;
-  color: #FEFEFE;
+  height: 100%;
+  margin-left: calc(var(--bs-gutter-x) * -.5);
+  margin-right: calc(var(--bs-gutter-x) * -.5);
 
   @keyframes radi {
     from {

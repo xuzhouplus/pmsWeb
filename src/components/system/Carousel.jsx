@@ -120,7 +120,7 @@ class Carousel extends React.Component {
 				<Card className="carousel-settings-container">
 					<Card.Body className="carousel-settings-table">
 						<Form>
-							<Form.Group controlId="carousel_type" className="position-relative">
+							<Form.Group controlId="carousel_type" className="position-relative mb-3">
 								<Form.Label>轮播类型</Form.Label>
 								<Form.Control as="select" onChange={this.handleChange} onBlur={this.handleBlur} defaultValue={this.state.settings.carousel_type.value} isInvalid={this.state.carousel_type.isInvalid} isValid={this.state.carousel_type.isValid}>{items}</Form.Control>
 								<Form.Control.Feedback type="invalid" tooltip>
@@ -128,7 +128,7 @@ class Carousel extends React.Component {
 								</Form.Control.Feedback>
 								<Form.Text muted>{this.state.settings.carousel_type.description}</Form.Text>
 							</Form.Group>
-							<Form.Group controlId="carousel_interval" className="position-relative">
+							<Form.Group controlId="carousel_interval" className="position-relative mb-3">
 								<Form.Label>轮播间隔时间</Form.Label>
 								<Form.Control min={3} max={10} type="number" onChange={this.handleChange} onBlur={this.handleBlur} value={this.state.settings.carousel_interval.value} isInvalid={this.state.carousel_interval.isInvalid} isValid={this.state.carousel_interval.isValid}></Form.Control>
 								<Form.Control.Feedback type="invalid" tooltip>
@@ -136,7 +136,7 @@ class Carousel extends React.Component {
 								</Form.Control.Feedback>
 								<Form.Text muted>{this.state.settings.carousel_interval.description}</Form.Text>
 							</Form.Group>
-							<Form.Group controlId="carousel_limit" className="position-relative">
+							<Form.Group controlId="carousel_limit" className="position-relative mb-3">
 								<Form.Label>轮播数量限制</Form.Label>
 								<Form.Control type="number" min="3" max="8" onChange={this.handleChange} value={this.state.settings.carousel_limit.value} isInvalid={this.state.carousel_limit.isInvalid} isValid={this.state.carousel_limit.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>

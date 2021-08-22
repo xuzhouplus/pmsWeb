@@ -190,9 +190,7 @@ class List extends React.Component {
 								<Col xs={4} lg={4} className="post-table-search">
 									<InputGroup>
 										<FormControl placeholder="输入内容搜索" onChange={this.searchChange}/>
-										<InputGroup.Append>
 											<Button className="btn-main-color" type="submit">搜索</Button>
-										</InputGroup.Append>
 									</InputGroup>
 								</Col>
 								<Col sx={8} lg={8} className="post-table-buttons">

@@ -224,21 +224,21 @@ class LoginModal extends React.Component {
 				</Modal.Header>
 				<Modal.Body>
 					<Form className="login-form" id="login-modal-form" validated={this.state.validated} onSubmit={this.handleSubmit}>
-						<Form.Group className="position-relative">
+						<Form.Group className="position-relative mb-3">
 							<Form.Label htmlFor="input-account">{this.state.account.label}</Form.Label>
 							<Form.Control id="input-account" aria-describedby="account-text" type='text' placeholder={this.state.account.placeholder} value={this.state.account.value} isInvalid={this.state.account.isInvalid} isValid={this.state.account.isValid} onChange={this.onBlur} onBlur={this.onBlur}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.account.text}
 							</Form.Control.Feedback>
 						</Form.Group>
-						<Form.Group className="position-relative">
+						<Form.Group className="position-relative mb-3">
 							<Form.Label htmlFor="input-password">{this.state.password.label}</Form.Label>
 							<Form.Control id="input-password" aria-describedby="password-text" type='password' placeholder={this.state.password.placeholder} value={this.state.password.value} isInvalid={this.state.password.isInvalid} isValid={this.state.password.isValid} onChange={this.onBlur} onBlur={this.onBlur}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.password.text}
 							</Form.Control.Feedback>
 						</Form.Group>
-						<div className="form-button">
+						<div className="form-button mb-3">
 							<Button variant="primary" className={this.state.status === 'logging' ? 'logging' : ''} type="submit" onClick={this.handleSubmit}>
 							</Button>
 						</div>

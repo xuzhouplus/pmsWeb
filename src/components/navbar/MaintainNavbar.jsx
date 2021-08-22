@@ -7,7 +7,7 @@ class MaintainNavbar extends React.PureComponent {
 		let logo = this.props.logo ? this.props.logo : configs.defaultLogo
 		let title = this.props.title ? this.props.title : configs.defaultTitle
 		return (
-			<Navbar className="main-color-navbar">
+			<Navbar className="main-color-navbar home-page">
 				<Navbar.Brand href="/">
 					<Image src={logo} rounded className="brand-img" alt={title}/>
 					<div className="brand-text">{title}</div>

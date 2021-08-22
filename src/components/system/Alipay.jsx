@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Col, Card} from "react-bootstrap";
+import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
@@ -141,31 +141,29 @@ class Alipay extends React.Component {
 			return (
 				<Card className="alipay-settings-container">
 					<Card.Body className="alipay-settings-table">
-						<Form.Row>
-							<Form.Group as={Col} controlId="alipay_app_id" className="position-relative alipay_app_id">
+						<Form as={Row} className="mb-3">
+							<Form.Group as={Col} controlId="alipay_app_id" className="position-relative alipay_app_id mb-3">
 								<Form.Label>支付宝应用APPID</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.alipay_app_id} isInvalid={this.state.alipay_app_id.isInvalid} isValid={this.state.alipay_app_id.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.alipay_app_id.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-
-							<Form.Group as={Col} controlId="alipay_app_primary_key" className="position-relative">
+							<Form.Group as={Col} controlId="alipay_app_primary_key" className="position-relative mb-3">
 								<Form.Label>支付宝应用私钥</Form.Label>
 								<Form.Control as="textarea" rows={12} onChange={this.handleChange} onBlur={this.handleChange} placeholder="为了安全，后台不返回已经输入的支付宝应用私钥" value={this.state.settings.alipay_app_primary_key} isInvalid={this.state.alipay_app_primary_key.isInvalid} isValid={this.state.alipay_app_primary_key.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.alipay_app_primary_key.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-
-							<Form.Group as={Col} controlId="alipay_public_key" className="position-relative">
+							<Form.Group as={Col} controlId="alipay_public_key" className="position-relative mb-3">
 								<Form.Label>支付宝公钥</Form.Label>
 								<Form.Control as="textarea" rows={12} onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.alipay_public_key} isInvalid={this.state.alipay_public_key.isInvalid} isValid={this.state.alipay_public_key.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.alipay_public_key.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-						</Form.Row>
+						</Form>
 						<div className="alipay-settings-note">
 							<p>配置支付宝对接配置后，可以在账号管理页面绑定支付宝账号，可以使用支付宝授权登录。</p>
 							<p>支付宝配置信息需要访问<a href="https://open.alipay.com/" target="_blank" rel="noreferrer noopener">支付宝开放平台</a>获取。</p>

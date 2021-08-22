@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Col, Card} from "react-bootstrap";
+import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
@@ -141,7 +141,7 @@ class Gitee extends React.Component {
 			return (
 				<Card className="gitee-settings-container">
 					<Card.Body className="gitee-settings-table">
-						<Form.Row>
+						<Form as={Row} className="mb-3">
 							<Form.Group as={Col} controlId="gitee_application_name" className="position-relative gitee_application_name">
 								<Form.Label>码云应用名称</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.gitee_application_name} isInvalid={this.state.gitee_application_name.isInvalid} isValid={this.state.gitee_application_name.isValid}/>
@@ -165,7 +165,7 @@ class Gitee extends React.Component {
 									{this.state.gitee_app_secret.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-						</Form.Row>
+						</Form>
 						<div className="gitee-settings-note">
 							<p>配置码云对接配置后，可以在账号管理页面绑定码云账号，可以使用码云授权登录。</p>
 							<p>码云配置信息需要访问<a href="https://gitee.com/api/v5/oauth_doc" target="_blank" rel="noreferrer noopener"> Gitee OAuth 文档 </a>获取。</p>

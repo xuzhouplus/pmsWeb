@@ -29,9 +29,9 @@
 
 :root {
   --main-color: black;
-  --main-color-transparent: rgba(0, 0, 0, 0.6);
+  --main-color-transparent: rgba(0, 0, 0, 0.77);
   --second-color: #939597;
-  --second-color-transparent: rgba(93, 95, 97, 0.6);
+  --second-color-transparent: rgba(93, 95, 97, 0.77);
   --primary-color: #39A2DB
 }
 
@@ -151,6 +151,9 @@
 .full-screen {
   width: 100vw !important;
   height: 100vh !important;
+  border: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .direct-center {
@@ -190,6 +193,8 @@
       color: #F8F8F8;
       transition: background-color 2s;
       -webkit-transition: background-color 0.5s; /* Safari */
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
 
       &.home-page {
         background-color: var(--main-color-transparent);
@@ -206,7 +211,8 @@
   }
 
   .app-body {
-    height: 100vh;
+    height: 100%;
+    width: 100%;
     z-index: 0;
   }
 

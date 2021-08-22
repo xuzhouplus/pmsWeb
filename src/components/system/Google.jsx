@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Col, Card} from "react-bootstrap";
+import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
@@ -127,7 +127,7 @@ class Google extends React.Component {
 			return (
 				<Card className="google-settings-container">
 					<Card.Body className="google-settings-table">
-						<Form.Row>
+						<Form as={Row} className="mb-3">
 							<Form.Group as={Col} controlId="google_app_id" className="position-relative google_app_id">
 								<Form.Label>Google Client ID</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.google_app_id} isInvalid={this.state.google_app_id.isInvalid} isValid={this.state.google_app_id.isValid}/>
@@ -143,7 +143,7 @@ class Google extends React.Component {
 									{this.state.google_app_secret.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-						</Form.Row>
+						</Form>
 						<div className="google-settings-note">
 							<p>配置 Google 对接配置后，可以在账号管理页面绑定 Google 账号，可以使用 Google 授权登录。</p>
 							<p>Google  配置信息需要访问<a href="https://developers.google.com/identity/protocols/oauth2" target="_blank" rel="noreferrer noopener"> Google Developers </a>获取。</p>

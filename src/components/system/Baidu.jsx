@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Col, Card} from "react-bootstrap";
+import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
@@ -127,7 +127,7 @@ class Baidu extends React.Component {
 			return (
 				<Card className="baidu-pan-settings-container">
 					<Card.Body className="baidu-pan-settings-table">
-						<Form.Row>
+						<Form as={Row} className="mb-3">
 							<Form.Group as={Col} controlId="baidu_api_key" className="position-relative baidu_pan_app_key">
 								<Form.Label>百度 Api Key</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.baidu_api_key} isInvalid={this.state.baidu_api_key.isInvalid} isValid={this.state.baidu_api_key.isValid}/>
@@ -135,7 +135,6 @@ class Baidu extends React.Component {
 									{this.state.baidu_api_key.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-
 							<Form.Group as={Col} controlId="baidu_secret_key" className="position-relative">
 								<Form.Label>百度 Secret Key</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} placeholder="为了安全，后台不返回已经输入的百度网盘 Secret Key" value={this.state.settings.baidu_secret_key} isInvalid={this.state.baidu_secret_key.isInvalid} isValid={this.state.baidu_secret_key.isValid}/>
@@ -143,7 +142,7 @@ class Baidu extends React.Component {
 									{this.state.baidu_secret_key.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-						</Form.Row>
+						</Form>
 						<div className="baidu-pan-settings-note">
 							<p>配置百度对接配置后，可以在账号管理页面绑定百度账号，可以使用百度授权登录。。</p>
 							<p>百度配置信息需要访问<a href="https://developer.baidu.com/" target="_blank" rel="noreferrer noopener">百度开放者中心</a>获取。</p>

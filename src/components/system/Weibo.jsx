@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Col, Card} from "react-bootstrap";
+import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
@@ -127,7 +127,7 @@ class Weibo extends React.Component {
 			return (
 				<Card className="weibo-settings-container">
 					<Card.Body className="weibo-settings-table">
-						<Form.Row>
+						<Form as={Row} className="mb-3">
 							<Form.Group as={Col} controlId="weibo_app_id" className="position-relative weibo_app_id">
 								<Form.Label>微博应用AppKey</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.weibo_app_id} isInvalid={this.state.weibo_app_id.isInvalid} isValid={this.state.weibo_app_id.isValid}/>
@@ -143,7 +143,7 @@ class Weibo extends React.Component {
 									{this.state.weibo_app_secret.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-						</Form.Row>
+						</Form>
 						<div className="weibo-settings-note">
 							<p>配置微博对接配置后，可以在账号管理页面绑定微博账号，可以使用微博授权登录。</p>
 							<p>微博配置信息需要访问<a href="https://open.weibo.com/authentication/" target="_blank" rel="noreferrer noopener">微博开放平台</a>获取。</p>

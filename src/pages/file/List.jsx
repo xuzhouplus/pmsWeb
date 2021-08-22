@@ -107,6 +107,7 @@ class List extends React.Component {
 		console.log(this.state.files[index]);
 		const subWindow = window.open(this.state.files[index].path, this.state.files[index].name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
 		subWindow.document.body.style.backgroundColor = "#00236099";
+		subWindow.document.title = this.state.files[index].name;
 	}
 	delete = (index, event) => {
 		event.stopPropagation();
@@ -147,17 +148,17 @@ class List extends React.Component {
 				<Card>
 					<Card.Body>
 						<ListGroup as="ul">
-							<LinkContainer to="/file/list">
+							<LinkContainer key="file" to="/file/list">
 								<ListGroup.Item action active disabled>
 									文件管理
 								</ListGroup.Item>
 							</LinkContainer>
-							<LinkContainer to="/carousel">
+							<LinkContainer key="carousel" to="/carousel">
 								<ListGroup.Item action>
 									轮播管理
 								</ListGroup.Item>
 							</LinkContainer>
-							<LinkContainer to="/post/list">
+							<LinkContainer key="post" to="/post/list">
 								<ListGroup.Item action>
 									稿件管理
 								</ListGroup.Item>
@@ -174,9 +175,7 @@ class List extends React.Component {
 								<Col xs={4} lg={4} className="file-table-search">
 									<InputGroup>
 										<FormControl placeholder="输入内容搜索" onChange={this.searchChange}/>
-										<InputGroup.Append>
 											<Button className="btn-main-color" type="submit">搜索</Button>
-										</InputGroup.Append>
 									</InputGroup>
 								</Col>
 								<Col sx={8} lg={8} className="file-table-buttons">

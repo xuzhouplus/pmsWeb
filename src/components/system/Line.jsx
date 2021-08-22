@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Col, Card} from "react-bootstrap";
+import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
@@ -127,7 +127,7 @@ class Line extends React.Component {
 			return (
 				<Card className="line-settings-container">
 					<Card.Body className="line-settings-table">
-						<Form.Row>
+						<Form as={Row} className="mb-3">
 							<Form.Group as={Col} controlId="line_app_id" className="position-relative line_app_id">
 								<Form.Label>Line Channel ID</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} value={this.state.settings.line_app_id} isInvalid={this.state.line_app_id.isInvalid} isValid={this.state.line_app_id.isValid}/>
@@ -143,7 +143,7 @@ class Line extends React.Component {
 									{this.state.line_app_secret.text}
 								</Form.Control.Feedback>
 							</Form.Group>
-						</Form.Row>
+						</Form>
 						<div className="line-settings-note">
 							<p>配置 Line 对接配置后，可以在账号管理页面绑定 Line 账号，可以使用 Line 授权登录。</p>
 							<p>Line 配置信息需要访问<a href="https://developers.line.biz/zh-hant/docs/line-login/overview/" target="_blank" rel="noreferrer noopener"> Line Developers </a>获取。</p>
