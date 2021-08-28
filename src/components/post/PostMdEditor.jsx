@@ -74,13 +74,9 @@ class PostMdEditor extends React.Component {
     }
 
     render() {
-        let selectFileModal
-        if (this.state.showSelect) {
-            selectFileModal = <FileListModal upload show={this.state.showSelect} hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>;
-        }
         return (
             <div className="post-md-editor">
-                {selectFileModal}
+                <FileListModal upload show={this.state.showSelect} hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>
                 <MdEditor id="post-editor" value={this.props.value} renderHTML={(text) => this.mdParser.render(text)} onChange={this.handleChange} onCustomImageUpload={this.selectFilePromise}/>
             </div>
         );

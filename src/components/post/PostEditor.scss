@@ -13,8 +13,6 @@
         width: 100%;
 
         .modal-title {
-          margin-top: -1rem;
-
           img {
             height: 2.25rem;
           }
@@ -26,10 +24,8 @@
       }
 
       .post-editor-content {
-        height: 100%;
+        height: calc(100% - 3rem);
         width: 100%;
-        margin-top: -3rem;
-        padding: 3rem 0 0;
 
         .row {
           margin: 0;
@@ -44,6 +40,10 @@
           .post-editor-title {
             height: 100%;
             padding: 0 0 0 1rem;
+
+            .card-body {
+              overflow: auto;
+            }
           }
         }
       }

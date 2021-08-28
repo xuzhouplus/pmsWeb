@@ -137,18 +137,18 @@ class Baidu extends React.Component {
 							</Form.Group>
 							<Form.Group as={Col} controlId="baidu_secret_key" className="position-relative">
 								<Form.Label>百度 Secret Key</Form.Label>
-								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} placeholder="为了安全，后台不返回已经输入的百度网盘 Secret Key" value={this.state.settings.baidu_secret_key} isInvalid={this.state.baidu_secret_key.isInvalid} isValid={this.state.baidu_secret_key.isValid}/>
+								<Form.Control onChange={this.handleChange} onBlur={this.handleChange} placeholder="为了安全，后台不返回已经输入的百度 Secret Key" value={this.state.settings.baidu_secret_key} isInvalid={this.state.baidu_secret_key.isInvalid} isValid={this.state.baidu_secret_key.isValid}/>
 								<Form.Control.Feedback type="invalid" tooltip>
 									{this.state.baidu_secret_key.text}
 								</Form.Control.Feedback>
 							</Form.Group>
 						</Form>
 						<div className="baidu-pan-settings-note">
-							<p>配置百度对接配置后，可以在账号管理页面绑定百度账号，可以使用百度授权登录。。</p>
+							<p>配置百度对接配置后，可以在账号管理页面绑定百度账号，可以使用百度授权登录，还可以使用百度网盘保存上传文件。</p>
 							<p>百度配置信息需要访问<a href="https://developer.baidu.com/" target="_blank" rel="noreferrer noopener">百度开放者中心</a>获取。</p>
 						</div>
 					</Card.Body>
-					<Card.Footer className="alipay-settings-footer">
+					<Card.Footer className="baidu-pan-settings-footer">
 						<Button variant="primary" type="submit" onClick={this.formSubmit}>保存</Button>
 					</Card.Footer>
 				</Card>

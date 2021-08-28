@@ -9,8 +9,7 @@
     }
 
     .editor-container {
-      margin-top: -38px;
-      padding-top: 38px;
+      height: calc(100% - 38px);
       z-index: 1;
     }
   }

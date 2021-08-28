@@ -2,108 +2,130 @@ import react from "react";
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 import DecoupledDocumentEditor from '@utils/ckeditor';
 import "./PostCkEditor.scss";
+import FileListModal from "@components/file/FileListModal";
+import React from "react";
 
 class PostCkEditor extends react.Component {
     selectedFile = {}
 
-    selectFileInterval = null
-
-    config = {
-        toolbar: {
-            items: [
-                'heading',
-                '|',
-                'fontSize',
-                'fontFamily',
-                '|',
-                'fontColor',
-                'fontBackgroundColor',
-                '|',
-                'bold',
-                'italic',
-                'underline',
-                'strikethrough',
-                '|',
-                'alignment',
-                '|',
-                'numberedList',
-                'bulletedList',
-                '|',
-                'outdent',
-                'indent',
-                '|',
-                'todoList',
-                'link',
-                'blockQuote',
-                'findAndReplace',
-                'insertTable',
-                'mediaEmbed',
-                'imageInsert',
-                'code',
-                'codeBlock',
-                'pageBreak',
-                '|',
-                'undo',
-                'redo'
-            ]
-        },
-        language: 'zh-cn',
-        image: {
-            toolbar: [
-                'imageTextAlternative',
-                'imageStyle:inline',
-                'imageStyle:block',
-                'imageStyle:side',
-                'linkImage'
-            ]
-        },
-        table: {
-            contentToolbar: [
-                'tableColumn',
-                'tableRow',
-                'mergeTableCells',
-                'tableCellProperties',
-                'tableProperties'
-            ]
-        },
-        licenseKey: '',
-    }
-
     constructor(props) {
         super(props);
         this.state = {
+            selectPromise: null,
             showSelect: false,
             showUpload: false
         }
     }
 
     selectFilePromise = () => {
-
+        return new Promise((topResolve, topReject) => {
+            this.selectedFile = {};
+            new Promise((resolve, reject) => {
+                this.setState({
+                    showSelect: true,
+                    selectPromise: resolve
+                })
+            }).then(result => {
+                topResolve(result)
+            })
+        })
     }
+
 
     selectFile = (file) => {
         this.selectedFile = file;
+        let selectPromise = this.state.selectPromise
+        if (this.selectedFile.path) {
+            selectPromise(this.selectedFile);
+        } else {
+            if (!this.state.showSelect) {
+                selectPromise(null);
+            }
+        }
         this.hideSelect()
     }
 
     hideSelect = () => {
         this.setState({
-            showSelect: false
+            showSelect: false,
+            selectPromise: null
         })
     }
 
     componentWillUnmount() {
-        if (this.selectFileInterval) {
-            clearInterval(this.selectFileInterval)
-        }
     }
 
     render() {
+        let selectFileModal
+        if (this.state.showSelect) {
+            selectFileModal = <FileListModal upload show={this.state.showSelect} hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>;
+        }
         return (
             <div className="post-ckeditor">
+                {selectFileModal}
                 <CKEditor
                     editor={DecoupledDocumentEditor}
-                    config={this.config}
+                    config={{
+                        toolbar: {
+                            items: [
+                                'heading',
+                                '|',
+                                'fontSize',
+                                'fontFamily',
+                                '|',
+                                'fontColor',
+                                'fontBackgroundColor',
+                                '|',
+                                'bold',
+                                'italic',
+                                'underline',
+                                'strikethrough',
+                                '|',
+                                'alignment',
+                                '|',
+                                'numberedList',
+                                'bulletedList',
+                                '|',
+                                'outdent',
+                                'indent',
+                                '|',
+                                'todoList',
+                                'link',
+                                'blockQuote',
+                                'findAndReplace',
+                                'insertTable',
+                                'mediaEmbed',
+                                'fileInsert',
+                                'code',
+                                'codeBlock',
+                                'pageBreak',
+                                '|',
+                                'undo',
+                                'redo'
+                            ]
+                        },
+                        language: 'zh-cn',
+                        image: {
+                            toolbar: [
+                                'imageTextAlternative',
+                                'imageStyle:inline',
+                                'imageStyle:block',
+                                'imageStyle:side',
+                                'linkImage'
+                            ],
+                            onFilePeek: this.selectFilePromise,
+                        },
+                        table: {
+                            contentToolbar: [
+                                'tableColumn',
+                                'tableRow',
+                                'mergeTableCells',
+                                'tableCellProperties',
+                                'tableProperties'
+                            ]
+                        },
+                        licenseKey: '',
+                    }}
                     data={this.props.value}
                     onReady={editor => {
                         editor.ui.getEditableElement().parentElement.insertBefore(

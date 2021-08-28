@@ -16,7 +16,7 @@ class PostEditor extends React.Component {
             cover: '',
             title: '',
             subTitle: '',
-            type: 'richText'
+            type: this.props.type
         }
     }
 
@@ -65,7 +65,7 @@ class PostEditor extends React.Component {
         let editorComponent = null;
         if (this.state.type === 'md') {
             editorComponent = <PostMdEditor value={this.state.mdeValue} onChange={this.handleEditorChange}></PostMdEditor>
-        } else {
+        } else if (this.state.type === 'rt') {
             editorComponent = <PostCkEditor value={this.state.mdeValue} onChange={this.handleEditorChange}></PostCkEditor>
         }
         let profileComponent

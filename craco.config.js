@@ -76,7 +76,7 @@ module.exports = {
     webpack: {
         alias: {
             '@': pathResolve("src"),
-            '@assets': pathResolve("assets"),
+            '@assets': pathResolve("src/assets"),
             '@components': pathResolve("src/components"),
             '@pages': pathResolve("src/pages"),
             '@utils': pathResolve("src/utils"),

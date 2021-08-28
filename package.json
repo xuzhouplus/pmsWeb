@@ -30,6 +30,7 @@
     "@ckeditor/ckeditor5-table": "^29.1.0",
     "@ckeditor/ckeditor5-theme-lark": "^29.1.0",
     "@ckeditor/ckeditor5-typing": "^29.1.0",
+    "@ckeditor/ckeditor5-ui": "^29.1.0",
     "@ckeditor/ckeditor5-word-count": "^29.1.0",
     "@craco/craco": "^6.1.1",
     "@sweetalert2/theme-bootstrap-4": "^4.0.3",

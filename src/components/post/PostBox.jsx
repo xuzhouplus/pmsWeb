@@ -32,7 +32,7 @@ class PostBox extends React.Component {
 		return (
 			<Card className="post-box" onClick={this.props.preview ? this.props.preview : (this.props.view ? this.props.view : null)} style={{"backgroundImage": "url(" + this.props.thumb + ")"}}>
 				<Card.Body>
-					<Card.Title>{this.props.name}</Card.Title>
+					<Card.Title as="h4">{this.props.name}</Card.Title>
 					<Card.Text>
 						{this.props.description}
 					</Card.Text>
