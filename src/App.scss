@@ -1,6 +1,14 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import '~@sweetalert2/theme-bootstrap-4/bootstrap-4.scss';
 
+:root {
+  --main-color: hsl(210, 100%, 20%);
+  --main-color-transparent: hsla(210, 100%, 10%, 0.6);
+  --second-color: #939597;
+  --second-color-transparent: rgba(93, 95, 97, 0.77);
+  --primary-color: #39A2DB
+}
+
 ::-webkit-scrollbar {
   height: 8px;
   width: 8px;
@@ -25,14 +33,6 @@
 
 ::-webkit-scrollbar-track-piece {
   background: #ffffff;
-}
-
-:root {
-  --main-color: black;
-  --main-color-transparent: rgba(0, 0, 0, 0.77);
-  --second-color: #939597;
-  --second-color-transparent: rgba(93, 95, 97, 0.77);
-  --primary-color: #39A2DB
 }
 
 .modal-backdrop {
@@ -230,4 +230,8 @@
       }
     }
   }
+}
+
+.bg-black {
+  background-color: black;
 }

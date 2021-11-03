@@ -5,7 +5,6 @@ import {initAction} from "./redux/Actions";
 import {connect} from "react-redux";
 import Utils from "./utils/Utils";
 import Main from "./pages/Main";
-import Swal from "sweetalert2";
 import Maintain from "@pages/Maintain";
 import './App.scss'
 
@@ -43,7 +42,6 @@ class App extends React.Component {
 		}, (error) => {
 			console.log(error);
 			this.maintain()
-			Swal.fire('服务端暂不可用。')
 		});
 	}
 

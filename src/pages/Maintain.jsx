@@ -9,7 +9,7 @@ import MaintainFooter from "@components/footer/MaintainFooter";
 class Maintain extends React.Component {
 	render() {
 		return (
-			<Container fluid className="app-container full-screen">
+			<Container fluid className="app-container full-screen bg-black">
 				<Helmet title={configs.defaultTitle} link={[{rel: "shortcut icon", href: configs.defaultFavicon}]}></Helmet>
 				<Row className={["app-header", "fixed-top"]}>
 					<Col>
