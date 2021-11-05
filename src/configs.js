@@ -52,6 +52,8 @@ const configs = {
 	adminCallbackUrl: "/admin/callback",
 	unbindConnectUrl: "/admin/unbind",
 	adminAuthorizeUrl: "/admin/authorize",
+	authorizeUrl: "/admin/url",
+	authorizeCallback: "/admin/callback",
 	loginDuration: 3 * 24 * 60 * 60,
 	imageTypes: [
 		'image/png',

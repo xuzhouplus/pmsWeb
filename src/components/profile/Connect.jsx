@@ -86,7 +86,6 @@ class Connect extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getConnectTypes();
 		this.getAdminConnect();
 	}
 
@@ -97,20 +96,12 @@ class Connect extends React.Component {
 		return true;
 	}
 
-	getConnectTypes = () => {
-		Utils.connects(response => {
-			this.setState({
-				types: response.data
-			})
-		}, error => {
-			console.log(error);
-		})
-	}
 	getAdminConnect = () => {
 		Utils.adminConnects({}, response => {
 			this.setState({
 				loading: false,
-				connects: response.data
+				types: response.data.types,
+				connects: response.data.connects
 			})
 		}, error => {
 			console.log(error);
@@ -131,7 +122,7 @@ class Connect extends React.Component {
 			allowOutsideClick: false
 		}).then((result) => {
 			if (result.isConfirmed) {
-				Utils.adminAuthorize({
+				Utils.authorizeUrl({
 					type: provider.id,
 					scope: 'auth_user',
 					action: 'bind'
@@ -207,14 +198,17 @@ class Connect extends React.Component {
 							return <Card key={provider.id} onClick={this.handleUnbind.bind(this, connect)}>
 								<Card.Body style={{'backgroundImage': 'url("' + connect.avatar + '")'}}>
 									<Card.Title>{connect.account.replace('\\', '')}</Card.Title>
-									<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
+									<Card.Img className="connect-logo"
+											  src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
 								</Card.Body>
 							</Card>;
 						} else {
 							return <Card key={provider.id} onClick={this.handleBind.bind(this, provider)}>
-								<Card.Body className="connect-link" style={{'backgroundImage': 'url("' + process.env.PUBLIC_URL + '/connects/link.png")'}}>
+								<Card.Body className="connect-link"
+										   style={{'backgroundImage': 'url("' + process.env.PUBLIC_URL + '/connects/link.png")'}}>
 									<Card.Title>{provider.name}</Card.Title>
-									<Card.Img className="connect-logo" src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
+									<Card.Img className="connect-logo"
+											  src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
 								</Card.Body>
 							</Card>;
 						}
@@ -233,7 +227,8 @@ class Connect extends React.Component {
 							{connectBox}
 						</div>
 						<div className="admin-connect-note">
-							<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank" rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>
+							<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank"
+												  rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>
 						</div>
 					</Card.Body>
 				</Card>

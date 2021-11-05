@@ -20,7 +20,7 @@ class Authorize extends React.Component {
 	}
 
 	getAdminConnect = () => {
-		Utils.adminCallback(Utils.getQueryVariable(), response => {
+		Utils.authorizeCallback(Utils.getQueryVariable(), response => {
 			this.setState({
 				isLoading: false,
 				connect: response.data

@@ -96,8 +96,7 @@ class Baidu extends React.Component {
 
 	toggleNetdisk = (event) => {
 		let state = this.state;
-		console.log(event.target.value)
-		state.settings['baidu_pan_availability'] = event.target.value
+		state.settings['baidu_pan_availability'] = event.target.checked ? 'enabled' : 'disabled'
 		this.setState(state)
 	}
 
@@ -164,7 +163,7 @@ class Baidu extends React.Component {
 							</Form.Group>
 							<Form.Group as={Col} controlId="baidu_api_key"
 										className="position-relative baidu_pan_app_key">
-								<Form.Label>百度 Api Key</Form.Label>
+								<Form.Label>百度 App Key</Form.Label>
 								<Form.Control onChange={this.handleChange} onBlur={this.handleChange}
 											  value={this.state.settings.baidu_api_key}
 											  isInvalid={this.state.baidu_api_key.isInvalid}
@@ -192,7 +191,7 @@ class Baidu extends React.Component {
 							<Form.Group controlId="baidu_pan_availability" className="position-relative">
 								<Form.Label style={{marginRight: "0.5rem"}}>使用百度网盘</Form.Label>
 								<Form.Check inline onChange={this.toggleNetdisk} type="switch"
-											value={this.state.settings.baidu_pan_availability}/>
+											checked={this.state.settings.baidu_pan_availability === 'enabled'}/>
 							</Form.Group>
 						</div>
 					</Card.Body>

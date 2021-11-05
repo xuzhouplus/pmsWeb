@@ -41,7 +41,6 @@ class Site extends React.Component {
 
     getSiteSettings = () => {
         const cancelTokenSource = Utils.siteSettings('get', {}, response => {
-            console.log(response);
             if (this.state.cancelTokenSource) {
                 this.setState({
                     cancelTokenSource: null,

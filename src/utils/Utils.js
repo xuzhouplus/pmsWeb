@@ -256,6 +256,12 @@ const Utils = {
 	adminCallback: function (data, callback, fallback) {
 		return this.http('get', configs.proxyBackendHost + configs.adminCallbackUrl, data, callback, fallback);
 	},
+	authorizeUrl: function (data, callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.authorizeUrl, data, callback, fallback);
+	},
+	authorizeCallback: function (data, callback, fallback) {
+		return this.http('get', configs.proxyBackendHost + configs.authorizeCallback, data, callback, fallback);
+	},
 	unbindConnect: function (data, callback, fallback) {
 		return this.http('post', configs.proxyBackendHost + configs.unbindConnectUrl, data, callback, fallback);
 	},
