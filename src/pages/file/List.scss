@@ -3,10 +3,19 @@
 
   .file-header {
     .row {
-      width: 100%;
+      .file-table-disk {
+        .btn-group {
+          .btn {
+            background-color: var(--main-color);
+            border-color: var(--main-color);
+            color: white;
+          }
+        }
+      }
 
       .file-table-search {
         justify-content: left;
+        display: flex;
       }
 
       .file-table-buttons {

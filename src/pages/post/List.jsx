@@ -10,7 +10,6 @@ import {LinkContainer} from "react-router-bootstrap";
 import {connect} from "react-redux";
 import Map from "@redux/Map";
 import "./List.scss"
-import PostEditorSelect from "@components/post/PostEditorSelect";
 
 class List extends React.Component {
     constructor(props) {
@@ -56,7 +55,7 @@ class List extends React.Component {
         if ((typeof page == 'undefined') || (page - 1) < 0) {
             page = 1
         }
-        let cancelTokenSource = Utils.postList({page: page - 1, limit: this.state.limit}, response => {
+        let cancelTokenSource = Utils.postList({page: page - 1, limit: this.state.limit, search: this.state.search}, response => {
             console.log(response);
             this.setState({
                 isLoading: false,
@@ -77,23 +76,10 @@ class List extends React.Component {
             cancelTokenSource: cancelTokenSource
         })
     }
-
-    showSelect = () => {
+    showEditor = () => {
         this.setState({
-            select: true
+            editor: 'rt'
         })
-    }
-    hideSelect = () => {
-        this.setState({
-            select: false
-        })
-    }
-    showEditor = (editor) => {
-        console.log(editor)
-        this.setState({
-            editor: editor
-        })
-        this.hideSelect()
     }
     hideEditor = () => {
         this.setState({
@@ -201,7 +187,6 @@ class List extends React.Component {
                     </Card.Body>
                 </Card>
                 <Card className="post-list-container">
-                    <PostEditorSelect onChange={this.showEditor} show={this.state.select} hide={this.hideSelect}></PostEditorSelect>
                     {postEditor}
                     <Card.Header className="post-header">
                         <Form inline="true" onSubmit={this.handleSearch}>
@@ -213,7 +198,7 @@ class List extends React.Component {
                                     </InputGroup>
                                 </Col>
                                 <Col sx={8} lg={8} className="post-table-buttons">
-                                    <Button onClick={this.showSelect} className="btn-main-color">新建稿件</Button>
+                                    <Button onClick={this.showEditor} className="btn-main-color">新建稿件</Button>
                                 </Col>
                             </Row>
                         </Form>

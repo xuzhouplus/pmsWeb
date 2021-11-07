@@ -19,6 +19,7 @@ const configs = {
 	carouselUrl: "/carousel",
 	carouselListUrl: "/carousel/list",
 	createCarouselUrl: "/carousel/create",
+	updateCarousel: "/carousel/update",
 	deleteCarouselUrl: "/carousel/delete",
 	previewCarouselUrl: "/carousel/preview",
 	fileUrl: "",

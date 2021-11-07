@@ -172,8 +172,12 @@
 .app-container {
   a,
   button,
+  input,
   .btn,
   .form-control {
+    outline: none;
+    box-shadow: none;
+
     &.focus,
     &:focus {
       outline: none;
@@ -234,4 +238,8 @@
 
 .bg-black {
   background-color: black;
+}
+
+.text-right {
+  text-align: right;
 }

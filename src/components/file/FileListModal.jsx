@@ -22,17 +22,16 @@ class FileListModal extends React.Component {
 	}
 
 	getFileList = () => {
-		const that = this;
 		if (this.state.isLoading) {
 			return;
 		}
 		this.setState({
 			idLoading: true
 		})
-		const cancelTokenSource = Utils.getFileList({page: this.state.page, limit: this.state.limit}, function (response) {
-			if (that.state.cancelTokenSource) {
-				that.setState({
-					files: that.state.files.concat(response.data.files),
+		const cancelTokenSource = Utils.getFileList({page: this.state.page, limit: this.state.limit},  (response)=> {
+			if (this.state.cancelTokenSource) {
+				this.setState({
+					files: this.state.files.concat(response.data.files),
 					page: response.data.page + 1,
 					limit: response.data.size,
 					count: response.data.count,
@@ -44,7 +43,7 @@ class FileListModal extends React.Component {
 		}, function (error) {
 			console.log(error);
 		});
-		that.setState({
+		this.setState({
 			cancelTokenSource: cancelTokenSource
 		})
 	}

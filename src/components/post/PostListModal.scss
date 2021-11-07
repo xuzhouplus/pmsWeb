@@ -1,0 +1,46 @@
+.post-list-modal {
+  post-header {
+    form {
+      width: 38%;
+    }
+  }
+
+  &.have-scrollbar {
+    .modal-dialog {
+      width: 1371px;
+
+      #post-model-container {
+        overflow-y: scroll;
+        max-height: 100%;
+      }
+    }
+  }
+
+  &.no-scrollbar {
+    .modal-dialog {
+      width: 1355px;
+    }
+  }
+
+  .modal-dialog {
+    max-width: none !important;
+    height: 790px;
+
+    .modal-content {
+      height: 100%;
+      height: 790px;
+
+      #post-model-container {
+        .infinite-scroll-component__outerdiv {
+          width: 100%;
+
+          .infinite-scroll-component {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+          }
+        }
+      }
+    }
+  }
+}

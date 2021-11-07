@@ -84,7 +84,6 @@ class Site extends React.Component {
         this.setState(state);
     }
     handleChange = (event) => {
-        console.log(event);
         let target = event.target;
         let state = this.state;
         let label;

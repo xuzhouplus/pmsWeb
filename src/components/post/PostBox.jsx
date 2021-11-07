@@ -26,7 +26,7 @@ class PostBox extends React.Component {
 		}
 		let selectButton = null;
 		if (this.props.select) {
-			selectButton = <Button variant="primary" className="btn-main-color" onClick={this.props.select}>使用</Button>
+			selectButton = <Button variant="primary" className="btn-main-color" onClick={this.props.select}>选择</Button>
 		}
 
 		return (

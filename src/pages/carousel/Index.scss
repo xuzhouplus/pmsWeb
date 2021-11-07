@@ -16,24 +16,23 @@
     .carousel-info-box {
       width: 100%;
       padding: 0.625rem;
-      color: #F8F8F8;
       background-color: var(--main-color-transparent);
+      color: #F8F8F8;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      outline-style: none;
 
       .carousel-preview-title {
-        overflow: hidden;
-        text-overflow: ellipsis;
         font-size: 1.875rem;
       }
 
       .carousel-preview-description {
-        overflow: hidden;
-        text-overflow: ellipsis;
         font-size: 1.25rem;
         margin: 0.3rem 0;
       }
 
       .carousel-delete-button {
-
+        margin-left: 0.2rem;
       }
     }
   }
