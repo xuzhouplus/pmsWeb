@@ -28,7 +28,7 @@ class FileListModal extends React.Component {
 		this.setState({
 			idLoading: true
 		})
-		const cancelTokenSource = Utils.getFileList({page: this.state.page, limit: this.state.limit},  (response)=> {
+		const cancelTokenSource = Utils.getFileList({page: this.state.page, limit: this.state.limit}, (response) => {
 			if (this.state.cancelTokenSource) {
 				this.setState({
 					files: this.state.files.concat(response.data.files),
@@ -58,6 +58,13 @@ class FileListModal extends React.Component {
 		}
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.show === this.props.show) {
+			return false
+		}
+		return true
+	}
+
 	handleUploadModal = () => {
 		this.setState({
 			showUpload: !this.state.showUpload
@@ -74,13 +81,15 @@ class FileListModal extends React.Component {
 
 	render() {
 		let boxList = this.state.files.map((item, index) =>
-			<FileBox thumb={item.thumb} name={item.name} description={item.description} key={index} select={this.select.bind(this, index)}></FileBox>
+			<FileBox thumb={item.thumb} name={item.name} description={item.description} key={index}
+					 select={this.select.bind(this, index)}></FileBox>
 		);
 		let uploadComponent
 		if (this.props.upload) {
 			let uploadFileModal
 			if (this.state.showUpload) {
-				uploadFileModal = <FileUploadModal show={this.state.showUpload} handleModal={this.handleUploadModal} afterUpload={this.afterUpload}/>
+				uploadFileModal = <FileUploadModal show={this.state.showUpload} handleModal={this.handleUploadModal}
+												   afterUpload={this.afterUpload}/>
 			}
 			uploadComponent = <Card.Header className="file-header">
 				{uploadFileModal}
@@ -90,10 +99,13 @@ class FileListModal extends React.Component {
 			</Card.Header>
 		}
 		return (
-			<Modal className={this.state.count > 1 ? 'have-scrollbar file-list-modal' : 'no-scrollbar file-list-modal'} centered show={this.props.show} onHide={this.props.hide}>
+			<Modal className={this.state.count > 1 ? 'have-scrollbar file-list-modal' : 'no-scrollbar file-list-modal'}
+				   centered show={this.props.show} onHide={this.props.hide}>
 				{uploadComponent}
 				<Modal.Body id="file-model-container">
-					<InfiniteScroll scrollableTarget='file-model-container' dataLength={this.state.count} next={this.getFileList} hasMore={this.state.page < this.state.count} loader={<Loading></Loading>}>
+					<InfiniteScroll scrollableTarget='file-model-container' dataLength={this.state.count}
+									next={this.getFileList} hasMore={this.state.page < this.state.count}
+									loader={<Loading></Loading>}>
 						{boxList}
 					</InfiniteScroll>
 				</Modal.Body>

@@ -177,7 +177,7 @@ class List extends React.Component {
                     {this.state.preview ? <FilePreviewModal hide={this.hidePreview} {...this.state.preview}/> : ''}
                     {uploadModal}
                     <Card.Header className="file-header">
-                        <Form inline onSubmit={this.handleSearch}>
+                        <Form inline="true" onSubmit={this.handleSearch}>
                             <Row>
                                 <Col sx={4} lg={4} className="file-table-disk">
                                     <ButtonGroup className="me-2" aria-label="First group">

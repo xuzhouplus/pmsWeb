@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Modal} from "react-bootstrap";
+import {Button, Form, Modal, ProgressBar} from "react-bootstrap";
 import "./FileUploadModal.scss";
 import Utils from "../../utils/Utils";
 
@@ -7,6 +7,10 @@ class FileUploadModal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			upload: {
+				max: 100,
+				now: 0,
+			},
 			name: {
 				label: '名称',
 				isInvalid: false,
@@ -77,7 +81,6 @@ class FileUploadModal extends React.Component {
 			})
 			return;
 		}
-		const that = this;
 		Utils.uploadFile({
 			file: this.state.file.input,
 			type: this.state.file.type,
@@ -85,9 +88,16 @@ class FileUploadModal extends React.Component {
 			description: this.state.description.value,
 			width: this.state.file.width,
 			height: this.state.file.height
-		}, function (response) {
-			that.props.afterUpload(response.data);
-		}, function (error) {
+		}, (total, loaded) => {
+			this.setState({
+				upload: {
+					max: total,
+					now: loaded
+				}
+			})
+		}, (response) => {
+			this.props.afterUpload(response.data);
+		}, (error) => {
 			console.log(error);
 		})
 	}
@@ -199,31 +209,42 @@ class FileUploadModal extends React.Component {
 				<Modal.Body>
 					<Form className="file-form" onSubmit={this.handleSubmit}>
 						<Form.Group className="position-relative file-input-group mb-3">
-							<label htmlFor="file-input" className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")}>
+							<label htmlFor="file-input"
+								   className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")}>
 								{this.state.file.url ? previewBox : <div className="file-input-box">
 									<div className="file-add-mark">+</div>
 									<div className="file-add-note">选择PNG、JPG或JPEG文件</div>
 								</div>}
 							</label>
 							<div className="invalid-tooltip">{this.state.file.error}</div>
-							<input type="file" id="file-input" ref={this.fileRef} onChange={this.onFileSelected} accept="image/png,image/jpg,image/jpeg"></input>
+							<input type="file" id="file-input" ref={this.fileRef} onChange={this.onFileSelected}
+								   accept="image/png,image/jpg,image/jpeg"></input>
+							<ProgressBar max={this.state.upload.max} now={this.state.upload.now}/>
 						</Form.Group>
 						<Form.Group className="position-relative mb-3">
 							<Form.Label htmlFor="input-name">{this.state.name.label}</Form.Label>
-							<Form.Control id="input-name" aria-describedby="name-text" type='text' value={this.state.name.value} isInvalid={this.state.name.isInvalid} isValid={this.state.name.isValid} onChange={this.onChange} onBlur={this.onChange}/>
+							<Form.Control id="input-name" aria-describedby="name-text" type='text'
+										  value={this.state.name.value} isInvalid={this.state.name.isInvalid}
+										  isValid={this.state.name.isValid} onChange={this.onChange}
+										  onBlur={this.onChange}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.name.text}
 							</Form.Control.Feedback>
 						</Form.Group>
 						<Form.Group className="position-relative mb-3">
 							<Form.Label htmlFor="input-description">{this.state.description.label}</Form.Label>
-							<Form.Control id="input-description" aria-describedby="description-text" type='text' value={this.state.description.value} isInvalid={this.state.description.isInvalid} isValid={this.state.description.isValid} onChange={this.onChange} onBlur={this.onChange}/>
+							<Form.Control id="input-description" aria-describedby="description-text" type='text'
+										  value={this.state.description.value}
+										  isInvalid={this.state.description.isInvalid}
+										  isValid={this.state.description.isValid} onChange={this.onChange}
+										  onBlur={this.onChange}/>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.description.text}
 							</Form.Control.Feedback>
 						</Form.Group>
 						<div className="form-button mb-3">
-							<Button variant="primary" className={this.state.status === 'uploading' ? 'uploading' : ''} type="button" onClick={this.handleSubmit}>
+							<Button variant="primary" className={this.state.status === 'uploading' ? 'uploading' : ''}
+									type="button" onClick={this.handleSubmit}>
 							</Button>
 						</div>
 					</Form>

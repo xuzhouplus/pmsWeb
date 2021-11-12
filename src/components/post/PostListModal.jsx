@@ -1,6 +1,5 @@
 import React from "react";
-import {Button, Card, Col, Form, FormControl, InputGroup, Modal, Row} from "react-bootstrap";
-import Paginator from "@components/paginator/Paginator";
+import {Button, Form, FormControl, InputGroup, Modal} from "react-bootstrap";
 import Loading from "@components/loading/Loading";
 import PostBox from "@components/post/PostBox";
 import Utils from "@utils/Utils";
@@ -11,6 +10,7 @@ class PostListModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            show: true,
             cancelTokenSource: null,
             isLoading: false,
             search: '',
@@ -41,8 +41,11 @@ class PostListModal extends React.Component {
         if (typeof page == 'undefined') {
             page = this.state.page
         }
-        let cancelTokenSource = Utils.postList({page: page, limit: this.state.limit, search: this.state.search}, response => {
-            console.log(response);
+        let cancelTokenSource = Utils.postList({
+            page: page,
+            limit: this.state.limit,
+            search: this.state.search
+        }, response => {
             this.setState({
                 isLoading: false,
                 posts: this.state.posts.concat(response.data.posts),
@@ -91,6 +94,15 @@ class PostListModal extends React.Component {
         this.props.selectPost(this.state.posts[index])
     }
 
+    hideModal = () => {
+        this.setState({
+            show: false
+        })
+        setTimeout(() => {
+            this.props.hide()
+        }, 300)
+    }
+
     render() {
         let boxList
         if (this.state.isLoading) {
@@ -98,12 +110,14 @@ class PostListModal extends React.Component {
         } else {
             if (this.state.posts.length > 0) {
                 boxList = this.state.posts.map((item, index) =>
-                    <PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)} select={this.select.bind(this, index)}></PostBox>
+                    <PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index}
+                             preview={this.preview.bind(this, index)} select={this.select.bind(this, index)}></PostBox>
                 );
             }
         }
         return (
-            <Modal className={this.state.count > 1 ? 'have-scrollbar post-list-modal' : 'no-scrollbar post-list-modal'} centered show={this.props.show} onHide={this.props.hide}>
+            <Modal className={this.state.count > 1 ? 'have-scrollbar post-list-modal' : 'no-scrollbar post-list-modal'}
+                   centered show={this.state.show} onHide={this.hideModal}>
                 <Modal.Header className="post-header">
                     <Form inline="true" onSubmit={this.handleSearch}>
                         <InputGroup className="post-table-search">
@@ -113,7 +127,9 @@ class PostListModal extends React.Component {
                     </Form>
                 </Modal.Header>
                 <Modal.Body id="post-model-container">
-                    <InfiniteScroll scrollableTarget='post-model-container' dataLength={this.state.count} next={this.getPostList} hasMore={this.state.page < this.state.count} loader={<Loading></Loading>}>
+                    <InfiniteScroll scrollableTarget='post-model-container' dataLength={this.state.count}
+                                    next={this.getPostList} hasMore={this.state.page < this.state.count}
+                                    loader={<Loading></Loading>}>
                         {boxList}
                     </InfiniteScroll>
                 </Modal.Body>

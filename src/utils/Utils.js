@@ -41,7 +41,7 @@ const Utils = {
     getFileList: function (data, callback, fallback) {
         return this.http('get', configs.proxyBackendHost + configs.fileListUrl, data, callback, fallback);
     },
-    uploadFile: function (data, callback, fallback) {
+    uploadFile: function (data, uploadProgress, callback, fallback) {
         let formData = new FormData();
         for (let key in data) {
             formData.append(key, data[key]);
@@ -51,6 +51,13 @@ const Utils = {
             url: configs.proxyBackendHost + configs.uploadFileUrl,
             header: {
                 "Content-Type": "multipart/form-data"
+            },
+            onUploadProgress: function (progressEvent) {
+                if (progressEvent.lengthComputable) {
+                    //属性lengthComputable主要表明总共需要完成的工作量和已经完成的工作是否可以被测量
+                    //如果lengthComputable为false，就获取不到progressEvent.total和progressEvent.loaded
+                    uploadProgress(progressEvent.total, progressEvent.loaded);
+                }
             },
             data: formData
         }).then(result => {

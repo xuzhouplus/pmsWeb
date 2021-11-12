@@ -1,10 +1,10 @@
 import React from "react";
 import {Button, Form, InputGroup, Modal} from "react-bootstrap";
-import "./CarouselCreateModal.scss";
 import FileListModal from "../file/FileListModal";
 import Utils from "../../utils/Utils";
 import Image from "../../utils/Image";
 import PostListModal from "@components/post/PostListModal";
+import "./CarouselCreateModal.scss";
 
 class CarouselCreateModal extends React.Component {
     constructor(props) {
@@ -105,7 +105,6 @@ class CarouselCreateModal extends React.Component {
         }
         if (Utils.objectIsEmpty(this.props.carousel)) {
             const cancelTokenSource = Utils.createCarousel(data, function (response) {
-                console.log(response);
                 if (that.state.cancelTokenSource) {
                     if (response.code === 1) {
                         that.props.afterSubmit(response.data);
@@ -122,7 +121,6 @@ class CarouselCreateModal extends React.Component {
         } else {
             data['id'] = this.props.carousel.id
             const cancelTokenSource = Utils.updateCarousel(data, function (response) {
-                console.log(response);
                 if (that.state.cancelTokenSource) {
                     if (response.code === 1) {
                         that.props.afterSubmit(response.data);
@@ -276,28 +274,43 @@ class CarouselCreateModal extends React.Component {
         if (this.state.file.id) {
             addPlaceholder = <img src={this.state.file.canvas} alt="preview"/>
         }
+        let postSelectModal = null
+        if (this.state.postModal) {
+            postSelectModal = <PostListModal show={this.state.postModal} hide={this.handlePostModal}
+                                             selectPost={this.selectPost}></PostListModal>
+        }
         return (
             <Modal className="carousel-create-modal" centered show={this.props.show} onHide={this.props.handleModal}>
                 <Modal.Body>
-                    <FileListModal upload show={this.state.showSelect} hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>
-                    <PostListModal show={this.state.postModal} hide={this.handlePostModal} selectPost={this.selectPost}></PostListModal>
+                    <FileListModal upload show={this.state.showSelect} hide={this.hideSelect}
+                                   selectFile={this.selectFile}></FileListModal>
+                    {postSelectModal}
                     <Form className="file-form" onSubmit={this.handleSubmit}>
                         <Form.Group className="position-relative file-input-group mb-3">
-                            <div id="file-preview-box" className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")} onClick={this.handleSelectModal}>
+                            <div id="file-preview-box"
+                                 className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")}
+                                 onClick={this.handleSelectModal}>
                                 {addPlaceholder}
                             </div>
                             <div className="invalid-tooltip">{this.state.file.error}</div>
                         </Form.Group>
                         <Form.Group className="position-relative mb-3">
                             <Form.Label htmlFor="input-title">{this.state.title.label}</Form.Label>
-                            <Form.Control id="input-title" aria-describedby="title-text" type='text' value={this.state.title.value} isInvalid={this.state.title.isInvalid} isValid={this.state.title.isValid} onChange={this.onChange} onBlur={this.onChange}/>
+                            <Form.Control id="input-title" aria-describedby="title-text" type='text'
+                                          value={this.state.title.value} isInvalid={this.state.title.isInvalid}
+                                          isValid={this.state.title.isValid} onChange={this.onChange}
+                                          onBlur={this.onChange}/>
                             <Form.Control.Feedback type="invalid" tooltip>
                                 {this.state.title.text}
                             </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="position-relative mb-3">
                             <Form.Label htmlFor="input-description">{this.state.description.label}</Form.Label>
-                            <Form.Control id="input-description" aria-describedby="description-text" type='text' value={this.state.description.value} isInvalid={this.state.description.isInvalid} isValid={this.state.description.isValid} onChange={this.onChange} onBlur={this.onChange}/>
+                            <Form.Control id="input-description" aria-describedby="description-text" type='text'
+                                          value={this.state.description.value}
+                                          isInvalid={this.state.description.isInvalid}
+                                          isValid={this.state.description.isValid} onChange={this.onChange}
+                                          onBlur={this.onChange}/>
                             <Form.Control.Feedback type="invalid" tooltip>
                                 {this.state.description.text}
                             </Form.Control.Feedback>
@@ -305,8 +318,12 @@ class CarouselCreateModal extends React.Component {
                         <Form.Group className="position-relative mb-3">
                             <Form.Label htmlFor="input-link">{this.state.link.label}</Form.Label>
                             <InputGroup className="mb-3">
-                                <Form.Control id="input-link" aria-describedby="link-text" type='text' value={this.state.link.value} isInvalid={this.state.link.isInvalid} isValid={this.state.link.isValid} onChange={this.onChange} onBlur={this.onChange}/>
-                                <Button id="link-button" variant="outline-secondary" onClick={this.handlePostModal}></Button>
+                                <Form.Control id="input-link" aria-describedby="link-text" type='text'
+                                              value={this.state.link.value} isInvalid={this.state.link.isInvalid}
+                                              isValid={this.state.link.isValid} onChange={this.onChange}
+                                              onBlur={this.onChange}/>
+                                <Button id="link-button" variant="outline-secondary"
+                                        onClick={this.handlePostModal}></Button>
                             </InputGroup>
                             <Form.Control.Feedback type="invalid" tooltip>
                                 {this.state.link.text}
@@ -314,13 +331,17 @@ class CarouselCreateModal extends React.Component {
                         </Form.Group>
                         <Form.Group className="position-relative mb-3">
                             <Form.Label htmlFor="input-order">{this.state.order.label}</Form.Label>
-                            <Form.Control id="input-order" aria-describedby="order-text" type='number' value={this.state.order.value} isInvalid={this.state.order.isInvalid} isValid={this.state.order.isValid} onChange={this.onChange} onBlur={this.onChange}/>
+                            <Form.Control id="input-order" aria-describedby="order-text" type='number'
+                                          value={this.state.order.value} isInvalid={this.state.order.isInvalid}
+                                          isValid={this.state.order.isValid} onChange={this.onChange}
+                                          onBlur={this.onChange}/>
                             <Form.Control.Feedback type="invalid" tooltip>
                                 {this.state.order.text}
                             </Form.Control.Feedback>
                         </Form.Group>
                         <div className="form-button mb-3">
-                            <Button variant="primary" className={this.state.status === 'uploading' ? 'uploading' : ''} type="button" onClick={this.handleSubmit}>
+                            <Button variant="primary" className={this.state.status === 'uploading' ? 'uploading' : ''}
+                                    type="button" onClick={this.handleSubmit}>
                             </Button>
                         </div>
                     </Form>

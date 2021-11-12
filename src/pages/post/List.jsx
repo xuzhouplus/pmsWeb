@@ -56,7 +56,6 @@ class List extends React.Component {
             page = 1
         }
         let cancelTokenSource = Utils.postList({page: page - 1, limit: this.state.limit, search: this.state.search}, response => {
-            console.log(response);
             this.setState({
                 isLoading: false,
                 posts: response.data.posts,
@@ -111,7 +110,6 @@ class List extends React.Component {
         event.stopPropagation();
         let post = this.state.posts[index];
         Utils.togglePostStatus(post.id, response => {
-            console.log(response)
             this.getPostList(this.state.page);
         }, error => {
             console.log(error);
@@ -121,7 +119,6 @@ class List extends React.Component {
         event.stopPropagation();
         let post = this.state.posts[index];
         Utils.deletePost(post.id, response => {
-            console.log(response)
             this.setState({
                 page: 0
             });
