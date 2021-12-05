@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Form, InputGroup, Modal} from "react-bootstrap";
 import FileListModal from "../file/FileListModal";
 import Utils from "../../utils/Utils";
-import Image from "../../utils/Image";
+import {Image} from "../../utils/File";
 import PostListModal from "@components/post/PostListModal";
 import "./CarouselCreateModal.scss";
 

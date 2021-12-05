@@ -4,8 +4,13 @@
   width: 100%;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   img {
     height: 100px;
+  }
+
+  div {
+    font-size: small;
   }
 }
