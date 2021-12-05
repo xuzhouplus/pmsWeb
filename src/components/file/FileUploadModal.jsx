@@ -4,6 +4,7 @@ import Utils from "@utils/Utils";
 import {File, Image, Video} from "@utils/File";
 import Loading from "@components/loading/Loading";
 import "./FileUploadModal.scss";
+import configs from "@/configs";
 
 class FileUploadModal extends React.Component {
     constructor(props) {
@@ -258,15 +259,16 @@ class FileUploadModal extends React.Component {
     render() {
         let previewBox = <div className="file-input-box">
             <div className="file-add-mark">+</div>
-            <div className="file-add-note">选择PNG、JPG或JPEG文件</div>
+            <div className="file-add-note">选择PNG、JPG或MP4文件</div>
         </div>;
         if (this.state.loading) {
             previewBox = <Loading>文件解析中</Loading>
         } else {
-            if (this.state.file.type) {
-                previewBox = <img src={this.state.file.url} alt="preview"/>;
+            if (this.state.preview.url) {
+                previewBox = <img src={this.state.preview.url} alt="preview"/>;
             }
         }
+        let fileTypes = [configs.imageTypes.join(','), configs.videoTypes.join(',')].join(',')
         return (
             <Modal className="file-upload-modal" centered show={this.props.show} onHide={this.props.handleModal}>
                 <Modal.Body>
@@ -278,7 +280,7 @@ class FileUploadModal extends React.Component {
                             </label>
                             <div className="invalid-tooltip">{this.state.file.error}</div>
                             <input type="file" id="file-input" ref={this.fileRef} onChange={this.onFileSelected}
-                                   accept="image/png,image/jpg,image/jpeg,video/mp4"></input>
+                                   accept={fileTypes}></input>
                             <ProgressBar max={this.state.upload.max} now={this.state.upload.now}/>
                         </Form.Group>
                         <Form.Group className="position-relative mb-3">
