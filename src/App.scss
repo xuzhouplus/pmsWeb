@@ -2,8 +2,8 @@
 @import '~@sweetalert2/theme-bootstrap-4/bootstrap-4.scss';
 
 :root {
-  --main-color: hsl(210, 100%, 20%);
-  --main-color-transparent: hsla(210, 100%, 10%, 0.6);
+  --main-color: rgb(10, 30, 80);
+  --main-color-transparent: rgba(17, 39, 87, 0.6);
   --second-color: #939597;
   --second-color-transparent: rgba(93, 95, 97, 0.77);
   --primary-color: #39A2DB
@@ -215,8 +215,8 @@
   }
 
   .app-body {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     z-index: 0;
   }
 

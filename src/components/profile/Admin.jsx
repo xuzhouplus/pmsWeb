@@ -194,7 +194,7 @@ class Admin extends React.Component {
 					<Card.Body className="admin-profile-table">
 						<Form className="admin-profile-form">
 							<Form.Group className="position-relative mb-3 file-input-group">
-								<label htmlFor="file-input" className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")}>
+								<label htmlFor="file-input" className={["file-preview-box", this.state.file.error ? "is-invalid" : ""].join(" ")}>
 									{this.state.file.url ? previewBox : <div className="file-input-box">
 										<div className="file-add-mark">+</div>
 										<div className="file-add-note">选择PNG、JPG或JPEG文件</div>
@@ -225,7 +225,7 @@ class Admin extends React.Component {
 							</Form.Group>
 							<Form.Group controlId="status" className="position-relative mb-3">
 								<Form.Label>状态</Form.Label>
-								<Form.Check type="switch" id="status" checked={this.state.status.value} onChange={this.handleChange} label=""/>
+								<Form.Check type="switch" id="status" checked={this.state.status.value} onChange={this.handleChange} label={this.state.status.value?'启用':'禁用'}/>
 							</Form.Group>
 						</Form>
 					</Card.Body>

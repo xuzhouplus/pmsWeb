@@ -179,19 +179,13 @@ class List extends React.Component {
                     <Card.Header className="file-header">
                         <Form inline="true" onSubmit={this.handleSearch}>
                             <Row>
-                                <Col sx={4} lg={4} className="file-table-disk">
-                                    <ButtonGroup className="me-2" aria-label="First group">
-                                        <Button disabled={this.state.fileServer === 'server'} onClick={this.changeFileServer.bind(this, 'server')}>服务端</Button>
-                                        <Button disabled={this.state.fileServer === 'baidu'} onClick={this.changeFileServer.bind(this, 'baidu')}>百度网盘</Button>
-                                        {/*<Button disabled={this.state.fileServer === 'ali'} onClick={this.changeFileServer.bind(this,'ali')}>阿里云盘</Button>*/}
-                                    </ButtonGroup>
-                                </Col>
                                 <Col xs={4} lg={4} className="file-table-search">
                                     <InputGroup>
                                         <FormControl placeholder="输入内容搜索" onChange={this.searchChange}/>
                                         <Button className="btn-main-color" type="submit">搜索</Button>
                                     </InputGroup>
                                 </Col>
+                                <Col xs={4} lg={4}></Col>
                                 <Col sx={4} lg={4} className="file-table-buttons">
                                     <Button onClick={this.handleModal} className="btn-main-color">上传文件</Button>
                                 </Col>

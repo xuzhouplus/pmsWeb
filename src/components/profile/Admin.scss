@@ -9,8 +9,8 @@
       margin: auto;
 
       .file-preview-box {
-        height: 200px;
-        width: 200px;
+        height: 12.5rem;
+        width: 12.5rem;
         margin: auto;
         display: flex;
         align-items: center;
@@ -19,6 +19,7 @@
         font-size: xx-large;
         cursor: pointer;
         overflow: hidden;
+        border-radius: 0.8rem;
 
         &.is-invalid {
           border-color: #dc3545;
@@ -26,7 +27,8 @@
 
         img,
         video {
-          max-height: 255px;
+          max-height: 100%;
+          max-width: 100%;
         }
 
         .file-input-box {
