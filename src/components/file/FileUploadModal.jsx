@@ -5,8 +5,13 @@ import {File, Image, Video} from "@utils/File";
 import Loading from "@components/loading/Loading";
 import "./FileUploadModal.scss";
 import configs from "@/configs";
+import Resumablejs from "resumablejs";
 
 class FileUploadModal extends React.Component {
+    /**
+     * @type Resumablejs
+     */
+    resumable = null
     constructor(props) {
         super(props);
         this.state = {
@@ -39,10 +44,32 @@ class FileUploadModal extends React.Component {
                 error: ''
             }
         };
-        this.fileRef = React.createRef()
+        this.fileBrowserButton = React.createRef()
+        this.fileDragTarget = React.createRef()
+    }
+
+    componentDidMount() {
+        this.resumable = new Resumablejs({
+            target: configs.uploadFileUrl,
+        });
+        this.resumable.assignBrowse(this.fileBrowserButton)
+        this.resumable.assignDrop(this.fileDragTarget)
+        this.resumable.on('fileAdded', (file, event) => {
+            console.log(file)
+            console.log(event)
+        });
+        this.resumable.on('fileSuccess', (file, message) => {
+            console.log(file)
+            console.log(message)
+        });
+        this.resumable.on('fileError', (file, message) => {
+            console.log(file)
+            console.log(message)
+        });
     }
 
     componentWillUnmount() {
+        this.resumable.cancel()
         this.setState({
             loading: false,
             preview: {
@@ -257,7 +284,7 @@ class FileUploadModal extends React.Component {
     }
 
     render() {
-        let previewBox = <div className="file-input-box">
+        let previewBox = <div className="file-input-box" ref={this.fileBrowserButton}>
             <div className="file-add-mark">+</div>
             <div className="file-add-note">选择PNG、JPG或MP4文件</div>
         </div>;
@@ -274,13 +301,11 @@ class FileUploadModal extends React.Component {
                 <Modal.Body>
                     <Form className="file-form" onSubmit={this.handleSubmit}>
                         <Form.Group className="position-relative file-input-group mb-3">
-                            <label htmlFor="file-input"
-                                   className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")}>
+                            <span ref={this.fileDragTarget}
+                                  className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")}>
                                 {previewBox}
-                            </label>
+                            </span>
                             <div className="invalid-tooltip">{this.state.file.error}</div>
-                            <input type="file" id="file-input" ref={this.fileRef} onChange={this.onFileSelected}
-                                   accept={fileTypes}></input>
                             <ProgressBar max={this.state.upload.max} now={this.state.upload.now}/>
                         </Form.Group>
                         <Form.Group className="position-relative mb-3">
