@@ -12,6 +12,7 @@ class FileUploadModal extends React.Component {
      * @type Resumablejs
      */
     resumable = null
+
     constructor(props) {
         super(props);
         this.state = {
@@ -50,17 +51,40 @@ class FileUploadModal extends React.Component {
 
     componentDidMount() {
         this.resumable = new Resumablejs({
-            target: configs.uploadFileUrl,
+            target: configs.proxyBackendHost + configs.uploadFileUrl,
+            fileType: configs.imageTypes.concat(configs.videoTypes),
+            chunkSize:configs.uploadChunkSize,
+            chunkNumberParameterName: 'index',
+            totalChunksParameterName: 'count',
+            chunkSizeParameterName: 'chunk',
+            totalSizeParameterName: 'total',
+            identifierParameterName: 'id',
+            fileNameParameterName: 'file',
+            relativePathParameterName: 'path',
+            currentChunkSizeParameterName: 'size',
+            typeParameterName: 'type',
+            fileParameterName: 'binary',
+            generateUniqueIdentifier: function () {
+                return Utils.generateUUID(false);
+            }
         });
         this.resumable.assignBrowse(this.fileBrowserButton)
         this.resumable.assignDrop(this.fileDragTarget)
         this.resumable.on('fileAdded', (file, event) => {
-            console.log(file)
-            console.log(event)
+            this.onFileSelected(file)
         });
+        this.resumable.on('fileProgress', file => {
+            this.setState({
+                upload: {
+                    now: file.progress(false),
+                    max: 1
+                }
+            })
+        })
         this.resumable.on('fileSuccess', (file, message) => {
             console.log(file)
             console.log(message)
+            this.props.afterUpload(file)
         });
         this.resumable.on('fileError', (file, message) => {
             console.log(file)
@@ -115,29 +139,34 @@ class FileUploadModal extends React.Component {
             })
             return;
         }
-        Utils.uploadFile({
-            file: this.state.file.input,
-            type: this.state.file.type,
+        this.resumable.opts.query = {
             name: this.state.name.value,
             description: this.state.description.value,
-        }, (total, loaded) => {
-            this.setState({
-                upload: {
-                    max: total,
-                    now: loaded
-                }
-            })
-        }, (response) => {
-            this.props.afterUpload(response.data);
-        }, (error) => {
-            console.log(error);
-        })
+        }
+        this.resumable.upload()
+        // Utils.uploadFile({
+        //     file: this.state.file.input,
+        //     type: this.state.file.type,
+        //     name: this.state.name.value,
+        //     description: this.state.description.value,
+        // }, (total, loaded) => {
+        //     this.setState({
+        //         upload: {
+        //             max: total,
+        //             now: loaded
+        //         }
+        //     })
+        // }, (response) => {
+        //     this.props.afterUpload(response.data);
+        // }, (error) => {
+        //     console.log(error);
+        // })
     }
-    onFileSelected = (event) => {
+
+    onFileSelected = (resumableFile) => {
         const that = this;
-        let input = this.fileRef.current.files[0];
-        if (input) {
-            let fileName = File.getFileName(input.name)
+        if (resumableFile.file) {
+            let fileName = File.getFileName(resumableFile.file.name)
             let states = {
                 loading: true,
                 upload: {
@@ -145,8 +174,8 @@ class FileUploadModal extends React.Component {
                     now: 0,
                 },
                 file: {
-                    input: input,
-                    type: input.type,
+                    input: resumableFile,
+                    type: resumableFile.file.type,
                     error: ''
                 },
                 name: {
@@ -164,8 +193,8 @@ class FileUploadModal extends React.Component {
                     text: ''
                 }
             }
-            if (input.type.match('image')) {
-                Image.captureThumbnail(input, (message, src, loaded) => {
+            if (resumableFile.file.type.match('image')) {
+                Image.captureThumbnail(resumableFile.file, (message, src, loaded) => {
                     if (message !== '') {
                         this.setState({
                             loading: false,
@@ -184,8 +213,8 @@ class FileUploadModal extends React.Component {
                         }
                     })
                 })
-            } else if (input.type.match('video')) {
-                Video.captureThumbnail(input, (message, src, loaded) => {
+            } else if (resumableFile.file.type.match('video')) {
+                Video.captureThumbnail(resumableFile.file, (message, src, loaded) => {
                     if (message !== '') {
                         this.setState({
                             loading: false,
@@ -284,7 +313,7 @@ class FileUploadModal extends React.Component {
     }
 
     render() {
-        let previewBox = <div className="file-input-box" ref={this.fileBrowserButton}>
+        let previewBox = <div className="file-input-box" ref={node => this.fileBrowserButton = node}>
             <div className="file-add-mark">+</div>
             <div className="file-add-note">选择PNG、JPG或MP4文件</div>
         </div>;
@@ -295,13 +324,12 @@ class FileUploadModal extends React.Component {
                 previewBox = <img src={this.state.preview.url} alt="preview"/>;
             }
         }
-        let fileTypes = [configs.imageTypes.join(','), configs.videoTypes.join(',')].join(',')
         return (
             <Modal className="file-upload-modal" centered show={this.props.show} onHide={this.props.handleModal}>
                 <Modal.Body>
                     <Form className="file-form" onSubmit={this.handleSubmit}>
                         <Form.Group className="position-relative file-input-group mb-3">
-                            <span ref={this.fileDragTarget}
+                            <span ref={node => this.fileDragTarget = node}
                                   className={["file-preview-box", "rounded", this.state.file.error ? "is-invalid" : ""].join(" ")}>
                                 {previewBox}
                             </span>

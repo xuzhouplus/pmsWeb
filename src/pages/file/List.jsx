@@ -52,6 +52,7 @@ class List extends React.Component {
         })
     }
     afterUpload = (uploadedFile) => {
+        console.log(uploadedFile)
         this.setState({
             modal: false
         })
@@ -105,7 +106,6 @@ class List extends React.Component {
     }
     source = (index, event) => {
         event.stopPropagation();
-        console.log(this.state.files[index]);
         const subWindow = window.open(this.state.files[index].path, this.state.files[index].name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
         subWindow.document.body.style.backgroundColor = "#00236099";
         subWindow.document.title = this.state.files[index].name;
