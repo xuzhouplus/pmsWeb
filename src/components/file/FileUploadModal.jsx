@@ -53,7 +53,7 @@ class FileUploadModal extends React.Component {
         this.resumable = new Resumablejs({
             target: configs.proxyBackendHost + configs.uploadFileUrl,
             fileType: configs.imageTypes.concat(configs.videoTypes),
-            chunkSize:configs.uploadChunkSize,
+            chunkSize: configs.uploadChunkSize,
             chunkNumberParameterName: 'index',
             totalChunksParameterName: 'count',
             chunkSizeParameterName: 'chunk',
@@ -312,6 +312,13 @@ class FileUploadModal extends React.Component {
         }
     }
 
+    onHide = () => {
+        if (this.states.upload.now > 0) {
+            return;
+        }
+        this.props.handleModal()
+    }
+
     render() {
         let previewBox = <div className="file-input-box" ref={node => this.fileBrowserButton = node}>
             <div className="file-add-mark">+</div>
@@ -324,8 +331,12 @@ class FileUploadModal extends React.Component {
                 previewBox = <img src={this.state.preview.url} alt="preview"/>;
             }
         }
+        let uploadProgress = null
+        if (this.state.upload.now > 0) {
+            uploadProgress = <ProgressBar max={this.state.upload.max} now={this.state.upload.now}/>
+        }
         return (
-            <Modal className="file-upload-modal" centered show={this.props.show} onHide={this.props.handleModal}>
+            <Modal className="file-upload-modal" centered show={this.props.show} onHide={this.onHide}>
                 <Modal.Body>
                     <Form className="file-form" onSubmit={this.handleSubmit}>
                         <Form.Group className="position-relative file-input-group mb-3">
@@ -334,7 +345,7 @@ class FileUploadModal extends React.Component {
                                 {previewBox}
                             </span>
                             <div className="invalid-tooltip">{this.state.file.error}</div>
-                            <ProgressBar max={this.state.upload.max} now={this.state.upload.now}/>
+                            {uploadProgress}
                         </Form.Group>
                         <Form.Group className="position-relative mb-3">
                             <Form.Label htmlFor="input-name">{this.state.name.label}</Form.Label>
