@@ -282,7 +282,7 @@ class CarouselCreateModal extends React.Component {
         return (
             <Modal className="carousel-create-modal" centered show={this.props.show} onHide={this.props.handleModal}>
                 <Modal.Body>
-                    <FileListModal upload show={this.state.showSelect} hide={this.hideSelect}
+                    <FileListModal fileType="image" upload show={this.state.showSelect} hide={this.hideSelect}
                                    selectFile={this.selectFile}></FileListModal>
                     {postSelectModal}
                     <Form className="file-form" onSubmit={this.handleSubmit}>

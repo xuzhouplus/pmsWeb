@@ -124,7 +124,7 @@ class PostProfile extends React.Component {
         }
         return (
             <Card className="post-profile-modal">
-                <FileListModal show={this.state.showSelect} hide={this.handleSelectModal} selectFile={this.selectFile} upload></FileListModal>
+                <FileListModal fileType="image" show={this.state.showSelect} hide={this.handleSelectModal} selectFile={this.selectFile} upload></FileListModal>
                 <Card.Body>
                     <Form className="post-profile-form" onSubmit={this.handleSubmit}>
                         <Form.Group className="position-relative cover-input-group">

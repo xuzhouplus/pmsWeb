@@ -11,17 +11,19 @@ class PostCkEditor extends react.Component {
     constructor(props) {
         super(props);
         this.state = {
+            selectType: null,
             selectPromise: null,
             showSelect: false,
             showUpload: false
         }
     }
 
-    selectFilePromise = () => {
+    selectFilePromise = (fileType) => {
         return new Promise((topResolve, topReject) => {
             this.selectedFile = {};
             new Promise((resolve, reject) => {
                 this.setState({
+                    selectType: fileType,
                     showSelect: true,
                     selectPromise: resolve
                 })
@@ -58,7 +60,8 @@ class PostCkEditor extends react.Component {
     render() {
         let selectFileModal
         if (this.state.showSelect) {
-            selectFileModal = <FileListModal upload show={this.state.showSelect} hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>;
+            selectFileModal = <FileListModal fileType={this.state.selectType} upload show={this.state.showSelect}
+                                             hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>;
         }
         return (
             <div className="post-ckeditor">
@@ -113,7 +116,7 @@ class PostCkEditor extends react.Component {
                                 'imageStyle:side',
                                 'linkImage'
                             ],
-                            onFilePeek: this.selectFilePromise,
+                            onFilePeek: this.selectFilePromise.bind(this, 'image'),
                         },
                         table: {
                             contentToolbar: [

@@ -63,6 +63,6 @@ const configs = {
     videoTypes: [
         'mp4'
     ],
-    uploadChunkSize: 2 * 1024 * 1024
+    uploadChunkSize: 2 * 1024 * 1024,//单位kb
 }
 export default configs;
