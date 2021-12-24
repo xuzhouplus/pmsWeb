@@ -33,7 +33,6 @@
     "@ckeditor/ckeditor5-ui": "^29.1.0",
     "@ckeditor/ckeditor5-word-count": "^29.1.0",
     "@craco/craco": "^6.1.1",
-    "@sweetalert2/theme-bootstrap-4": "^4.0.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -47,7 +46,6 @@
     "imagesloaded": "^4.1.4",
     "install": "^0.13.0",
     "markdown-it": "^12.0.4",
-    "node-sass": "^4.14.1",
     "npm": "^7.20.6",
     "react": "^16.14.0",
     "react-bootstrap": "^2.0.0-beta.5",
@@ -68,7 +66,7 @@
     "video.js": "^7.17.0"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "craco start http://web.pms.test",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
@@ -89,6 +87,7 @@
     ]
   },
   "devDependencies": {
+    "sass": "^1.45.1",
     "three": "^0.127.0"
   }
 }

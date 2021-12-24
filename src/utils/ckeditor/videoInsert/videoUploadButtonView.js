@@ -1,7 +1,7 @@
 import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
 import View from '@ckeditor/ckeditor5-ui/src/view';
 
-export default class FileUploadButtonView extends View {
+export default class VideoUploadButtonView extends View {
     constructor(locale) {
         super(locale);
         this.buttonView = new ButtonView(locale);

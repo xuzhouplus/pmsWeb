@@ -97,8 +97,8 @@ class PostCkEditor extends react.Component {
                                 'blockQuote',
                                 'findAndReplace',
                                 'insertTable',
-                                'mediaEmbed',
-                                'fileInsert',
+                                'videoInsert',
+                                'imageInsert',
                                 'code',
                                 'codeBlock',
                                 'pageBreak',
@@ -108,6 +108,9 @@ class PostCkEditor extends react.Component {
                             ]
                         },
                         language: 'zh-cn',
+                        video:{
+                            onFilePeek: this.selectFilePromise.bind(this, 'video'),
+                        },
                         image: {
                             toolbar: [
                                 'imageTextAlternative',

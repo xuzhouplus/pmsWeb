@@ -1,8 +1,8 @@
 import ImageUploadUI from "@ckeditor/ckeditor5-image/src/imageupload/imageuploadui";
-import FileUploadButtonView from "@utils/ckeditor/fileUploadButtonView";
+import ImageUploadButtonView from "@utils/ckeditor/imageInsert/imageUploadButtonView";
 import {icons} from '@ckeditor/ckeditor5-core';
 
-export default class FileUploadUI extends ImageUploadUI {
+export default class ImageUploadUI extends ImageUploadUI {
     static get pluginName() {
         return 'FileUploadUI';
     }
@@ -11,7 +11,7 @@ export default class FileUploadUI extends ImageUploadUI {
         const editor = this.editor;
         const t = editor.t;
         const componentCreator = locale => {
-            const view = new FileUploadButtonView(locale);
+            const view = new ImageUploadButtonView(locale);
             view.buttonView.set({
                 label: t('Insert image'),
                 icon: icons.image,

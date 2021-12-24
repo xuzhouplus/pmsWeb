@@ -44,7 +44,7 @@ import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformatio
 import TodoList from '@ckeditor/ckeditor5-list/src/todolist';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline.js';
 import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount.js';
-import FileInsert from '@utils/ckeditor/fileInsert';
+import ImageInsert from '@utils/ckeditor/imageInsert/imageInsert';
 
 class Editor extends DecoupledDocumentEditor {
 }
@@ -69,7 +69,7 @@ Editor.builtinPlugins = [
     Heading,
     Image,
     ImageCaption,
-    FileInsert,
+    ImageInsert,
     ImageResize,
     ImageStyle,
     ImageToolbar,

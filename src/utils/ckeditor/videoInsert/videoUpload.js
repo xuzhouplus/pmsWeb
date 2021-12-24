@@ -1,12 +1,12 @@
 import ImageUpload from "@ckeditor/ckeditor5-image/src/imageupload";
-import FileUploadUI from "@utils/ckeditor/fileUploadUI";
+import ImageUploadUI from "@utils/ckeditor/imageInsert/imageUploadUI";
 
-export default class FileUpload extends ImageUpload {
+export default class VideoUpload extends ImageUpload {
     static get pluginName() {
         return 'FileUpload';
     }
 
     static get requires() {
-        return [FileUploadUI];
+        return [ImageUploadUI];
     }
 }

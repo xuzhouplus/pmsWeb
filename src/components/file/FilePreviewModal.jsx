@@ -11,8 +11,9 @@ class FilePreviewModal extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log(this.props.type.slice(this.props.type.indexOf('/')))
         this.state = {
-            isVideo: configs.videoTypes.indexOf(this.props.type) !== -1
+            isVideo: this.props.type.substring(0, this.props.type.indexOf('/')) === 'video'
         }
     }
 
@@ -40,6 +41,8 @@ class FilePreviewModal extends React.Component {
     }
 
     render() {
+        console.log(this.state)
+        console.log(this.props)
         let preview
         if (this.state.isVideo) {
             preview = <video ref={node => this.videoNode = node} className="video-js"></video>
