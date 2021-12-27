@@ -1,10 +1,10 @@
-import ImageInsertUI from "@ckeditor/ckeditor5-image/src/imageinsert/imageinsertui";
+import CkeditorImageInsertUI from "@ckeditor/ckeditor5-image/src/imageinsert/imageinsertui";
 import ImageInsertPanelView from "@ckeditor/ckeditor5-image/src/imageinsert/ui/imageinsertpanelview";
 import {createLabeledInputText, LabeledFieldView} from "@ckeditor/ckeditor5-ui";
 
-export default class FileInsertUI extends ImageInsertUI {
+export default class ImageInsertUI extends CkeditorImageInsertUI {
     static get pluginName() {
-        return 'FileInsertUI';
+        return 'ImageInsertUI';
     }
 
     /**
@@ -17,8 +17,8 @@ export default class FileInsertUI extends ImageInsertUI {
         };
 
         // Register `insertImage` dropdown and add `imageInsert` dropdown as an alias for backward compatibility.
-        editor.ui.componentFactory.add('insertFile', componentCreator);
-        editor.ui.componentFactory.add('fileInsert', componentCreator);
+        editor.ui.componentFactory.add('insertImage', componentCreator);
+        editor.ui.componentFactory.add('imageInsert', componentCreator);
     }
 
     _createDropdownView(locale) {
@@ -28,7 +28,7 @@ export default class FileInsertUI extends ImageInsertUI {
         const dropdownView = imageInsertView.dropdownView;
         const splitButtonView = dropdownView.buttonView;
 
-        splitButtonView.actionView = editor.ui.componentFactory.create('fileUpload');
+        splitButtonView.actionView = editor.ui.componentFactory.create('imageUpload');
         // After we replaced action button with `uploadImage` component,
         // we have lost a proper styling and some minor visual quirks have appeared.
         // Brining back original split button classes helps fix the button styling
@@ -124,7 +124,7 @@ export default class FileInsertUI extends ImageInsertUI {
 
     prepareIntegrations() {
         const panelItems = this.editor.config.get('image.insert.integrations');
-        const imageInsertUIPlugin = this.editor.plugins.get('FileInsertUI');
+        const imageInsertUIPlugin = this.editor.plugins.get('ImageInsertUI');
 
         const PREDEFINED_INTEGRATIONS = {
             'insertImageViaUrl': this.createLabeledInputView()

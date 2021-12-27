@@ -1,8 +1,8 @@
-import ImageUploadUI from "@ckeditor/ckeditor5-image/src/imageupload/imageuploadui";
+import CkeditorImageUploadUI from "@ckeditor/ckeditor5-image/src/imageupload/imageuploadui";
 import ImageUploadButtonView from "@utils/ckeditor/imageInsert/imageUploadButtonView";
 import {icons} from '@ckeditor/ckeditor5-core';
 
-export default class ImageUploadUI extends ImageUploadUI {
+export default class ImageUploadUI extends CkeditorImageUploadUI {
     static get pluginName() {
         return 'FileUploadUI';
     }
@@ -21,6 +21,6 @@ export default class ImageUploadUI extends ImageUploadUI {
         };
 
         // Setup `uploadImage` button and add `imageUpload` button as an alias for backward compatibility.
-        editor.ui.componentFactory.add('fileUpload', componentCreator);
+        editor.ui.componentFactory.add('imageUpload', componentCreator);
     }
 }

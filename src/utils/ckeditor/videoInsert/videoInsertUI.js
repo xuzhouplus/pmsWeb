@@ -1,8 +1,9 @@
-import MediaEmbedEditing from './mediaembedediting';
-import mediaIcon from '../theme/icons/media.svg';
+import MediaEmbedEditing from '@ckeditor/ckeditor5-media-embed/src/mediaembedediting';
 import MediaEmbedUI from "@ckeditor/ckeditor5-media-embed/src/mediaembedui";
-import ImageInsertPanelView from "@ckeditor/ckeditor5-image/src/imageinsert/ui/imageinsertpanelview";
+import {createLabeledInputText, LabeledFieldView} from "@ckeditor/ckeditor5-ui";
+import {createDropdown, SplitButtonView} from "ckeditor5/src/ui";
 import MediaFormView from "@ckeditor/ckeditor5-media-embed/src/ui/mediaformview";
+import mediaIcon from "@ckeditor/ckeditor5-media-embed/theme/icons/media.svg";
 
 export default class VideoInsertUI extends MediaEmbedUI {
     /**
@@ -28,109 +29,83 @@ export default class VideoInsertUI extends MediaEmbedUI {
             return this._createDropdownView(locale);
         };
 
+        // Register `insertImage` dropdown and add `imageInsert` dropdown as an alias for backward compatibility.
         editor.ui.componentFactory.add('insertVideo', componentCreator);
         editor.ui.componentFactory.add('videoInsert', componentCreator);
     }
 
     _createDropdownView(locale) {
-        const editor = this.editor;
-        const command = editor.commands.get( 'mediaEmbed' );
-        const registry = editor.plugins.get( MediaEmbedEditing ).registry;
-        const mediaForm = new MediaFormView( getFormValidators( editor.t, registry ), editor.locale );
-
-        const dropdownView = imageInsertView.dropdownView;
+        const t = locale.t;
+        const dropdownView = createDropdown( locale, SplitButtonView );
         const splitButtonView = dropdownView.buttonView;
+        const panelView = dropdownView.panelView;
 
-        splitButtonView.actionView = editor.ui.componentFactory.create('fileUpload');
-        // After we replaced action button with `uploadImage` component,
-        // we have lost a proper styling and some minor visual quirks have appeared.
-        // Brining back original split button classes helps fix the button styling
-        // See https://github.com/ckeditor/ckeditor5/issues/7986.
-        splitButtonView.actionView.extendTemplate({
-            attributes: {
-                class: 'ck ck-button ck-splitbutton__action'
-            }
-        });
-
-        splitButtonView.actionView.buttonView.on('execute', (evt) => {
-            let onFilePeek = editor.config._config.video.onFilePeek
-            if (typeof onFilePeek === 'function') {
-                const promise = onFilePeek()
-                promise.then(result => {
-                    console.log(result)
-                    editor.execute('insertImage', {source: result.path});
-                })
-            }
-        });
-
-        return this._setUpDropdown(dropdownView, imageInsertView);
-    }
-
-    /**
-     * @private
-     * @param {module:ui/dropdown/dropdownview~DropdownView} dropdown
-     * @param {module:ui/view~View} form
-     * @param {module:media-embed/mediaembedcommand~MediaEmbedCommand} command
-     */
-    _setUpDropdown( dropdown, form, command ) {
-        const editor = this.editor;
-        const t = editor.t;
-        const button = dropdown.buttonView;
-
-        dropdown.bind( 'isEnabled' ).to( command );
-        dropdown.panelView.children.add( form );
-
-        button.set( {
+        splitButtonView.set( {
             label: t( 'Insert media' ),
             icon: mediaIcon,
             tooltip: true
         } );
 
-        // Note: Use the low priority to make sure the following listener starts working after the
-        // default action of the drop-down is executed (i.e. the panel showed up). Otherwise, the
-        // invisible form/input cannot be focused/selected.
+        panelView.extendTemplate( {
+            attributes: {
+                class: 'ck-image-insert__panel'
+            }
+        } );
+        const command = this.editor.commands.get( 'mediaEmbed' );
+        this._setUpDropdown(dropdownView,panelView,command)
+        return dropdownView
+    }
+
+    _setUpDropdown(dropdownView, videoInsertView, command) {
+        const editor = this.editor;
+        const registry = editor.plugins.get( MediaEmbedEditing ).registry;
+        const mediaForm = new MediaFormView( getFormValidators( editor.t, registry ), editor.locale );
+        videoInsertView.children.add( mediaForm );
+        const button = dropdownView.buttonView;
+
+        dropdownView.bind( 'isEnabled' ).to( command );
         button.on( 'open', () => {
-            form.disableCssTransitions();
+            mediaForm.disableCssTransitions();
 
             // Make sure that each time the panel shows up, the URL field remains in sync with the value of
             // the command. If the user typed in the input, then canceled (`urlInputView#fieldView#value` stays
             // unaltered) and re-opened it without changing the value of the media command (e.g. because they
             // didn't change the selection), they would see the old value instead of the actual value of the
             // command.
-            form.url = command.value || '';
-            form.urlInputView.fieldView.select();
-            form.focus();
-            form.enableCssTransitions();
+            mediaForm.url = command.value || '';
+            mediaForm.urlInputView.fieldView.select();
+            mediaForm.focus();
+            mediaForm.enableCssTransitions();
         }, { priority: 'low' } );
 
-        dropdown.on( 'submit', () => {
-            if ( form.isValid() ) {
-                editor.execute( 'mediaEmbed', form.url );
+        dropdownView.on( 'submit', () => {
+            if ( mediaForm.isValid() ) {
+                console.log(mediaForm.url)
+                editor.execute( 'mediaEmbed', mediaForm.url );
                 closeUI();
             }
         } );
 
-        dropdown.on( 'change:isOpen', () => form.resetFormStatus() );
-        dropdown.on( 'cancel', () => closeUI() );
+        dropdownView.on( 'change:isOpen', () => mediaForm.resetFormStatus() );
+        dropdownView.on( 'cancel', () => closeUI() );
+
+        dropdownView.buttonView.on('execute', (evt) => {
+            let onFilePeek = editor.config._config.video.onFilePeek
+            if (typeof onFilePeek === 'function') {
+                const promise = onFilePeek()
+                promise.then(result => {
+                    console.log(result)
+                    editor.execute('mediaEmbed', result.path);
+                })
+            }
+        });
 
         function closeUI() {
             editor.editing.view.focus();
-            dropdown.isOpen = false;
+            dropdownView.isOpen = false;
         }
-    }
 
-    /**
-     * @private
-     * @param {module:ui/dropdown/dropdownview~DropdownView} dropdown
-     * @param {module:ui/view~View} form
-     * @param {module:media-embed/mediaembedcommand~MediaEmbedCommand} command
-     */
-    _setUpForm( dropdown, form, command ) {
-        form.delegate( 'submit', 'cancel' ).to( dropdown );
-        form.urlInputView.bind( 'value' ).to( command, 'value' );
-
-        // Form elements should be read-only when corresponding commands are disabled.
-        form.urlInputView.bind( 'isReadOnly' ).to( command, 'isEnabled', value => !value );
+        return dropdownView;
     }
 }
 

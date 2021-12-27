@@ -45,6 +45,7 @@ import TodoList from '@ckeditor/ckeditor5-list/src/todolist';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline.js';
 import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount.js';
 import ImageInsert from '@utils/ckeditor/imageInsert/imageInsert';
+import VideoInsert from '@utils/ckeditor/videoInsert/videoInsert';
 
 class Editor extends DecoupledDocumentEditor {
 }
@@ -92,7 +93,8 @@ Editor.builtinPlugins = [
     TextTransformation,
     TodoList,
     Underline,
-    WordCount
+    WordCount,
+    VideoInsert
 ];
 
 export default Editor;
