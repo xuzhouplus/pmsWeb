@@ -2,8 +2,9 @@
 //@import '~@sweetalert2/theme-bootstrap-4/bootstrap-4.scss';
 
 :root {
-  --main-color: rgb(10, 30, 80);
-  --main-color-transparent: rgba(17, 39, 87, 0.6);
+  --main-color: rgb(0, 0, 0);
+  --main-color-transparent: rgba(0, 0, 0, 0.6);
+  --main-color-home: rgba(0, 0, 0, 0.6);
   --second-color: #939597;
   --second-color-transparent: rgba(93, 95, 97, 0.77);
   --primary-color: #39A2DB
@@ -201,7 +202,7 @@
       padding-right: 0.5rem;
 
       &.home-page {
-        background-color: var(--main-color-transparent);
+        background-color: var(--main-color-home);
       }
 
       .navbar-brand {
@@ -230,7 +231,7 @@
       -webkit-transition: background-color 0.5s; /* Safari */
 
       &.home-page {
-        background-color: var(--main-color-transparent);
+        background-color: var(--main-color-home);
       }
     }
   }

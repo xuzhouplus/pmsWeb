@@ -31,7 +31,6 @@ import Link from '@ckeditor/ckeditor5-link/src/link.js';
 import LinkImage from '@ckeditor/ckeditor5-link/src/linkimage.js';
 import List from '@ckeditor/ckeditor5-list/src/list.js';
 import ListStyle from '@ckeditor/ckeditor5-list/src/liststyle.js';
-import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed.js';
 import PageBreak from '@ckeditor/ckeditor5-page-break/src/pagebreak.js';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph.js';
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice.js';
@@ -44,8 +43,11 @@ import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformatio
 import TodoList from '@ckeditor/ckeditor5-list/src/todolist';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline.js';
 import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount.js';
-import ImageInsert from '@utils/ckeditor/imageInsert/imageInsert';
-import VideoInsert from '@utils/ckeditor/videoInsert/videoInsert';
+import InsertImage from "@utils/ckeditor/InsertImage";
+import InsertVideo from "@utils/ckeditor/InsertVideo";
+import FullScreen from "@utils/ckeditor/FullScreen";
+import {MediaEmbed} from "@ckeditor/ckeditor5-media-embed";
+import {ImageUpload} from "@ckeditor/ckeditor5-image";
 
 class Editor extends DecoupledDocumentEditor {
 }
@@ -68,9 +70,10 @@ Editor.builtinPlugins = [
     FontFamily,
     FontSize,
     Heading,
+    ImageUpload,
     Image,
     ImageCaption,
-    ImageInsert,
+    InsertImage,
     ImageResize,
     ImageStyle,
     ImageToolbar,
@@ -81,7 +84,6 @@ Editor.builtinPlugins = [
     LinkImage,
     List,
     ListStyle,
-    MediaEmbed,
     PageBreak,
     Paragraph,
     PasteFromOffice,
@@ -94,7 +96,9 @@ Editor.builtinPlugins = [
     TodoList,
     Underline,
     WordCount,
-    VideoInsert
+    InsertVideo,
+    MediaEmbed,
+    FullScreen
 ];
 
 export default Editor;

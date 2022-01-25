@@ -18,6 +18,10 @@ const enableCKEWebpackConfigPlugin = (webpackConfig, {env, paths}) => {
             use: ["raw-loader"]
         },
         {
+            test: /full_screen.svg$/,
+            use: ["raw-loader"]
+        },
+        {
             test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
             use: [
                 {
@@ -66,7 +70,8 @@ const enableCKEWebpackConfigPlugin = (webpackConfig, {env, paths}) => {
         /\.html$/,
         /\.json$/,
         /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-        /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/
+        /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
+        /full_screen.svg$/
     ];
     // Always return a config object.
     return webpackConfig;
