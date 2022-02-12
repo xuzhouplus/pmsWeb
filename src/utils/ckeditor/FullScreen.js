@@ -26,9 +26,13 @@ export default class FullScreen extends Plugin {
             isEnabled: true,
             fillColor: '#000000'
         });
-        buttonView.on('open', () => {
-            console.log('fullscreen')
-        }, {priority: 'low'});
+        buttonView.on('execute', () => {
+            this.execute()
+        });
         return buttonView
+    }
+
+    execute() {
+       console.log('full screen')
     }
 }

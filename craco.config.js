@@ -1,6 +1,7 @@
 const path = require('path')
 const pathResolve = pathUrl => path.join(__dirname, pathUrl)
 const {styles} = require("@ckeditor/ckeditor5-dev-utils");
+const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const enableCKEWebpackConfigPlugin = (webpackConfig, {env, paths}) => {
@@ -87,7 +88,14 @@ module.exports = {
             '@utils': pathResolve("src/utils"),
             '@redux': pathResolve("src/redux")
         },
-        plugins: [],
+        plugins: [
+            new CKEditorWebpackPlugin({
+                // UI language. Language codes follow the https://en.wikipedia.org/wiki/ISO_639-1 format.
+                // When changing the built-in language, remember to also change it in the editor's configuration (src/ckeditor.js).
+                language: 'zh-cn',
+                additionalLanguages: 'all'
+            }),
+        ],
         configure: (webpackConfig, {env, paths}) => {
             return enableCKEWebpackConfigPlugin(webpackConfig, {env, paths});
         }

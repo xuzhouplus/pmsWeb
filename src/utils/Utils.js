@@ -42,6 +42,9 @@ const Utils = {
     getFileList: function (data, callback, fallback) {
         return this.http('get', configs.proxyBackendHost + configs.fileListUrl, data, callback, fallback);
     },
+    getFileInfo:function (data, callback, fallback) {
+        return this.http('get', configs.proxyBackendHost + configs.fileInfoUrl, data, callback, fallback);
+    },
     uploadFile: function (data, uploadProgress, callback, fallback) {
         let formData = new FormData();
         for (let key in data) {

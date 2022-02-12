@@ -1,6 +1,5 @@
 import React from "react";
 import {Card, Modal} from "react-bootstrap";
-import configs from "@/configs";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import './FilePreviewModal.scss';
@@ -11,7 +10,6 @@ class FilePreviewModal extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props.type.slice(this.props.type.indexOf('/')))
         this.state = {
             isVideo: this.props.type.substring(0, this.props.type.indexOf('/')) === 'video'
         }

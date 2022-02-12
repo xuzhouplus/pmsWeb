@@ -10,7 +10,7 @@ class PostEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            mdeValue: 'd',
+            mdeValue: '',
             showSelect: false,
             showUpload: false,
             cover: '',

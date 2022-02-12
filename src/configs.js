@@ -24,6 +24,7 @@ const configs = {
     previewCarouselUrl: "/carousel/preview",
     fileUrl: "",
     fileListUrl: "/file",
+    fileInfoUrl: "/file/detail",
     uploadFileUrl: "/file/upload",
     deleteFileUrl: "/file/delete",
     postUrl: "/post",

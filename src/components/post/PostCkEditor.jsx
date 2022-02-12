@@ -1,6 +1,6 @@
 import react from "react";
 import {CKEditor} from '@ckeditor/ckeditor5-react';
-import DecoupledDocumentEditor from '@utils/ckeditor';
+import DecoupledDocumentEditor from '@utils/ckeditor/ckeditor';
 import "./PostCkEditor.scss";
 import FileListModal from "@components/file/FileListModal";
 import React from "react";
@@ -107,8 +107,32 @@ class PostCkEditor extends react.Component {
                             ]
                         },
                         language: 'zh-cn',
-                        video:{
+                        video: {
                             onFilePeek: this.selectFilePromise.bind(this, 'video'),
+                        },
+                        mediaEmbed: {
+                            previewsInData: true,
+                            providers: [
+                                {
+                                    name: 'pms',
+                                    // A URL regexp or an array of URL regexps:
+                                    url: /^(\w+)/,
+
+                                    // To be defined only if the media are previewable:
+                                    html: match => {
+                                        console.log(match)
+                                        const id = match['input'].slice(-32);
+                                        return (
+                                            '<div class="ckeditor-video">' +
+                                            `<iframe src="http://web.pms.test/media/${id}" ` +
+                                            'style="width: 1280px;height: 720px" ' +
+                                            'allowtransparency="true" frameborder="0" width="1280" height="720" allowfullscreen allow="autoplay">' +
+                                            '</iframe>' +
+                                            '</div>'
+                                        );
+                                    }
+                                }
+                            ]
                         },
                         image: {
                             toolbar: [

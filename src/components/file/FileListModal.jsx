@@ -11,6 +11,7 @@ class FileListModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            showUpload: true,
             cancelTokenSource: null,
             idLoading: true,
             page: 0,
@@ -62,12 +63,12 @@ class FileListModal extends React.Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (nextProps.show === this.props.show) {
-            return false
-        }
-        return true
-    }
+    // shouldComponentUpdate(nextProps, nextState, nextContext) {
+    //     if (nextProps.show === this.props.show) {
+    //         return false
+    //     }
+    //     return true
+    // }
 
     handleUploadModal = () => {
         this.setState({
