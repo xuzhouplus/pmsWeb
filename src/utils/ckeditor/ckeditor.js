@@ -298,7 +298,8 @@ Editor.builtinPlugins = [
         Width: "宽度",
         "Wrap text": "",
         Yellow: "黄色",
-        "Full Screen": "全屏"
+        "Exit Full Screen": "退出全屏",
+        "Enter Full Screen": "全屏"
     });
     e.getPluralForm = function (t) {
         return 0
