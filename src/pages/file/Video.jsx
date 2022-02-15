@@ -1,7 +1,7 @@
 import React from "react";
 import videojs from "video.js";
 import Utils from "@utils/Utils";
-import "video.js/dist/video-js.css";
+import "video.js/src/css/video-js.scss";
 import "./video.scss";
 
 class Video extends React.Component {

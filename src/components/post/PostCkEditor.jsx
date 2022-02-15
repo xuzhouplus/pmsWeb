@@ -125,7 +125,7 @@ class PostCkEditor extends react.Component {
                                         return (
                                             '<div class="ckeditor-video">' +
                                             `<iframe src="http://web.pms.test/media/${id}" ` +
-                                            'style="width: 1280px;height: 720px" ' +
+                                            'style="width: 100%;height: 720px" ' +
                                             'allowtransparency="true" frameborder="0" width="1280" height="720" allowfullscreen allow="autoplay">' +
                                             '</iframe>' +
                                             '</div>'
