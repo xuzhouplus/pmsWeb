@@ -132,7 +132,7 @@ const Utils = {
         return this.http('get', configs.proxyBackendHost + configs.postListUrl, data, callback, fallback);
     },
     getPostInfo: function (id, callback, fallback) {
-        return this.http('get', configs.proxyBackendHost + configs.getPostInfolUrl, {id: id}, callback, fallback)
+        return this.http('get', configs.proxyBackendHost + configs.getPostInfoUrl, {id: id}, callback, fallback)
     },
     getPostDetail: function (id, callback, fallback) {
         return this.http('get', configs.proxyBackendHost + configs.getPostDetailUrl, {id: id}, callback, fallback)
