@@ -5,6 +5,7 @@ import Loading from "../loading/Loading";
 import {Card} from "react-bootstrap";
 import Swal from "sweetalert2";
 import "./Connect.scss";
+import Empty from "@components/logo/Empty";
 
 function mapStateToProps(state) {
 	return {
@@ -105,7 +106,15 @@ class Connect extends React.Component {
 			})
 		}, error => {
 			console.log(error);
+			Swal.fire({
+				icon: 'warning',
+				text: error,
+				confirmButtonText: "确定"
+			}).then(r => {
+
+			})
 			this.setState({
+				loading: false,
 				connects: {}
 			})
 		})
@@ -190,45 +199,50 @@ class Connect extends React.Component {
 		if (this.state.loading) {
 			return (<Loading/>);
 		} else {
-			let connectBox = this.state.providers.map((providers, index) => {
-				let rowBox = providers.map(provider => {
-					if (this.state.types.indexOf(provider.id) !== -1) {
-						let connect = this.state.connects[provider.id];
-						if (typeof connect !== 'undefined') {
-							return <Card key={provider.id} onClick={this.handleUnbind.bind(this, connect)}>
-								<Card.Body style={{'backgroundImage': 'url("' + connect.avatar + '")'}}>
-									<Card.Title>{connect.account.replace('\\', '')}</Card.Title>
-									<Card.Img className="connect-logo"
-											  src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
-								</Card.Body>
-							</Card>;
+			let connect
+			if(this.state.types.length>0) {
+				connect = this.state.providers.map((providers, index) => {
+					let rowBox = providers.map(provider => {
+						if (this.state.types.indexOf(provider.id) !== -1) {
+							let connect = this.state.connects[provider.id];
+							if (typeof connect !== 'undefined') {
+								return <Card key={provider.id} onClick={this.handleUnbind.bind(this, connect)}>
+									<Card.Body style={{'backgroundImage': 'url("' + connect.avatar + '")'}}>
+										<Card.Title>{connect.account.replace('\\', '')}</Card.Title>
+										<Card.Img className="connect-logo"
+												  src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
+									</Card.Body>
+								</Card>;
+							} else {
+								return <Card key={provider.id} onClick={this.handleBind.bind(this, provider)}>
+									<Card.Body className="connect-link"
+											   style={{'backgroundImage': 'url("' + process.env.PUBLIC_URL + '/connects/link.png")'}}>
+										<Card.Title>{provider.name}</Card.Title>
+										<Card.Img className="connect-logo"
+												  src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
+									</Card.Body>
+								</Card>;
+							}
 						} else {
-							return <Card key={provider.id} onClick={this.handleBind.bind(this, provider)}>
-								<Card.Body className="connect-link"
-										   style={{'backgroundImage': 'url("' + process.env.PUBLIC_URL + '/connects/link.png")'}}>
-									<Card.Title>{provider.name}</Card.Title>
-									<Card.Img className="connect-logo"
-											  src={process.env.PUBLIC_URL + provider.logo}></Card.Img>
-								</Card.Body>
-							</Card>;
+							return '';
 						}
-					} else {
-						return '';
-					}
+					})
+					return <div key={'connect-row-' + index} className="admin-connect-row">
+						{rowBox}
+					</div>
 				})
-				return <div key={'connect-row-' + index} className="admin-connect-row">
-					{rowBox}
-				</div>
-			})
+			}else{
+				connect = <Empty/>
+			}
 			return (
 				<Card className="admin-connect-container">
 					<Card.Body className="admin-connect-table">
 						<div className="admin-connect-list">
-							{connectBox}
+							{connect}
 						</div>
 						<div className="admin-connect-note">
-							<span>图标来源：</span> <a href="https://www.iconfont.cn/" target="_blank"
-												  rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>
+							<span>图标来源：</span>
+							<a href="https://www.iconfont.cn/" target="_blank" rel="noreferrer noopener">iconfont - 阿里巴巴矢量图标库</a>
 						</div>
 					</Card.Body>
 				</Card>

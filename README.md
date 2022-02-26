@@ -53,7 +53,7 @@ server {
 #### 设置淘宝镜像
 
 ```shell
-npm config set registry https://registry.npm.taobao.org
+yarn config set registry https://registry.npm.taobao.org/
 ```
 
 #### 依赖安装

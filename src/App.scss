@@ -194,15 +194,15 @@
     z-index: 99;
 
     .navbar {
-      background-color: var(--main-color);
+      background: var(--main-color);
       color: #F8F8F8;
-      transition: background-color 2s;
-      -webkit-transition: background-color 0.5s; /* Safari */
+      transition: background 2s;
+      -webkit-transition: background 0.5s; /* Safari */
       padding-left: 0.5rem;
       padding-right: 0.5rem;
 
       &.home-page {
-        background-color: var(--main-color-home);
+        background: var(--main-color-home);
       }
 
       .navbar-brand {
@@ -225,13 +225,13 @@
     z-index: 99;
 
     .navbar {
-      background-color: var(--main-color);
+      background: var(--main-color);
       color: #F8F8F8;
       transition: background-color 2s;
       -webkit-transition: background-color 0.5s; /* Safari */
 
       &.home-page {
-        background-color: var(--main-color-home);
+        background: var(--main-color-home);
       }
     }
   }

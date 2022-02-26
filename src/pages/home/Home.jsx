@@ -6,6 +6,7 @@ import Loading from "@components/loading/Loading";
 import {connect} from "react-redux";
 import Map from "@redux/Map"
 import './Home.scss';
+import Empty from "@components/logo/Empty";
 
 class Home extends React.PureComponent {
     constructor(props) {
@@ -58,7 +59,7 @@ class Home extends React.PureComponent {
             content = <Loading/>
         } else {
             if (this.state.carousel.files.length === 0) {
-                content = <div className="home-content h-100 d-flex justify-content-center align-items-center"><img src={process.env.PUBLIC_URL + '/logo192.png'} alt='Logo'/></div>
+                content = <Empty/>
             } else {
                 switch (this.props.site.carousel_type) {
                     case 'webgl':
