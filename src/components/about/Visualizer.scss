@@ -1,8 +1,4 @@
 .audio-visualizer {
-  height: 100%;
-  margin-left: calc(var(--bs-gutter-x) * -.5);
-  margin-right: calc(var(--bs-gutter-x) * -.5);
-
   @keyframes radi {
     from {
       mask-size: 0;
