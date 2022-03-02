@@ -9,9 +9,9 @@ import MaintainFooter from "@components/footer/MaintainFooter";
 class Maintain extends React.Component {
 	render() {
 		return (
-			<Container fluid className="app-container full-screen bg-black">
+			<Container fluid className="app-container full-screen">
 				<Helmet title={configs.defaultTitle} link={[{rel: "shortcut icon", href: configs.defaultFavicon}]}></Helmet>
-				<Row className={["app-header", "fixed-top"]}>
+				<Row className={["app-header", "fixed-top"].join(' ')}>
 					<Col>
 						<MaintainNavbar/>
 					</Col>
@@ -21,7 +21,7 @@ class Maintain extends React.Component {
 						<Visualizer></Visualizer>
 					</Col>
 				</Row>
-				<Row className={["app-footer", "fixed-bottom"]}>
+				<Row className={["app-footer", "fixed-bottom"].join(' ')}>
 					<Col>
 						<MaintainFooter site={{icp: configs.defaultICP}}/>
 					</Col>

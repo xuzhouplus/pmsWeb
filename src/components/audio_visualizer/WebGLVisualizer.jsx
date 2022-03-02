@@ -28,10 +28,12 @@ class WebGLVisualizer extends React.Component {
 				})
 			}
 		})
+		let isPlaying = audioVisualizer.isPlaying()
 		this.setState({
 			audioVisualizer: audioVisualizer,
-			status: 'start'
+			status: isPlaying ? 'playing' : 'start'
 		})
+		window.addEventListener('resize', this.onWindowResize.bind(this))
 	}
 
 	componentWillUnmount() {
@@ -40,6 +42,11 @@ class WebGLVisualizer extends React.Component {
 			audioVisualizer: null,
 			status: 'start'
 		})
+		window.removeEventListener('resize', this.onWindowResize.bind(this))
+	}
+
+	onWindowResize = () => {
+		this.state.audioVisualizer.setup()
 	}
 
 	play = () => {
@@ -76,7 +83,8 @@ class WebGLVisualizer extends React.Component {
 		return (
 			<div id="webgl-visualizer" className="webgl-visualizer">
 				<div className={['audio-visualizer-button', this.state.status].join(' ')}>
-					<button className="logo-button" onClick={this.play}></button>
+					<button className="logo-button" onClick={this.play}>
+					</button>
 				</div>
 			</div>
 		);

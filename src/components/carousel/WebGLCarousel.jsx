@@ -223,6 +223,7 @@ class WebGlCarousel extends React.PureComponent {
 		if (this.interval) {
 			clearInterval(this.interval);
 		}
+
 	}
 
 	render() {

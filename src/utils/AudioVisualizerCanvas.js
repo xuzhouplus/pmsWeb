@@ -37,6 +37,9 @@ AudioVisualizerCanvas.prototype = {
 	close: function () {
 		this.audioContext.close();
 	},
+	isPlaying:function () {
+		return this.audioContext.state;
+	},
 	_prepareFile: function () {
 		let that = this;
 		that.stopEvent = this.options.onended;

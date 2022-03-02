@@ -1,6 +1,6 @@
 const configs = {
-    defaultTitle: "Cool",
-    defaultICP: "123456",
+    defaultTitle: "溪游库",
+    defaultICP: "蜀ICP备18021274号-2",
     defaultLogo: "/logo.svg",
     defaultFavicon: "/favicon.ico",
     publicKey: "-----BEGIN PUBLIC KEY-----\n" +

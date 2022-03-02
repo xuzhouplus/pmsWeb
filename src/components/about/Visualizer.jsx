@@ -9,7 +9,7 @@ class Visualizer extends React.Component {
 		this.state = {
 			// src: process.env.PUBLIC_URL + '/audio/OneMoreChance.mp3',
 			src: process.env.PUBLIC_URL + '/audio/WhateverItTakes.mp3',
-			type: this.randomType(),//canvas、webgl
+			type: 'canvas',//canvas、webgl
 			// src: 'https://m8.music.126.net/21180815163607/04976f67866d4b4d11575ab418904467/ymusic/515a/5508/520b/f0cf47930abbbb0562c9ea61707c4c0b.mp3?infoId=92001',
 			bg1: {
 				src: null,
@@ -19,17 +19,19 @@ class Visualizer extends React.Component {
 				src: null,
 				display: 'none',
 			},
-			interval: null
+			timeout: null
 		}
 	}
 
 	componentDidMount() {
+		this.randomBg()
+		// this.randomType()
 	}
 
 	componentWillUnmount() {
-		clearInterval(this.state.interval)
+		clearTimeout(this.state.timeout)
 		this.setState({
-			interval: null
+			timeout: null
 		})
 	}
 
@@ -56,7 +58,7 @@ class Visualizer extends React.Component {
 		let rand = Math.floor(Math.random() * bgs.length)
 		let bg = bgs[rand]
 		let bgBox = document.createElement('div')
-		bgBox.setAttribute('class', 'full-screen position-absolute radi')
+		bgBox.setAttribute('class', 'full-screen radi')
 		bgBox.setAttribute('style', 'background: #fff url(' + bg + ') no-repeat 50% 50%')
 		let container = document.getElementById('audio-visualizer')
 		let bgList = container.getElementsByClassName('radi')
@@ -67,6 +69,15 @@ class Visualizer extends React.Component {
 			}, 1500)
 		}
 		container.appendChild(bgBox)
+		if (this.state.timeout) {
+			clearTimeout(this.state.timeout)
+		}
+		let timeout = setTimeout(() => {
+			this.randomBg()
+		}, 5000)
+		this.setState({
+			timeout: timeout
+		})
 	}
 
 	render() {

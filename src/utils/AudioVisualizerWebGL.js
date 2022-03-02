@@ -61,6 +61,9 @@ AudioSystem.prototype.pause = function () {
 		this.sound.pause();
 	}
 }
+AudioSystem.prototype.isPlaying = function () {
+	return this.sound.isPlaying;
+}
 
 // =====================================================
 
@@ -600,7 +603,6 @@ function Application() {
 	});
 
 	camera = new THREE.PerspectiveCamera(45, 1, .1, 1e3);
-
 	scene = new THREE.Scene();
 
 	scene.camera = camera;
@@ -667,7 +669,8 @@ function RewindApplication(options) {
 	var scene = app.scene;
 	var camera = app.camera;
 
-	// renderer.setClearColor(16185078);
+	// renderer.setClearAlpha(0);
+	renderer.setClearColor(0xffffff, 0.2);
 
 	camera.fov = 40;
 	camera.far = 1e3;
@@ -769,6 +772,9 @@ AudioVisualizerWebGL.prototype = {
 		});
 		bridge.start();
 	},
+	setup: function () {
+		app.setup()
+	},
 	play: function () {
 		audio.start();
 	},
@@ -783,6 +789,9 @@ AudioVisualizerWebGL.prototype = {
 	},
 	stop: function () {
 		audio.stop();
+	},
+	isPlaying: function () {
+		return audio.isPlaying();
 	}
 }
 
