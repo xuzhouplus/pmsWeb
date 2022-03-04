@@ -5,11 +5,12 @@ import configs from "@/configs";
 import {Col, Container, Row} from "react-bootstrap";
 import MaintainNavbar from "@components/navbar/MaintainNavbar";
 import MaintainFooter from "@components/footer/MaintainFooter";
+import "./Maintain.scss";
 
 class Maintain extends React.Component {
 	render() {
 		return (
-			<Container fluid className="app-container full-screen">
+			<Container fluid className="app-container full-screen maintain">
 				<Helmet title={configs.defaultTitle} link={[{rel: "shortcut icon", href: configs.defaultFavicon}]}></Helmet>
 				<Row className={["app-header", "fixed-top"].join(' ')}>
 					<Col>

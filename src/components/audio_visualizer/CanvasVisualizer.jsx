@@ -31,7 +31,7 @@ class CanvasVisualizer extends React.Component {
 		let isPlaying = audioVisualizer.isPlaying()
 		this.setState({
 			audioVisualizer: audioVisualizer,
-			status: isPlaying == 'suspended' ? 'start' : 'playing'
+			status: isPlaying === 'suspended' ? 'start' : 'playing'
 		})
 	}
 

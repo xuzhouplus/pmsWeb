@@ -8,28 +8,4 @@
   #audio-visualizer-canvas {
     transform: rotate(-90deg);
   }
-
-  .audio-visualizer-button {
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    text-align: center;
-    background-color: transparent;
-
-    button {
-      width: 100px;
-      height: 100px;
-      background-color: transparent;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: 80px;
-      border: solid 3px var(--main-color);
-      border-radius: 50%;
-
-      &.logo-button {
-        background-image: url("/assets/images/logo192.png");
-      }
-    }
-  }
 }
