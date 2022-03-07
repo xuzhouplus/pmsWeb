@@ -4,7 +4,7 @@ import configs from "../configs";
 import {store} from "../redux/Store";
 import {logoutAction, programAction} from "../redux/Actions";
 import Swal from "sweetalert2";
-import v4 from "uuid/v4"
+import { v4 as uuidv4 } from "uuid"
 
 const Utils = {
     login: function (account, password, callback, fallback) {
@@ -458,7 +458,7 @@ const Utils = {
         return null;
     },
     generateUUID: function (separator) {
-        let uuid = v4()
+        let uuid = uuidv4()
         if (separator || typeof separator == 'undefined') {
             return uuid
         }

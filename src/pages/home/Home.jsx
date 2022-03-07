@@ -26,7 +26,8 @@ class Home extends React.PureComponent {
 				if (this.state.cancelTokenSource) {
 					this.setState({
 						isLoading: false,
-						carousel: response.data
+						carousel: response.data,
+						cancelTokenSource: null
 					})
 				}
 			}, (error) => {

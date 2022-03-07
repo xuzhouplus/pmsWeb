@@ -1,11 +1,44 @@
 .tweenmax-webgl {
-  .tweenmax-webgl-paginator {
+  #carousel-caption {
+    position: absolute;
+    width: 34%;
+    top: 50%;
+    text-align: right;
+    z-index: 5;
+    transform: translateY(-50%);
+
+    #carousel-title {
+      font-size: 100px;
+      letter-spacing: -1px;
+      display: inline-block;
+      color: #F8F8F8DD;
+      text-shadow: 0px 0px 8px var(--main-color-transparent);
+
+      &:hover {
+        color: #F8F8F8;
+        text-shadow: 0px 0px 8px var(--main-color);
+      }
+    }
+
+    #carousel-status {
+      margin-top: 10px;
+      font-weight: 400;
+      font-size: 50px;
+      color: #F8F8F8DD;
+      text-shadow: 0px 0px 8px var(--main-color-transparent);
+      max-width: 100%;
+      overflow: hidden;
+    }
+  }
+
+  .carousel-paginator {
     & {
       position: absolute;
       bottom: 0;
       z-index: 6;
       width: 100%;
       text-align: center;
+      margin-bottom: 60px;
     }
 
     button {
@@ -18,12 +51,13 @@
       border-radius: 100%;
       border: 1px solid var(--main-color);
       padding: 0;
-      margin: 60px 5px;
       cursor: pointer;
       position: relative;
       opacity: 0.2;
       transition: opacity 0.2s ease-in-out;
       outline: none;
+      margin-left: 5px;
+      margin-right: 5px;
 
       &:hover {
         opacity: 0.8;
@@ -33,47 +67,6 @@
         opacity: 0.8;
       }
 
-      &.active:before {
-        width: 48px;
-        height: 48px;
-        opacity: 0.8;
-      }
-
-      &:before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 16px;
-        height: 16px;
-        border-radius: 100%;
-        border: 1px solid #F8F8F8;
-        opacity: 0.2;
-        transition: opacity 0.4s ease-in-out, width 0.4s ease-in-out, height 0.4s ease-in-out;
-      }
-
-      &.active:after {
-        width: 50px;
-        height: 50px;
-        opacity: 0.8;
-      }
-
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 18px;
-        height: 18px;
-        border-radius: 100%;
-        border: 1px solid var(--main-color);
-        opacity: 0.2;
-        transition: opacity 0.4s ease-in-out, width 0.4s ease-in-out, height 0.4s ease-in-out;
-      }
     }
   }
 }

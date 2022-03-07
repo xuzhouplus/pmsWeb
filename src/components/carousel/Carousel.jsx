@@ -25,7 +25,6 @@ class Carousel extends React.Component {
 			container: document.getElementById('carousel-container'),
 			files: this.props.carousels,
 			afterLoaded: () => {
-				console.log('loaded')
 				this.setState({
 					isLoading: false
 				})
@@ -37,7 +36,9 @@ class Carousel extends React.Component {
 	}
 
 	destroy = () => {
-		this.state.tweenMax.destroy()
+		if(this.state.tweenMax) {
+			this.state.tweenMax.destroy()
+		}
 	}
 
 	render() {
@@ -47,7 +48,8 @@ class Carousel extends React.Component {
 		} else {
 			content = []
 			for (const file of this.props.carousels) {
-				content.push(<img className="carousel-item" src={file.url} alt={file.title} title={file.title}
+				content.push(<img key={file.uuid} className="carousel-item" src={file.url} alt={file.title}
+								  title={file.title}
 								  data-link={file.link}/>)
 			}
 		}
