@@ -6,11 +6,18 @@ import * as THREE from "three";
 import "./tweenMax.scss";
 
 class TweenMax {
+	//three.js glsl
+	vertex = 'varying vec2 vUv;void main() {vUv = uv;gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );}';
+	fragment = 'varying vec2 vUv;uniform sampler2D currentImage;uniform sampler2D nextImage;uniform float dispFactor;void main() {vec2 uv = vUv;vec4 _currentImage;vec4 _nextImage;float intensity = 0.3;vec4 orig1 = texture2D(currentImage, uv);vec4 orig2 = texture2D(nextImage, uv);_currentImage = texture2D(currentImage, vec2(uv.x, uv.y + dispFactor * (orig2 * intensity)));_nextImage = texture2D(nextImage, vec2(uv.x, uv.y + (1.0 - dispFactor) * (orig1 * intensity)));vec4 finalTexture = mix(_currentImage, _nextImage, dispFactor);gl_FragColor = finalTexture;}';
+	//当前图片索引
 	current = 0
+	//总图片数
 	count = 0
+	//轮播定时器
 	timeout = null
+	//根节点类名
 	containerClass = "tweenmax-webgl"
-
+	//默认配置项
 	options = {
 		container: document.getElementById(this.containerClass),
 		afterLoaded: function () {
@@ -21,12 +28,20 @@ class TweenMax {
 		width: 1920,
 		height: 980
 	}
+	//three.js 网格对象
 	mesh = null
-
+	//已加载图片数据
 	files = {}
+	//three.js渲染器对象
 	renderer = null
+	//three.js场景对象
 	scene = null
+	//three.js
 	camera = null
+	//特效渲染器
+	effectRenderers = {}
+	currentImage = null
+	lastImage = null
 
 	constructor(props) {
 		this.options = Object.assign({}, this.options, props)
@@ -40,9 +55,8 @@ class TweenMax {
 		});
 		this.createPaginator()
 		this.createCaption()
-		this.createRender()
-		this.animate()
-		this.createFirst()
+		this.setCurrent(0)
+		this.switch()
 		this.bindEvent()
 		// this.setTimeout()
 	}
@@ -53,14 +67,14 @@ class TweenMax {
 	}
 
 	paginate(index) {
-		this.current = index
+		this.setCurrent(index)
 		this.switch()
 	}
 
 	resize() {
-		const renderWidth = this.options.container.clientWidth;
-		const renderHeight = this.options.container.clientHeight;
-		this.renderer.setSize(renderWidth, renderHeight);
+		// const renderWidth = this.options.container.clientWidth;
+		// const renderHeight = this.options.container.clientHeight;
+		// this.renderer.setSize(renderWidth, renderHeight);
 	}
 
 	bindEvent() {
@@ -138,56 +152,57 @@ class TweenMax {
 		carouselDescription.innerText = file.description
 	}
 
-	createFirst() {
-		let firstFile = this.options.files[0]
-		this.updateCaption(firstFile)
-		let file = this.loadFile(firstFile)
-		let mesh = file.render.createMesh(file.texture,firstFile.width,firstFile.height)
-		this.scene.add(mesh);
-		this.switch()
-	}
-
-	createRender() {
-		this.renderer = new THREE.WebGLRenderer({
-			antialias: false
-		});
-		this.renderer.setPixelRatio(window.devicePixelRatio);
-		this.renderer.setClearColor(0x23272A, 1.0);
-		this.renderer.setSize(this.options.width, this.options.height, false);
-		this.scene = new THREE.Scene();
-		this.scene.background = new THREE.Color(0x23272A);
-		this.camera = new THREE.OrthographicCamera(this.options.width / -2, this.options.width / 2, this.options.height / 2, this.options.height / -2, 1, 1000);
-		this.camera.position.z = 1;
-		this.options.container.appendChild(this.renderer.domElement);
-	}
-
-	animate() {
-		requestAnimationFrame(this.animate.bind(this));
-		this.renderer.render(this.scene, this.camera);
-	}
-
 	switch() {
 		this.updatePagination()
-		let current = this.getCurrent()
-		let currentFile = this.loadFile(current['file'])
-		currentFile.render.switch(this.scene)
-		render.imageOut(this.mesh, () => {
-			this.mesh.material.vertexShader = render.vertex;
-			this.mesh.material.fragmentShader = render.fragment;
-			this.mesh.material.uniforms.nextImage.value = currentFile;
-			this.mesh.material.uniforms.nextImage.needsUpdate = true;
-			render.imageIn(this.mesh, () => {
-				this.mesh.material.uniforms.currentImage.value = currentFile;
-				this.mesh.material.uniforms.currentImage.needsUpdate = true;
-				this.mesh.material.uniforms.dispFactor.value = 0.0;
-			})
-		})
+		let current = this.currentImage
+		//获取特效渲染器
+		let currentEffectRenderer = this.getEffectRenderer(current.file);
+		//加载图片对象，如果是webgl渲染类型，返回的是three.js texture，其他为Image对象
+		let currentFile = currentEffectRenderer.loadFile(current.file)
+		let last = this.lastImage
+		if (last) {
+			if (last.file.switch_type == 'webgl') {
+				if (current.file.switch_type != 'webgl') {
+					currentEffectRenderer.previewRender('webgl', currentFile)
+				}
+			} else {
+				if (current.file.switch_type == 'webgl') {
+					currentEffectRenderer.previewRender(currentEffectRenderer.loadFile(last.file), 'image')
+				}
+			}
+		}
+		//更新轮播图文字
+		this.updateCaption(current.file)
+		currentEffectRenderer.switchImage(currentFile, null)
 		let carouselTitle = this.options.container.querySelector('#carousel-title')
-		render.captionOut(carouselTitle)
-		render.captionIn(carouselTitle)
+		currentEffectRenderer.switchCaption(carouselTitle)
 		let carouselDescription = this.options.container.querySelector('#carousel-description')
-		render.captionOut(carouselDescription)
-		render.captionIn(carouselDescription)
+		currentEffectRenderer.switchCaption(carouselDescription)
+	}
+
+	/**
+	 * 获取图片特效渲染器
+	 * @param file
+	 * @returns {Separate|Slide|Webgl|*}
+	 */
+	getEffectRenderer(file) {
+		let effectRenderer = this.effectRenderers[file.switch_type]
+		if (effectRenderer) {
+			return effectRenderer
+		}
+		switch (file.switch_type) {
+			case 'separate':
+				effectRenderer = new Separate(this.options.container, this.options.width, this.options.height);
+				break;
+			case 'slide':
+				effectRenderer = new Slide(this.options.container, this.options.width, this.options.height);
+				break;
+			case 'webgl':
+			default:
+				effectRenderer = new Webgl(this.options.container, this.options.width, this.options.height);
+		}
+		this.effectRenderers[file.switch_type] = effectRenderer;
+		return effectRenderer;
 	}
 
 	/**
@@ -197,17 +212,20 @@ class TweenMax {
 	 */
 	loadFile(file) {
 		let loaded = this.files[file.uuid]
-		if (loaded) {
+		if (this.files[file.uuid] && this.files[file.uuid][file]) {
 			return loaded
 		}
-		const loader = new THREE.TextureLoader();
-		loader.crossOrigin = "anonymous";
-		let image = loader.load(file.url);
-		image.magFilter = image.minFilter = THREE.LinearFilter;
-		image.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
-		this.files[file.uuid] = {
-			texture: image,
-			render: this.getRender(file)
+		if (file.switch_type == 'webgl') {
+			const loader = new THREE.TextureLoader();
+			loader.crossOrigin = "anonymous";
+			let image = loader.load(file.url);
+			image.magFilter = image.minFilter = THREE.LinearFilter;
+			image.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+			this.files[file.uuid] = image
+		} else {
+			let image = new Image();
+			image.src = file.url
+			this.files[file.uuid] = image
 		}
 		return this.files[file.uuid];
 	}
@@ -217,7 +235,7 @@ class TweenMax {
 	 * @param file
 	 * @returns {Webgl|Slide|Separate}
 	 */
-	getRender(file) {
+	getRenderer(file) {
 		switch (file.switch_type) {
 			case 'separate':
 				return new Separate();
@@ -229,6 +247,20 @@ class TweenMax {
 			default:
 				return new Webgl();
 		}
+	}
+
+	/**
+	 * 获取上一张图片
+	 * @returns {{file: *, index: number}}
+	 */
+	getLast() {
+		let last
+		if (this.current == 0) {
+			last = this.count - 1
+		} else {
+			last = this.current - 1
+		}
+		return {index: last, file: this.options.files[last]};
 	}
 
 	/**
@@ -249,6 +281,16 @@ class TweenMax {
 	 */
 	getCurrent() {
 		return {index: this.current, file: this.options.files[this.current]};
+	}
+
+	/**
+	 * 更新当前图片
+	 * @param index
+	 */
+	setCurrent(index) {
+		this.lastImage = this.currentImage
+		this.current = index
+		this.currentImage = this.getCurrent();
 	}
 }
 
