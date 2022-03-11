@@ -25,18 +25,17 @@ class Slide {
 
 	//预渲染，把图片放到窗口右边
 	previewRender(last, current) {
-
+		current.className = 'carousel-image'
+		current.style.left = '-100%'
+		current.style.width = this.width
+		current.style.height = this.height
+		this.container.appendChild(current)
 	}
 
 	switchImage(image, completed) {
-		image.className = 'carousel-image'
-		image.style.left = this.width
-		image.style.width = this.width
-		image.style.height = this.height
-		this.container.appendChild(image)
 		gsap.to(image,  {
 			duration: 1,
-			x: 0,
+			left: '0',
 			ease: 'Expo.easeIn',
 			onComplete: () => {
 				completed && completed()

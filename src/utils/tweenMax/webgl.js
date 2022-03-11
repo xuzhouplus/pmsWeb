@@ -32,6 +32,7 @@ class Webgl {
 		this.scene.background = new THREE.Color(0x23272A);
 		this.camera = new THREE.OrthographicCamera(this.width / -2, this.width / 2, this.height / 2, this.height / -2, 1, 1000);
 		this.camera.position.z = 1;
+		this.renderer.domElement.id = 'carousel-webgl'
 		this.container.appendChild(this.renderer.domElement);
 	}
 

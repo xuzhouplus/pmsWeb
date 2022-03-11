@@ -163,7 +163,7 @@ class TweenMax {
 		if (last) {
 			if (last.file.switch_type == 'webgl') {
 				if (current.file.switch_type != 'webgl') {
-					currentEffectRenderer.previewRender('webgl', currentFile)
+					currentEffectRenderer.previewRender(currentEffectRenderer.loadFile(last.file), currentFile)
 				}
 			} else {
 				if (current.file.switch_type == 'webgl') {

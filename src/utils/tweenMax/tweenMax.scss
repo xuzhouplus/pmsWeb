@@ -77,14 +77,5 @@
     width: 100%;
     border: 0;
     margin: 0;
-
-    //多50%是为了完全隐藏元素
-    &.carousel-left {
-      left: -150%
-    }
-
-    &.carousel-right {
-      left: 150%;
-    }
   }
 }
