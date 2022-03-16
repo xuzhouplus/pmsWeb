@@ -77,7 +77,7 @@ yarn install
 | proxyBackendHost   | string | 后端代理地址                                    |
 | vaptchaJsUrl       | string | vaptcha SDK地址                             |
 | loginDuration      | int    | 登录时长                                      |
-| imageTypes         | array  | 支持上传的图片文件类型，需要后端支持处理响应类型的图片               |
+| imageTypes         | array  | 支持上传的图片文件类型，需要后端支持处理相应类型的图片               |
 | videoTypes         | array  | 支持上传的视频文件类型，需要ffmpeg支持                    |
 | uploadChunkSize    | int    | 分片上传文件分片大小，单位kb                           |
 
