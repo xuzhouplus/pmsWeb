@@ -2,41 +2,47 @@
 import gsap from "gsap";
 
 class Slide {
-	tweenObj = {
-		translate: 0
-	}
+    tweenObj = {
+        translate: 0.0
+    }
 
-	loadFile(tweenMax, file) {
-		return tweenMax.loadFile(file, 'image')
-	}
+    loadFile(tweenMax, file) {
+        return tweenMax.loadFile(file, 'image')
+    }
 
-	switchImage(tweenMax, image, completed) {
-		let render = this
-		gsap.to(this.tweenObj, {
-			duration: 1,
-			translate: tweenMax.options.width,
-			ease: 'Expo.easeIn',
-			onUpdate: function () {
-				let translate = render.tweenObj.translate
-				let imageX = translate
-				let imageY = 0
-				let imageWidth = translate
-				let imageHeight = tweenMax.options.height
-				let canvasX = tweenMax.options.width - translate
-				let canvasY = 0
-				let canvasWidth = translate
-				let canvasHeight = tweenMax.options.height
-				tweenMax.renderer.getContext().drawImage(image, imageX, imageY, imageWidth, imageHeight, canvasX, canvasY, canvasWidth, canvasHeight);
-			},
-			onComplete: () => {
-				completed && completed()
-			}
-		})
-	}
+    beforeSwitch(tweenMax, current, last, completed) {
+        completed && completed()
+    }
 
-	switchCaption(tweenMax, caption) {
+    switchImage(tweenMax, current, last, completed) {
+        let image = this.loadFile(tweenMax, current)
+        let render = this
+        gsap.to(this.tweenObj, {
+            duration: 1,
+            translate: 1,
+            ease: 'Expo.easeIn',
+            onUpdate: function () {
+                let translate = render.tweenObj.translate
+                let imageX = 0
+                let imageY = 0
+                let imageWidth = current.width * translate
+                let imageHeight = current.height
+                let canvasX = tweenMax.options.width - tweenMax.options.width * translate
+                let canvasY = 0
+                let canvasWidth = tweenMax.options.width * translate
+                let canvasHeight = tweenMax.options.height
+                tweenMax.canvas.context.drawImage(image, imageX, imageY, imageWidth, imageHeight, canvasX, canvasY, canvasWidth, canvasHeight);
+            },
+            onComplete: () => {
+                render.tweenObj.translate = 0.0;
+                completed && completed()
+            }
+        })
+    }
 
-	}
+    switchCaption(tweenMax, caption) {
+
+    }
 }
 
 export default Slide;

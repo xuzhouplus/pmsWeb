@@ -86,7 +86,7 @@ class WebGlCarousel extends React.PureComponent {
 				uniforms: {
 					dispFactor: {type: "f", value: 0.0},
 					currentImage: {type: "t", value: sliderImages[0]},
-					nextImage: {type: "t", value: sliderImages[1]}
+					nextImage: {type: "t", value: sliderImages[1]},
 				},
 				vertexShader: vertex,
 				fragmentShader: fragment,
