@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="text-align: center">
+<script>
+    let blockPixel = 10
+    let canvas
+    let ctx
+    let image
+    let clientWidth = 1000
+    let clientHeight = 700
+    let imageWidth
+    let imageHeight
+    let centerX = clientWidth / 2
+    let centerY = clientHeight / 2
+    let rendered = {}
+    let blocks = []
+    document.body.onload = function () {
+        canvas = document.createElement('canvas')
+        canvas.width = clientWidth
+        canvas.height = clientHeight
+        document.body.appendChild(canvas)
+        ctx = canvas.getContext('2d')
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, clientWidth, clientHeight);
+        image = new Image()
+        image.src = '/xcontent/cloud/img/wallpaper/picture/wallpaper5.jpg'
+        image.onload = function () {
+            imageWidth = this.width
+            imageHeight = this.height
+            grid()
+            center()
+            document.body.addEventListener('click', spread)
+        }
+    }
+
+    function restore() {
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, clientWidth, clientHeight);
+        rendered = {}
+        grid()
+        center()
+        console.log(rendered)
+        console.log(blocks)
+    }
+
+    function spread() {
+        let spreads = []
+        for (const block of blocks) {
+            let points = around(block.x, block.y)
+            spreads = spreads.concat(points)
+            for (const point of points) {
+                draw(point.x, point.y)
+            }
+        }
+        if (spreads.length == 0) {
+            restore()
+            return
+        }
+        blocks = spreads
+        requestAnimationFrame(spread)
+    }
+
+    function grid() {
+        for (let x = blockPixel; x < clientWidth;) {
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, clientHeight);
+            ctx.strokeStyle = "#ffffff";
+            ctx.stroke();
+            ctx.closePath()
+            x += blockPixel
+        }
+        for (let y = blockPixel; y < clientHeight;) {
+            ctx.moveTo(0, y);
+            ctx.lineTo(clientWidth, y);
+            ctx.strokeStyle = "#ffffff";
+            ctx.stroke();
+            ctx.closePath()
+            y += blockPixel
+        }
+    }
+
+    function center() {
+        let x = clientWidth / 2
+        let y = clientHeight / 2
+        rendered[x + ':' + y] = true
+        blocks.push({
+            x: x,
+            y: y
+        })
+        draw(x, y)
+    }
+
+    function up(x, y) {
+        return {
+            x: x,
+            y: Math.max(y - blockPixel, 0)
+        }
+    }
+
+    function bottom(x, y) {
+        return {
+            x: x,
+            y: Math.min(y + blockPixel, clientHeight)
+        }
+    }
+
+    function left(x, y) {
+        return {
+            x: Math.max(x - blockPixel, 0),
+            y: y
+        }
+    }
+
+    function right(x, y) {
+        if (x + blockPixel > clientWidth) {
+            return {
+                x: clientWidth,
+                y: y
+            }
+        }
+        return {
+            x: Math.min(x + blockPixel, clientWidth),
+            y: y
+        }
+    }
+
+    function topLeft(x, y) {
+        return {
+            x: Math.max(x - blockPixel, 0),
+            y: Math.max(y - blockPixel, 0)
+        }
+    }
+
+    function bottomLeft(x, y) {
+        return {
+            x: Math.max(x - blockPixel, 0),
+            y: Math.min(y + blockPixel, clientHeight)
+        }
+    }
+
+    function topRight(x, y) {
+        return {
+            x: Math.min(x + blockPixel, clientWidth),
+            y: Math.max(y - blockPixel, 0)
+        }
+    }
+
+    function bottomRight(x, y) {
+        return {
+            x: Math.min(x + blockPixel, clientWidth),
+            y: Math.min(y + blockPixel, clientHeight)
+        }
+    }
+
+    function addPointer(points, point) {
+        let index = point.x + ':' + point.y
+        if (rendered[index]) {
+            return false
+        }
+        rendered[index] = true
+        points.push(point)
+    }
+
+    function around(x, y) {
+        let pointer = []
+        if (x == centerX) {
+            addPointer(pointer, left(x, y))
+            addPointer(pointer, right(x, y))
+            if (y == centerY) {
+                addPointer(pointer, up(x, y))
+                addPointer(pointer, bottom(x, y))
+                // addPointer(pointer, topLeft(x, y))
+                // addPointer(pointer, topRight(x, y))
+                // addPointer(pointer, bottomLeft(x, y))
+                // addPointer(pointer, bottomRight(x, y))
+            } else {
+                if (y < centerY) {
+                    addPointer(pointer, up(x, y))
+                    // addPointer(pointer, topLeft(x, y))
+                    // addPointer(pointer, topRight(x, y))
+                } else {
+                    addPointer(pointer, bottom(x, y))
+                    // addPointer(pointer, bottomLeft(x, y))
+                    // addPointer(pointer, bottomRight(x, y))
+                }
+            }
+        } else {
+            if (x < centerX) {
+                if (y == centerY) {
+                    addPointer(pointer, up(x, y))
+                    addPointer(pointer, bottom(x, y))
+                    // addPointer(pointer, topLeft(x, y))
+                    addPointer(pointer, left(x, y))
+                    // addPointer(pointer, bottomLeft(x, y))
+                } else {
+                    if (y < centerY) {
+                        addPointer(pointer, up(x, y))
+                        // addPointer(pointer, topLeft(x, y))
+                        addPointer(pointer, left(x, y))
+                    } else {
+                        addPointer(pointer, bottom(x, y))
+                        // addPointer(pointer, bottomLeft(x, y))
+                        addPointer(pointer, left(x, y))
+                    }
+                }
+            } else {
+                if (y == centerY) {
+                    addPointer(pointer, up(x, y))
+                    addPointer(pointer, bottom(x, y))
+                    // addPointer(pointer, topRight(x, y))
+                    addPointer(pointer, right(x, y))
+                    // addPointer(pointer, bottomRight(x, y))
+                } else {
+                    if (y < centerY) {
+                        addPointer(pointer, up(x, y))
+                        // addPointer(pointer, topRight(x, y))
+                        addPointer(pointer, right(x, y))
+                    } else {
+                        addPointer(pointer, bottom(x, y))
+                        // addPointer(pointer, bottomRight(x, y))
+                        addPointer(pointer, right(x, y))
+                    }
+                }
+            }
+        }
+        return pointer;
+    }
+
+    function draw(x, y) {
+        ctx.drawImage(image, x / clientWidth * imageWidth, y / clientHeight * imageHeight, blockPixel / clientWidth * imageWidth, blockPixel / clientHeight * imageHeight, x, y, blockPixel, blockPixel)
+    }
+</script>
+</body>
+</html>
