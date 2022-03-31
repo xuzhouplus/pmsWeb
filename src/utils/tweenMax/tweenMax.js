@@ -1,14 +1,18 @@
 import ImagesLoaded from "imagesloaded";
 import * as THREE from "three";
-import vertex from "./vertex.glsl";
-import fragment from "./fragment.glsl";
+import vertex from "./vertex.vs";
+import fragment from "./fragment.fs";
 import gsap from "gsap";
 import "./tweenMax.scss";
+import Parallax from "@/utils/tweenMax/webgl/parallax";
+import Split from "@/utils/tweenMax/webgl/split";
+import Separate from "@/utils/tweenMax/webgl/separate";
+import Slide from "@/utils/tweenMax/webgl/slide";
 
 class TweenMax {
 	//three.js glsl
 	vertex = vertex;
-	fragment = fragment;
+	fragment = '';
 	//当前图片索引
 	current = 0
 	//总图片数
@@ -48,12 +52,16 @@ class TweenMax {
 
 	constructor(props) {
 		this.options = Object.assign({}, this.options, props)
-		if (this.options.container.className.indexOf(this.containerClass) !== false) {
+		if (this.options.container.className.indexOf(this.containerClass) === -1) {
 			this.options.container.className = this.options.container.className + ' ' + this.containerClass
 		}
 		this.count = this.options.files.length
 		ImagesLoaded(this.options.container.querySelectorAll('img'), () => {
+			this.createRender()
 			this.loadFiles()
+			this.fragmentShader()
+			this.createMesh()
+			this.animate()
 			this.setCurrent(0)
 			this.switch()
 			this.options.afterLoaded()
@@ -62,9 +70,6 @@ class TweenMax {
 		});
 		this.createPaginator()
 		this.createCaption()
-		this.createRender()
-		this.createMesh()
-		this.animate()
 	}
 
 	destroy() {
@@ -102,7 +107,7 @@ class TweenMax {
 	setTimeout() {
 		this.timeout = setInterval(() => {
 			this.current++;
-			if (this.current == this.options.files.length) {
+			if (this.current === this.options.files.length) {
 				this.current = 0
 			}
 			this.switch()
@@ -135,13 +140,29 @@ class TweenMax {
 		this.renderer.render(this.scene, this.camera);
 	}
 
+	fragmentShader() {
+		let branchDispatchers = [];
+		let branchDefines = '';
+		for (const image of this.images) {
+			let fragment = image.render.fragment
+			let type = image.render.type
+			branchDispatchers.push('if (switchType ==' + image.id + '){ finalTexture = ' + type + '();}')
+			branchDefines += fragment
+		}
+		let branchDispatcher = branchDispatchers.join('else ')
+		let fragmentShader = fragment.replace('//branchDefines', branchDefines)
+		fragmentShader = fragmentShader.replace('//branchDispatcher', branchDispatcher)
+		this.fragment = fragmentShader
+	}
+
 	createMesh() {
 		this.material = new THREE.ShaderMaterial({
 			uniforms: {
 				currentImage: {type: "t", value: null},
 				nextImage: {type: "t", value: null},
 				dispFactor: {type: "f", value: 0.0},
-				switchType: {type: "i", value: 0},
+				switchType: {type: "f", value: 0.0},
+				sectionIndex: {type: "f", value: 0.0},
 			},
 			vertexShader: this.vertex,
 			fragmentShader: this.fragment,
@@ -202,11 +223,12 @@ class TweenMax {
 		this.updatePagination()
 		//更新轮播图文字
 		this.updateCaption()
-		this.switchImage(null)
-		let carouselTitle = this.options.container.querySelector('#carousel-title')
-		this.switchCaption(carouselTitle)
-		let carouselDescription = this.options.container.querySelector('#carousel-description')
-		this.switchCaption(carouselDescription)
+		this.switchImage(() => {
+			let carouselTitle = this.options.container.querySelector('#carousel-title')
+			this.switchCaption(carouselTitle)
+			let carouselDescription = this.options.container.querySelector('#carousel-description')
+			this.switchCaption(carouselDescription)
+		})
 	}
 
 	/**
@@ -215,11 +237,37 @@ class TweenMax {
 	loadFiles() {
 		const loader = new THREE.TextureLoader();
 		loader.crossOrigin = "anonymous";
+		let index = 0;
 		for (const file of this.options.files) {
 			let image = loader.load(file.url);
+			image.name = file.title
 			image.magFilter = image.minFilter = THREE.LinearFilter;
 			image.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
-			this.images.push(image)
+			let render = this.switchRender(file)
+			this.images.push({
+				id: index + '.0',
+				image: image,
+				render: render
+			})
+			index++;
+		}
+	}
+
+	/**
+	 * 获取切换效果渲染类
+	 * @param file
+	 * @returns {Split|Parallax|Slide|Separate}
+	 */
+	switchRender(file) {
+		switch (file.switch_type) {
+			case 'parallax':
+				return new Parallax();
+			case 'split':
+				return new Split();
+			case 'separate':
+				return new Separate();
+			case 'slide':
+				return new Slide();
 		}
 	}
 
@@ -242,20 +290,15 @@ class TweenMax {
 	switchImage(completed) {
 		let currentImage = this.getCurrentImage()
 		let currentFile = this.getCurrentFile()
-		this.material.uniforms.switchType.value = this.switchTypeMap[currentFile.switch_type];
-		this.material.uniforms.nextImage.value = currentImage;
+		this.material.uniforms.switchType.value = currentImage.id * 1.0;
+		this.material.uniforms.nextImage.value = currentImage.image;
 		this.material.uniforms.nextImage.needsUpdate = true;
-		gsap.to(this.material.uniforms.dispFactor, {
-			duration: 1,
-			value: 1.0,
-			ease: 'Expo.easeInOut',
-			onComplete: () => {
-				this.material.uniforms.currentImage.value = currentImage;
-				this.material.uniforms.currentImage.needsUpdate = true;
-				this.material.uniforms.dispFactor.value = 0.0;
-				completed && completed()
-			}
-		});
+		currentImage.render.switchImage(this.material, currentFile.duration, () => {
+			this.material.uniforms.currentImage.value = currentImage.image;
+			this.material.uniforms.currentImage.needsUpdate = true;
+			this.material.uniforms.dispFactor.value = 0.0;
+			completed && completed();
+		})
 	}
 
 	switchCaption(caption) {
