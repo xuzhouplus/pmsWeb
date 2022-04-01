@@ -8,8 +8,8 @@ class Separate extends Effect {
 
 	fragment = fragment
 
-	switchImage(material, duration, completed) {
-		gsap.to(material.uniforms.dispFactor, {
+	switchImage(tweenMax, duration, completed) {
+		gsap.to(tweenMax.material.uniforms.dispFactor, {
 			duration: duration,
 			value: 1.0,
 			ease: 'Expo.easeInOut',

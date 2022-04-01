@@ -122,7 +122,8 @@ class TweenMax {
 
 	createRender() {
 		this.renderer = new THREE.WebGLRenderer({
-			antialias: false
+			antialias: false,
+			preserveDrawingBuffer: true
 		});
 		this.renderer.setPixelRatio(window.devicePixelRatio);
 		this.renderer.setClearColor(0x23272A, 1.0);
@@ -293,7 +294,7 @@ class TweenMax {
 		this.material.uniforms.switchType.value = currentImage.id * 1.0;
 		this.material.uniforms.nextImage.value = currentImage.image;
 		this.material.uniforms.nextImage.needsUpdate = true;
-		currentImage.render.switchImage(this.material, currentFile.duration, () => {
+		currentImage.render.switchImage(this, currentFile.duration, () => {
 			this.material.uniforms.currentImage.value = currentImage.image;
 			this.material.uniforms.currentImage.needsUpdate = true;
 			this.material.uniforms.dispFactor.value = 0.0;
