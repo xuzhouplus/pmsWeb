@@ -37,14 +37,9 @@ class Index extends React.Component {
 		if (this.state.loading) {
 			return (<Loading/>);
 		} else {
-			let type = this.props.match.params.type ? this.props.match.params.type : 'carousel';
+			let type = this.props.match.params.type ? this.props.match.params.type : 'site';
 			const navList = [];
 			const components = {};
-			const Carousel = lazy(() => import('../../components/system/Carousel'));
-			navList.push(<LinkContainer key="carousel" to="/system/carousel"><ListGroup.Item action
-																							 active={type === "carousel"}
-																							 disabled={type === "carousel"}>首页配置</ListGroup.Item></LinkContainer>)
-			components['carousel'] = Carousel;
 			const Site = lazy(() => import('../../components/system/Site'));
 			navList.push(<LinkContainer key="site" to="/system/site"><ListGroup.Item action active={type === "site"}
 																					 disabled={type === "site"}>站点配置</ListGroup.Item></LinkContainer>)

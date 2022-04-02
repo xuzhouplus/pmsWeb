@@ -1,20 +1,18 @@
-import fragment from "@utils/tweenMax/webgl/slide.fs";
+import fragment from "./fade.fs"
 import Effect from "@/utils/tweenMax/webgl/effect";
 import gsap from "gsap";
 
-class Slide extends Effect {
-	type = 'slide'
+class Fade extends Effect {
+	type = 'fade'
 	fragment = fragment
 	duration = 1
 
 	switchImage(tweenMax, reverse, completed) {
-		tweenMax.material.uniforms.reverse.value = reverse;
 		gsap.to(tweenMax.material.uniforms.dispFactor, {
 			duration: this.duration,
 			value: 1.0,
 			ease: 'Expo.easeInOut',
 			onComplete: () => {
-				tweenMax.material.uniforms.reverse.value = false;
 				completed && completed()
 			}
 		});
@@ -45,4 +43,4 @@ class Slide extends Effect {
 	}
 }
 
-export default Slide;
+export default Fade;

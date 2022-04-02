@@ -1,11 +1,17 @@
 .tree-navibar-container {
-  margin-top: 56px;
+  margin: 56px 0;
 
   .tree-navibar {
     margin: 15px 0;
+    height: calc(100vh - 142px);
 
     .card {
       height: 100%;
+
+      .card-body {
+        height: 100%;
+        overflow: auto;
+      }
 
       .active {
         background-color: var(--main-color);
