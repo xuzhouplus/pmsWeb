@@ -29,8 +29,8 @@ class TweenMax {
 		},
 		timeout: 5,
 		files: [],
-		width: 1920,
-		height: 980
+		width: document.body.clientWidth,
+		height: document.body.clientHeight
 	}
 	//three.js渲染器对象
 	renderer = null
@@ -163,7 +163,7 @@ class TweenMax {
 				nextImage: {type: "t", value: null},
 				dispFactor: {type: "f", value: 0.0},
 				switchType: {type: "f", value: 0.0},
-				sectionIndex: {type: "f", value: 0.0},
+				reverse: {value: false}
 			},
 			vertexShader: this.vertex,
 			fragmentShader: this.fragment,
@@ -292,6 +292,7 @@ class TweenMax {
 		let currentImage = this.getCurrentImage()
 		let currentFile = this.getCurrentFile()
 		this.material.uniforms.switchType.value = currentImage.id * 1.0;
+		this.material.uniforms.reverse.value = true;
 		this.material.uniforms.nextImage.value = currentImage.image;
 		this.material.uniforms.nextImage.needsUpdate = true;
 		currentImage.render.switchImage(this, currentFile.duration, () => {

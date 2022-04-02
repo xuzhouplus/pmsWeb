@@ -10,7 +10,7 @@ class Split extends Effect {
 	switchImage(tweenMax, duration, completed) {
 		gsap.to(tweenMax.material.uniforms.dispFactor, {
 			value: 1.0,
-			ease: 'Power4.easeOut',
+			ease: 'Power4.easeInOut',
 			duration: duration,
 			onComplete: () => {
 				completed && completed()
