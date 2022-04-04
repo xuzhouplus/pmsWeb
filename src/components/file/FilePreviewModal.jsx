@@ -11,7 +11,7 @@ class FilePreviewModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isVideo: this.props.type.substring(0, this.props.type.indexOf('/')) === 'video'
+            isVideo: this.props.type === 'video'
         }
     }
 
@@ -59,7 +59,10 @@ class FilePreviewModal extends React.Component {
                         </Card.Header>
                         <Card.Body>
                             <Card.Text>
-                                {this.props.width}{'*'}{this.props.height}{' '}{this.props.type}
+                                {this.props.name}
+                            </Card.Text>
+                            <Card.Text>
+                                {this.props.width}{'*'}{this.props.height}{' '}{this.props.extension}
                             </Card.Text>
                             <Card.Text>
                                 {this.props.description}

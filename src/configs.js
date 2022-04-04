@@ -18,6 +18,7 @@ const configs = {
     logoutUrl: "/admin/logout",
     carouselUrl: "/carousel",
     carouselListUrl: "/carousel/list",
+    getCarouselUrl: "/carousel/view",
     createCarouselUrl: "/carousel/create",
     updateCarousel: "/carousel/update",
     deleteCarouselUrl: "/carousel/delete",

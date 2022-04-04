@@ -5,8 +5,7 @@ import gsap from "gsap";
 class Split extends Effect {
 	type = 'split'
 	fragment = fragment
-	splitCount = 10
-	duration = 2
+	duration = 3
 
 	switchImage(tweenMax, reverse, completed) {
 		gsap.to(tweenMax.material.uniforms.dispFactor, {

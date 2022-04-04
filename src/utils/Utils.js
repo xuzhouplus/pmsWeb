@@ -4,7 +4,7 @@ import configs from "../configs";
 import {store} from "../redux/Store";
 import {logoutAction, programAction} from "../redux/Actions";
 import Swal from "sweetalert2";
-import { v4 as uuidv4 } from "uuid"
+import {v4 as uuidv4} from "uuid"
 
 const Utils = {
     login: function (account, password, callback, fallback) {
@@ -42,7 +42,7 @@ const Utils = {
     getFileList: function (data, callback, fallback) {
         return this.http('get', configs.proxyBackendHost + configs.fileListUrl, data, callback, fallback);
     },
-    getFileInfo:function (data, callback, fallback) {
+    getFileInfo: function (data, callback, fallback) {
         return this.http('get', configs.proxyBackendHost + configs.fileInfoUrl, data, callback, fallback);
     },
     uploadFile: function (data, uploadProgress, callback, fallback) {
@@ -124,6 +124,9 @@ const Utils = {
     },
     getCarouselList: function (data, callback, fallback) {
         return this.http('get', configs.proxyBackendHost + configs.carouselListUrl, data, callback, fallback);
+    },
+    getCarousel: function (id, callback, fallback) {
+        return this.http('get', configs.proxyBackendHost + configs.getCarouselUrl, {id: id}, callback, fallback);
     },
     posts: function (data, callback, fallback) {
         return this.http('get', configs.proxyBackendHost + configs.postUrl, data, callback, fallback);

@@ -8,11 +8,13 @@ import "./CarouselCreateModal.scss";
 
 class CarouselCreateModal extends React.Component {
 	switchTypes = {
-		parallax: '视差',
-		slide: '整体滑动',
-		separate: '分段滑动',
-		split: '分段滚动',
-		fade: '淡入淡出'
+		parallax: '失真',
+		slide: '推入',
+		separate: '切换',
+		split: '扭转',
+		fade: '淡入淡出',
+		blinds: '百叶窗',
+		clamp: '擦除',
 	}
 
 	constructor(props) {
@@ -342,7 +344,7 @@ class CarouselCreateModal extends React.Component {
 		}
 		let switchTypeOptions = []
 		for (const switchTypesKey in this.switchTypes) {
-			switchTypeOptions.push(<option value={switchTypesKey}>{this.switchTypes[switchTypesKey]}</option>)
+			switchTypeOptions.push(<option key={switchTypesKey} value={switchTypesKey}>{this.switchTypes[switchTypesKey]}</option>)
 		}
 		return (
 			<Modal className="carousel-create-modal" centered show={this.props.show} onHide={this.props.handleModal}>
