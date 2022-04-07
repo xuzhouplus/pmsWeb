@@ -24,9 +24,9 @@ vec2 transform(vec2 texCoord, float theta, vec2 axisPos, vec2 gridNum, float zOf
     return res;
 }
 vec4 blinds() {
-    if(dispFactor == 0.0 || dispFactor == 1.0) {
-        return mix(texture(currentImage, vUv), texture(nextImage, vUv), dispFactor);
-    }
+//    if(dispFactor == 0.0 || dispFactor == 1.0) {
+//        return mix(texture(currentImage, vUv), texture(nextImage, vUv), dispFactor);
+//    }
     float pi = 3.1415926;
     vec4 resColor = vec4(dispFactor, 0.0, 0.0, 1.0);// 初始化 resColor
     // 设置翻转栅格数量，横向18，纵向1
@@ -40,10 +40,12 @@ vec4 blinds() {
 
     // 对纹理坐标进行变换，以及纹理采样
     vec2 texCoordAfterTransform = transform(vUv, rotateTheta, axisPos, gridNum, zOffset);
+    texCoordAfterTransform.y = vUv.y;
     vec4 texColor1 = texture(currentImage, texCoordAfterTransform);
 
     vec2 texCoordAfterTransform2 = transform(vUv, rotateTheta + pi / 3.0, axisPos, gridNum, zOffset);
     texCoordAfterTransform2.x = floor(texCoordAfterTransform2.x * gridNum.x + 1.0) / gridNum.x - texCoordAfterTransform2.x + floor(texCoordAfterTransform2.x * gridNum.x) / gridNum.x;
+//    texCoordAfterTransform2.y = vUv.y;
     vec4 texColor2 = texture(nextImage, texCoordAfterTransform2);
 
     // 根据旋转角度，给每个栅格设置遮罩，左边为第一张图，右边为第二张图

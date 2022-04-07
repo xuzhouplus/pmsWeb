@@ -1,4 +1,4 @@
-import fragment from "./fade.fs"
+import fragment from "./fade.glsl"
 import Effect from "@/utils/tweenMax/webgl/effect";
 import gsap from "gsap";
 

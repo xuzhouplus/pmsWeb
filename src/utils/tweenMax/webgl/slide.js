@@ -1,11 +1,11 @@
-import fragment from "@utils/tweenMax/webgl/slide.fs";
+import fragment from "@utils/tweenMax/webgl/slide.glsl";
 import Effect from "@/utils/tweenMax/webgl/effect";
 import gsap from "gsap";
 
 class Slide extends Effect {
 	type = 'slide'
 	fragment = fragment
-	duration = 1
+	duration = 1.5
 
 	switchImage(tweenMax, reverse, completed) {
 		tweenMax.material.uniforms.reverse.value = reverse;

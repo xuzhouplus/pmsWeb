@@ -138,7 +138,7 @@ class Index extends React.Component {
         let previewBox = '';
         if (this.state.preview) {
             let previewUrl = this.state.preview.url
-            if (this.state.preview.status == 1) {
+            if (this.state.preview.status === 1) {
                 previewUrl = this.loading
             }
             previewBox = <div className="carousel-preview" style={{backgroundImage: "url(" + previewUrl + ")"}}>

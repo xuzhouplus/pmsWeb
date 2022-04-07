@@ -1,5 +1,5 @@
 import Effect from "@utils/tweenMax/webgl/effect";
-import fragment from "./clamp.fs";
+import fragment from "./clamp.glsl";
 import gsap from "gsap";
 
 class Clamp extends Effect {

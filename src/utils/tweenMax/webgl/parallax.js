@@ -1,4 +1,4 @@
-import fragment from "./parallax.fs"
+import fragment from "./parallax.glsl"
 import Effect from "@/utils/tweenMax/webgl/effect";
 import gsap from "gsap";
 

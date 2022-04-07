@@ -1,4 +1,4 @@
-import fragment from "@utils/tweenMax/webgl/separate.fs";
+import fragment from "@utils/tweenMax/webgl/separate.glsl";
 import Effect from "@/utils/tweenMax/webgl/effect";
 import gsap from "gsap";
 

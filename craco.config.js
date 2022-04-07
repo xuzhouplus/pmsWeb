@@ -1,94 +1,16 @@
 const path = require('path')
 const pathResolve = pathUrl => path.join(__dirname, pathUrl)
-const {styles} = require("@ckeditor/ckeditor5-dev-utils");
-const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
-const cssRegex = /\.css$/;
-const cssModuleRegex = /\.module\.css$/;
-const enableCKEWebpackConfigPlugin = (webpackConfig, {env, paths}) => {
-    // Extract the oneOf array from the relevant webpack.module.rules object
-    let oneOf;
-    let ix;
-    ix = webpackConfig.module.rules.findIndex(item => {
-        return item.hasOwnProperty("oneOf");
-    });
-    oneOf = webpackConfig.module.rules[ix].oneOf;
-    // Add the SVG and CSS loaders to the oneOf array
-    const additions = [
-        {
-            test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-            use: ["raw-loader"]
-        },
-        {
-            test: /fullscreen.svg$/,
-            use: ["raw-loader"]
-        },
-        {
-            test: /\.vs$/,
-            use: ["raw-loader"]
-        },
-        {
-            test: /\.fs$/,
-            use: ["raw-loader"]
-        },
-        {
-            test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
-            use: [
-                {
-                    loader: "style-loader",
-                    options: {
-                        injectType: "singletonStyleTag"
-                    }
-                },
-                {
-                    loader: "postcss-loader",
-                    options: styles.getPostCssConfig({
-                        themeImporter: {
-                            themePath: require.resolve("@ckeditor/ckeditor5-theme-lark")
-                        },
-                        minify: true
-                    })
-                }
-            ]
-        }
-    ];
-    additions.forEach((item, index) => {
-        oneOf.push(item);
-    });
-    // Modify cssRegex
-    let loader;
-    loader = oneOf.find(item => {
-        if (item.test !== undefined)
-            return item.test.toString() === cssRegex.toString();
-    });
-    loader.exclude = [cssModuleRegex, /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/];
-    // Modify cssModuleRegex
-    loader = oneOf.find(item => {
-        if (item.test !== undefined)
-            return item.test.toString() === cssModuleRegex.toString();
-    });
-    loader.exclude = [/ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/];
-    // Modify file-loader
-    loader = oneOf.find(item => {
-        if (item.loader !== undefined)
-            return (
-                item.loader.toString() === require.resolve("file-loader").toString()
-            );
-    });
-    loader.exclude = [
-        /\.(js|mjs|jsx|ts|tsx)$/,
-        /\.html$/,
-        /\.json$/,
-        /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-        /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
-        /full_screen.svg$/,
-        /\.vs$/,
-        /\.fs$/
-    ];
-    // Always return a config object.
-    return webpackConfig;
-};
+const CracoRawLoaderPlugin = require("@baristalabs/craco-raw-loader");
 
 module.exports = {
+    plugins: [
+        {
+            plugin: CracoRawLoaderPlugin,
+            options: {
+                test: /\.glsl$/,
+            }
+        }
+    ],
     webpack: {
         alias: {
             '@': pathResolve("src"),
@@ -97,18 +19,6 @@ module.exports = {
             '@pages': pathResolve("src/pages"),
             '@utils': pathResolve("src/utils"),
             '@redux': pathResolve("src/redux")
-        },
-        plugins: [
-            new CKEditorWebpackPlugin({
-                // UI language. Language codes follow the https://en.wikipedia.org/wiki/ISO_639-1 format.
-                // When changing the built-in language, remember to also change it in the editor's configuration (src/ckeditor.js).
-                language: 'zh-cn',
-                additionalLanguages: 'all',
-                addMainLanguageTranslationsToAllAssets: true
-            }),
-        ],
-        configure: (webpackConfig, {env, paths}) => {
-            return enableCKEWebpackConfigPlugin(webpackConfig, {env, paths});
         }
     }
 };

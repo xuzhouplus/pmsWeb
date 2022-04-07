@@ -11,7 +11,7 @@ class FileListModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showUpload: true,
+            showUpload: false,
             cancelTokenSource: null,
             idLoading: true,
             page: 0,

@@ -1,5 +1,5 @@
 import Effect from "@utils/tweenMax/webgl/effect";
-import fragment from "./blinds.fs";
+import fragment from "./blinds.glsl";
 import gsap from "gsap";
 
 class Blinds extends Effect {

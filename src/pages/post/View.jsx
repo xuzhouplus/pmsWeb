@@ -1,7 +1,7 @@
 import React from "react";
 import Utils from "../../utils/Utils";
 import {Col, Row} from "react-bootstrap";
-import PostMdViewer from "../../components/post/PostMdViewer";
+import PostViewer from "@components/post/PostViewer";
 import "./View.scss";
 
 class View extends React.Component {
@@ -36,7 +36,7 @@ class View extends React.Component {
 					<h1>{this.state.post.title}</h1>
 					<h5>{this.state.post.sub_title}</h5>
 					</div>
-					<PostMdViewer value={this.state.post.content}/>
+					<PostViewer value={this.state.post.content}/>
 				</Col>
 			</Row>
 		);

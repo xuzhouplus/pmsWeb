@@ -1,0 +1,11 @@
+.post-viewer {
+  .ck-read-only {
+    .ck-widget {
+      outline: none;
+
+      &:hover {
+        outline: none;
+      }
+    }
+  }
+}

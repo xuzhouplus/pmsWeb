@@ -313,7 +313,7 @@ class FileUploadModal extends React.Component {
     }
 
     onHide = () => {
-        if (this.states.upload.now > 0) {
+        if (this.state.upload.now > 0) {
             return;
         }
         this.props.handleModal()
