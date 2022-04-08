@@ -24,9 +24,9 @@ vec2 transform(vec2 texCoord, float theta, vec2 axisPos, vec2 gridNum, float zOf
     return res;
 }
 vec4 blinds() {
-//    if(dispFactor == 0.0 || dispFactor == 1.0) {
-//        return mix(texture(currentImage, vUv), texture(nextImage, vUv), dispFactor);
-//    }
+    if(dispFactor == 0.0 || dispFactor == 1.0) {
+        return mix(texture(currentImage, vUv), texture(nextImage, vUv), dispFactor);
+    }
     float pi = 3.1415926;
     vec4 resColor = vec4(dispFactor, 0.0, 0.0, 1.0);// 初始化 resColor
     // 设置翻转栅格数量，横向18，纵向1

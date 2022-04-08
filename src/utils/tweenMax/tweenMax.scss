@@ -1,5 +1,5 @@
 .tweenmax-carousel {
-  #carousel-caption {
+  .carousel-captions {
     position: absolute;
     width: 34%;
     top: 42%;
@@ -7,7 +7,7 @@
     z-index: 5;
     transform: translateY(-50%);
 
-    #carousel-title {
+    .carousel-title {
       font-size: 4rem;
       letter-spacing: -1px;
       display: inline-block;
@@ -21,7 +21,7 @@
       }
     }
 
-    #carousel-description {
+    .carousel-description {
       margin-top: 0.625rem;
       font-weight: 400;
       font-size: 2rem;

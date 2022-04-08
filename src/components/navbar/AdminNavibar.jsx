@@ -9,7 +9,7 @@ class AdminNavibar extends React.Component {
 	render() {
 		const isHomePage = (document.location.pathname === '/' ? true : false)
 		return (
-			<Navbar className={["main-color-navbar", isHomePage ? "home-page" : ""]}>
+			<Navbar className={["main-color-navbar", isHomePage ? "home-page" : ""].join(' ')}>
 				<Navbar.Brand href="/">
 					<Image src={this.props.logo ? this.props.logo : configs.defaultLogo} rounded className="brand-img" alt={this.props.title}/>
 					<div className="brand-text">{this.props.title}</div>
@@ -20,6 +20,11 @@ class AdminNavibar extends React.Component {
 						<Nav.Item>
 							<LinkContainer to="/" exact>
 								<Nav.Link eventKey="admin-home">主页</Nav.Link>
+							</LinkContainer>
+						</Nav.Item>
+						<Nav.Item>
+							<LinkContainer to="/carousel">
+								<Nav.Link eventKey="admin-carousel">轮播</Nav.Link>
 							</LinkContainer>
 						</Nav.Item>
 						<Nav.Item>

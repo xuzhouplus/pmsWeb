@@ -215,7 +215,7 @@ class CarouselCreateModal extends React.Component {
 				break;
 			case "input-switch-type":
 				let switchType = this.state.switchType;
-				if(!this.switchTypes[inputValue]){
+				if(!Utils.getCarouselEffects(inputValue)){
 					inputValue = 'parallax'
 					switchType['text'] = "特效类型错误";
 					switchType['isInvalid'] = true;
@@ -343,7 +343,7 @@ class CarouselCreateModal extends React.Component {
 											 selectPost={this.selectPost}></PostListModal>
 		}
 		let switchTypeOptions = []
-		for (const switchTypesKey in this.switchTypes) {
+		for (const switchTypesKey in Utils.getCarouselEffects()) {
 			switchTypeOptions.push(<option key={switchTypesKey} value={switchTypesKey}>{this.switchTypes[switchTypesKey]}</option>)
 		}
 		return (

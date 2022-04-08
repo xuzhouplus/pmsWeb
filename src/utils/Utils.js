@@ -5,6 +5,7 @@ import {store} from "../redux/Store";
 import {logoutAction, programAction} from "../redux/Actions";
 import Swal from "sweetalert2";
 import {v4 as uuidv4} from "uuid"
+import Configs from "../configs";
 
 const Utils = {
     login: function (account, password, callback, fallback) {
@@ -466,6 +467,19 @@ const Utils = {
             return uuid
         }
         return uuid.replaceAll('-', '')
+    },
+    getCarouselEffects:function (type) {
+        if(type){
+            return Configs.carouselEffects[type];
+        }
+        return Configs.carouselEffects
+    },
+    getCarouselEffectTypes:function () {
+        let getCarouselEffectTypes = [];
+        for (let carouselEffectsKey in Configs.carouselEffects) {
+            getCarouselEffectTypes.push(carouselEffectsKey)
+        }
+        return getCarouselEffectTypes;
     }
 }
 

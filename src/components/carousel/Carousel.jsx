@@ -21,8 +21,7 @@ class Carousel extends React.Component {
 	}
 
 	init = () => {
-		let tweenMax = new TweenMax({
-			container: document.getElementById('carousel-container'),
+		let tweenMax = new TweenMax(document.getElementById('carousel-container'),{
 			files: this.props.carousels,
 			afterLoaded: () => {
 				this.setState({
@@ -39,6 +38,9 @@ class Carousel extends React.Component {
 		if(this.state.tweenMax) {
 			this.state.tweenMax.destroy()
 		}
+		this.setState({
+			tweenMax: null
+		})
 	}
 
 	render() {

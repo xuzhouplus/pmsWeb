@@ -13,6 +13,10 @@
     display: flex;
     align-items: flex-end;
 
+    .carousel-webgl {
+      position: absolute;
+    }
+
     .carousel-info-box {
       width: 100%;
       padding: 0.625rem;
@@ -21,6 +25,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       outline-style: none;
+      z-index: 1;
 
       .carousel-preview-title {
         font-size: 1.875rem;
@@ -31,13 +36,21 @@
         margin: 0.3rem 0;
       }
 
-      .carousel-delete-button {
-        margin-left: 0.2rem;
+      .carousel-preview-action {
+        .carousel-effect-button {
+          margin: 0.1rem;
+        }
+
+        .carousel-action-button {
+          margin-right: 0.2rem;
+        }
       }
     }
   }
 
   .carousel-preview-list {
+    display: flex;
+
     .carousel-button {
       color: #F8F8F8;
       background-color: var(--main-color);
@@ -50,7 +63,6 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      float: left;
 
       img {
         width: 100%;
