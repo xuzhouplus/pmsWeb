@@ -8,6 +8,7 @@ import {LinkContainer} from "react-router-bootstrap";
 import Map from "@redux/Map";
 import TweenMax from "@utils/tweenMax/tweenMax";
 import './Index.scss'
+import Sortable from "sortablejs";
 
 class Index extends React.Component {
 	loading = "/logo192.png"
@@ -23,13 +24,16 @@ class Index extends React.Component {
 			showModal: false,
 			update: {},
 			previewIndex: -1,
-			tweenMax: null
+			tweenMax: null,
+			effectPopover: false,
+			sortable: null
 		};
 		this.effectPopoverContainerRef = React.createRef()
 	}
 
 	componentDidMount() {
 		this.getCarouselList();
+		this.initCarouselSortable()
 	}
 
 	componentWillUnmount() {
@@ -38,6 +42,7 @@ class Index extends React.Component {
 		}
 		this.prepareTimeout = false
 		this.destroyTweenMax()
+		this.destroyCarouselSortable()
 	}
 
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -197,6 +202,30 @@ class Index extends React.Component {
 		})
 	}
 
+	popoverHide = (event) => {
+		console.log(event)
+	}
+	popoverToggle = (event) => {
+		console.log(event)
+	}
+
+	initCarouselSortable = () => {
+		let sortable = new Sortable(document.querySelector('.carousel-preview-list'), {
+			onEnd: (event) => {
+				console.log(event)
+			}
+		})
+		this.setState({
+			sortable: sortable
+		})
+	}
+
+	destroyCarouselSortable = () => {
+		if (this.state.sortable) {
+			this.state.sortable.destroy()
+		}
+	}
+
 	render() {
 		let boxList = this.state.carousels.map((item, index) => {
 			let thumbUrl = item.thumb
@@ -232,10 +261,10 @@ class Index extends React.Component {
 			</Popover>)
 			let preview = this.state.carousels[this.state.previewIndex]
 			previewActions = <div className="carousel-info-box">
-				<div className="carousel-preview-title">{preview.title}</div>
-				<div className="carousel-preview-description">{preview.description}</div>
 				<div className="carousel-preview-action" ref={this.effectPopoverContainerRef}>
-					<OverlayTrigger container={this.effectPopoverContainerRef} placement="top" overlay={popover} show>
+					<OverlayTrigger container={this.effectPopoverContainerRef} placement="top"
+									trigger={["click", "focus"]} overlay={popover}
+									onToggle={this.popoverToggle}>
 						<Button variant="primary"
 								className="btn-main-color carousel-action-button">{Utils.getCarouselEffects(preview.switch_type)}</Button>
 					</OverlayTrigger>
