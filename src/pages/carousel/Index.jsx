@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, ListGroup, OverlayTrigger, Popover} from "react-bootstrap";
+import {Card, Dropdown, ListGroup} from "react-bootstrap";
 import TreeNavibar from "@components/navbar/TreeNavibar";
 import Utils from "@utils/Utils";
 import {connect} from "react-redux";
@@ -7,13 +7,13 @@ import CarouselCreateModal from "@components/carousel/CarouselCreateModal";
 import {LinkContainer} from "react-router-bootstrap";
 import Map from "@redux/Map";
 import TweenMax from "@utils/tweenMax/tweenMax";
-import './Index.scss'
 import Sortable from "sortablejs";
+import CarouselPreviewer from "@components/carousel/CarouselPreviewer";
+import './Index.scss'
 
 class Index extends React.Component {
 	loading = "/logo192.png"
-	prepareTimeout = true
-	effectPopoverContainerRef = null
+	componentActive = true
 
 	constructor(props) {
 		super(props);
@@ -23,16 +23,15 @@ class Index extends React.Component {
 			cancelTokenSource: null,
 			showModal: false,
 			update: {},
-			previewIndex: -1,
+			previewCarousel: null,
 			tweenMax: null,
-			effectPopover: false,
 			sortable: null
 		};
-		this.effectPopoverContainerRef = React.createRef()
 	}
 
 	componentDidMount() {
 		this.getCarouselList();
+		this.initTweenMax();
 		this.initCarouselSortable()
 	}
 
@@ -40,7 +39,7 @@ class Index extends React.Component {
 		if (this.state.cancelTokenSource) {
 			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
 		}
-		this.prepareTimeout = false
+		this.componentActive = false
 		this.destroyTweenMax()
 		this.destroyCarouselSortable()
 	}
@@ -61,23 +60,17 @@ class Index extends React.Component {
 		})
 		const cancelTokenSource = Utils.getCarouselList({}, (response) => {
 			if (this.state.cancelTokenSource) {
-				let previewIndex = -1
-				if (response.data.list.length > 0) {
-					previewIndex = 0
-				}
 				this.setState({
 					carousels: response.data.list,
 					limit: response.data.limit,
 					cancelTokenSource: null,
-					isLoading: false,
-					previewIndex: previewIndex
+					isLoading: false
 				})
-				this.initTweenMax()
 			}
 		}, error => {
 			console.log(error);
 			this.setState({
-				carousels: [], cancelTokenSource: null, isLoading: false, preview: {}
+				carousels: [], cancelTokenSource: null, isLoading: false, previewCarousel: {}
 			})
 		})
 		this.setState({
@@ -99,6 +92,23 @@ class Index extends React.Component {
 		})
 	}
 
+	refresh = (id, callback) => {
+		Utils.getCarousel(id, (response) => {
+			console.log(response)
+			if (response.data.status === 1) {
+				if (this.componentActive) {
+					setTimeout(() => {
+						this.refresh(id, callback)
+					}, 300);
+				}
+			} else {
+				callback(response.data)
+			}
+		}, error => {
+			console.log(error)
+		})
+	}
+
 	preview = (index, event) => {
 		event.stopPropagation();
 		let carousel = this.state.carousels[index]
@@ -108,74 +118,25 @@ class Index extends React.Component {
 				carousels[index] = response
 				this.setState({
 					carousels: carousels,
-					previewIndex: index
+					previewCarousel: response
 				})
 			})
+		} else {
+			let tweenMax = this.state.tweenMax
+			tweenMax.switchFile(carousel, carousel.switch_type)
+			this.setState({
+				previewCarousel: carousel
+			})
 		}
-		let tweenMax = this.state.tweenMax
-		tweenMax.switchFile(index, carousel.switch_type)
-		this.setState({
-			previewIndex: index
-		})
-	}
-
-	refresh = (id, callback) => {
-		Utils.getCarousel(id, (response) => {
-			if (response.data.status === 1) {
-				this.refresh(id)
-			} else {
-				callback(response.data)
-			}
-		}, (error) => {
-			console.log(error)
-		})
-	}
-
-	update = (index, event) => {
-		event.stopPropagation();
-		let carousel = this.state.carousels[index]
-		Utils.getCarousel(carousel.id, (response) => {
-			this.setState({
-				update: response.data,
-				showModal: true
-			})
-		}, (error) => {
-			console.log(error)
-		})
-	}
-
-	delete = (index, event) => {
-		event.stopPropagation();
-		let carousel = this.state.carousels[index]
-		Utils.deleteCarousel(carousel.id, (response) => {
-			this.getCarouselList();
-		}, (error) => {
-			console.log(error);
-		})
-	}
-
-	setEffect = (effect, event) => {
-		event.stopPropagation();
-		let index = this.state.previewIndex
-		let tweenMax = this.state.tweenMax
-		tweenMax.switchFile(index, effect)
-		let carousel = this.state.carousels[index]
-		carousel.switch_type = effect
-		Utils.updateCarousel(carousel, (response) => {
-			let carousels = this.state.carousels
-			carousels[index] = response.data
-			this.setState({
-				carousels: carousels
-			})
-		}, (error) => {
-			console.log(error)
-		})
 	}
 
 	initTweenMax = () => {
-		let carouselPreview = document.getElementById('carousel-preview')
+		if (this.state.tweenMax) {
+			return
+		}
+		let carouselPreview = document.getElementById('carousel-preview-table')
 		let tweenMax = new TweenMax(carouselPreview, {
-			files: this.state.carousels,
+			files: [],
 			effects: Utils.getCarouselEffectTypes(),
 			paginator: false,
 			events: false,
@@ -202,17 +163,21 @@ class Index extends React.Component {
 		})
 	}
 
-	popoverHide = (event) => {
-		console.log(event)
-	}
-	popoverToggle = (event) => {
-		console.log(event)
-	}
-
 	initCarouselSortable = () => {
 		let sortable = new Sortable(document.querySelector('.carousel-preview-list'), {
 			onEnd: (event) => {
-				console.log(event)
+				let index = this.state.previewIndex
+				let carousel = this.state.carousels[index]
+				carousel.order = event.newIndex + 1
+				Utils.updateCarousel(carousel, (response) => {
+					let carousels = this.state.carousels
+					carousels[index] = response.data
+					this.setState({
+						carousels: carousels
+					})
+				}, (error) => {
+					console.log(error)
+				})
 			}
 		})
 		this.setState({
@@ -236,44 +201,19 @@ class Index extends React.Component {
 				<img key={index} src={thumbUrl} alt={item.title} onClick={this.preview.bind(this, index)}></img>
 			</div>
 		});
-		let uploadModal = '';
+		let createModal = '';
 		if (this.state.showModal) {
-			uploadModal = <CarouselCreateModal show={this.state.showModal} handleModal={this.handleModal}
+			createModal = <CarouselCreateModal show={this.state.showModal} handleModal={this.handleModal}
 											   afterSubmit={this.afterSubmit} carousel={this.state.update}/>
 		}
-		let addBox = '';
+		let addBox = ''
 		if (this.state.limit > this.state.carousels.length) {
 			addBox = <Card className="carousel-button file-box" onClick={this.handleModal}>+</Card>
 		}
-		let previewActions = ''
-		if (this.state.previewIndex > -1) {
-			let effects = Utils.getCarouselEffects()
-			const popoverActions = []
-			for (const effectsKey in effects) {
-				popoverActions.push(<Button key={effectsKey} variant="light" size="sm"
-											className="carousel-effect-button"
-											onClick={this.setEffect.bind(this, effectsKey)}>{effects[effectsKey]}</Button>)
-			}
-			const popover = (<Popover id="popover-basic">
-				<Popover.Body>
-					{popoverActions}
-				</Popover.Body>
-			</Popover>)
-			let preview = this.state.carousels[this.state.previewIndex]
-			previewActions = <div className="carousel-info-box">
-				<div className="carousel-preview-action" ref={this.effectPopoverContainerRef}>
-					<OverlayTrigger container={this.effectPopoverContainerRef} placement="top"
-									trigger={["click", "focus"]} overlay={popover}
-									onToggle={this.popoverToggle}>
-						<Button variant="primary"
-								className="btn-main-color carousel-action-button">{Utils.getCarouselEffects(preview.switch_type)}</Button>
-					</OverlayTrigger>
-					<Button variant="primary" className="btn-main-color carousel-action-button carousel-update-button"
-							onClick={this.update.bind(this, this.state.previewIndex)}>编辑</Button>
-					<Button variant="primary" className="btn-main-color carousel-action-button carousel-delete-button"
-							onClick={this.delete.bind(this, this.state.previewIndex)}>删除</Button>
-				</div>
-			</div>
+		let effects = Utils.getCarouselEffects()
+		const dropdownItems = []
+		for (const effectsKey in effects) {
+			dropdownItems.push(<Dropdown.Item key={effectsKey} as="button">{effects[effectsKey]}</Dropdown.Item>)
 		}
 		return (<TreeNavibar>
 			<Card>
@@ -298,11 +238,9 @@ class Index extends React.Component {
 				</Card.Body>
 			</Card>
 			<Card className="carousel-list-container">
-				{uploadModal}
-				<Card.Body id="file-table" className="file-table">
-					<div id="carousel-preview" className="carousel-preview">
-						{previewActions}
-					</div>
+				{createModal}
+				<Card.Body id="carousel-preview-table" className="carousel-preview-table">
+					<CarouselPreviewer carousel={this.state.previewCarousel}></CarouselPreviewer>
 				</Card.Body>
 				<Card.Footer className="carousel-preview-list">
 					{boxList}

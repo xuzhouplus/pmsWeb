@@ -1,0 +1,39 @@
+.carousel-preview{
+  background-color: var(--main-color-transparent);
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+
+  .carousel-caption-draggable {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    cursor: move;
+  }
+
+  .carousel-info-box {
+    width: 100%;
+    padding: 0.625rem;
+    background-color: var(--main-color-transparent);
+    color: #F8F8F8;
+    z-index: 6;
+
+    .carousel-preview-action {
+      .carousel-effects {
+        display: inline-block;
+      }
+
+      .carousel-effect-button {
+        margin: 0.1rem;
+      }
+
+      .carousel-action-button {
+        margin-right: 0.2rem;
+      }
+    }
+  }
+}
