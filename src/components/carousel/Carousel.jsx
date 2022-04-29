@@ -1,6 +1,6 @@
 import React from 'react'
 import Loading from "@components/loading/Loading";
-import TweenMax from "@utils/tweenMax/tweenMax";
+import TweenMax from "@utils/tweenMax/tweenMaxBak";
 import "./Carousel.scss";
 
 class Carousel extends React.Component {
