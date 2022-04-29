@@ -8,6 +8,7 @@ import {LinkContainer} from "react-router-bootstrap";
 import Map from "@redux/Map";
 import TweenMax from "@utils/tweenMax/tweenMax";
 import './Index.scss'
+import {ReactSortable} from "react-sortablejs";
 
 class Index extends React.Component {
 	loading = "/logo192.png"
@@ -232,10 +233,8 @@ class Index extends React.Component {
 			</Popover>)
 			let preview = this.state.carousels[this.state.previewIndex]
 			previewActions = <div className="carousel-info-box">
-				<div className="carousel-preview-title">{preview.title}</div>
-				<div className="carousel-preview-description">{preview.description}</div>
 				<div className="carousel-preview-action" ref={this.effectPopoverContainerRef}>
-					<OverlayTrigger container={this.effectPopoverContainerRef} placement="top" overlay={popover} show>
+					<OverlayTrigger container={this.effectPopoverContainerRef} placement="top" trigger={['click', 'focus']} overlay={popover}>
 						<Button variant="primary"
 								className="btn-main-color carousel-action-button">{Utils.getCarouselEffects(preview.switch_type)}</Button>
 					</OverlayTrigger>
@@ -276,7 +275,7 @@ class Index extends React.Component {
 					</div>
 				</Card.Body>
 				<Card.Footer className="carousel-preview-list">
-					{boxList}
+					<ReactSortable>{boxList}</ReactSortable>
 					{addBox}
 				</Card.Footer>
 			</Card>

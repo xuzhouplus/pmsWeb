@@ -26,5 +26,4 @@ vec4 separate() {
             }
         }
     }
-
 }
