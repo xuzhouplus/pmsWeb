@@ -40,6 +40,27 @@ iframe {
   pointer-events: none;
 }
 
+a,
+button,
+input,
+select,
+option,
+textarea {
+  outline: none !important;
+  box-shadow: none !important;
+
+  &:focus,
+  &:focus-visible,
+  &:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+a {
+  text-decoration: none !important;
+}
+
 .modal-backdrop {
   opacity: 0 !important;
 }
@@ -175,25 +196,6 @@ iframe {
 }
 
 .app-container {
-  a,
-  button,
-  input,
-  .btn,
-  .form-control {
-    outline: none;
-    box-shadow: none;
-
-    &.focus,
-    &:focus {
-      outline: none;
-      box-shadow: none;
-    }
-  }
-
-  a {
-    text-decoration: none;
-  }
-
   .app-header {
     z-index: 99;
 

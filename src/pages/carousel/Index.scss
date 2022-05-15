@@ -4,6 +4,7 @@
 
   .carousel-preview-table {
     position: relative;
+    background-color: var(--main-color-transparent);
     background-image: url(~@assets/images/logo192.png);
     background-repeat: no-repeat;
     background-position: center;
@@ -35,6 +36,8 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      border-radius: 0.25rem;
+      overflow: hidden;
 
       img {
         width: 100%;

@@ -5,30 +5,30 @@
     height: 100%;
     z-index: 5;
 
-    .carousel-title {
-      font-size: 4rem;
-      letter-spacing: -1px;
-      display: inline-block;
-      color: #F8F8F8DD;
-      text-shadow: 0px 0px 8px var(--main-color-transparent);
-      position: relative;
-
-      &:hover {
-        color: #F8F8F8;
-        text-shadow: 0px 0px 8px var(--main-color);
-      }
-    }
-
-    .carousel-description {
-      margin-top: 0.625rem;
-      font-weight: 400;
-      font-size: 2rem;
-      color: #F8F8F8DD;
-      text-shadow: 0px 0px 0.2rem var(--main-color-transparent);
-      max-width: 100%;
-      overflow: hidden;
-      position: relative;
-    }
+    //.carousel-title {
+    //  font-size: 4rem;
+    //  letter-spacing: -1px;
+    //  display: inline-block;
+    //  color: #F8F8F8DD;
+    //  text-shadow: 0px 0px 8px var(--main-color-transparent);
+    //  position: relative;
+    //
+    //  &:hover {
+    //    color: #F8F8F8;
+    //    text-shadow: 0px 0px 8px var(--main-color);
+    //  }
+    //}
+    //
+    //.carousel-description {
+    //  margin-top: 0.625rem;
+    //  font-weight: 400;
+    //  font-size: 2rem;
+    //  color: #F8F8F8DD;
+    //  text-shadow: 0px 0px 0.2rem var(--main-color-transparent);
+    //  max-width: 100%;
+    //  overflow: hidden;
+    //  position: relative;
+    //}
   }
 
   .carousel-paginator {

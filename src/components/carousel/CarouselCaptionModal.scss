@@ -1,39 +1,23 @@
-.carousel-preview{
-  background-color: var(--main-color-transparent);
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  position: relative;
+.carousel-caption-modal {
+  .card-body {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 
-  .carousel-caption-draggable {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: auto;
-    cursor: move;
-  }
+    .input-label {
+      display: flex;
+      align-items: center;
+      padding-right: 0;
+    }
 
-  .carousel-info-box {
-    width: 100%;
-    padding: 0.625rem;
-    background-color: var(--main-color-transparent);
-    color: #F8F8F8;
-    z-index: 6;
+    .input-field {
+      display: flex;
+      padding-top: calc(0.375rem + 1px);
+      padding-bottom: calc(0.375rem + 1px);
+      padding-left: 0;
+    }
 
-    .carousel-preview-action {
-      .carousel-effects {
-        display: inline-block;
-      }
-
-      .carousel-effect-button {
-        margin: 0.1rem;
-      }
-
-      .carousel-action-button {
-        margin-right: 0.2rem;
-      }
+    .form-control-sm {
+      padding: 0.25rem 0.5rem !important;
     }
   }
 }

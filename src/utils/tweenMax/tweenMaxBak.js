@@ -64,6 +64,8 @@ class TweenMax {
 			this.containerElement.className = this.containerElement.className + ' ' + this.containerClass
 		}
 		this.count = this.options.files.length
+		this.createCaption()
+		this.createPaginator()
 		// ImagesLoaded(this.containerElement.querySelectorAll('img'), () => {
 			this.createRender()
 			this.loadFiles()
@@ -77,8 +79,6 @@ class TweenMax {
 			this.bindEvent()
 			this.setTimeout()
 		// });
-		this.createCaption()
-		this.createPaginator()
 	}
 
 	destroy() {
