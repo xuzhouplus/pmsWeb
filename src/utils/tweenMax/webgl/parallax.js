@@ -17,8 +17,7 @@ class Parallax extends Effect {
 			}
 		});
 	}
-
-	switchCaption(caption, reverse, halfway, completed) {
+	hideCaption(caption, reverse, completed) {
 		gsap.fromTo(caption, {
 			autoAlpha: 1,
 			filter: 'blur(0px)',
@@ -30,16 +29,18 @@ class Parallax extends Effect {
 			y: 20,
 			ease: 'Expo.easeIn',
 			onComplete: function () {
-				halfway && halfway()
-				gsap.to(caption, {
-					duration: 0.5,
-					autoAlpha: 1,
-					filter: 'blur(0px)',
-					y: 0,
-					onComplete: function () {
-						completed && completed()
-					}
-				});
+				completed && completed()
+			}
+		});
+	}
+	showCaption(caption, reverse, completed) {
+		gsap.to(caption, {
+			duration: 0.5,
+			autoAlpha: 1,
+			filter: 'blur(0px)',
+			y: 0,
+			onComplete: function () {
+				completed && completed()
 			}
 		});
 	}

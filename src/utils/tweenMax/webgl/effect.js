@@ -34,6 +34,24 @@ class Effect {
 	 */
 	switchCaption(caption, reverse, halfway, completed) {
 	}
+
+	/**
+	 * 隐藏文字动画
+	 * @param caption
+	 * @param reverse
+	 * @param completed
+	 */
+	hideCaption(caption,reverse,completed){
+
+	}
+
+	/**
+	 * 显示文字动画
+	 * @param caption
+	 * @param reverse
+	 * @param completed
+	 */
+	showCaption(caption,reverse,completed){}
 }
 
 export default Effect;

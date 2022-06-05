@@ -191,14 +191,15 @@ class TweenMax {
      * 加载图片
      */
     loadFile(file) {
+        const loader = new THREE.TextureLoader();
+        loader.crossOrigin = "anonymous";
         if (!this.images[file.uuid]) {
-            const loader = new THREE.TextureLoader();
-            loader.crossOrigin = "anonymous";
             let image = loader.load(file.url);
             image.name = file.title
             image.magFilter = image.minFilter = THREE.LinearFilter;
             image.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
             this.images[file.uuid] = image
+            this.loadEffect(file.switch_type)
         }
         return this.images[file.uuid];
     }
@@ -280,18 +281,20 @@ class TweenMax {
         })
     }
 
-    switchCaption(file, effect, reverse, completed) {
+    showCaption(file, effect, reverse, completed) {
         let carouselTitle = this.captionElement.querySelector('.carousel-title');
         let carouselDescription = this.captionElement.querySelector('.carousel-description');
-        effect.renderer.switchCaption(this.captionElement, reverse, () => {
-            console.log(file)
-            carouselTitle.innerText = file.title;
-            carouselTitle.href = file.link
-            carouselDescription.innerText = file.description
-        }, completed)
+        carouselTitle.innerText = file.title;
+        carouselTitle.href = file.link
+        carouselDescription.innerText = file.description
+        effect.renderer.showCaption(this.captionElement, reverse, completed)
     }
 
-    switchFile(file, effectType, reverse, completed) {
+    hideCaption(effect, reverse, completed) {
+        effect.renderer.hideCaption(this.captionElement, reverse, completed)
+    }
+
+    switchFile(file, effectType, reverse, halfway, completed) {
         if (this.animating) {
             console.warn('上一次渲染还没有结束')
             return
@@ -304,9 +307,12 @@ class TweenMax {
             effect = this.loadEffect(file.switch_type)
         }
         this.animating = true
-        this.switchImage(image, effect, reverse, () => {
-            this.switchCaption(file, effect, reverse, completed)
-            this.animating = false
+        this.hideCaption(effect, reverse, () => {
+            halfway && halfway();
+            this.switchImage(image, effect, reverse, () => {
+                this.animating = false
+                this.showCaption(file, effect, reverse, completed)
+            })
         })
     }
 }

@@ -20,7 +20,7 @@ class Slide extends Effect {
 		});
 	}
 
-	switchCaption(caption, reverse, halfway, completed) {
+	hideCaption(caption, reverse, completed) {
 		gsap.fromTo(caption, {
 			autoAlpha: 1,
 			filter: 'blur(0px)',
@@ -30,16 +30,19 @@ class Slide extends Effect {
 			filter: 'blur(10px)',
 			ease: 'Expo.easeOut',
 			onComplete: function () {
-				halfway && halfway()
-				gsap.to(caption, {
-					duration: this.duration / 2,
-					autoAlpha: 1,
-					filter: 'blur(0px)',
-					ease: 'Expo.easeIn',
-					onComplete: function () {
-						completed && completed()
-					}
-				});
+				completed && completed()
+			}
+		});
+	}
+
+	showCaption(caption, reverse, completed) {
+		gsap.to(caption, {
+			duration: this.duration / 2,
+			autoAlpha: 1,
+			filter: 'blur(0px)',
+			ease: 'Expo.easeIn',
+			onComplete: function () {
+				completed && completed()
 			}
 		});
 	}

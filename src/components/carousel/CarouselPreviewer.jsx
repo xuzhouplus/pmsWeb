@@ -99,16 +99,23 @@ class CarouselPreviewer extends React.Component {
         })
     }
 
+    calculateCaptionPosition = (offset) => {
+        if (!offset) {
+            return 0;
+        }
+        let num = parseFloat(offset);
+        return parseFloat((num * this.state.fontScale).toFixed(2));
+    }
+
     calculateCaptionFontSize = (fontSize) => {
         if (!fontSize) {
             return 0;
         }
-        if (isNaN(fontSize)) {
-            let num = parseFloat(fontSize)
-            let suffix = fontSize.replace(num.toString(), "")
-            return (num * this.state.fontScale).toFixed(2) + suffix;
-        }
-        return (fontSize * this.state.fontScale).toFixed(2)
+        let result
+        let num = parseFloat(fontSize)
+        let suffix = fontSize.replace(num.toString(), "")
+        result = (num * this.state.fontScale).toFixed(2) + suffix;
+        return result;
     }
 
     filterCaptionFontColor = (fontColor) => {
@@ -138,7 +145,8 @@ class CarouselPreviewer extends React.Component {
     }
 
     captionStyleLeft = (offset) => {
-        if (offset > (this.state.previewerWidth / 2)) {
+        let captionOffset =  this.calculateCaptionPosition(offset)
+        if (captionOffset > (this.state.previewerWidth / 2)) {
             return 0
         }
         return this.state.previewerWidth - this.state.captionWidth
@@ -170,6 +178,7 @@ class CarouselPreviewer extends React.Component {
                     carousel['description_style'] = descriptionStyle
             }
         }
+        console.log(carousel)
         this.props.onChange(carousel)
     }
 
@@ -190,7 +199,6 @@ class CarouselPreviewer extends React.Component {
     }
 
     render() {
-        console.log(this.props.carousel)
         let effects = Utils.getCarouselEffects()
         const dropdownItems = []
         for (const effectsKey in effects) {
@@ -211,24 +219,17 @@ class CarouselPreviewer extends React.Component {
             }
             titleStyle = this.mergeCaptionStyle(this.props.carousel.title_style, this.defaultTitleStyle);
             descriptionStyle = this.mergeCaptionStyle(this.props.carousel.description_style, this.defaultDescriptionStyle);
-            titleStyle.font_size = this.calculateCaptionFontSize(titleStyle.font_size)
-            titleStyle.top = this.calculateCaptionFontSize(titleStyle.top)
-            titleStyle.left = this.calculateCaptionFontSize(titleStyle.left)
-            titleStyle.font_color = this.filterCaptionFontColor(titleStyle.font_color)
-            descriptionStyle.font_size = this.calculateCaptionFontSize(descriptionStyle.font_size)
-            descriptionStyle.top = this.calculateCaptionFontSize(descriptionStyle.top)
-            descriptionStyle.left = this.calculateCaptionFontSize(descriptionStyle.left)
-            descriptionStyle.font_color = this.filterCaptionFontColor(descriptionStyle.font_color)
+
             switch (this.state.styleField) {
                 case "title":
-                    captionStyle = titleStyle;
+                    captionStyle = Object.assign({}, titleStyle);
                     captionText = this.props.carousel.title;
                     captionLink = this.props.carousel.link;
                     captionShow = true;
                     captionLeft = this.captionStyleLeft(captionStyle.left);
                     break;
                 case "description":
-                    captionStyle = descriptionStyle;
+                    captionStyle = Object.assign({}, descriptionStyle);
                     captionText = this.props.carousel.description;
                     captionLink = ""
                     captionShow = true;
@@ -248,23 +249,22 @@ class CarouselPreviewer extends React.Component {
             captionLeft = 0;
             titleStyle = this.defaultTitleStyle
             descriptionStyle = this.defaultDescriptionStyle
-            titleStyle.font_size = this.calculateCaptionFontSize(titleStyle.font_size)
-            titleStyle.top = this.calculateCaptionFontSize(titleStyle.top)
-            titleStyle.left = this.calculateCaptionFontSize(titleStyle.left)
-            titleStyle.font_color = this.filterCaptionFontColor(titleStyle.font_color)
-            descriptionStyle.font_size = this.calculateCaptionFontSize(descriptionStyle.font_size)
-            descriptionStyle.top = this.calculateCaptionFontSize(descriptionStyle.top)
-            descriptionStyle.left = this.calculateCaptionFontSize(descriptionStyle.left)
-            descriptionStyle.font_color = this.filterCaptionFontColor(descriptionStyle.font_color)
-            captionStyle = titleStyle;
+            captionStyle = Object.assign({}, titleStyle);
         }
-
+        titleStyle.font_size = this.calculateCaptionFontSize(titleStyle.font_size)
+        titleStyle.top = this.calculateCaptionPosition(titleStyle.top)
+        titleStyle.left = this.calculateCaptionPosition(titleStyle.left)
+        titleStyle.font_color = this.filterCaptionFontColor(titleStyle.font_color)
+        descriptionStyle.font_size = this.calculateCaptionFontSize(descriptionStyle.font_size)
+        descriptionStyle.top = this.calculateCaptionPosition(descriptionStyle.top)
+        descriptionStyle.left = this.calculateCaptionPosition(descriptionStyle.left)
+        descriptionStyle.font_color = this.filterCaptionFontColor(descriptionStyle.font_color)
         return (
             <div id="carousel-preview" className="carousel-preview">
                 <div className="carousel-captions">
                     <Draggable
                         key="carousel-caption-description"
-                        defaultClassName="carousel-caption-draggable"
+                        defaultClassName="carousel-caption-draggable carousel-description"
                         // defaultPosition={{x: 0, y: 0}}
                         position={{x: descriptionStyle.left, y: descriptionStyle.top}}
                         scale={1}
@@ -272,37 +272,35 @@ class CarouselPreviewer extends React.Component {
                         // onDrag={this.handleCarouselDrag.bind(this, 'description')}
                         onStop={this.handleCarouselDrag.bind(this, 'description')}
                     >
-                        <div>
-                            <div className="carousel-description" onClick={this.captionClick.bind(this, "description")}
-                                 style={{
-                                     fontFamily: descriptionStyle.font_family,
-                                     color: descriptionStyle.font_color,
-                                     fontSize: descriptionStyle.font_size,
-                                     textAlign: descriptionStyle.font_align,
-                                     textShadow: descriptionStyle.font_shadow,
-                                     letterSpacing: descriptionStyle.font_spacing
-                                 }}></div>
+                        <div onClick={this.captionClick.bind(this, "description")}
+                             style={{
+                                 fontFamily: descriptionStyle.font_family,
+                                 color: descriptionStyle.font_color,
+                                 fontSize: descriptionStyle.font_size,
+                                 textAlign: descriptionStyle.font_align,
+                                 textShadow: descriptionStyle.font_shadow,
+                                 letterSpacing: descriptionStyle.font_spacing
+                             }}>
                         </div>
                     </Draggable>
                     <Draggable
                         key="carousel-caption-title"
-                        defaultClassName="carousel-caption-draggable"
+                        defaultClassName="carousel-caption-draggable carousel-title"
                         // defaultPosition={{x: 0, y: 0}}
                         position={{x: titleStyle.left, y: titleStyle.top}}
                         scale={1}
                         bounds="parent"
                         onStop={this.handleCarouselDrag.bind(this, 'title')}
                     >
-                        <div>
-                            <div className="carousel-title" onClick={this.captionClick.bind(this, "title")}
-                                 style={{
-                                     fontFamily: titleStyle.font_family,
-                                     color: titleStyle.font_color,
-                                     fontSize: titleStyle.font_size,
-                                     textAlign: titleStyle.font_align,
-                                     textShadow: titleStyle.font_shadow,
-                                     letterSpacing: titleStyle.font_spacing
-                                 }}></div>
+                        <div onClick={this.captionClick.bind(this, "title")}
+                             style={{
+                                 fontFamily: titleStyle.font_family,
+                                 color: titleStyle.font_color,
+                                 fontSize: titleStyle.font_size,
+                                 textAlign: titleStyle.font_align,
+                                 textShadow: titleStyle.font_shadow,
+                                 letterSpacing: titleStyle.font_spacing
+                             }}>
                         </div>
                     </Draggable>
                 </div>

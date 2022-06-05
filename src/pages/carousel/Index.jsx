@@ -120,24 +120,18 @@ class Index extends React.Component {
 
     preview = (index) => {
         let carousel = this.state.carousels[index]
-        if (carousel.status !== 2) {
-            this.refresh(carousel.id, (response) => {
-                let carousels = this.state.carousels
-                carousels[index] = response
-                this.state.tweenMax.switchFile(response)
+        this.refresh(carousel.id, (response) => {
+            let carousels = this.state.carousels
+            carousels[index] = response
+            this.state.tweenMax.switchFile(response, null, false, () => {
                 this.setState({
                     previewIndex: index,
                     carousels: carousels,
                     previewCarousel: response
                 })
+            }, () => {
             })
-        } else {
-            this.state.tweenMax.switchFile(carousel)
-            this.setState({
-                previewIndex: index,
-                previewCarousel: carousel
-            })
-        }
+        })
     }
 
     sortableEnd = (data) => {
@@ -164,9 +158,10 @@ class Index extends React.Component {
                 })
             }
         })
-        tweenMax.switchFile(carousel)
-        this.setState({
-            tweenMax: tweenMax
+        tweenMax.switchFile(carousel, null, false, () => {
+            this.setState({
+                tweenMax: tweenMax
+            })
         })
     }
 

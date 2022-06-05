@@ -1,9 +1,16 @@
 .tweenmax-carousel {
   .carousel-captions {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
     z-index: 5;
+
+    .carousel-title, .carousel-description {
+      position: absolute;
+    }
 
     //.carousel-title {
     //  font-size: 4rem;
