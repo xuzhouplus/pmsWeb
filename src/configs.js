@@ -24,6 +24,7 @@ const configs = {
 	deleteCarouselUrl: "/carousel/delete",
 	previewCarouselUrl: "/carousel/preview",
 	updateCarouselCaptionStyleUrl: "/carousel/update-caption-style",
+	setCarouselSwitchTypeUrl: "/carousel/set-switch-type",
 	sortCarouselOrderUrl: "/carousel/sort-order",
 	fileListUrl: "/file",
 	fileInfoUrl: "/file/detail",
@@ -75,6 +76,26 @@ const configs = {
 		fade: '淡入淡出',
 		blinds: '百叶窗',
 		clamp: '擦除',
+	},
+	defaultTitleStyle: {
+		top: 10,
+		left: 10,
+		font_family: '',
+		font_size: '4',
+		font_color: '#F8F8F8',
+		font_align: 'left',
+		font_shadow: '0px 0px 8px var(--main-color-transparent)',
+		font_spacing: '-1px'
+	},
+	defaultDescriptionStyle: {
+		top: 12,
+		left: 10,
+		font_family: '',
+		font_size: '2',
+		font_color: '#F8F8F8',
+		font_align: 'left',
+		font_shadow: '0px 0px 0.2rem var(--main-color-transparent)',
+		font_spacing: '-1px'
 	}
 }
 export default configs;

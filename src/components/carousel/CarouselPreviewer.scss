@@ -2,9 +2,9 @@
   padding: 0;
   height: 100%;
   width: 100%;
-  display: flex;
-  align-items: flex-end;
-  position: relative;
+  //display: flex;
+  //align-items: flex-end;
+  //position: relative;
 
   .carousel-caption-draggable {
     position: absolute;
@@ -25,18 +25,21 @@
     background-color: var(--main-color-transparent);
     color: #F8F8F8;
     z-index: 7;
+    position: absolute;
+    bottom: 0;
 
     .carousel-preview-action {
+      display: flex;
+      justify-content: space-between;
+
       .carousel-effects {
         display: inline-block;
       }
 
-      .carousel-effect-button {
-        margin: 0.1rem;
-      }
-
-      .carousel-action-button {
-        margin-right: 0.2rem;
+      .carousel-actions {
+        button {
+          margin-left: 0.2rem;
+        }
       }
     }
   }

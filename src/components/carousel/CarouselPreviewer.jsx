@@ -4,26 +4,27 @@ import {Button, Dropdown} from "react-bootstrap";
 import Utils from "@utils/Utils";
 import CarouselCaptionModal from "@components/carousel/CarouselCaptionModal";
 import "./CarouselPreviewer.scss";
+import configs from "@/configs";
 
 class CarouselPreviewer extends React.Component {
     loading = "/logo192.png"
     defaultTitleStyle = {
-        top: 0,
-        left: 0,
+        top: 10,
+        left: 10,
         font_family: '',
-        font_size: '4rem',
-        font_color: '#F8F8F8DD',
+        font_size: '4',
+        font_color: '#F8F8F8',
         font_align: 'left',
         font_shadow: '0px 0px 8px var(--main-color-transparent)',
         font_spacing: '-1px'
     }
 
     defaultDescriptionStyle = {
-        top: 0,
-        left: 0,
+        top: 12,
+        left: 10,
         font_family: '',
-        font_size: '2rem',
-        font_color: '#F8F8F8DD',
+        font_size: '2',
+        font_color: '#F8F8F8',
         font_align: 'left',
         font_shadow: '0px 0px 0.2rem var(--main-color-transparent)',
         font_spacing: '-1px'
@@ -38,13 +39,14 @@ class CarouselPreviewer extends React.Component {
             styleField: 'title',
             captionWidth: 0,
             previewerWidth: 0,
+            previewerHeight: 0,
             carousel: {
                 id: 0,
                 title: '',
                 description: '',
                 link: '',
-                title_style: this.defaultTitleStyle,
-                description_style: this.defaultDescriptionStyle
+                title_style: configs.defaultTitleStyle,
+                description_style: configs.defaultDescriptionStyle
             }
         }
     }
@@ -60,32 +62,10 @@ class CarouselPreviewer extends React.Component {
     componentWillUnmount() {
     }
 
-    update = (event) => {
-        event.stopPropagation();
-        this.props.update();
-    }
-
-    delete = (event) => {
-        event.stopPropagation();
-        this.props.delete();
-    }
-
     setEffect = (effect, event) => {
         event.stopPropagation();
-        let index = this.state.previewIndex
-        let tweenMax = this.state.tweenMax
-        tweenMax.switchFile(index, effect)
-        let carousel = this.state.carousels[index]
-        carousel.switch_type = effect
-        Utils.updateCarousel(carousel, (response) => {
-            let carousels = this.state.carousels
-            carousels[index] = response.data
-            this.setState({
-                carousels: carousels
-            })
-        }, (error) => {
-            console.log(error)
-        })
+        console.log(effect)
+        this.props.onSwitch(effect)
     }
 
     calculateFontScale = () => {
@@ -95,16 +75,25 @@ class CarouselPreviewer extends React.Component {
         this.setState({
             fontScale: scalePercent,
             previewerWidth: carouselPreview.clientWidth,
+            previewerHeight: carouselPreview.clientHeight,
             captionWidth: carouselCaptionStyle.clientWidth
         })
     }
 
-    calculateCaptionPosition = (offset) => {
+    calculateCaptionPositionLeft = (offset) => {
         if (!offset) {
             return 0;
         }
         let num = parseFloat(offset);
-        return parseFloat((num * this.state.fontScale).toFixed(2));
+        return parseFloat((num * this.state.previewerWidth / 100).toFixed(2));
+    }
+
+    calculateCaptionPositionTop = (offset) => {
+        if (!offset) {
+            return 0;
+        }
+        let num = parseFloat(offset);
+        return parseFloat((num * this.state.previewerHeight / 100).toFixed(2));
     }
 
     calculateCaptionFontSize = (fontSize) => {
@@ -113,8 +102,7 @@ class CarouselPreviewer extends React.Component {
         }
         let result
         let num = parseFloat(fontSize)
-        let suffix = fontSize.replace(num.toString(), "")
-        result = (num * this.state.fontScale).toFixed(2) + suffix;
+        result = (num * this.state.previewerWidth / 100).toFixed(2) + "px";
         return result;
     }
 
@@ -125,14 +113,14 @@ class CarouselPreviewer extends React.Component {
     handleCarouselDrag = (field, event, data) => {
         let carousel = this.props.carousel
         if (field === 'title') {
-            let style = Object.assign({}, this.defaultTitleStyle, carousel.title_style)
-            style['top'] = (data.y / this.state.fontScale).toFixed(2)
-            style['left'] = (data.x / this.state.fontScale).toFixed(2)
+            let style = Object.assign({}, configs.defaultTitleStyle, carousel.title_style)
+            style['top'] = (data.y / this.state.previewerHeight * 100).toFixed(2)
+            style['left'] = (data.x / this.state.previewerWidth * 100).toFixed(2)
             carousel.title_style = style
         } else {
-            let style = Object.assign({}, this.defaultDescriptionStyle, carousel.description_style)
-            style['top'] = (data.y / this.state.fontScale).toFixed(2)
-            style['left'] = (data.x / this.state.fontScale).toFixed(2)
+            let style = Object.assign({}, configs.defaultDescriptionStyle, carousel.description_style)
+            style['top'] = (data.y / this.state.previewerHeight * 100).toFixed(2)
+            style['left'] = (data.x / this.state.previewerWidth * 100).toFixed(2)
             carousel.description_style = style
         }
         this.props.onChange(carousel)
@@ -145,8 +133,7 @@ class CarouselPreviewer extends React.Component {
     }
 
     captionStyleLeft = (offset) => {
-        let captionOffset =  this.calculateCaptionPosition(offset)
-        if (captionOffset > (this.state.previewerWidth / 2)) {
+        if (offset > 50) {
             return 0
         }
         return this.state.previewerWidth - this.state.captionWidth
@@ -178,7 +165,6 @@ class CarouselPreviewer extends React.Component {
                     carousel['description_style'] = descriptionStyle
             }
         }
-        console.log(carousel)
         this.props.onChange(carousel)
     }
 
@@ -219,7 +205,6 @@ class CarouselPreviewer extends React.Component {
             }
             titleStyle = this.mergeCaptionStyle(this.props.carousel.title_style, this.defaultTitleStyle);
             descriptionStyle = this.mergeCaptionStyle(this.props.carousel.description_style, this.defaultDescriptionStyle);
-
             switch (this.state.styleField) {
                 case "title":
                     captionStyle = Object.assign({}, titleStyle);
@@ -251,13 +236,13 @@ class CarouselPreviewer extends React.Component {
             descriptionStyle = this.defaultDescriptionStyle
             captionStyle = Object.assign({}, titleStyle);
         }
-        titleStyle.font_size = this.calculateCaptionFontSize(titleStyle.font_size)
-        titleStyle.top = this.calculateCaptionPosition(titleStyle.top)
-        titleStyle.left = this.calculateCaptionPosition(titleStyle.left)
+        const titleStyleFontSize = this.calculateCaptionFontSize(titleStyle.font_size)
+        const titleStyleLeft = this.calculateCaptionPositionLeft(titleStyle.left)
+        const titleStyleTop = this.calculateCaptionPositionTop(titleStyle.top)
         titleStyle.font_color = this.filterCaptionFontColor(titleStyle.font_color)
-        descriptionStyle.font_size = this.calculateCaptionFontSize(descriptionStyle.font_size)
-        descriptionStyle.top = this.calculateCaptionPosition(descriptionStyle.top)
-        descriptionStyle.left = this.calculateCaptionPosition(descriptionStyle.left)
+        const descriptionStyleFontSize = this.calculateCaptionFontSize(descriptionStyle.font_size)
+        const descriptionStyleTop = this.calculateCaptionPositionTop(descriptionStyle.top)
+        const descriptionStyleLeft = this.calculateCaptionPositionLeft(descriptionStyle.left)
         descriptionStyle.font_color = this.filterCaptionFontColor(descriptionStyle.font_color)
         return (
             <div id="carousel-preview" className="carousel-preview">
@@ -266,7 +251,7 @@ class CarouselPreviewer extends React.Component {
                         key="carousel-caption-description"
                         defaultClassName="carousel-caption-draggable carousel-description"
                         // defaultPosition={{x: 0, y: 0}}
-                        position={{x: descriptionStyle.left, y: descriptionStyle.top}}
+                        position={{x: descriptionStyleLeft, y: descriptionStyleTop}}
                         scale={1}
                         bounds="parent"
                         // onDrag={this.handleCarouselDrag.bind(this, 'description')}
@@ -276,7 +261,7 @@ class CarouselPreviewer extends React.Component {
                              style={{
                                  fontFamily: descriptionStyle.font_family,
                                  color: descriptionStyle.font_color,
-                                 fontSize: descriptionStyle.font_size,
+                                 fontSize: descriptionStyleFontSize,
                                  textAlign: descriptionStyle.font_align,
                                  textShadow: descriptionStyle.font_shadow,
                                  letterSpacing: descriptionStyle.font_spacing
@@ -287,7 +272,7 @@ class CarouselPreviewer extends React.Component {
                         key="carousel-caption-title"
                         defaultClassName="carousel-caption-draggable carousel-title"
                         // defaultPosition={{x: 0, y: 0}}
-                        position={{x: titleStyle.left, y: titleStyle.top}}
+                        position={{x: titleStyleLeft, y: titleStyleTop}}
                         scale={1}
                         bounds="parent"
                         onStop={this.handleCarouselDrag.bind(this, 'title')}
@@ -296,7 +281,7 @@ class CarouselPreviewer extends React.Component {
                              style={{
                                  fontFamily: titleStyle.font_family,
                                  color: titleStyle.font_color,
-                                 fontSize: titleStyle.font_size,
+                                 fontSize: titleStyleFontSize,
                                  textAlign: titleStyle.font_align,
                                  textShadow: titleStyle.font_shadow,
                                  letterSpacing: titleStyle.font_spacing
@@ -327,15 +312,14 @@ class CarouselPreviewer extends React.Component {
                                 {dropdownItems}
                             </Dropdown.Menu>
                         </Dropdown>
-                        <Button variant="primary"
-                                className="btn-main-color carousel-action-button carousel-update-button"
-                                onClick={this.updateCaptionStyle}>保存</Button>
-                        {/*<Button variant="primary"*/}
-                        {/*        className="btn-main-color carousel-action-button carousel-update-button"*/}
-                        {/*         onClick={this.update}>编辑</Button>*/}
-                        <Button variant="primary"
-                                className="btn-main-color carousel-action-button carousel-delete-button"
-                                onClick={this.delete}>删除</Button>
+                        <div className="carousel-actions carousel-action-button">
+                            <Button variant="primary"
+                                    className="btn-main-color carousel-update-button"
+                                    onClick={this.updateCaptionStyle}>保存</Button>
+                            <Button variant="primary"
+                                    className="btn-main-color carousel-delete-button"
+                                    onClick={this.props.onDelete}>删除</Button>
+                        </div>
                     </div>
                 </div>
             </div>

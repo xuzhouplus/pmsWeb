@@ -493,6 +493,9 @@ const Utils = {
     },
     updateCarouselCaptionStyle: function (styles, callback, fallback) {
         return this.http('post', configs.proxyBackendHost + configs.updateCarouselCaptionStyleUrl, null, styles, callback, fallback);
+    },
+    setCarouselSwitchType: function (switchType, callback, fallback) {
+        return this.http('post', configs.proxyBackendHost + configs.setCarouselSwitchTypeUrl, null, switchType, callback, fallback);
     }
 }
 

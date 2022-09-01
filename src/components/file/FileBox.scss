@@ -34,19 +34,28 @@
     -webkit-transition: top 0.5s; /* Safari */
     color: #ccc;
 
-    .card-text {
-      height: 48px;
+    .card-paragraph {
+      //height: 48px;
       text-overflow: ellipsis;
       overflow: hidden;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 1;
       display: -webkit-box;
+
+      //div {
+      //  width: fit-content;
+      //}
     }
 
-    button {
-      outline: none;
-      box-shadow: none;
-      margin-right: 5px;
+    .card-button {
+      position: absolute;
+      bottom: 1.25rem;
+
+      button {
+        outline: none;
+        box-shadow: none;
+        margin-right: 5px;
+      }
     }
   }
 }

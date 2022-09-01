@@ -86,8 +86,7 @@ class FileListModal extends React.Component {
 
     render() {
         let boxList = this.state.files.map((item, index) =>
-            <FileBox thumb={item.thumb} name={item.name} description={item.description} key={index}
-                     select={this.select.bind(this, index)}></FileBox>
+            <FileBox file={item} key={index} select={this.select.bind(this, index)}></FileBox>
         );
         let uploadComponent
         if (this.props.upload) {

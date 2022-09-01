@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Dropdown, ListGroup, OverlayTrigger, Popover} from "react-bootstrap";
+import {Card, ListGroup} from "react-bootstrap";
 import TreeNavibar from "@components/navbar/TreeNavibar";
 import Utils from "@utils/Utils";
 import {connect} from "react-redux";
@@ -281,8 +281,11 @@ class Index extends React.Component {
     }
 
     changeCaptionStyle = (carousel) => {
-        console.log(carousel)
+        const previewIndex = this.state.previewIndex
+        const carousels = this.state.carousels
+        carousels[previewIndex] = carousel
         this.setState({
+            carousels: carousels,
             previewCarousel: carousel
         })
     }
@@ -301,13 +304,22 @@ class Index extends React.Component {
         })
     }
 
+    changeSwitchType = (effect) => {
+        let previewCarousel = this.state.previewCarousel
+        previewCarousel.switch_type = effect
+        this.setState({
+            previewCarousel: previewCarousel
+        })
+        this.state.tweenMax.switchFile(previewCarousel)
+    }
+
     render() {
         let boxList = this.mapCarouselSortable();
         let addBox = this.addBoxButton();
         let createModal = '';
         if (this.state.showModal) {
             createModal = <CarouselCreateModal show={this.state.showModal} handleModal={this.handleModal}
-                                               afterSubmit={this.afterSubmit} carousel={this.state.previewCarousel}/>
+                                               afterSubmit={this.afterSubmit}/>
         }
         return (<TreeNavibar>
             <Card>
@@ -334,7 +346,7 @@ class Index extends React.Component {
             <Card className="carousel-list-container">
                 {createModal}
                 <Card.Body id="carousel-preview-table" className="carousel-preview-table">
-                    <CarouselPreviewer carousel={this.state.previewCarousel} onChange={this.changeCaptionStyle} onSubmit={this.submitCaptionStyle} onDelete={this.deleteCarousel}></CarouselPreviewer>
+                    <CarouselPreviewer carousel={this.state.previewCarousel} onSwitch={this.changeSwitchType} onChange={this.changeCaptionStyle} onSubmit={this.submitCaptionStyle} onDelete={this.deleteCarousel}></CarouselPreviewer>
                 </Card.Body>
                 <Card.Footer className="carousel-preview-list">
                     {boxList}

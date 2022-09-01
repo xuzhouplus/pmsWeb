@@ -1,10 +1,11 @@
 import React from "react";
-import {Button, Card, Col, Form, Row} from "react-bootstrap";
+import {Card, Col, Form, InputGroup, Row} from "react-bootstrap";
 import "./CarouselCaptionModal.scss";
 
 class CarouselCaptionModal extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             //显示文本
             displayValue: "",
@@ -118,12 +119,13 @@ class CarouselCaptionModal extends React.Component {
                         <Form.Group className="position-relative">
                             <Row>
                                 <Form.Label className="input-label" htmlFor="input-left" column sm={2}>X</Form.Label>
-                                <Col sm={10} className="input-field">
-                                    <Form.Control id="input-left" type='text' size="sm"
+                                <InputGroup as={Col} sm={10} className="input-field" size="sm">
+                                    <Form.Control id="input-left" type='text'
                                                   value={this.props.style.left} isInvalid={this.state.leftInvalid}
                                                   isValid={this.state.leftValid} onChange={this.onChange}
                                                   onBlur={this.onChange}/>
-                                </Col>
+                                    <InputGroup.Text id="addon-left">%</InputGroup.Text>
+                                </InputGroup>
                             </Row>
                             <Form.Control.Feedback type="invalid" tooltip>
                                 {this.state.leftText}

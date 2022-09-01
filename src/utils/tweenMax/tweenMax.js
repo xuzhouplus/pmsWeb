@@ -171,8 +171,7 @@ class TweenMax {
     }
 
     createCaption() {
-        let container
-        container = this.containerElement.querySelector('.carousel-captions')
+        let container = this.containerElement.querySelector('.carousel-captions')
         if (!container) {
             container = document.createElement('div')
             container.className = 'carousel-captions'

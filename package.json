@@ -50,7 +50,7 @@
     "video.js": "^7.17.0"
   },
   "scripts": {
-    "start": "craco start http://web.pms.test",
+    "start": "craco start http://web.local.chinamcloud.com/",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"

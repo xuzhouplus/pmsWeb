@@ -115,9 +115,10 @@ class PostCkEditor extends React.Component {
 									html: match => {
 										console.log(match)
 										const id = match['input'].slice(-32);
+										const host = window.location.origin
 										return (
 											'<div class="ckeditor-video">' +
-											`<iframe src="http://web.pms.test/media/${id}" ` +
+											`<iframe src="${host}/media/${id}" ` +
 											'style="width: 100%;height: 720px" ' +
 											'allowtransparency="true" frameborder="0" width="1280" height="720" allowfullscreen allow="autoplay">' +
 											'</iframe>' +

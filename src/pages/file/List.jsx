@@ -144,7 +144,7 @@ class List extends React.Component {
 
     render() {
         let boxList = this.state.files.map((item, index) =>
-            <FileBox thumb={item.thumb} name={item.name} description={item.description} key={index} preview={this.preview.bind(this, index)} source={this.source.bind(this, index)} delete={this.delete.bind(this, index)}></FileBox>
+            <FileBox file={item} key={index} preview={this.preview.bind(this, index)} source={this.source.bind(this, index)} delete={this.delete.bind(this, index)}></FileBox>
         );
         let uploadModal = '';
         if (this.state.modal) {
