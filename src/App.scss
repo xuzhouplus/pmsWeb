@@ -250,32 +250,3 @@ a {
 .text-right {
   text-align: right;
 }
-
-.marquee-container {
-  width: 100%;
-  background-color: #65b4ae;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.marquee-words {
-  position: relative;
-  width: fit-content;
-  animation: marqueeMove 4s linear infinite;
-  padding-left: 1rem;
-}
-
-.marquee-words::after {
-  position: absolute;
-  right: -100%;
-  content: attr(text);
-}
-
-@keyframes marqueeMove {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}

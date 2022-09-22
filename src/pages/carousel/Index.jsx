@@ -158,10 +158,11 @@ class Index extends React.Component {
                 })
             }
         })
-        tweenMax.switchFile(carousel, null, false, () => {
-            this.setState({
-                tweenMax: tweenMax
-            })
+        if (carousel) {
+            tweenMax.switchFile(carousel, null, false)
+        }
+        this.setState({
+            tweenMax: tweenMax
         })
     }
 

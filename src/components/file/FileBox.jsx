@@ -39,12 +39,11 @@ class FileBox extends React.Component {
                 status = this.props.file.error
                 break;
         }
-
         return (
             <Card className="file-box" onClick={this.props.preview}>
-                <Card.Img variant="top" src={this.props.file.thumb}/>
+                <Card.Img src={this.props.file.thumb}/>
                 <Card.Body>
-                    <Card.Title as="h4">{this.props.file.name}</Card.Title>
+                    <Card.Title as="h5">{this.props.file.name}</Card.Title>
                     <div className="card-paragraph">
                         <div>{this.props.file.description}</div>
                     </div>

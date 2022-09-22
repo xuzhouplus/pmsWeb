@@ -1,13 +1,23 @@
 // 全局你可以创建多个reducer 在这里统一在一起
-import {combineReducers, createStore} from "redux";
-import {auth, site, program} from "./Reducers";
-import {authState, siteState, programState} from "./States";
+import {authState, siteState, programState, toastState} from "./States";
+import {configureStore} from "@reduxjs/toolkit";
+import siteReducer from "./slices/SiteSlice"
+import programReducer from "./slices/ProgramSlice"
+import authReducer from "./slices/AuthSlice"
+import toastReducer from "./slices/ToastSlice"
 
-const rootReducers = combineReducers({auth, site, program})
-const initState = {
-	auth: authState,
-	site: siteState,
-	program: programState
-}
 // 全局就管理一个store
-export const store = createStore(rootReducers, initState)
+export const store = configureStore({
+    reducer: {
+        site: siteReducer,
+        program: programReducer,
+        auth: authReducer,
+        toast: toastReducer,
+    },
+    preloadedState:{
+        site:siteState,
+        program:programState,
+        auth:authState,
+        toast:toastState
+    }
+})

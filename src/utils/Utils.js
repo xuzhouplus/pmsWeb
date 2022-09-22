@@ -2,10 +2,11 @@ import {JSEncrypt} from 'encryptlong';
 import axios from "axios";
 import configs from "../configs";
 import {store} from "../redux/Store";
-import {logoutAction, programAction} from "../redux/Actions";
 import Swal from "sweetalert2";
 import {v4 as uuidv4} from "uuid"
 import Configs from "../configs";
+import {programSlice} from "@redux/slices/ProgramSlice";
+import {authSlice} from "@redux/slices/AuthSlice";
 
 const Utils = {
     login: function (account, password, callback, fallback) {
@@ -325,7 +326,7 @@ const Utils = {
                     console.log(state);
                     if (state.auth.uuid) {
                         store.dispatch({
-                            type: logoutAction.type,
+                            type: authSlice.actions.logout,
                             payload: {}
                         });
                     }
@@ -338,10 +339,8 @@ const Utils = {
                             allowOutsideClick: false,
                             didClose: function () {
                                 store.dispatch({
-                                    type: programAction.type,
-                                    payload: {
-                                        showLogin: true
-                                    }
+                                    type: programSlice.actions.loginModal,
+                                    payload: true
                                 });
                             }
                         })

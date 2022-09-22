@@ -11,6 +11,12 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
+
+  .card-img-top {
+    position: absolute;
+    top: 0;
+  }
 
   .card-title {
     text-overflow: ellipsis;
@@ -18,8 +24,8 @@
     white-space: nowrap;
   }
 
-  &:hover > .card-body {
-    top: 0px;
+  &:hover .card-body {
+    top: 0px !important;
   }
 
   .card-body {
@@ -33,6 +39,11 @@
     transition: top 0.5s;
     -webkit-transition: top 0.5s; /* Safari */
     color: #ccc;
+
+    .card-title {
+      margin-bottom: 0.6rem;
+    }
+
 
     .card-paragraph {
       //height: 48px;

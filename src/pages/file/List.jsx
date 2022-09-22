@@ -10,6 +10,7 @@ import {LinkContainer} from "react-router-bootstrap";
 import {connect} from "react-redux";
 import Map from "@/redux/Map"
 import './List.scss';
+import {FileDetail} from "@utils/http/File";
 
 class List extends React.Component {
     constructor(props) {
@@ -92,29 +93,37 @@ class List extends React.Component {
             cancelTokenSource: cancelTokenSource
         })
     }
-    preview = (index, event) => {
+    preview = (uuid, event) => {
         event.stopPropagation();
-        console.log(this.state.files[index]);
-        this.setState({
-            preview: this.state.files[index]
-        });
+        FileDetail(uuid, response => {
+            console.log(response)
+            this.setState({
+                preview: response.data
+            });
+        }, error => {
+            console.log(error)
+        })
     }
     hidePreview = () => {
         this.setState({
             preview: null
         })
     }
-    source = (index, event) => {
+    source = (uuid, event) => {
         event.stopPropagation();
-        const subWindow = window.open(this.state.files[index].path, this.state.files[index].name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
-        subWindow.document.body.style.backgroundColor = "#00236099";
-        subWindow.document.title = this.state.files[index].name;
+        FileDetail(uuid, response => {
+            console.log(response)
+            const subWindow = window.open(response.data.path, response.data.name, 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
+            subWindow.document.body.style.backgroundColor = "#00236099";
+            subWindow.document.title = response.data.name;
+        }, error => {
+            console.log(error)
+        })
     }
-    delete = (index, event) => {
+    delete = (uuid, event) => {
         event.stopPropagation();
-        console.log(this.state.files[index]);
         Utils.deleteFile({
-            id: this.state.files[index].id
+            uuid: uuid
         }, (response) => {
             this.getFileList(this.state.page);
         }, (error) => {
@@ -144,7 +153,7 @@ class List extends React.Component {
 
     render() {
         let boxList = this.state.files.map((item, index) =>
-            <FileBox file={item} key={index} preview={this.preview.bind(this, index)} source={this.source.bind(this, index)} delete={this.delete.bind(this, index)}></FileBox>
+            <FileBox file={item} key={index} preview={this.preview.bind(this, item.uuid)} source={this.source.bind(this, item.uuid)} delete={this.delete.bind(this, item.uuid)}></FileBox>
         );
         let uploadModal = '';
         if (this.state.modal) {
@@ -174,7 +183,7 @@ class List extends React.Component {
                     </Card.Body>
                 </Card>
                 <Card className="file-list-container">
-                    {this.state.preview ? <FilePreviewModal hide={this.hidePreview} {...this.state.preview}/> : ''}
+                    {this.state.preview ? <FilePreviewModal hide={this.hidePreview} file={this.state.preview}/> : ''}
                     {uploadModal}
                     <Card.Header className="file-header">
                         <Form inline="true" onSubmit={this.handleSearch}>

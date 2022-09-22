@@ -1,26 +1,23 @@
 import React from 'react'
 import {Container} from 'react-bootstrap'
 import Loading from './pages/mask/Loading';
-import {initAction} from "./redux/Actions";
 import {connect} from "react-redux";
 import Utils from "./utils/Utils";
 import Main from "./pages/Main";
 import Maintain from "@pages/Maintain";
+import {siteSlice} from "@redux/slices/SiteSlice";
 import './App.scss'
 
 function mapStateToProps(state) {
 	return {
-		site: state.site
+		site: state.site,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		init: (site) => {
-			dispatch({
-				type: initAction.type,
-				payload: site
-			})
+			dispatch(siteSlice.actions.init(site))
 		},
 	}
 }

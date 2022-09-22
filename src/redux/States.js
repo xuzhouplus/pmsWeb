@@ -4,8 +4,11 @@ let authState = {}
 let siteState = {}
 //程序状态数据
 let programState = {}
+//提示
+let toastState={}
 export {
 	authState,
 	siteState,
-	programState
+	programState,
+	toastState
 }

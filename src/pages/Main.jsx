@@ -7,6 +7,7 @@ import configs from "@/configs";
 import {Col, Container, Row} from "react-bootstrap";
 import Navibar from "@components/navbar/Navibar";
 import Footer from "@components/footer/Footer";
+import Toast from "@pages/mask/Toast";
 
 function mapStateToProps(state) {
     return {
@@ -46,6 +47,7 @@ class Main extends React.Component {
                     <Switch>
                         <Route path="/media/:uuid" exact component={VideoPreview}></Route>
                         <Container fluid className="app-container">
+                            <Toast></Toast>
                             <Helmet title={this.props.site.title} link={[{rel: "shortcut icon", href: this.props.site.icon ? this.props.site.icon : configs.defaultFavicon}]}></Helmet>
                             <Row className={["app-header", "fixed-top"]}>
                                 <Col xs={12} lg={12}>
