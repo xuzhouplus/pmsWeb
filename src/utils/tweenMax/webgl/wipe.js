@@ -1,21 +1,21 @@
-import Effect from "@utils/tweenMax/webgl/effect";
-import fragment from "./blinds.glsl";
+import fragment from "@utils/tweenMax/webgl/wipe.glsl";
+import Effect from "@/utils/tweenMax/webgl/effect";
 import gsap from "gsap";
 
-class Blinds extends Effect {
-    type = "blinds"
+class Wipe extends Effect {
+    type = 'wipe'
     fragment = fragment
-    duration = 4
+    duration = 3
 
     switchImage(tweenMax, reverse, completed) {
         gsap.to(tweenMax.material.uniforms.dispFactor, {
-            duration: this.duration,
             value: 1.0,
-            ease: 'Expo.easeInOut',
+            ease: 'Power4.easeInOut',
+            duration: this.duration,
             onComplete: () => {
                 completed && completed()
             }
-        });
+        })
     }
 
     hideCaption(caption, reverse, completed) {
@@ -46,4 +46,4 @@ class Blinds extends Effect {
     }
 }
 
-export default Blinds
+export default Wipe;

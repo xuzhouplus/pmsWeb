@@ -27,7 +27,6 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			maintain: false,
-			error: ''
 		}
 	}
 

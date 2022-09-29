@@ -10,10 +10,6 @@ import TweenMax from "@utils/tweenMax/tweenMax";
 import Sortable from "sortablejs";
 import CarouselPreviewer from "@components/carousel/CarouselPreviewer";
 import './Index.scss'
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-
-const MySwal = withReactContent(Swal)
 
 class Index extends React.Component {
     loading = "/logo192.png"
@@ -30,7 +26,7 @@ class Index extends React.Component {
             previewIndex: null,
             previewCarousel: null,
             tweenMax: null,
-            sortable: null
+            sortable: null,
         };
     }
 
@@ -81,6 +77,7 @@ class Index extends React.Component {
             this.setState({
                 carousels: [], cancelTokenSource: null, isLoading: false, previewCarousel: {}
             })
+            this.props.error(error)
         })
         this.setState({
             cancelTokenSource: cancelTokenSource
@@ -220,13 +217,14 @@ class Index extends React.Component {
                 }
                 Utils.sortCarouselOrder(sortedOrder, (response) => {
                     console.log(response)
+                    this.props.success('修改成功');
                 }, (error) => {
-                    MySwal.fire({
-                        html: <div>
-                            <p>修改失败</p>
-                        </div>,
-                    }).then(r => {
-                        this.cancelSortable(event)
+                    console.log(error)
+                    this.props.error({
+                        text: '修改失败',
+                        onClose: () => {
+                            this.cancelSortable(event)
+                        }
                     })
                 })
             }
@@ -266,7 +264,11 @@ class Index extends React.Component {
             if (item.status === 1) {
                 thumbUrl = this.loading
             }
-            return <div key={index} className="carousel-button">
+            let className = ['carousel-button'];
+            if (this.state.previewCarousel.uuid === item.uuid) {
+                className.push('active')
+            }
+            return <div key={index} className={className.join(' ')}>
                 <img key={index} src={thumbUrl} alt={item.title} onClick={this.preview.bind(this, index)}></img>
             </div>
         });
@@ -300,18 +302,22 @@ class Index extends React.Component {
                 previewCarousel: response.data,
                 carousels: carousels
             })
+            this.props.success('保存成功')
         }, error => {
             console.log(error)
+            this.props.error(error)
         })
     }
 
-    changeSwitchType = (effect) => {
+    changeSwitchType = (effect, reverse) => {
         let previewCarousel = this.state.previewCarousel
-        previewCarousel.switch_type = effect
-        this.setState({
-            previewCarousel: previewCarousel
-        })
-        this.state.tweenMax.switchFile(previewCarousel)
+        if (effect) {
+            previewCarousel.switch_type = effect
+            this.setState({
+                previewCarousel: previewCarousel
+            })
+        }
+        this.state.tweenMax.switchFile(previewCarousel, null, reverse)
     }
 
     render() {

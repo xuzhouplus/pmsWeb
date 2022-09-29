@@ -70,6 +70,7 @@ class List extends React.Component {
                 cancelTokenSource: null,
                 isLoading: false
             })
+            this.props.error(error)
         })
         this.setState({
             cancelTokenSource: cancelTokenSource
@@ -93,38 +94,42 @@ class List extends React.Component {
         })
         this.getPostList();
     }
-    preview = (index, event) => {
+
+    preview = (uuid, event) => {
         event.stopPropagation();
-        let post = this.state.posts[index];
-        window.open('/post/' + post.uuid);
+        window.open('/post/' + uuid);
     }
-    edit = (index, event) => {
+
+    edit = (uuid, event) => {
         event.stopPropagation();
-        let post = this.state.posts[index];
         this.setState({
-            editPost: post.id,
-            editor: post.type
+            editPost: uuid,
+            editor: 'rt'
         })
     }
-    toggleStatus = (index, event) => {
+
+    toggleStatus = (uuid, event) => {
         event.stopPropagation();
-        let post = this.state.posts[index];
-        Utils.togglePostStatus(post.id, response => {
+        Utils.togglePostStatus(uuid, response => {
+            this.props.success('修改成功')
             this.getPostList(this.state.page);
         }, error => {
             console.log(error);
+            this.props.error(error)
         });
     }
-    delete = (index, event) => {
+
+    delete = (uuid, event) => {
         event.stopPropagation();
-        let post = this.state.posts[index];
-        Utils.deletePost(post.id, response => {
+        Utils.deletePost(uuid, response => {
             this.setState({
                 page: 0
             });
+            this.props.success('删除成功')
             this.getPostList();
         }, error => {
             console.log(error);
+            this.props.error(error)
         });
     }
 
@@ -138,6 +143,7 @@ class List extends React.Component {
             search: event.target.value ? event.target.value.trim() : null
         })
     }
+
     handleSearch = (event) => {
         event.stopPropagation();
         event.preventDefault();
@@ -151,14 +157,34 @@ class List extends React.Component {
             boxList = <Loading></Loading>
         } else {
             if (this.state.posts.length > 0) {
-                boxList = this.state.posts.map((item, index) =>
-                    <PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index} preview={this.preview.bind(this, index)} edit={this.edit.bind(this, index)} delete={this.delete.bind(this, index)} putOn={item.status === 2 ? this.toggleStatus.bind(this, index) : null} putOff={item.status === 1 ? this.toggleStatus.bind(this, index) : null}></PostBox>
-                );
+                let boxCount = 0;
+                boxList = [];
+                let postBox = [];
+                let lastCount = this.state.posts.length % 4
+                let rowCount = Math.ceil(this.state.posts.length / 4)
+                for (const post of this.state.posts) {
+                    postBox.push(<Col key={boxCount} xs={3} lg={3} className="post-list-box"><PostBox thumb={post.cover} name={post.title} description={post.sub_title} preview={this.preview.bind(this, post.uuid)} edit={this.edit.bind(this, post.uuid)} delete={this.delete.bind(this, post.uuid)} putOn={post.status === 2 ? this.toggleStatus.bind(this, post.uuid) : null} putOff={post.status === 1 ? this.toggleStatus.bind(this, post.uuid) : null}></PostBox></Col>)
+                    boxCount++;
+                    let columnCount = boxCount % 4
+                    let currentRow = Math.ceil(boxCount / 4)
+                    if (columnCount === 0) {
+                        boxList.push(<Row key={boxCount} className="post-table-row">
+                            {postBox}
+                        </Row>)
+                        postBox = []
+                    }
+                    if (columnCount === lastCount && rowCount === currentRow) {
+                        boxList.push(<Row key={boxCount} className="post-table-row">
+                            {postBox}
+                        </Row>)
+                        postBox = []
+                    }
+                }
             }
         }
         let postEditor = null
         if (this.state.editor) {
-            postEditor = <PostEditor type={this.state.editor} appLogo={logo} id={this.state.editPost} show={this.state.editor} hide={this.hideEditor} afterSave={this.afterSave}/>
+            postEditor = <PostEditor appLogo={logo} id={this.state.editPost} show={this.state.editor} hide={this.hideEditor} afterSave={this.afterSave}/>
         }
         return (
             <TreeNavibar>
@@ -201,11 +227,7 @@ class List extends React.Component {
                         </Form>
                     </Card.Header>
                     <Card.Body id="post-table" className="post-table">
-                        <Row className="post-table-list">
-                            <Col xs={12} lg={12} className="post-list-box">
-                                {boxList}
-                            </Col>
-                        </Row>
+                        {boxList}
                     </Card.Body>
                     <Card.Footer>
                         <Paginator page={this.state.page} count={this.state.count} onClick={this.changePage}></Paginator>
@@ -216,4 +238,4 @@ class List extends React.Component {
     }
 }
 
-export default connect(Map.mapAccountStateToProps, null)(List);
+export default connect(Map.mapAccountStateToProps, Map.mapToastDispatchToProps)(List);

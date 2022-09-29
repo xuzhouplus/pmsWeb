@@ -47,8 +47,8 @@ const Utils = {
     getFileList: function (data, callback, fallback) {
         return this.http('get', configs.proxyBackendHost + configs.fileListUrl, data, callback, fallback);
     },
-    getFileInfo: function (data, callback, fallback) {
-        return this.http('get', configs.proxyBackendHost + configs.fileInfoUrl, data, callback, fallback);
+    getFileInfo: function (uuid, callback, fallback) {
+        return this.http('get', configs.proxyBackendHost + configs.fileInfoUrl, {uuid: uuid}, callback, fallback);
     },
     uploadFile: function (data, uploadProgress, callback, fallback) {
         let formData = new FormData();
@@ -495,6 +495,22 @@ const Utils = {
     },
     setCarouselSwitchType: function (switchType, callback, fallback) {
         return this.http('post', configs.proxyBackendHost + configs.setCarouselSwitchTypeUrl, null, switchType, callback, fallback);
+    },
+    getElementInnerSize: function (element) {
+        const cs = getComputedStyle(element);
+        const paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+        const paddingY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+
+        const borderX = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+        const borderY = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+
+
+        const elementWidth = element.offsetWidth - paddingX - borderX;
+        const elementHeight = element.offsetHeight - paddingY - borderY;
+        return {
+            width: elementWidth,
+            height: elementHeight,
+        }
     }
 }
 

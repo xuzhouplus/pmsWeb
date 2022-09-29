@@ -1,7 +1,8 @@
-@import "~bootstrap/dist/css/bootstrap.min.css";
-//@import '~@sweetalert2/theme-bootstrap-4/bootstrap-4.scss';
+@import "~bootstrap/scss/bootstrap";
+//@import '~@sweetalert2/theme-bootstrap-4';
 
 :root {
+  --bs-toast-zindex: 9999;
   --main-color: rgb(0, 0, 0);
   --main-color-transparent: rgba(0, 0, 0, 0.6);
   --main-color-home: rgba(0, 0, 0, 0.6);
@@ -36,7 +37,7 @@
   background: #ffffff;
 }
 
-iframe {
+iframe:not(.video-player) {
   pointer-events: none;
 }
 

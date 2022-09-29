@@ -38,6 +38,15 @@
       cursor: pointer;
       border-radius: 0.25rem;
       overflow: hidden;
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.active {
+        opacity: 1;
+      }
 
       img {
         width: 100%;

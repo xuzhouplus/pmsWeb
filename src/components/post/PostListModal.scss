@@ -38,6 +38,11 @@
             width: 100%;
             display: flex;
             flex-wrap: wrap;
+
+            .post-table-row {
+              width: 100%;
+              margin: auto auto 0.5rem;
+            }
           }
         }
       }

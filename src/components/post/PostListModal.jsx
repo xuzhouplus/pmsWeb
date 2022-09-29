@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, FormControl, InputGroup, Modal} from "react-bootstrap";
+import {Button, Col, Form, FormControl, InputGroup, Modal, Row} from "react-bootstrap";
 import Loading from "@components/loading/Loading";
 import PostBox from "@components/post/PostBox";
 import Utils from "@utils/Utils";
@@ -83,15 +83,18 @@ class PostListModal extends React.Component {
         this.getPostList(0)
     }
 
-    preview = (index, event) => {
+    preview = (uuid, event) => {
         event.stopPropagation();
-        let post = this.state.posts[index];
-        window.open('/post/' + post.uuid);
+        window.open('/post/' + uuid);
     }
 
-    select = (index, event) => {
+    select = (uuid, event) => {
         event.stopPropagation();
-        this.props.selectPost(this.state.posts[index])
+        Utils.getPostDetail(uuid, data => {
+            this.props.selectPost(data.data)
+        }, error => {
+            console.log(error)
+        })
     }
 
     hideModal = () => {
@@ -109,10 +112,29 @@ class PostListModal extends React.Component {
             boxList = <Loading></Loading>
         } else {
             if (this.state.posts.length > 0) {
-                boxList = this.state.posts.map((item, index) =>
-                    <PostBox thumb={item.cover} name={item.title} description={item.sub_title} key={index}
-                             preview={this.preview.bind(this, index)} select={this.select.bind(this, index)}></PostBox>
-                );
+                let boxCount = 0;
+                boxList = [];
+                let postBox = [];
+                let lastCount = this.state.posts.length % 4
+                let rowCount = Math.ceil(this.state.posts.length / 4)
+                for (const post of this.state.posts) {
+                    postBox.push(<Col key={post.uuid} xs={3} lg={3} className="post-list-box"><PostBox thumb={post.cover} name={post.title} description={post.sub_title} preview={this.preview.bind(this, post.uuid)} select={this.select.bind(this, post.uuid)}></PostBox></Col>)
+                    boxCount++;
+                    let columnCount = boxCount % 4
+                    let currentRow = Math.ceil(boxCount / 4)
+                    if (columnCount === 0) {
+                        boxList.push(<Row key={boxCount} className="post-table-row">
+                            {postBox}
+                        </Row>)
+                        postBox = []
+                    }
+                    if (columnCount === lastCount && rowCount === currentRow) {
+                        boxList.push(<Row key={boxCount} className="post-table-row">
+                            {postBox}
+                        </Row>)
+                        postBox = []
+                    }
+                }
             }
         }
         return (

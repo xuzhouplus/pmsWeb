@@ -2,7 +2,7 @@ import React from "react";
 import Loading from "../loading/Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Utils from "../../utils/Utils";
-import {Button, Card, Col, Modal} from "react-bootstrap";
+import {Button, Card, Col, Modal, Row} from "react-bootstrap";
 import FileBox from "./FileBox";
 import FileUploadModal from "./FileUploadModal";
 import './FileListModal.scss'
@@ -75,9 +75,13 @@ class FileListModal extends React.Component {
             showUpload: !this.state.showUpload
         })
     }
-    select = (index, event) => {
+    select = (uuid, event) => {
         event.stopPropagation();
-        this.props.selectFile(this.state.files[index])
+        Utils.getFileInfo(uuid, data => {
+            this.props.selectFile(data.data)
+        }, error => {
+            console.log(error)
+        })
     }
     afterUpload = (uploadedFile) => {
         this.handleUploadModal();
@@ -85,9 +89,29 @@ class FileListModal extends React.Component {
     }
 
     render() {
-        let boxList = this.state.files.map((item, index) =>
-            <FileBox file={item} key={index} select={this.select.bind(this, index)}></FileBox>
-        );
+        let boxCount = 0;
+        let boxList = [];
+        let postBox = [];
+        let lastCount = this.state.files.length % 4
+        let rowCount = Math.ceil(this.state.files.length / 4)
+        for (const file of this.state.files) {
+            postBox.push(<Col xs={3} lg={3} className="file-list-box"><FileBox file={file} key={file.uuid} select={this.select.bind(this, file.uuid)}></FileBox></Col>)
+            boxCount++;
+            let columnCount = boxCount % 4
+            let currentRow = Math.ceil(boxCount / 4)
+            if (columnCount === 0) {
+                boxList.push(<Row className="file-table-row">
+                    {postBox}
+                </Row>)
+                postBox = []
+            }
+            if (columnCount === lastCount && rowCount === currentRow) {
+                boxList.push(<Row className="file-table-row">
+                    {postBox}
+                </Row>)
+                postBox = []
+            }
+        }
         let uploadComponent
         if (this.props.upload) {
             let uploadFileModal

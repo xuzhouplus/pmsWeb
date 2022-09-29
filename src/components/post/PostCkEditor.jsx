@@ -113,14 +113,17 @@ class PostCkEditor extends React.Component {
 
 									// To be defined only if the media are previewable:
 									html: match => {
-										console.log(match)
 										const id = match['input'].slice(-32);
 										const host = window.location.origin
+										const editorContent = document.querySelector('.ck-content')
+										let height = Math.round(editorContent.clientWidth * 720 / 1280)
+										// const innerSize = Utils.getElementInnerSize(editorContent)
+										// let height = Math.round(innerSize.width * 720 / 1280)
 										return (
-											'<div class="ckeditor-video">' +
-											`<iframe src="${host}/media/${id}" ` +
-											'style="width: 100%;height: 720px" ' +
-											'allowtransparency="true" frameborder="0" width="1280" height="720" allowfullscreen allow="autoplay">' +
+											`<div class="ckeditor-video">` +
+											`<iframe class="video-player" src="${host}/media/${id}" ` +
+											`style="width: 100%;height: ${height}px;" ` +
+											`allowtransparency="true" frameborder="0" allowfullscreen allow="autoplay">` +
 											'</iframe>' +
 											'</div>'
 										);

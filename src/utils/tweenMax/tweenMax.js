@@ -9,6 +9,9 @@ import Slide from "@utils/tweenMax/webgl/slide";
 import Fade from "@utils/tweenMax/webgl/fade";
 import Clamp from "@utils/tweenMax/webgl/clamp";
 import Blinds from "@utils/tweenMax/webgl/blinds";
+import Wipe from "@utils/tweenMax/webgl/wipe";
+import Cube from "@utils/tweenMax/webgl/cube";
+import Swap from "@utils/tweenMax/webgl/swap";
 import "./tweenMax.scss";
 
 class TweenMax {
@@ -240,6 +243,15 @@ class TweenMax {
             case 'blinds':
                 renderer = new Blinds();
                 break;
+            case 'wipe':
+                renderer = new Wipe();
+                break;
+            case 'cube':
+                renderer = new Cube();
+                break;
+            case 'swap':
+                renderer = new Swap();
+                break;
             default:
                 renderer = new Parallax();
         }
@@ -272,6 +284,7 @@ class TweenMax {
         this.material.uniforms.switchType.value = effect.index;
         this.material.uniforms.nextImage.value = image;
         this.material.uniforms.nextImage.needsUpdate = true;
+        this.material.uniforms.reverse.value = reverse;
         effect.renderer.switchImage(this, reverse, () => {
             this.material.uniforms.currentImage.value = image;
             this.material.uniforms.currentImage.needsUpdate = true;

@@ -1,6 +1,8 @@
 import React from "react";
 import videojs from "video.js";
 import Utils from "@utils/Utils";
+import Map from "@/redux/Map"
+import {connect} from "react-redux";
 import "video.js/src/css/video-js.scss";
 import "./video.scss";
 
@@ -10,7 +12,7 @@ class Video extends React.Component {
 
     componentDidMount() {
         let uuid = this.props.match.params.uuid
-        Utils.getFileInfo({"uuid": uuid}, success => {
+        Utils.getFileInfo(uuid, success => {
             console.log(success)
             videojs.addLanguage('zh-CN', {
                 "Play": "播放",
@@ -104,7 +106,7 @@ class Video extends React.Component {
             this.player = videojs(this.videoNode, {
                 poster: success.data.poster ? success.data.poster : success.data.thumb,
                 language: 'zh-CN',
-                autoplay: true,
+                autoplay: false,
                 controls: true,
                 sources: [{
                     src: success.data.preview,
@@ -115,6 +117,7 @@ class Video extends React.Component {
             });
         }, error => {
             console.log(error)
+            this.props.error(error)
         })
     }
 
@@ -135,4 +138,4 @@ class Video extends React.Component {
 
 }
 
-export default Video;
+export default connect(null, Map.mapToastDispatchToProps)(Video);

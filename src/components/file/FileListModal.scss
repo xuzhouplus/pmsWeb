@@ -32,6 +32,11 @@
             width: 100%;
             display: flex;
             flex-wrap: wrap;
+
+            .file-table-row {
+              width: 100%;
+              margin: auto auto 0.5rem;
+            }
           }
         }
       }

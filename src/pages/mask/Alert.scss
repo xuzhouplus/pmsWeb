@@ -1,0 +1,45 @@
+.toast-container {
+  .toast {
+    &.error {
+      .toast-header {
+        background-color: rgba(var(--bs-danger-rgb));
+      }
+    }
+
+    &.waring {
+      .toast-header {
+        background-color: rgba(var(--bs-waring-rgb));
+      }
+    }
+
+    &.success {
+      .toast-header {
+        background-color: rgba(var(--bs-success-rgb));
+      }
+    }
+
+    &.info {
+      .toast-header {
+        background-color: rgba(var(--bs-info-rgb));
+      }
+    }
+
+    &.light {
+      .toast-header {
+        background-color: rgba(var(--bs-light-rgb));
+      }
+    }
+
+    .toast-header {
+      justify-content: space-between;
+
+      img {
+        height: 20px;
+      }
+    }
+
+    .toast-body {
+      background-color: rgba(var(--bs-light-rgb));
+    }
+  }
+}

@@ -27,7 +27,10 @@
   .file-table {
     overflow-y: scroll;
 
-    .file-table-list {
+    .file-table-row {
+      width: 100%;
+      margin: auto auto 0.5rem;
+
       .file-list-box {
         display: flex;
         flex-wrap: wrap;

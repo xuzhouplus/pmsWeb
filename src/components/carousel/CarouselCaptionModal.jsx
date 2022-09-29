@@ -68,7 +68,6 @@ class CarouselCaptionModal extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         let cardClassName = "carousel-caption-modal"
         if (!this.props.show) {
             cardClassName += " d-none"
@@ -124,7 +123,7 @@ class CarouselCaptionModal extends React.Component {
                                                   value={this.props.style.left} isInvalid={this.state.leftInvalid}
                                                   isValid={this.state.leftValid} onChange={this.onChange}
                                                   onBlur={this.onChange}/>
-                                    <InputGroup.Text id="addon-left">%</InputGroup.Text>
+                                    <InputGroup.Text>%</InputGroup.Text>
                                 </InputGroup>
                             </Row>
                             <Form.Control.Feedback type="invalid" tooltip>
@@ -134,12 +133,13 @@ class CarouselCaptionModal extends React.Component {
                         <Form.Group className="position-relative">
                             <Row>
                                 <Form.Label className="input-label" htmlFor="input-top" column sm={2}>Y</Form.Label>
-                                <Col sm={10} className="input-field">
-                                    <Form.Control id="input-top" type='text' size="sm"
+                                <InputGroup as={Col} sm={10} className="input-field" size="sm">
+                                    <Form.Control id="input-top" type='text'
                                                   value={this.props.style.top} isInvalid={this.state.topInvalid}
                                                   isValid={this.state.topValid} onChange={this.onChange}
                                                   onBlur={this.onChange}/>
-                                </Col>
+                                    <InputGroup.Text>%</InputGroup.Text>
+                                </InputGroup>
                             </Row>
                             <Form.Control.Feedback type="invalid" tooltip>
                                 {this.state.topText}

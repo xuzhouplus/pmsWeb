@@ -1,8 +1,8 @@
 import React from 'react'
 import Loading from "@components/loading/Loading";
 import TweenMax from "@utils/tweenMax/tweenMax";
-import "./Carousel.scss";
 import configs from "@/configs";
+import "./Carousel.scss";
 
 class Carousel extends React.Component {
 	paginatorElement = null
@@ -112,6 +112,9 @@ class Carousel extends React.Component {
 	}
 
 	updateCaptionStyle = (type, style) => {
+		if (!this.tweenMax) {
+			return
+		}
 		let caption
 		if (type === 'title') {
 			caption = this.tweenMax.captionElement.querySelector('.carousel-title');
@@ -124,8 +127,6 @@ class Carousel extends React.Component {
 		const titleStyleLeft = this.calculateCaptionPositionLeft(style.left)
 		const titleStyleTop = this.calculateCaptionPositionTop(style.top)
 		style.font_color = this.filterCaptionFontColor(style.font_color)
-		console.log(titleStyleTop)
-		console.log(titleStyleLeft)
 		caption.style.fontFamily = style['font_family']
 		caption.style.color = style['font_color']
 		caption.style.fontSize = titleStyleFontSize

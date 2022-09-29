@@ -3,6 +3,8 @@ import Utils from "../../utils/Utils";
 import {Col, Row} from "react-bootstrap";
 import PostViewer from "@components/post/PostViewer";
 import "./View.scss";
+import Map from "@redux/Map";
+import {connect} from "react-redux";
 
 class View extends React.Component {
 	constructor(props) {
@@ -25,6 +27,7 @@ class View extends React.Component {
 			}
 		}, error => {
 			console.log(error);
+			this.props.error(error)
 		})
 	}
 
@@ -43,4 +46,4 @@ class View extends React.Component {
 	}
 }
 
-export default View;
+export default connect(null,Map.mapToastDispatchToProps)(View);

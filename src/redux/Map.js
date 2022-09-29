@@ -67,8 +67,30 @@ const Map = {
     },
     mapToastDispatchToProps: (dispatch) => {
         return {
-            toast: (toast) => {
+            show: (toast) => {
                 dispatch(toastSlice.actions.toast(toast))
+            },
+            success: (toast) => {
+                let payload = {
+                    type: 'success'
+                }
+                if (typeof toast === 'string') {
+                    payload['text'] = toast
+                } else {
+                    Object.assign(payload, toast)
+                }
+                dispatch(toastSlice.actions.toast(payload))
+            },
+            error: (toast) => {
+                let payload = {
+                    type: 'error'
+                }
+                if (typeof toast === 'string') {
+                    payload['text'] = toast
+                } else {
+                    Object.assign(payload, toast)
+                }
+                dispatch(toastSlice.actions.toast(payload))
             },
             hide: () => {
                 dispatch(toastSlice.actions.hide(null))

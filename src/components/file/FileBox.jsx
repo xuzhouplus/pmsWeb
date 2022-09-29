@@ -6,23 +6,23 @@ class FileBox extends React.Component {
     render() {
         let previewButton = null;
         if (this.props.preview) {
-            previewButton = <Button variant="primary" className="btn-main-color" onClick={this.props.preview}>查看</Button>
+            previewButton = <Button variant="primary" className="btn-main-color" onClick={this.props.preview} size="sm">查看</Button>
         }
         let sourceButton = null;
         if (this.props.source) {
-            sourceButton = <Button variant="primary" className="btn-main-color" onClick={this.props.source}>原图</Button>
+            sourceButton = <Button variant="primary" className="btn-main-color" onClick={this.props.source} size="sm">原图</Button>
         }
         let editButton = null;
         if (this.props.edit) {
-            editButton = <Button variant="primary" className="btn-main-color" onClick={this.props.edit}>编辑</Button>
+            editButton = <Button variant="primary" className="btn-main-color" onClick={this.props.edit} size="sm">编辑</Button>
         }
         let deleteButton = null;
         if (this.props.delete) {
-            deleteButton = <Button variant="primary" className="btn-main-color" onClick={this.props.delete}>删除</Button>
+            deleteButton = <Button variant="primary" className="btn-main-color" onClick={this.props.delete} size="sm">删除</Button>
         }
         let selectButton = null;
         if (this.props.select) {
-            selectButton = <Button variant="primary" className="btn-main-color" onClick={this.props.select}>使用</Button>
+            selectButton = <Button variant="primary" className="btn-main-color" onClick={this.props.select} size="sm">使用</Button>
         }
         let status = null
         switch (this.props.file.status) {
@@ -32,12 +32,12 @@ class FileBox extends React.Component {
             case 1:
                 status = '处理中'
                 break;
-            case 2:
-                status = ''
-                break;
             case 3:
                 status = this.props.file.error
                 break;
+            case 2:
+            default:
+                status = ''
         }
         return (
             <Card className="file-box" onClick={this.props.preview}>

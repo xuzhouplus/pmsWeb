@@ -1,25 +1,11 @@
-import react from "react"
-import {connect} from "react-redux";
-import {toastSlice} from "@redux/slices/ToastSlice";
-import ToastContainer from "react-bootstrap/ToastContainer";
 import React from "react";
-import BootstrapToast from "react-bootstrap/Toast";
+import {connect} from "react-redux";
+import ToastContainer from "react-bootstrap/ToastContainer";
+import Toast from "react-bootstrap/Toast";
+import Map from "@redux/Map";
+import "./Alert.scss";
 
-function mapStateToProps(state) {
-    return {
-        toast: state.toast,
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        hide: (toast) => {
-            dispatch(toastSlice.actions.hide(toast))
-        },
-    }
-}
-
-class Toast extends react.Component {
+class Alert extends React.Component {
     onClose = () => {
         this.props.hide(null)
         this.props.toast.onClose && this.props.toast.onClose()
@@ -32,6 +18,7 @@ class Toast extends react.Component {
         let header = ''
         let text = ''
         let position = null
+        let type = 'info'
         if (this.props.toast) {
             if (this.props.toast.text) {
                 show = true
@@ -43,21 +30,20 @@ class Toast extends react.Component {
             header = this.props.toast.header
             text = this.props.toast.text
             position = this.props.toast.position
+            type = this.props.toast.type
         }
-
         return (
             <ToastContainer position={position} delay={delay} autohide={autoHide}>
-                <BootstrapToast show={show} onClose={this.onClose}>
-                    <BootstrapToast.Header>
-                        <img src={process.env.PUBLIC_URL + '/logo.gif'} alt="Logo"/>
+                <Toast className={type} show={show} onClose={this.onClose}>
+                    <Toast.Header>
+                        <img src={process.env.PUBLIC_URL + '/logo.svg'} alt="Logo"/>
                         {header}
-                        <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </BootstrapToast.Header>
-                    <BootstrapToast.Body>{text}</BootstrapToast.Body>
-                </BootstrapToast>
+                    </Toast.Header>
+                    <Toast.Body>{text}</Toast.Body>
+                </Toast>
             </ToastContainer>
         )
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Toast)
+export default connect(Map.mapToastStateToProps, Map.mapToastDispatchToProps)(Alert)

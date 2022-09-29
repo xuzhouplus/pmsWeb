@@ -1,13 +1,12 @@
 import React from 'react';
-import {loginAction, logoutAction, programAction} from "@/redux/Actions";
 import {connect} from "react-redux";
 import Utils from "@utils/Utils";
 import AdminNavibar from "@components/navbar/AdminNavibar";
 import BaseNavibar from "@components/navbar/BaseNavibar";
-import './Navibar.scss'
 import MaintainNavbar from "@components/navbar/MaintainNavbar";
 import {programSlice} from "@redux/slices/ProgramSlice";
 import {authSlice} from "@redux/slices/AuthSlice";
+import './Navibar.scss'
 
 function mapStateToProps(state) {
     return {

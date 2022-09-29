@@ -9,8 +9,8 @@ import Paginator from "../../components/paginator/Paginator";
 import {LinkContainer} from "react-router-bootstrap";
 import {connect} from "react-redux";
 import Map from "@/redux/Map"
-import './List.scss';
 import {FileDetail} from "@utils/http/File";
+import './List.scss';
 
 class List extends React.Component {
     constructor(props) {
@@ -88,6 +88,7 @@ class List extends React.Component {
                 isLoading: false
             })
             console.log(error);
+            this.props.error(error)
         });
         this.setState({
             cancelTokenSource: cancelTokenSource
@@ -102,6 +103,7 @@ class List extends React.Component {
             });
         }, error => {
             console.log(error)
+            this.props.error(error)
         })
     }
     hidePreview = () => {
@@ -118,6 +120,7 @@ class List extends React.Component {
             subWindow.document.title = response.data.name;
         }, error => {
             console.log(error)
+            this.props.error(error)
         })
     }
     delete = (uuid, event) => {
@@ -128,6 +131,7 @@ class List extends React.Component {
             this.getFileList(this.state.page);
         }, (error) => {
             console.log(error);
+            this.props.error(error)
         });
     }
 
@@ -152,9 +156,29 @@ class List extends React.Component {
     }
 
     render() {
-        let boxList = this.state.files.map((item, index) =>
-            <FileBox file={item} key={index} preview={this.preview.bind(this, item.uuid)} source={this.source.bind(this, item.uuid)} delete={this.delete.bind(this, item.uuid)}></FileBox>
-        );
+        let boxCount = 0;
+        let boxList = [];
+        let fileBox = [];
+        let lastCount = this.state.files.length % 4
+        let rowCount = Math.ceil(this.state.files.length / 4)
+        for (const file of this.state.files) {
+            fileBox.push(<Col xs={3} lg={3} className="file-list-box"><FileBox file={file} key={file.uuid} preview={this.preview.bind(this, file.uuid)} source={this.source.bind(this, file.uuid)} delete={this.delete.bind(this, file.uuid)}></FileBox></Col>)
+            boxCount++;
+            let columnCount = boxCount % 4
+            let currentRow = Math.ceil(boxCount / 4)
+            if (columnCount === 0) {
+                boxList.push(<Row className="file-table-row">
+                    {fileBox}
+                </Row>)
+                fileBox = []
+            }
+            if (columnCount === lastCount && rowCount === currentRow) {
+                boxList.push(<Row className="file-table-row">
+                    {fileBox}
+                </Row>)
+                fileBox = []
+            }
+        }
         let uploadModal = '';
         if (this.state.modal) {
             uploadModal = <FileUploadModal show={this.state.modal} handleModal={this.handleModal} afterUpload={this.afterUpload}/>
@@ -202,11 +226,7 @@ class List extends React.Component {
                         </Form>
                     </Card.Header>
                     <Card.Body id="file-table" className="file-table">
-                        <Row className="file-table-list">
-                            <Col xs={12} lg={12} className="file-list-box">
-                                {boxList}
-                            </Col>
-                        </Row>
+                        {boxList}
                     </Card.Body>
                     <Card.Footer>
                         <Paginator page={this.state.page} count={this.state.count} onClick={this.changePage}></Paginator>
@@ -218,4 +238,4 @@ class List extends React.Component {
 
 }
 
-export default connect(Map.mapAccountStateToProps, null)(List);
+export default connect(Map.mapAccountStateToProps, Map.mapToastDispatchToProps)(List);
