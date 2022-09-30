@@ -4,21 +4,15 @@
   overflow: hidden;
 
   .message-container {
-    height: 86%;
+    height: 84%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     .message-box {
       width: 40%;
     }
-  }
-
-  .running-man-box {
-    position: absolute;
-    bottom: 7rem;
-    display: flex;
-    justify-content: center;
-    width: 1.25rem;
-    height: 15rem;
-    padding: 3.5rem;
   }
 
   .dependence-box {

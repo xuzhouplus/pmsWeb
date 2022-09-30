@@ -41,5 +41,21 @@
     &.yii {
       height: 1.3125rem;
     }
+
+    &.gl-transitions {
+      height: 1.3125rem;
+    }
+  }
+
+  .link-box {
+    span {
+      color: var(--second-color);
+      background-color: var(--main-color);
+      width: 20px;
+      display: inline-block;
+      text-align: center;
+      height: 20px;
+      line-height: 20px;
+    }
   }
 }

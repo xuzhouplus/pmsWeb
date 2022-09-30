@@ -24,7 +24,7 @@ class Introduction extends Component {
 							<div>MySQL、Redis、MongoDB、Kafka</div>
 							<div>jQuery、React、Vue</div>
 							<div>Java、Spring Boot</div>
-							<div>Go、GoFrame、Iris</div>
+							<div>Go、Gin、Iris</div>
 							<div>电子科技大学成都学院</div>
 							<div>成都华栖云科技有限公司</div>
 							<div><a href="mailto:xuzhouplus@gmail.com" target="_blank" rel="noreferrer noopener">xuzhouplus@gmail.com</a></div>
