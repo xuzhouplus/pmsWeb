@@ -5,12 +5,16 @@ import gsap from "gsap";
 class Wipe extends Effect {
     type = 'wipe'
     fragment = fragment
-    duration = 3
+    duration = 2
 
     switchImage(tweenMax, reverse, completed) {
+        let ease = 'Power4.easeOut'
+        if (reverse) {
+            ease = 'Power4.easeIn'
+        }
         gsap.to(tweenMax.material.uniforms.dispFactor, {
             value: 1.0,
-            ease: 'Power4.easeInOut',
+            ease: ease,
             duration: this.duration,
             onComplete: () => {
                 completed && completed()

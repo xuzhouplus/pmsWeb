@@ -33,7 +33,7 @@ class Alert extends React.Component {
             type = this.props.toast.type
         }
         return (
-            <ToastContainer position={position} delay={delay} autohide={autoHide}>
+            <ToastContainer position={position} delay={delay} autohide={autoHide ? 'true' : 'false'}>
                 <Toast className={type} show={show} onClose={this.onClose}>
                     <Toast.Header>
                         <img src={process.env.PUBLIC_URL + '/logo.svg'} alt="Logo"/>

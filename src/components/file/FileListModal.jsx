@@ -95,18 +95,18 @@ class FileListModal extends React.Component {
         let lastCount = this.state.files.length % 4
         let rowCount = Math.ceil(this.state.files.length / 4)
         for (const file of this.state.files) {
-            postBox.push(<Col xs={3} lg={3} className="file-list-box"><FileBox file={file} key={file.uuid} select={this.select.bind(this, file.uuid)}></FileBox></Col>)
+            postBox.push(<Col key={file.uuid} xs={3} lg={3} className="file-list-box"><FileBox file={file} key={file.uuid} select={this.select.bind(this, file.uuid)}></FileBox></Col>)
             boxCount++;
             let columnCount = boxCount % 4
             let currentRow = Math.ceil(boxCount / 4)
             if (columnCount === 0) {
-                boxList.push(<Row className="file-table-row">
+                boxList.push(<Row key={boxCount} className="file-table-row">
                     {postBox}
                 </Row>)
                 postBox = []
             }
             if (columnCount === lastCount && rowCount === currentRow) {
-                boxList.push(<Row className="file-table-row">
+                boxList.push(<Row key={boxCount} className="file-table-row">
                     {postBox}
                 </Row>)
                 postBox = []

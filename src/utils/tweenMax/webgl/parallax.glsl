@@ -3,10 +3,11 @@ vec4 parallax() {
     vec4 _currentImage;
     vec4 _nextImage;
     float intensity = 0.3;
-    vec4 orig1 = texture(currentImage, uv);
-    vec4 orig2 = texture(nextImage, uv);
-    _currentImage = texture(currentImage, vec2(uv.x, uv.y + dispFactor * (orig2 * intensity)));
-    _nextImage = texture(nextImage, vec2(uv.x, uv.y + (1.0 - dispFactor) * (orig1 * intensity)));
-    vec4 finalTexture = mix(_currentImage, _nextImage, dispFactor);
+    float progress = getProgress();
+    vec4 orig1 = getFromColor(uv);
+    vec4 orig2 = getToColor(uv);
+    _currentImage = getFromColor(vec2(uv.x, uv.y + progress * (orig2 * intensity)));
+    _nextImage = getToColor(vec2(uv.x, uv.y + (1.0 - progress) * (orig1 * intensity)));
+    vec4 finalTexture = mix(_currentImage, _nextImage, progress);
     return finalTexture;
 }

@@ -11,15 +11,15 @@ float unzoom = 0.3;
 float reflection = 0.4;
 float floating = 3.0;
 
-vec2 project (vec2 p) {
+vec2 project(vec2 p) {
     return p * vec2(1.0, -1.2) + vec2(0.0, -floating/100.);
 }
 
-bool inBounds (vec2 p) {
+bool inBounds(vec2 p) {
     return all(lessThan(vec2(0.0), p)) && all(lessThan(p, vec2(1.0)));
 }
 
-float getProgress(){
+float getProgress() {
     if (reverse) {
         return 1.0 - dispFactor;
     } else {
@@ -27,20 +27,21 @@ float getProgress(){
     }
 }
 
-vec4 getFromColor(vec2 pos){
+vec4 getFromColor(vec2 pos) {
     if (reverse) {
         return texture(nextImage, pos);
     }
     return texture(currentImage, pos);
 }
-vec4 getToColor(vec2 pos){
+
+vec4 getToColor(vec2 pos) {
     if (reverse) {
         return texture(currentImage, pos);
     }
     return texture(nextImage, pos);
 }
 
-vec4 bgColor (vec2 p, vec2 pfr, vec2 pto) {
+vec4 bgColor(vec2 p, vec2 pfr, vec2 pto) {
     vec4 c = vec4(0.0, 0.0, 0.0, 1.0);
     pfr = project(pfr);
     if (inBounds(pfr)) {

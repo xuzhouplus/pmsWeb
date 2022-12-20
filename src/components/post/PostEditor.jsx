@@ -17,7 +17,7 @@ class PostEditor extends React.Component {
 			cover: '',
 			title: '',
 			subTitle: '',
-			type: this.props.type
+			type: 'rt'
 		}
 	}
 

@@ -57,9 +57,11 @@ class CarouselPreviewer extends React.Component {
 
     componentDidMount() {
         this.calculateFontScale()
+        this.setResizeListener()
     }
 
     componentWillUnmount() {
+        this.unsetResizeListener()
     }
 
     setEffect = (effect, event) => {
@@ -67,8 +69,20 @@ class CarouselPreviewer extends React.Component {
         this.props.onSwitch(effect)
     }
 
-    reverseEffect = () => {
-        this.props.onSwitch(null, true)
+    playEffect = (reverse) => {
+        this.props.onSwitch(null, reverse)
+    }
+
+    setResizeListener = () => {
+        window.addEventListener('resize', this.onResize.bind(this), true);
+    }
+
+    unsetResizeListener = () => {
+        window.removeEventListener('resize', this.onResize.bind(this), true);
+    }
+
+    onResize = () => {
+        this.calculateFontScale()
     }
 
     calculateFontScale = () => {
@@ -160,8 +174,8 @@ class CarouselPreviewer extends React.Component {
             }
         } else {
             switch (field) {
-                case "title":
-                    carousel['title'] = value
+                case "text":
+                    carousel['description'] = value
                     break;
                 default:
                     let descriptionStyle = carousel.description_style
@@ -307,19 +321,20 @@ class CarouselPreviewer extends React.Component {
                 </Draggable>
                 <div key="carousel-info-box" className="carousel-info-box">
                     <div className="carousel-preview-action">
-                        <div>
-                            <Dropdown className="carousel-effects">
-                                <Dropdown.Toggle variant="primary" as={Button}
-                                                 className="btn-main-color carousel-action-button">
+                        <div className="carousel-effect-button">
+                            <Dropdown variant="primary" as={Button} className="btn-main-color">
+                                <Dropdown.Toggle as="span">
                                     {dropdownTitle}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     {dropdownItems}
                                 </Dropdown.Menu>
                             </Dropdown>
-                            <Button variant="primary"
-                                    className="btn-main-color carousel-reverse-button" onClick={this.reverseEffect.bind(this)}>
-                                反转
+                            <Button variant="primary" className="btn-main-color carousel-in-button" onClick={this.playEffect.bind(this, false)}>
+                                进入
+                            </Button>
+                            <Button variant="primary" className="btn-main-color carousel-out-button" onClick={this.playEffect.bind(this, true)}>
+                                退出
                             </Button>
                         </div>
                         <div className="carousel-actions carousel-action-button">

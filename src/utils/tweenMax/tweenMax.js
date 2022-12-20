@@ -95,20 +95,21 @@ class TweenMax {
         }, 300)
     }
 
-    resize() {
+    onResize() {
         if (this.renderer) {
             const renderWidth = this.captionElement.clientWidth;
             const renderHeight = this.captionElement.clientHeight;
             this.renderer.setSize(renderWidth, renderHeight);
+            this.options.onResize && this.options.onResize(renderWidth, renderHeight)
         }
     }
 
     bindEvent() {
-        window.addEventListener('resize', this.resize.bind(this), true);
+        window.addEventListener('resize', this.onResize.bind(this), true);
     }
 
     unbindEvent() {
-        window.removeEventListener('resize', this.resize.bind(this), true);
+        window.removeEventListener('resize', this.onResize.bind(this), true);
     }
 
     createRender() {
@@ -304,6 +305,13 @@ class TweenMax {
 
     hideCaption(effect, reverse, completed) {
         effect.renderer.hideCaption(this.captionElement, reverse, completed)
+    }
+
+    setCaptionText(title, description){
+        let carouselTitle = this.captionElement.querySelector('.carousel-title');
+        let carouselDescription = this.captionElement.querySelector('.carousel-description');
+        carouselTitle.innerText = title;
+        carouselDescription.innerText = description
     }
 
     switchFile(file, effectType, reverse, halfway, completed) {

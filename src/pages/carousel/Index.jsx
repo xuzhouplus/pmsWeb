@@ -161,6 +161,7 @@ class Index extends React.Component {
         this.setState({
             tweenMax: tweenMax
         })
+
     }
 
     destroyTweenMax = () => {
@@ -287,6 +288,9 @@ class Index extends React.Component {
         const previewIndex = this.state.previewIndex
         const carousels = this.state.carousels
         carousels[previewIndex] = carousel
+        if (this.state.tweenMax) {
+            this.state.tweenMax.setCaptionText(carousel.title, carousel.description)
+        }
         this.setState({
             carousels: carousels,
             previewCarousel: carousel
@@ -364,4 +368,4 @@ class Index extends React.Component {
     }
 }
 
-export default connect(Map.mapStatesToProps, null)(Index);
+export default connect(Map.mapStatesToProps, Map.mapToastDispatchToProps)(Index);

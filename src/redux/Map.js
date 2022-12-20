@@ -70,6 +70,14 @@ const Map = {
             show: (toast) => {
                 dispatch(toastSlice.actions.toast(toast))
             },
+            delay: (type, text, delay) => {
+                let payload = {
+                    type: type,
+                    text: text,
+                    delay: delay
+                }
+                dispatch(toastSlice.actions.toast(payload))
+            },
             success: (toast) => {
                 let payload = {
                     type: 'success'

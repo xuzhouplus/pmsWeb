@@ -2,6 +2,9 @@ import Effect from "@utils/tweenMax/webgl/effect";
 import fragment from "./clamp.glsl";
 import gsap from "gsap";
 
+/**
+ * 擦除
+ */
 class Clamp extends Effect {
     type = 'clampEffect'
     fragment = fragment
