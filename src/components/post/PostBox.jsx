@@ -28,22 +28,23 @@ class PostBox extends React.Component {
 		if (this.props.select) {
 			selectButton = <Button variant="primary" className="btn-main-color" onClick={this.props.select} size="sm">选择</Button>
 		}
-
+		let timestamp = new Date().getTime()
+		let thumb = this.props.thumb + '?' + timestamp
 		return (
 			<Card className="post-box" onClick={this.props.preview ? this.props.preview : (this.props.view ? this.props.view : null)}>
-				<Card.Img src={this.props.thumb}></Card.Img>
+				<Card.Img src={thumb} alt={this.props.name} title={this.props.name}></Card.Img>
 				<Card.Body>
-					<Card.Title as="h5">{this.props.name}</Card.Title>
-					<Card.Text>
-						{this.props.description}
-					</Card.Text>
-					<div className="post-button">
-					{previewButton}
-					{putOnButton}
-					{putOffButton}
-					{editButton}
-					{deleteButton}
-					{selectButton}
+					<div className="post-detail">
+						<h5 className="post-name">{this.props.name}</h5>
+						<h5 className="post-paragraph">{this.props.description}</h5>
+						<div className="post-button">
+							{previewButton}
+							{putOnButton}
+							{putOffButton}
+							{editButton}
+							{deleteButton}
+							{selectButton}
+						</div>
 					</div>
 				</Card.Body>
 			</Card>

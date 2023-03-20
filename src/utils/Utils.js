@@ -50,6 +50,9 @@ const Utils = {
     getFileInfo: function (uuid, callback, fallback) {
         return this.http('get', configs.proxyBackendHost + configs.fileInfoUrl, {uuid: uuid}, callback, fallback);
     },
+    updateFileInfo: function (data, callback, fallback) {
+        return this.http('post', configs.proxyBackendHost + configs.updateFileUrl, data, callback, fallback);
+    },
     uploadFile: function (data, uploadProgress, callback, fallback) {
         let formData = new FormData();
         for (let key in data) {

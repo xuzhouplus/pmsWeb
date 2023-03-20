@@ -1,7 +1,7 @@
 import React from "react";
 import {Pagination} from "react-bootstrap";
-import {withRouter} from "react-router-dom";
 import "./Paginator.scss";
+import {withRouter} from "@components/router/Router";
 
 class Paginator extends React.Component {
 	onClick = (page, event) => {
@@ -11,8 +11,7 @@ class Paginator extends React.Component {
 	}
 
 	render() {
-		let reg = '/:page?';
-		let path = this.props.match.path.slice(0, reg.length * -1)
+		let path = this.props.router.location.pathname
 		let loopPage = 0;
 		let paginator = [];
 		if (this.props.count > 0) {

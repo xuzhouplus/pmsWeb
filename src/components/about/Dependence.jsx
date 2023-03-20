@@ -46,13 +46,13 @@ class Dependence extends React.Component {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col col-auto">
-                        <a className="link-box text-dark" href="https://www.xuzhouplus.com.cn/eat.html" target="_blank" ref="noreferrer noopener external nofollow">
+                        <a className="link-box text-dark" href="https://www.xuzhouplus.com.cn/eat.html" target="_blank" rel="noreferrer noopener external nofollow">
                             <span className="eat-span">?</span>
                             吃什么？
                         </a>
                     </div>
                     <div className="col col-auto">
-                        <a className="link-box text-dark" href="https://www.xuzhouplus.com.cn/resume/index.html" target="_blank" ref="noreferrer noopener external nofollow">
+                        <a className="link-box text-dark" href="https://www.xuzhouplus.com.cn/resume/index.html" target="_blank" rel="noreferrer noopener external nofollow">
                             <span className="resume-span">@</span>
                             关于作者
                         </a>

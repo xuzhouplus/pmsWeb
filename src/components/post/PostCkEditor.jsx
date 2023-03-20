@@ -53,14 +53,10 @@ class PostCkEditor extends React.Component {
 	}
 
 	render() {
-		let selectFileModal
-		if (this.state.showSelect) {
-			selectFileModal = <FileListModal fileType={this.state.selectType} upload show={this.state.showSelect}
-											 hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>;
-		}
 		return (
 			<div className="post-ckeditor">
-				{selectFileModal}
+				<FileListModal fileType={this.state.selectType} upload show={this.state.showSelect}
+							   hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>
 				<CKEditor
 					editor={window.DecoupledDocumentEditor}
 					config={{

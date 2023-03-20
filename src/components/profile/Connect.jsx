@@ -3,9 +3,9 @@ import {connect} from "react-redux";
 import Utils from "../../utils/Utils";
 import Loading from "../loading/Loading";
 import {Card} from "react-bootstrap";
+import Empty from "@components/logo/Empty";
 import Swal from "sweetalert2";
 import "./Connect.scss";
-import Empty from "@components/logo/Empty";
 
 function mapStateToProps(state) {
 	return {
@@ -110,9 +110,7 @@ class Connect extends React.Component {
 				icon: 'warning',
 				text: error,
 				confirmButtonText: "确定"
-			}).then(r => {
-
-			})
+			}).then()
 			this.setState({
 				loading: false,
 				connects: {}
@@ -200,7 +198,7 @@ class Connect extends React.Component {
 			return (<Loading/>);
 		} else {
 			let connect
-			if(this.state.types.length>0) {
+			if (this.state.types.length > 0) {
 				connect = this.state.providers.map((providers, index) => {
 					let rowBox = providers.map(provider => {
 						if (this.state.types.indexOf(provider.id) !== -1) {
@@ -231,7 +229,7 @@ class Connect extends React.Component {
 						{rowBox}
 					</div>
 				})
-			}else{
+			} else {
 				connect = <Empty/>
 			}
 			return (

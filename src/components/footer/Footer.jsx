@@ -1,6 +1,5 @@
 import React from 'react';
 import {Nav, Navbar} from "react-bootstrap";
-import {withRouter} from "react-router";
 import configs from "@/configs";
 import './Footer.scss'
 
@@ -20,4 +19,4 @@ class Footer extends React.PureComponent {
 	}
 }
 
-export default withRouter(Footer);
+export default Footer;

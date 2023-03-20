@@ -1,17 +1,12 @@
 import React from "react";
 import Utils from "../../utils/Utils";
-import Swal from "sweetalert2";
 import {Button, Card, Form} from "react-bootstrap";
 import Loading from "../loading/Loading";
-import "./Site.scss";
 import Select from "react-select";
 import {connect} from "react-redux";
-
-function mapStateToProps(state) {
-    return {
-        account: state.auth
-    };
-}
+import Map from "@/redux/Map"
+import "./Site.scss";
+import Swal from "sweetalert2";
 
 class Site extends React.Component {
     constructor(props) {
@@ -160,10 +155,10 @@ class Site extends React.Component {
         }
         Utils.siteSettings('post', data, response => {
             console.log(response);
-            Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
+            Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000}).then()
         }, error => {
             console.log(error);
-            Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
+            Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000}).then()
         })
     }
 
@@ -276,4 +271,4 @@ class Site extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, null)(Site);
+export default connect(Map.mapAccountStateToProps, null)(Site);

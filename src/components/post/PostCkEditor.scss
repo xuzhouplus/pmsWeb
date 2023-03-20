@@ -4,12 +4,16 @@
   .ck-toolbar {
     height: 40px;
     width: 100%;
+    border-top-left-radius: var(--bs-modal-border-radius) !important;
+    border-top-right-radius: var(--bs-modal-border-radius) !important;;
   }
 
   .ck-content {
     height: calc(100% - 40px);
-    overflow: scroll;
+    //overflow: scroll;
     border: 1px solid #e0e0e0;
+    border-bottom-left-radius: var(--bs-modal-border-radius) !important;;
+    border-bottom-right-radius: var(--bs-modal-border-radius) !important;;
 
     .ckeditor-video {
       position: relative;

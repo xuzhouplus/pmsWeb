@@ -1,10 +1,11 @@
 .about-container {
   margin-left: -15px;
   margin-right: -15px;
-  overflow: hidden;
+  height: 100%;
+  position: relative;
 
   .message-container {
-    height: 84%;
+    height: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,8 +16,9 @@
     }
   }
 
-  .dependence-box {
-    bottom: 3.5rem;
+  .based-on {
+    position: absolute;
+    bottom: 0px;
     margin: 0 3.5rem;
   }
 }

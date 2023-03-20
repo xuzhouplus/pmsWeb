@@ -1,84 +1,129 @@
 .file-preview-modal {
-  .modal-header {
-    .modal-title {
-      width: calc(100% - 1rem);
-    }
-  }
+  .modal-dialog {
+    --bs-modal-width: 70%;
+    --bs-modal-header-padding: 0.75rem 1rem;
+    height: calc(100% - var(--bs-modal-margin) * 2);
 
-  .modal-body {
-    display: flex;
-    align-self: center;
-    justify-content: center;
-    width: 100%;
+    .modal-content {
+      height: 70%;
 
-    .file-preview-box {
-      width: 100%;
+      .modal-header {
+        height: 3rem;
 
-      .file-image-box {
+        .modal-title {
+          width: calc(100% - 1rem);
+        }
+      }
+
+      .modal-body {
+        display: flex;
+        align-self: center;
+        justify-content: center;
         width: 100%;
-        height: 430px;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        background-color: var(--main-color-transparent);
-        border-bottom: none;
-        padding: unset;
-        overflow: hidden;
-        position: relative;
+        height: calc(100% - 3rem);
 
-        .video-js,
-        .img-previewer {
-          width: 100%;
+        .file-image-box {
+          width: 70%;
           height: 100%;
-          max-width: 100%;
-          max-height: 100%;
+          overflow: hidden;
+          background-color: var(--main-color);
+          display: flex;
+          justify-content: center;
+
+          .card-body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            position: relative;
+            flex: none;
+
+            &.file-video {
+              .img-previewer {
+                display: none;
+              }
+            }
+
+            &.file-image {
+              .video-js {
+                display: none;
+              }
+            }
+
+            .video-js,
+            .img-previewer {
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+            }
+
+            .video-js {
+              .vjs-big-play-button {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+              }
+
+              .vjs-capture-button {
+                opacity: 0;
+                background-image: url("/assets/icons/capture.svg");
+                background-size: 80%;
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 3rem;
+                height: 3rem;
+                background-color: rgba(43, 51, 63, 0.7);
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                border-radius: 5px 0 0 5px;
+                cursor: pointer;
+                transition: visibility 1s, opacity 1s;
+              }
+
+              &.vjs-user-inactive {
+                .vjs-capture-button {
+                  opacity: 0;
+                }
+              }
+
+              &.vjs-user-active {
+                .vjs-capture-button {
+                  opacity: 1;
+                }
+              }
+            }
+
+            .video-poster {
+              position: absolute;
+              height: 100%;
+              width: 100%;
+              top: 0;
+              background-size: contain;
+              background-position: center;
+            }
+          }
         }
 
-        .video-js {
-          .vjs-big-play-button {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%);
-          }
+        .file-form-box {
+          width: 30%;
+          margin-left: 1rem;
+          height: 100%;
+          overflow: auto;
 
-          .vjs-capture-button {
-            opacity: 0;
-            background-image: url("/assets/icons/capture.svg");
-            background-size: 80%;
-            background-repeat: no-repeat;
+          .file-poster {
+            width: 100%;
+            height: 0;
+            padding-bottom: 62%;
+            border-radius: var(--bs-card-border-radius);
+            overflow: hidden;
             background-position: center;
-            width: 3rem;
-            height: 3rem;
-            background-color: rgba(43, 51, 63, 0.7);
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            border-radius: 5px 0 0 5px;
-            cursor: pointer;
-            transition: visibility 1s, opacity 1s;
+            background-repeat: no-repeat;
+            background-size: cover;
           }
-
-          &.vjs-user-inactive {
-            .vjs-capture-button {
-              opacity: 0;
-            }
-          }
-
-          &.vjs-user-active {
-            .vjs-capture-button {
-              opacity: 1;
-            }
-          }
-        }
-
-        .video-poster {
-          position: absolute;
-          height: 100%;
-          width: 100%;
-          top: 0;
-          background-size: contain;
-          background-position: center;
         }
       }
     }

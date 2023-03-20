@@ -259,8 +259,12 @@ class Index extends React.Component {
         }
     }
 
+    /**
+     *
+     * @returns {unknown[]}
+     */
     mapCarouselSortable() {
-        let boxList = this.state.carousels.map((item, index) => {
+        return this.state.carousels.map((item, index) => {
             let thumbUrl = item.thumb
             if (item.status === 1) {
                 thumbUrl = this.loading
@@ -273,9 +277,12 @@ class Index extends React.Component {
                 <img key={index} src={thumbUrl} alt={item.title} onClick={this.preview.bind(this, index)}></img>
             </div>
         });
-        return boxList;
     }
 
+    /**
+     *
+     * @returns {string}
+     */
     addBoxButton() {
         let addBox = ''
         if (this.state.limit > this.state.carousels.length) {
@@ -327,11 +334,6 @@ class Index extends React.Component {
     render() {
         let boxList = this.mapCarouselSortable();
         let addBox = this.addBoxButton();
-        let createModal = '';
-        if (this.state.showModal) {
-            createModal = <CarouselCreateModal show={this.state.showModal} handleModal={this.handleModal}
-                                               afterSubmit={this.afterSubmit}/>
-        }
         return (<TreeNavibar>
             <Card>
                 <Card.Body>
@@ -355,7 +357,8 @@ class Index extends React.Component {
                 </Card.Body>
             </Card>
             <Card className="carousel-list-container">
-                {createModal}
+                <CarouselCreateModal show={this.state.showModal} handleModal={this.handleModal}
+                                     afterSubmit={this.afterSubmit}/>
                 <Card.Body id="carousel-preview-table" className="carousel-preview-table">
                     <CarouselPreviewer carousel={this.state.previewCarousel} onSwitch={this.changeSwitchType} onChange={this.changeCaptionStyle} onSubmit={this.submitCaptionStyle} onDelete={this.deleteCarousel}></CarouselPreviewer>
                 </Card.Body>

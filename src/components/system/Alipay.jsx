@@ -2,15 +2,10 @@ import React from "react";
 import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
-import Swal from "sweetalert2";
+import Map from "@/redux/Map"
 import Loading from "../loading/Loading";
+import Swal from "sweetalert2";
 import "./Alipay.scss";
-
-function mapStateToProps(state) {
-	return {
-		account: state.auth
-	};
-}
 
 class Alipay extends React.Component {
 	constructor(props) {
@@ -127,10 +122,10 @@ class Alipay extends React.Component {
 		}
 		Utils.alipaySettings('post', Object.assign({}, settings), response => {
 			console.log(response);
-			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000}).then()
 		}, error => {
 			console.log(error);
-			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000}).then()
 		})
 	}
 
@@ -178,4 +173,4 @@ class Alipay extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, null)(Alipay);
+export default connect(Map.mapAccountStateToProps, null)(Alipay);

@@ -5,6 +5,7 @@ import {LinkContainer} from "react-router-bootstrap";
 import TreeNavibar from "@components/navbar/TreeNavibar";
 import Utils from "@utils/Utils";
 import "./Index.scss";
+import {withRouter} from "@components/router/Router";
 
 class Index extends React.Component {
 	constructor(props) {
@@ -143,7 +144,7 @@ class Index extends React.Component {
 		if (this.state.loading) {
 			return (<Loading/>);
 		} else {
-			let type = this.props.match.params.type ? this.props.match.params.type : 'site';
+			let type = this.props.router.params.type ? this.props.router.params.type : 'site';
 			let navList = this.getNavList(type)
 			let Component = this.getComponent(type)
 			return (
@@ -164,4 +165,4 @@ class Index extends React.Component {
 	}
 }
 
-export default Index;
+export default withRouter(Index);

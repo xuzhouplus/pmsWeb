@@ -2,15 +2,10 @@ import React from "react";
 import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
-import Swal from "sweetalert2";
 import Loading from "../loading/Loading";
+import Map from "@/redux/Map"
+import Swal from "sweetalert2";
 import "./Baidu.scss";
-
-function mapStateToProps(state) {
-	return {
-		account: state.auth
-	};
-}
 
 class Baidu extends React.Component {
 	constructor(props) {
@@ -135,10 +130,10 @@ class Baidu extends React.Component {
 		}
 		Utils.baiduSettings('post', Object.assign({}, settings), response => {
 			console.log(response);
-			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000}).then()
 		}, error => {
 			console.log(error);
-			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000}).then()
 		})
 	}
 
@@ -187,7 +182,7 @@ class Baidu extends React.Component {
 						<div className="baidu-pan-settings-note">
 							<p>配置百度对接配置后，可以在账号管理页面绑定百度账号，可以使用百度授权登录，还可以使用百度网盘保存上传文件。</p>
 							<p>百度配置信息需要访问<a href="https://developer.baidu.com/" target="_blank"
-											rel="noreferrer noopener">百度开放者中心</a>获取。</p>
+													  rel="noreferrer noopener">百度开放者中心</a>获取。</p>
 							<Form.Group controlId="baidu_pan_availability" className="position-relative">
 								<Form.Label style={{marginRight: "0.5rem"}}>使用百度网盘</Form.Label>
 								<Form.Check inline onChange={this.toggleNetdisk} type="switch"
@@ -204,4 +199,4 @@ class Baidu extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, null)(Baidu);
+export default connect(Map.mapAccountStateToProps, null)(Baidu);

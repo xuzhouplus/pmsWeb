@@ -27,18 +27,26 @@ float getProgress() {
     }
 }
 
+vec4 getCurrentImage(vec2 pos){
+    return mix(vec4(0.0),texture(currentImage, pos), 1.0);
+}
+
+vec4 getNextImage(vec2 pos){
+    return mix(vec4(0.0),texture(nextImage, pos), 1.0);
+}
+
 vec4 getFromColor(vec2 pos) {
     if (reverse) {
-        return texture(nextImage, pos);
+        return getNextImage(pos);
     }
-    return texture(currentImage, pos);
+    return getCurrentImage(pos);
 }
 
 vec4 getToColor(vec2 pos) {
     if (reverse) {
-        return texture(currentImage, pos);
+        return getCurrentImage(pos);
     }
-    return texture(nextImage, pos);
+    return getNextImage(pos);
 }
 
 vec4 bgColor(vec2 p, vec2 pfr, vec2 pto) {

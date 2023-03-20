@@ -2,15 +2,10 @@ import React from "react";
 import {Button, Card, Form} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import Loading from "../loading/Loading";
-import Swal from "sweetalert2";
+import Map from "@/redux/Map"
 import {connect} from "react-redux";
+import Swal from "sweetalert2";
 import "./Carousel.scss";
-
-function mapStateToProps(state) {
-	return {
-		account: state.auth
-	};
-}
 
 class Carousel extends React.Component {
 	constructor(props) {
@@ -51,7 +46,7 @@ class Carousel extends React.Component {
 			}
 		}, error => {
 			console.log(error);
-			if(this.state.cancelTokenSource) {
+			if (this.state.cancelTokenSource) {
 				this.setState({
 					cancelTokenSource: null,
 					settings: {},
@@ -100,11 +95,11 @@ class Carousel extends React.Component {
 			carousel_interval: settings.carousel_interval.value
 		}, response => {
 			console.log(response);
-			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
-		}, error => {
-			console.log(error);
-			Swal.fire({icon: 'error', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
-		})
+            Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000}).then()
+        }, error => {
+            console.log(error);
+            Swal.fire({icon: 'error', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000}).then()
+        })
 	}
 
 	render() {
@@ -157,4 +152,4 @@ class Carousel extends React.Component {
 
 }
 
-export default connect(mapStateToProps, null)(Carousel);
+export default connect(Map.mapAccountStateToProps, null)(Carousel);

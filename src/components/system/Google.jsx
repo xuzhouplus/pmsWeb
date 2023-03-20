@@ -2,15 +2,10 @@ import React from "react";
 import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
-import Swal from "sweetalert2";
 import Loading from "../loading/Loading";
+import Map from "@redux/Map";
+import Swal from "sweetalert2";
 import "./Google.scss";
-
-function mapStateToProps(state) {
-	return {
-		account: state.auth
-	};
-}
 
 class Google extends React.Component {
 	constructor(props) {
@@ -113,10 +108,10 @@ class Google extends React.Component {
 		}
 		Utils.googleSettings('post', Object.assign({}, settings), response => {
 			console.log(response);
-			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000}).then()
 		}, error => {
 			console.log(error);
-			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000}).then()
 		})
 	}
 
@@ -146,7 +141,7 @@ class Google extends React.Component {
 						</Form>
 						<div className="google-settings-note">
 							<p>配置 Google 对接配置后，可以在账号管理页面绑定 Google 账号，可以使用 Google 授权登录。</p>
-							<p>Google  配置信息需要访问<a href="https://developers.google.com/identity/protocols/oauth2" target="_blank" rel="noreferrer noopener"> Google Developers </a>获取。</p>
+							<p>Google 配置信息需要访问<a href="https://developers.google.com/identity/protocols/oauth2" target="_blank" rel="noreferrer noopener"> Google Developers </a>获取。</p>
 						</div>
 					</Card.Body>
 					<Card.Footer className="google-settings-footer">
@@ -158,4 +153,4 @@ class Google extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, null)(Google);
+export default connect(Map.mapAccountStateToProps, null)(Google);

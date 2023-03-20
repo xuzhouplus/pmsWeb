@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Form, InputGroup, Modal} from "react-bootstrap";
 import FileListModal from "../file/FileListModal";
-import Utils from "../../utils/Utils";
-import {Image} from "../../utils/File";
+import Utils from "@utils/Utils";
+import {Image} from "@utils/File";
 import PostListModal from "@components/post/PostListModal";
 import "./CarouselCreateModal.scss";
 
@@ -67,19 +67,57 @@ class CarouselCreateModal extends React.Component {
 	}
 
 	componentDidMount() {
-		let filePreview = document.getElementById('file-preview-box');
-		this.setState({
-			canvas: {
-				width: filePreview.clientWidth,
-				height: filePreview.clientHeight
-			}
-		})
+		if (this.props.show) {
+			this.initCanvasBreadth()
+		}
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.show !== prevProps.show && this.props.show) {
+			this.initCanvasBreadth()
+		}
 	}
 
 	componentWillUnmount() {
 		if (this.state.cancelTokenSource) {
 			this.state.cancelTokenSource.cancel('Operation canceled by the user.');
 		}
+	}
+
+	initCanvasBreadth = () => {
+		let filePreview = document.getElementById('file-preview-box');
+		this.setState({
+			file: {},
+			post: {},
+			title: {
+				label: '标题',
+				value: ''
+			},
+			description: {
+				label: '描述',
+				value: ''
+			},
+			link: {
+				label: '链接',
+				value: ''
+			},
+			switchType: {
+				label: '特效',
+				value: 'parallax'
+			},
+			timeout: {
+				label: '时长',
+				value: 5
+			},
+			order: {
+				label: '排序',
+				value: 99
+			},
+			canvas: {
+				width: filePreview.clientWidth,
+				height: filePreview.clientHeight
+			}
+		})
 	}
 
 	handleSubmit = () => {
@@ -215,12 +253,12 @@ class CarouselCreateModal extends React.Component {
 				break;
 			case "input-switch-type":
 				let switchType = this.state.switchType;
-				if(!Utils.getCarouselEffects(inputValue)){
+				if (!Utils.getCarouselEffects(inputValue)) {
 					inputValue = 'parallax'
 					switchType['text'] = "特效类型错误";
 					switchType['isInvalid'] = true;
 					switchType['isValid'] = false;
-				}else{
+				} else {
 					switchType['text'] = "";
 					switchType['isInvalid'] = false;
 					switchType['isValid'] = true;
@@ -237,13 +275,13 @@ class CarouselCreateModal extends React.Component {
 					timeout['text'] = "图片展示时长不能少于 3 秒";
 					timeout['isInvalid'] = true;
 					timeout['isValid'] = false;
-				}else{
-					if(inputValue>10){
+				} else {
+					if (inputValue > 10) {
 						inputValue = 10
 						timeout['text'] = "图片展示时长不能多于 10 秒";
 						timeout['isInvalid'] = true;
 						timeout['isValid'] = false;
-					}else {
+					} else {
 						timeout['text'] = "";
 						timeout['isInvalid'] = false;
 						timeout['isValid'] = true;
@@ -337,11 +375,6 @@ class CarouselCreateModal extends React.Component {
 		if (this.state.file.id) {
 			addPlaceholder = <img src={this.state.file.canvas} alt="preview"/>
 		}
-		let postSelectModal = null
-		if (this.state.postModal) {
-			postSelectModal = <PostListModal show={this.state.postModal} hide={this.handlePostModal}
-											 selectPost={this.selectPost}></PostListModal>
-		}
 		let switchTypeOptions = []
 		for (const switchTypesKey in Utils.getCarouselEffects()) {
 			switchTypeOptions.push(<option key={switchTypesKey} value={switchTypesKey}>{this.switchTypes[switchTypesKey]}</option>)
@@ -349,9 +382,9 @@ class CarouselCreateModal extends React.Component {
 		return (
 			<Modal className="carousel-create-modal" centered show={this.props.show} onHide={this.props.handleModal}>
 				<Modal.Body>
-					<FileListModal fileType="image" upload show={this.state.showSelect} hide={this.hideSelect}
-								   selectFile={this.selectFile}></FileListModal>
-					{postSelectModal}
+					<FileListModal fileType="image" upload show={this.state.showSelect} hide={this.hideSelect} selectFile={this.selectFile}></FileListModal>
+					<PostListModal show={this.state.postModal} hide={this.handlePostModal}
+								   selectPost={this.selectPost}></PostListModal>
 					<Form className="file-form" onSubmit={this.handleSubmit}>
 						<Form.Group className="position-relative file-input-group mb-3">
 							<div id="file-preview-box"
@@ -390,7 +423,7 @@ class CarouselCreateModal extends React.Component {
 											  isValid={this.state.link.isValid} onChange={this.onChange}
 											  onBlur={this.onChange}/>
 								<Button id="link-button" variant="outline-secondary"
-										onClick={this.handlePostModal}></Button>
+										onClick={this.handlePostModal}>+</Button>
 							</InputGroup>
 							<Form.Control.Feedback type="invalid" tooltip>
 								{this.state.link.text}

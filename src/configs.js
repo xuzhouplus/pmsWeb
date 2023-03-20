@@ -28,6 +28,7 @@ const configs = {
     sortCarouselOrderUrl: "/carousel/sort-order",
     fileListUrl: "/file",
     fileInfoUrl: "/file/detail",
+    updateFileUrl: "/file/update",
     uploadFileUrl: "/file/upload",
     deleteFileUrl: "/file/delete",
     postUrl: "/post",
@@ -62,12 +63,13 @@ const configs = {
     loginDuration: 3 * 24 * 60 * 60,
     imageTypes: [
         'png',
-        'jpg',
+        'jpg'
     ],
     videoTypes: [
-        'mp4'
+        'mp4',
+        'mkv'
     ],
-    uploadChunkSize: 2 * 1024 * 1024,//单位kb
+    uploadChunkSize: 10 * 1024 * 1024,//单位kb
     carouselEffects: {
         parallax: '失真',
         slide: '推入',

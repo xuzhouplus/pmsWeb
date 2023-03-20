@@ -2,15 +2,9 @@ import React from "react";
 import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
-import Swal from "sweetalert2";
 import Loading from "../loading/Loading";
+import Swal from "sweetalert2";
 import "./QQ.scss";
-
-function mapStateToProps(state) {
-	return {
-		account: state.auth
-	};
-}
 
 class QQ extends React.Component {
 	constructor(props) {
@@ -113,10 +107,10 @@ class QQ extends React.Component {
 		}
 		Utils.qqSettings('post', Object.assign({}, settings), response => {
 			console.log(response);
-			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000}).then()
 		}, error => {
 			console.log(error);
-			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000}).then()
 		})
 	}
 
@@ -158,4 +152,4 @@ class QQ extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, null)(QQ);
+export default connect(Map.mapAccountStateToProps, null)(QQ);

@@ -1,9 +1,27 @@
 .post-index-container {
-  height: 100%;
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
+  position: relative;
 
-  .post-list-box {
-    padding: 0.3125rem;
+  .post-index-header {
+    padding: 0.7rem 0;
+
+    .row {
+      justify-content: center;
+    }
+  }
+
+  .post-index-body {
+
+    .post-table-row {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .post-index-footer {
+    padding: 0.7rem 0;
+
+    .pagination {
+      justify-content: center;
+    }
   }
 }

@@ -3,7 +3,7 @@ import {Image, Nav, Navbar} from "react-bootstrap";
 import React from "react";
 import {LinkContainer} from 'react-router-bootstrap'
 import configs from "@/configs";
-import {withRouter} from "react-router";
+import {withRouter} from "@components/router/Router";
 
 class BaseNavibar extends React.Component {
 	render() {
@@ -12,9 +12,9 @@ class BaseNavibar extends React.Component {
 			loginModal = <LoginModal show={this.props.showLogin} handleModal={this.props.handleModal} afterLogged={this.props.afterLogin}
 									 appLogo={this.props.logo} account={this.props.account} password={this.props.password}/>
 		}
-		const isHomePage = (document.location.pathname === '/' ? true : false)
+		const isHomePage = (document.location.pathname === '/')
 		return (
-			<Navbar className={["main-color-navbar", isHomePage ? "home-page" : ""]}>
+			<Navbar className={["main-color-navbar", isHomePage ? "home-page" : ""].join(' ')}>
 				{loginModal}
 				<Navbar.Brand href="/">
 					<Image src={this.props.logo ? this.props.logo : configs.defaultLogo} rounded className="brand-img" alt={this.props.title}/>
@@ -24,7 +24,7 @@ class BaseNavibar extends React.Component {
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
 					<Nav>
 						<Nav.Item>
-							<LinkContainer to="/" exact>
+							<LinkContainer to="/">
 								<Nav.Link eventKey="home">主页</Nav.Link>
 							</LinkContainer>
 						</Nav.Item>

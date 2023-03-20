@@ -1,0 +1,45 @@
+.card-panel {
+  height: 100%;
+
+  .card-panel-header {
+    .row {
+      .card-header-search {
+        justify-content: left;
+        display: flex;
+      }
+
+      .card-header-buttons {
+        text-align: right;
+      }
+    }
+  }
+
+  .card-panel-body {
+    overflow-y: scroll;
+
+    .card-body-row {
+      width: 100%;
+      margin: auto auto 0.5rem;
+
+      .card-body-box {
+        display: flex;
+        flex-wrap: wrap;
+
+        &.w-20 {
+          width: 20%;
+        }
+
+        &.w-25 {
+          width: 25%;
+        }
+      }
+    }
+  }
+
+  .card-panel-footer {
+    .pagination {
+      margin-bottom: 0;
+      justify-content: flex-end;
+    }
+  }
+}

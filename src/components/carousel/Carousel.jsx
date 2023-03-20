@@ -183,11 +183,20 @@ class Carousel extends React.Component {
 		})
 	}
 
+	events = {}
+	getEvents = (index) => {
+		if (this.events[index]) {
+			return this.events[index]
+		}
+		this.events[index] = this.paginate.bind(this, index)
+		return this.events[index];
+	}
+
 	bindEvent = () => {
 		if (this.paginatorElement) {
 			let paginateButtons = Array.from(this.paginatorElement.querySelectorAll('button'));
 			paginateButtons.forEach((paginateButton, index) => {
-				paginateButton.addEventListener('click', this.paginate.bind(this, index));
+				paginateButton.addEventListener('click', this.getEvents(index));
 			});
 		}
 	}
@@ -196,7 +205,7 @@ class Carousel extends React.Component {
 		if (this.paginatorElement) {
 			let paginateButtons = Array.from(this.paginatorElement.querySelectorAll('button'));
 			paginateButtons.forEach((paginateButton, index) => {
-				paginateButton.removeEventListener('click', this.paginate.bind(this, index));
+				paginateButton.removeEventListener('click', this.getEvents(index));
 			});
 		}
 	}
@@ -205,19 +214,21 @@ class Carousel extends React.Component {
 		this.clearTimeout()
 		let currentCarousel = this.props.carousels[this.carouselIndex]
 		this.timeout = setTimeout(() => {
-			let nextIndex = this.carouselIndex + 1;
-			if (nextIndex === this.props.carousels.length) {
-				nextIndex = 0
+			if(this.tweenMax) {
+				let nextIndex = this.carouselIndex + 1;
+				if (nextIndex === this.props.carousels.length) {
+					nextIndex = 0
+				}
+				this.carouselIndex = nextIndex
+				let nextCarousel = this.props.carousels[nextIndex]
+				this.updatePagination(nextIndex)
+				this.tweenMax.switchFile(nextCarousel, null, false, () => {
+					this.updateCaptionStyle('title', nextCarousel.title_style)
+					this.updateCaptionStyle('description', nextCarousel.description_style)
+				}, () => {
+					this.setTimeout()
+				})
 			}
-			this.carouselIndex = nextIndex
-			let nextCarousel = this.props.carousels[nextIndex]
-			this.updatePagination(nextIndex)
-			this.tweenMax.switchFile(nextCarousel, null, false, () => {
-				this.updateCaptionStyle('title', nextCarousel.title_style)
-				this.updateCaptionStyle('description', nextCarousel.description_style)
-			}, () => {
-				this.setTimeout()
-			})
 		}, currentCarousel.timeout * 1000);
 	}
 

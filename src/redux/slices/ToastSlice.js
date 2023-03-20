@@ -1,10 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const toastMsg = {
-    type: 'light',
+    type: 'info',//warning, error, success, info, question
     header: null,
     text: null,
-    position: 'top-center',
+    position: 'top-center',//'top-start','top-center','top-end','middle-start','middle-center','middle-end','bottom-start','bottom-center','bottom-end'
     delay: 0,
     autoHide: false
 }

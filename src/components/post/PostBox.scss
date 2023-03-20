@@ -1,49 +1,62 @@
 .post-box {
-  display: inline-block;
   width: 100%;
   overflow: hidden;
   cursor: pointer;
   background-color: var(--main-color-transparent);
+  position: relative;
 
-  .card-title {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  &:hover > .card-body {
-    top: 0;
+  .card-img {
+    width: 100%;
+    height: auto;
   }
 
   .card-body {
-    flex: 1 1 auto;
-    height: 100%;
-    padding: 0.7rem;
     position: absolute;
+    height: 100%;
     width: 100%;
-    top: 73%;
-    background-color: var(--main-color-transparent);
-    transition: top 0.5s;
-    -webkit-transition: top 0.5s; /* Safari */
-    color: #ccc;
+    padding: 0;
+    background-color: transparent;
 
-    .card-text {
-      height: 3rem;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      display: -webkit-box;
-    }
-
-    .post-button {
+    .post-detail {
+      flex: 1 1 auto;
+      height: 100%;
+      padding: 4%;
       position: absolute;
-      bottom: 0.7rem;
+      width: 100%;
+      top: 75%;
+      background-color: var(--main-color-transparent);
+      transition: top 0.5s;
+      -webkit-transition: top 0.5s; /* Safari */
+      color: #ccc;
 
-      button {
-        outline: none;
-        box-shadow: none;
-        margin-right: 0.2rem;
+      &:hover {
+        top: 0;
+      }
+
+      .post-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .post-paragraph {
+        height: calc(100% - 1.75rem);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+      }
+
+      .post-button {
+        position: absolute;
+        bottom: 6%;
+
+        button {
+          outline: none;
+          box-shadow: none;
+          margin-right: 0.2rem;
+        }
       }
     }
   }

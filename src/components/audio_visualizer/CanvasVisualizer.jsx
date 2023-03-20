@@ -78,7 +78,7 @@ class CanvasVisualizer extends React.Component {
 			<div className="canvas-visualizer">
 				<canvas id="audio-visualizer-canvas" width="600" height="600"></canvas>
 				<div className={['audio-visualizer-button', this.state.status].join(' ')}>
-					<button className="logo-button" onClick={this.play}></button>
+					<button className="logo-button" onClick={this.play} title="播放"></button>
 				</div>
 			</div>
 		);

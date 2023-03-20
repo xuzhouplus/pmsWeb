@@ -2,15 +2,10 @@ import React from "react";
 import {Button, Form, Col, Card, Row} from "react-bootstrap";
 import Utils from "../../utils/Utils";
 import {connect} from "react-redux";
-import Swal from "sweetalert2";
 import Loading from "../loading/Loading";
+import Map from "@redux/Map";
+import Swal from "sweetalert2";
 import "./GitHub.scss";
-
-function mapStateToProps(state) {
-	return {
-		account: state.auth
-	};
-}
 
 class GitHub extends React.Component {
 	constructor(props) {
@@ -127,10 +122,10 @@ class GitHub extends React.Component {
 		}
 		Utils.githubSettings('post', Object.assign({}, settings), response => {
 			console.log(response);
-			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000}).then()
 		}, error => {
 			console.log(error);
-			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000}).then()
 		})
 	}
 
@@ -180,4 +175,4 @@ class GitHub extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, null)(GitHub);
+export default connect(Map.mapAccountStateToProps, null)(GitHub);

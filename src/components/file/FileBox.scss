@@ -5,53 +5,58 @@
   background-color: var(--main-color-transparent);
   position: relative;
 
-  .card-img-top {
-    position: absolute;
-    top: 0;
-  }
-
-  .card-title {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  &:hover .card-body {
-    top: 0px !important;
+  .card-img {
+    width: 100%;
+    height: auto;
   }
 
   .card-body {
-    height: 100%;
     position: absolute;
+    height: 100%;
     width: 100%;
-    padding: 0.7rem;
-    top: 70%;
-    background-color: var(--main-color-transparent);
-    transition: top 0.5s;
-    -webkit-transition: top 0.5s; /* Safari */
-    color: #ccc;
+    padding: 0;
+    background-color: transparent;
 
-    .card-title {
-      margin-bottom: 1rem;
-    }
-
-
-    .card-paragraph {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 1;
-      display: -webkit-box;
-    }
-
-    .card-button {
+    .file-detail {
+      height: 100%;
       position: absolute;
-      bottom: 0.7rem;
+      width: 100%;
+      padding: 4%;
+      top: 70%;
+      background-color: var(--main-color-transparent);
+      transition: top 0.5s;
+      -webkit-transition: top 0.5s; /* Safari */
+      color: #ccc;
 
-      button {
-        outline: none;
-        box-shadow: none;
-        margin-right: 0.2rem;
+      &:hover {
+        top: 0;
+      }
+
+      .card-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        margin-bottom: 1rem;
+      }
+
+
+      .card-paragraph {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        display: -webkit-box;
+      }
+
+      .card-button {
+        position: absolute;
+        bottom: 4%;
+
+        button {
+          outline: none;
+          box-shadow: none;
+          margin-right: 0.2rem;
+        }
       }
     }
   }

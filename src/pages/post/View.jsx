@@ -5,6 +5,7 @@ import PostViewer from "@components/post/PostViewer";
 import "./View.scss";
 import Map from "@redux/Map";
 import {connect} from "react-redux";
+import {withRouter} from "@components/router/Router";
 
 class View extends React.Component {
 	constructor(props) {
@@ -15,7 +16,7 @@ class View extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getPostDetail(this.props.match.params.uuid);
+		this.getPostDetail(this.props.router.params.uuid);
 	}
 
 	getPostDetail = (id) => {
@@ -46,4 +47,4 @@ class View extends React.Component {
 	}
 }
 
-export default connect(null,Map.mapToastDispatchToProps)(View);
+export default connect(null,Map.mapToastDispatchToProps)(withRouter(View));

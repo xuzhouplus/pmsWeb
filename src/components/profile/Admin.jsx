@@ -3,9 +3,10 @@ import {connect} from "react-redux";
 import Utils from "../../utils/Utils";
 import Loading from "../loading/Loading";
 import {Button, Card, Form} from "react-bootstrap";
+import {authSlice} from "@redux/slices/AuthSlice";
+import {File} from "@utils/File";
 import Swal from "sweetalert2";
 import "./Admin.scss";
-import {authSlice} from "@redux/slices/AuthSlice";
 
 function mapStateToProps(state) {
 	return {
@@ -16,10 +17,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		login: (user) => {
-			dispatch({
-				type: authSlice.actions.login,
-				payload: user
-			})
+			dispatch(authSlice.actions.login(user))
 		}
 	}
 }
@@ -60,7 +58,7 @@ class Admin extends React.Component {
 					value: response.data.status === 1
 				},
 				file: {
-					type: response.data.avatar ? 'image/jpg' : '',
+					type: response.data.avatar ? 'image/png' : '',
 					url: response.data.avatar
 				}
 			})
@@ -84,33 +82,20 @@ class Admin extends React.Component {
 		const that = this;
 		let file = this.fileRef.current.files[0];
 		if (file) {
-			let reader = new FileReader();
-			//将文件以Data URL形式读入页面
-			reader.readAsDataURL(file);
-			reader.onload = function () {
-				let image = document.createElement('img');
-				image.src = this.result;
-				image.onload = function () {
-					that.setState({
-						file: {
-							input: file,
-							type: file.type,
-							url: image.src,
-							width: this.width,
-							height: this.height,
-							error: ''
-						}
-					})
-				};
-			}
+			that.setState({
+				file: {
+					input: file,
+					type: file.type,
+					url: File.getObjectURL(file),
+					error: ''
+				}
+			})
 		} else {
 			that.setState({
 				file: {
 					input: null,
 					type: '',
 					url: '',
-					width: 0,
-					height: 0,
 					error: '请选择上传文件'
 				}
 			})
@@ -160,20 +145,24 @@ class Admin extends React.Component {
 				return;
 			}
 		}
-		Utils.adminProfile('post', {
-			avatar: this.state.file ? this.state.file.url : '',
+		let profile = {
 			uuid: this.props.account.uuid,
-			password: this.state.password.value,
 			status: this.state.profile.status
-		}, (response) => {
-			console.log(response);
-			let loginUser = this.props.account;
+		}
+		if (this.state.file.input) {
+			profile['avatar'] = this.state.file.url
+		}
+		if (this.state.password.value) {
+			profile['password'] = this.state.password.value
+		}
+		Utils.adminProfile('post', profile, (response) => {
+			let loginUser = Object.assign({}, this.props.account);
 			loginUser.avatar = response.data.avatar;
 			this.props.login(loginUser)
-			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'success', text: '保存成功', showConfirmButton: false, timer: 3000}).then()
 		}, (error) => {
 			console.log(error);
-			Swal.fire({icon: 'error', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000})
+			Swal.fire({icon: 'error', text: '保存失败，请稍后重试', showConfirmButton: false, timer: 3000}).then()
 		})
 	}
 
@@ -182,7 +171,7 @@ class Admin extends React.Component {
 			return (<Loading/>);
 		} else {
 			let previewBox = '';
-			if (this.state.file.type) {
+			if (this.state.file.url) {
 				if (Utils.getFileType(this.state.file) !== 'image') {
 					previewBox = <div>不支持的文件格式</div>
 				} else {
@@ -225,7 +214,7 @@ class Admin extends React.Component {
 							</Form.Group>
 							<Form.Group controlId="status" className="position-relative mb-3">
 								<Form.Label>状态</Form.Label>
-								<Form.Check type="switch" id="status" checked={this.state.status.value} onChange={this.handleChange} label={this.state.status.value?'启用':'禁用'}/>
+								<Form.Check type="switch" id="status" checked={this.state.status.value} onChange={this.handleChange} label={this.state.status.value ? '启用' : '禁用'}/>
 							</Form.Group>
 						</Form>
 					</Card.Body>

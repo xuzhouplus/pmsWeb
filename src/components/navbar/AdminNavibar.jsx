@@ -2,7 +2,7 @@ import React from 'react';
 import {Navbar, Nav, NavDropdown, Image} from 'react-bootstrap';
 import {LinkContainer} from "react-router-bootstrap";
 import configs from "@/configs";
-import {withRouter} from "react-router";
+import {withRouter} from "@components/router/Router";
 import './Navibar.scss'
 
 class AdminNavibar extends React.Component {
@@ -18,7 +18,7 @@ class AdminNavibar extends React.Component {
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
 					<Nav>
 						<Nav.Item>
-							<LinkContainer to="/" exact>
+							<LinkContainer to="/">
 								<Nav.Link eventKey="admin-home">主页</Nav.Link>
 							</LinkContainer>
 						</Nav.Item>

@@ -16,7 +16,6 @@
         align-items: center;
         justify-content: center;
         background-color: var(--main-color-transparent);
-        font-size: xx-large;
         cursor: pointer;
         overflow: hidden;
         border-radius: 0.8rem;
@@ -25,8 +24,7 @@
           border-color: #dc3545;
         }
 
-        img,
-        video {
+        img{
           max-height: 100%;
           max-width: 100%;
         }

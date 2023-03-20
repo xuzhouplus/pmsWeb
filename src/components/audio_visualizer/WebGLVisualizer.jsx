@@ -83,8 +83,7 @@ class WebGLVisualizer extends React.Component {
 		return (
 			<div id="webgl-visualizer" className="webgl-visualizer">
 				<div className={['audio-visualizer-button', this.state.status].join(' ')}>
-					<button className="logo-button" onClick={this.play}>
-					</button>
+					<button className="logo-button" onClick={this.play} title="播放"></button>
 				</div>
 			</div>
 		);
