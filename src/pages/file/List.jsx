@@ -245,6 +245,9 @@ class List extends React.Component {
 		}
 		if (rowItems) {
 			rowCount++;
+			while (rowItems.length < 4) {
+				rowItems.push(<Col key={rowCount + "" + rowItems.length} className="card-body-box w-25"></Col>)
+			}
 			boxList.push(<Row key={rowCount} className="card-body-row">
 				{rowItems}
 			</Row>)

@@ -117,6 +117,7 @@ class FilePreviewModal extends React.Component {
 			"Play Video": "播放"
 		})
 		this.player = videojs(this.videoNode, {
+			fill: true,
 			language: "zh-CH",
 			autoplay: false,
 			controls: true,

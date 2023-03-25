@@ -64,6 +64,7 @@ class CarouselCreateModal extends React.Component {
 			state.order.value = this.props.carousel.order
 		}
 		this.state = state
+		this.switchTypes = Utils.getCarouselEffects()
 	}
 
 	componentDidMount() {

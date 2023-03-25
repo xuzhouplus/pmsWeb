@@ -107,6 +107,9 @@ class Index extends React.Component {
 				}
 				if (postBox > 0) {
 					rowCount++;
+					while (postBox.length < 4) {
+						postBox.push(<Col key={rowCount + "" + postBox.length} className="post-list-box w-20"></Col>)
+					}
 					boxList.push(<Row key={rowCount} className="post-table-row">
 						{postBox}
 					</Row>)

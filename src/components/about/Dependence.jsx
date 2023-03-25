@@ -52,7 +52,7 @@ class Dependence extends React.Component {
                         </a>
                     </div>
                     <div className="col col-auto">
-                        <a className="link-box text-dark" href="https://www.xuzhouplus.com.cn/resume/index.html" target="_blank" rel="noreferrer noopener external nofollow">
+                        <a className="link-box text-dark" href="https://www.xuzhouplus.com.cn/resume" target="_blank" rel="noreferrer noopener external nofollow">
                             <span className="resume-span">@</span>
                             关于作者
                         </a>

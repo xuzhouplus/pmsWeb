@@ -32,6 +32,7 @@ const Image = {
         let img = document.createElement('img');
         //这里直接修改图片的路径
         img.src = src;
+        img.crossOrigin = "anonymous"
         img.onload = function () {
             //设置canvas的宽高
             canvas.height = height;

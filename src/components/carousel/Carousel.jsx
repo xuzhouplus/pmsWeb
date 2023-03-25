@@ -52,8 +52,8 @@ class Carousel extends React.Component {
 			this.updateCaptionStyle('description', currentCarousel.description_style)
 			this.updatePagination(this.carouselIndex)
 		}, () => {
-			this.bindEvent()
 			this.setTimeout()
+			this.bindEvent()
 		})
 	}
 

@@ -39,8 +39,11 @@ class FileBox extends React.Component {
 			default:
 				status = ''
 		}
-		let timestamp = new Date().getTime()
-		let thumb = this.props.file.thumb + '?' + timestamp
+		let thumb = '/logo.svg'
+		if(this.props.file.thumb) {
+			let timestamp = new Date().getTime()
+			thumb = this.props.file.thumb + '?' + timestamp
+		}
 		return (
 			<Card className="file-box" onClick={this.props.preview}>
 				<Card.Img title={this.props.file.name} alt={this.props.file.name} src={thumb}/>
